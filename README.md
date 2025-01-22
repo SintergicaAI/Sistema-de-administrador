@@ -1,0 +1,3 @@
+# Acerca del proyecto
+
+El es un sistema para optimizar la administración de clientes y suscripciones del software copiloto AI "Turing". Este sistema automatizará procesos como facturación y gestión de cuentas, ofrecerá análisis detallados del comportamiento de los clientes, y asegurará el cumplimiento normativo contable y fiscal. Su objetivo es mejorar la eficiencia y rentabilidad del software, garantizando una experiencia de usuario personalizada y precisa.
