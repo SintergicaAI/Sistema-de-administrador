@@ -1,0 +1,10 @@
+.form__container{
+    max-width: 1200px;
+
+    padding: 1rem;
+    background-color: white;
+    border-radius: 15px;
+}
+.form__title {
+    font-size: 1.5rem;
+}
