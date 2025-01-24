@@ -31,15 +31,31 @@ describe("Login Rendering Test", () => {
 describe("Login Validation Test", () => {
     it("should show an error message when email is empty", async () => {
         render(<Login />)
-        fireEvent.click(screen.getByRole("button", { name: /Submit/i }));
-        const errorMessage = await screen.findByText(/Favor de ingresar un email valido/i);
-        expect(errorMessage).toBeInTheDocument();
+        fireEvent.click(screen.getByRole("button", { name: /Submit/i }))
+        const errorMessage = await screen.findByText(/Favor de ingresar un email valido/i)
+        expect(errorMessage).toBeInTheDocument()
     });
 
     it("should show an error message when password is empty", async () => {
-        render(<Login />);
-        fireEvent.click(screen.getByRole("button", { name: /Submit/i }));
-        const errorMessage = await screen.findByText(/Favor de ingresar tu contraseña/i);
-        expect(errorMessage).toBeInTheDocument();
+        render(<Login />)
+        fireEvent.click(screen.getByRole("button", { name: /Submit/i }))
+        const errorMessage = await screen.findByText(/Favor de ingresar tu contraseña/i)
+        expect(errorMessage).toBeInTheDocument()
+    });
+});
+
+describe("Login Event Handling Test", () => {
+    it("should update the email input value when typing", () => {
+        render(<Login />)
+        const emailInput =  screen.getByPlaceholderText("juan@gmail.com")
+        fireEvent.change(emailInput, { target: { value: "test@example.com"}})
+        expect(emailInput).toHaveValue("test@example.com")
+    });
+
+    it("should update the password input value when typing", () => {
+        render(<Login />)
+        const passwordInput =  screen.getByPlaceholderText("******")
+        fireEvent.change(passwordInput, { target: { value: "test123"}})
+        expect(passwordInput).toHaveValue("test123")
     });
 })
