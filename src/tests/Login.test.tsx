@@ -27,3 +27,19 @@ describe("Login Rendering Test", () => {
         expect(button).toBeInTheDocument()
     });
 });
+
+describe("Login Validation Test", () => {
+    it("should show an error message when email is empty", async () => {
+        render(<Login />)
+        fireEvent.click(screen.getByRole("button", { name: /Submit/i }));
+        const errorMessage = await screen.findByText(/Favor de ingresar un email valido/i);
+        expect(errorMessage).toBeInTheDocument();
+    });
+
+    it("should show an error message when password is empty", async () => {
+        render(<Login />);
+        fireEvent.click(screen.getByRole("button", { name: /Submit/i }));
+        const errorMessage = await screen.findByText(/Favor de ingresar tu contraseña/i);
+        expect(errorMessage).toBeInTheDocument();
+    });
+})
