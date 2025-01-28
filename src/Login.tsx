@@ -1,6 +1,7 @@
 import type { FormProps } from 'antd';
 import {useState} from "react";
-import { Button, Checkbox, Form, Input} from 'antd';
+import {useNavigate} from "react-router";
+import { Button, Form, Input} from 'antd';
 import "./styles/login.css";
 
 /*Url del servidor*/
@@ -18,49 +19,13 @@ type ResponseBackend = {
     token:string
 }
 
-const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
-    console.log('Success:', values);
-    const {correo,contrasena} = values;
-    try{
-
-        const response = await fetch(`${serverUrl}clientes/login`,{
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({correo,contrasena})
-        });
-
-        if(response.status !== 200){
-            throw new Error(response.statusText);
-        }
-        const result:ResponseBackend = await response.json();
-        /*Comprobar el resultado del backend*/
-        if(result.exitoso){
-            /*Cambiar a otra pagina*/
-
-            /*Guardar en el local storage*/
-            localStorage.setItem("usuario",JSON.stringify(values));
 
 
-            let listaUsuarios = await obtenerListaUsuarios(result.token);
-            console.log(listaUsuarios);
-        }
-        else{
-            /*Mostrar mensaje de error*/
-        }
-        console.log(result);
-    }catch(err){
-        console.log(err);
-    }
 
-};
 
-const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-};
 
-const obtenerListaUsuarios = async (token:string)=> {
+
+export const obtenerListaUsuarios = async (token:string)=> {
     try{
        const response = await fetch(`${serverUrl}clientes/listar`,{
            method: 'GET',
@@ -85,12 +50,59 @@ const obtenerListaUsuarios = async (token:string)=> {
 function Login():any{
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigation = useNavigate();
 
     //Se ejecuta una vez cuando se renderiza el componente
    /* useEffect(()=>{
         const sesion = localStorage.getItem("usuario")  ??"sin valores";
         console.log(sesion);
     },[]);*/
+
+    const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
+        console.log('Success:', values);
+        /*Movernos al componente Home*/
+
+        const {correo,contrasena} = values;
+        try{
+
+            const response = await fetch(`${serverUrl}clientes/login`,{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({correo,contrasena})
+            });
+
+            if(response.status !== 200){
+                throw new Error(response.statusText);
+            }
+            const result:ResponseBackend = await response.json();
+            /*Comprobar el resultado del backend*/
+            if(result.exitoso){
+
+
+                /*Guardar en el local storage*/
+                localStorage.setItem("usuario",JSON.stringify(values));
+
+                /*Redirigir a Home*/
+                navigation("/home")
+
+
+                /*let listaUsuarios = await obtenerListaUsuarios(result.token);
+                console.log(listaUsuarios);*/
+            }
+            else{
+                /*Mostrar mensaje de error*/
+            }
+            console.log(result);
+        }catch(err){
+            console.log(err);
+        }
+
+    };
+    const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
+        console.log('Failed:', errorInfo);
+    };
 
     return (
         <>
