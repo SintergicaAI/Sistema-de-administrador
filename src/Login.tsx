@@ -19,12 +19,6 @@ type ResponseBackend = {
     token:string
 }
 
-
-
-
-
-
-
 export const obtenerListaUsuarios = async (token:string)=> {
     try{
        const response = await fetch(`${serverUrl}clientes/listar`,{
@@ -33,7 +27,6 @@ export const obtenerListaUsuarios = async (token:string)=> {
                Authorization:`Bearer ${token}`
            }
        });
-
         console.log(localStorage.getItem("usuario"));
 
        if(!response.ok){
@@ -81,8 +74,10 @@ function Login():any{
             if(result.exitoso){
 
 
+
                 /*Guardar en el local storage*/
-                localStorage.setItem("usuario",JSON.stringify(values));
+                let token = result.token;
+                localStorage.setItem("usuario",JSON.stringify({correo,token}));
 
                 /*Redirigir a Home*/
                 navigation("/home")
