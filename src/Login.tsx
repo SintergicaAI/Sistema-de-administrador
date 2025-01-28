@@ -1,46 +1,50 @@
 import type { FormProps } from 'antd';
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import { Button, Checkbox, Form, Input} from 'antd';
 import "./styles/login.css";
 
 /*Url del servidor*/
 const serverUrl:string = "http://192.168.3.245:8080/";
 
+
 type FieldType = {
-    correo?: string;
-    contrasena?: string;
-    /*remember?: string;*/
+    correo: string;
+    contrasena: string;
+    remember?: string;
 };
 type ResponseBackend = {
     exitoso:boolean,
-    mensaje:string
+    mensaje:string,
+    token:string
 }
-
-
 
 const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
     console.log('Success:', values);
+    const {correo,contrasena} = values;
     try{
 
-        const response = await fetch(`${serverUrl}usuarios/acceder`,{
+        const response = await fetch(`${serverUrl}clientes/login`,{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(values)
+            body: JSON.stringify({correo,contrasena})
         });
 
         if(response.status !== 200){
             throw new Error(response.statusText);
         }
         const result:ResponseBackend = await response.json();
-
         /*Comprobar el resultado del backend*/
         if(result.exitoso){
-            /*Realizar una paginacion*/
+            /*Cambiar a otra pagina*/
 
             /*Guardar en el local storage*/
             localStorage.setItem("usuario",JSON.stringify(values));
+
+
+            let listaUsuarios = await obtenerListaUsuarios(result.token);
+            console.log(listaUsuarios);
         }
         else{
             /*Mostrar mensaje de error*/
@@ -56,27 +60,37 @@ const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
     console.log('Failed:', errorInfo);
 };
 
+const obtenerListaUsuarios = async (token:string)=> {
+    try{
+       const response = await fetch(`${serverUrl}clientes/listar`,{
+           method: 'GET',
+           headers: {
+               Authorization:`Bearer ${token}`
+           }
+       });
 
+        console.log(localStorage.getItem("usuario"));
 
+       if(!response.ok){
+           throw new Error(response.statusText);
+       }
 
-
-
-/*const baseStyle: React.CSSProperties = {
-    width: '90%',
-    maxWidth:"1220px",
-    backgroundColor:"white",
-    borderRadius:"10px",
-    padding:"10px",
-};*/
+        return response.json();
+    }
+    catch (error){
+        console.error(error);
+    }
+}
 
 function Login():any{
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    useEffect(()=>{
-        const sesion = localStorage.getItem("usuario") ?? "sin valores";
+    //Se ejecuta una vez cuando se renderiza el componente
+   /* useEffect(()=>{
+        const sesion = localStorage.getItem("usuario")  ??"sin valores";
         console.log(sesion);
-    },[]);
+    },[]);*/
 
     return (
         <>
