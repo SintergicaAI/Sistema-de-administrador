@@ -1,99 +1,151 @@
 import type { FormProps } from 'antd';
 import {useState} from "react";
-import { Button, Checkbox, Form, Input, Flex} from 'antd';
+import {useNavigate} from "react-router";
+import { Button, Form, Input} from 'antd';
 import "./styles/login.css";
 
 /*Url del servidor*/
 const serverUrl:string = "http://192.168.3.245:8080/";
 
+
 type FieldType = {
-    email?: string;
-    password?: string;
+    correo: string;
+    contrasena: string;
     remember?: string;
 };
+type ResponseBackend = {
+    exitoso:boolean,
+    mensaje:string,
+    token:string
+}
 
-const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
-    console.log('Success:', values);
 
 
+
+
+
+
+export const obtenerListaUsuarios = async (token:string)=> {
     try{
+       const response = await fetch(`${serverUrl}clientes/listar`,{
+           method: 'GET',
+           headers: {
+               Authorization:`Bearer ${token}`
+           }
+       });
 
-        const response = await fetch(`${serverUrl}usuarios/obtenerTodosLosUsuarios`);
+        console.log(localStorage.getItem("usuario"));
 
-        if(response.status !== 200){
-            throw new Error(response.statusText);
-        }
-        const result = await response.json();
-        console.log(result);
-    }catch(err){
-        console.log(err);
+       if(!response.ok){
+           throw new Error(response.statusText);
+       }
+
+        return response.json();
     }
-
-};
-
-const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-};
-
-
-
-
-
-const baseStyle: React.CSSProperties = {
-    width: '90%',
-    maxWidth:"1220px",
-    backgroundColor:"white",
-    borderRadius:"10px",
-    padding:"10px",
-};
+    catch (error){
+        console.error(error);
+    }
+}
 
 function Login():any{
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigation = useNavigate();
 
+    //Se ejecuta una vez cuando se renderiza el componente
+   /* useEffect(()=>{
+        const sesion = localStorage.getItem("usuario")  ??"sin valores";
+        console.log(sesion);
+    },[]);*/
+
+    const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
+        console.log('Success:', values);
+        /*Movernos al componente Home*/
+
+        const {correo,contrasena} = values;
+        try{
+
+            const response = await fetch(`${serverUrl}clientes/login`,{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({correo,contrasena})
+            });
+
+            if(response.status !== 200){
+                throw new Error(response.statusText);
+            }
+            const result:ResponseBackend = await response.json();
+            /*Comprobar el resultado del backend*/
+            if(result.exitoso){
+
+
+                /*Guardar en el local storage*/
+                localStorage.setItem("usuario",JSON.stringify(values));
+
+                /*Redirigir a Home*/
+                navigation("/home")
+
+
+                /*let listaUsuarios = await obtenerListaUsuarios(result.token);
+                console.log(listaUsuarios);*/
+            }
+            else{
+                /*Mostrar mensaje de error*/
+            }
+            console.log(result);
+        }catch(err){
+            console.log(err);
+        }
+
+    };
+    const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
+        console.log('Failed:', errorInfo);
+    };
 
     return (
         <>
-            <Flex vertical={true} justify="center"  align={"center"} style={{...baseStyle}}>
-                <Form
-                    name="basic"
-                    labelCol={{ span: 12 }}
-                    wrapperCol={{ span: 16 }}
-                    style={{maxWidth:1000}}
-                    initialValues={{ remember: true }}
-                    onFinish={onFinish}
-                    onFinishFailed={onFinishFailed}
-                    autoComplete="off"
+        <Form
+            name="basic"
+            layout="vertical"
+            labelCol={{ span: 0 }}
+            wrapperCol={{ span: 30 }}
+            className="form__container"
+            style={{width:400}}
+            initialValues={{ remember: true }}
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+            autoComplete="on"
 
-                >
-                    <h1 className={"form__title"}>Login</h1>
-                    <Form.Item<FieldType>
-                        label="Ingresa correo electronico"
-                        name="email"
-                        rules={[{ required: true,type:"email",message: 'Favor de ingresar un email valido' }]}
-                    >
-                        <Input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="juan@gmail.com"/>
-                    </Form.Item>
+        >
+            <h1 className={"form__title"}>Login</h1>
+            <Form.Item<FieldType>
+                label="Ingresa correo electronico"
+                name="correo"
+                rules={[{ required: true,type:"email",message: 'Favor de ingresar un email valido' }]}
+            >
+                <Input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="juan@gmail.com"/>
+            </Form.Item>
 
-                    <Form.Item<FieldType>
-                        label="Password"
-                        name="password"
-                        rules={[{ required: true, message: 'Favor de ingresar tu contraseña' }]}
-                    >
-                        <Input.Password  value={password} onChange={e => setPassword(e.target.value)} placeholder="******"/>
-                    </Form.Item>
+            <Form.Item<FieldType>
+                label="Password"
+                name="contrasena"
+                rules={[{ required: true, message: 'Favor de ingresar tu contraseña' }]}
+            >
+                <Input.Password  value={password} onChange={e => setPassword(e.target.value)} placeholder="******"/>
+            </Form.Item>
 
-                    <Form.Item<FieldType> name="remember" valuePropName="checked" label={null}>
-                        <Checkbox>Remember me</Checkbox>
-                    </Form.Item>
+            {/*<Form.Item<FieldType> name="remember" valuePropName="checked" label={null}>
+                <Checkbox>Remember me</Checkbox>
+            </Form.Item>*/}
 
-                    <Form.Item label={null}>
-                        <Button type="primary" htmlType="submit">
-                            Submit
-                        </Button>
-                    </Form.Item>
-                </Form>
-        </Flex>
+            <Form.Item label={null}>
+                <Button type="primary" htmlType="submit">
+                    Submit
+                </Button>
+            </Form.Item>
+        </Form>
     </>
     );
 }
