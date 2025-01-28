@@ -1,29 +1,34 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import userEvent from "@testing-library/user-event";
 import Login from "../Login";
+import { MemoryRouter } from "react-router-dom";
+
+beforeEach(() => {
+    render(
+        <MemoryRouter>
+            <Login />
+        </MemoryRouter>
+    );
+})
 
 describe("Login Rendering Test", () => {
     it("should render the login form title", () => {
-        render(<Login />)
         const titleLogin = screen.getByText(/Login/i)
         expect(titleLogin).toBeInTheDocument()
     });
 
     it("should render email input field", () => {
-        render(<Login />)
         const placeholderEmail = screen.getByPlaceholderText("juan@gmail.com")
         expect(placeholderEmail).toBeInTheDocument()
     });
 
     it("should render password inout field", () => {
-        render(<Login />)
         const placeholderPassword = screen.getByPlaceholderText("******")
         expect(placeholderPassword).toBeInTheDocument()
     });
 
     it("should render the submit button", () => {
-        render(<Login />)
         const button = screen.getByRole("button", {name: /Submit/i})
         expect(button).toBeInTheDocument()
     });
@@ -31,14 +36,12 @@ describe("Login Rendering Test", () => {
 
 describe("Login Validation Test", () => {
     it("should show an error message when email is empty", async () => {
-        render(<Login />)
         fireEvent.click(screen.getByRole("button", { name: /Submit/i }))
         const errorMessage = await screen.findByText(/Favor de ingresar un email valido/i)
         expect(errorMessage).toBeInTheDocument()
     });
 
     it("should show an error message when password is empty", async () => {
-        render(<Login />)
         fireEvent.click(screen.getByRole("button", { name: /Submit/i }))
         const errorMessage = await screen.findByText(/Favor de ingresar tu contraseña/i)
         expect(errorMessage).toBeInTheDocument()
@@ -47,14 +50,12 @@ describe("Login Validation Test", () => {
 
 describe("Login Event Handling Test", () => {
     it("should update the email input value when typing", () => {
-        render(<Login />)
         const emailInput = screen.getByPlaceholderText("juan@gmail.com")
         fireEvent.change(emailInput, { target: { value: "test@gmail.com"}})
         expect(emailInput).toHaveValue("test@gmail.com")
     });
 
     it("should update the password input value when typing", () => {
-        render(<Login />)
         const passwordInput = screen.getByPlaceholderText("******")
         fireEvent.change(passwordInput, { target: { value: "test123"}})
         expect(passwordInput).toHaveValue("test123")
@@ -63,28 +64,24 @@ describe("Login Event Handling Test", () => {
 
 describe("Email Validation Test", () => {
     it("should show an error when the email is too short", async () => {
-        render(<Login />)
         const emailInput = screen.getByPlaceholderText("juan@gmail.com")
         await userEvent.type(emailInput, "ab@gmail.com")
         expect(await screen.findByText(/La parte antes del @ debe tener al menos 3 caracteres/i)).toBeInTheDocument()
     });
     
     it("should show an error when the email has invalid characters", async () => {
-        render(<Login />)
         const emailInput = screen.getByPlaceholderText("juan@gmail.com")
         await userEvent.type(emailInput, "inval!d@gmail.com")
         expect(await screen.findByText(/La parte antes del @ contiene caracteres no válidos/i)).toBeInTheDocument()
     });
     
     it("should show an error when the email is just numbers", async () => {
-        render(<Login />)
         const emailInput = screen.getByPlaceholderText("juan@gmail.com")
         await userEvent.type(emailInput, "123@gmail.com")
         expect(await screen.findByText(/La parte antes del @ no puede ser solo numeros/i)).toBeInTheDocument()
     });
     
     it("should pass all validation tests", async () => {
-        render(<Login />)
         const emailInput = screen.getByPlaceholderText("juan@gmail.com")
         await userEvent.type(emailInput, "test@gmail.com")
         expect(screen.queryByText(/Favor de ingresar un email valido/i)).not.toBeInTheDocument()
@@ -96,7 +93,6 @@ describe("Email Validation Test", () => {
 
 describe("Password Validation Test", () => {
     it("should show an error when the password is too short", async () => {
-      render(<Login />)
       const passwordInput = screen.getByPlaceholderText("******")
       await userEvent.type(passwordInput, "ab12")
       const errorMessage = await screen.findByText(/La contraseña debe tener al menos 6 caracteres/i)
@@ -104,7 +100,6 @@ describe("Password Validation Test", () => {
     });
   
     it("should show an error when the password is numbers only", async () => {
-      render(<Login />)
       const passwordInput = screen.getByPlaceholderText("******")
       await userEvent.type(passwordInput, "123456")
       const errorMessage = await screen.findByText(/La contraseña debe incluir letras y números/i)
@@ -112,7 +107,6 @@ describe("Password Validation Test", () => {
     });
   
     it("should pass all validation tests", async () => {
-      render(<Login />)
       const passwordInput = screen.getByPlaceholderText("******")
       await userEvent.type(passwordInput, "abc123")
       expect(screen.queryByText(/La contraseña debe incluir letras y números/i)).not.toBeInTheDocument()
