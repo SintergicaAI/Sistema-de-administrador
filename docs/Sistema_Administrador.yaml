@@ -1,0 +1,152 @@
+openapi: 3.0.0
+info:
+  title: Sistema administrador
+  version: 1.0.0
+paths:
+  /clientes/listar:
+    get:
+      description: Regresa todos los usuarios del sistema
+      tags:
+        - Cliente
+      responses:
+        "200":
+          description: Regresa una lista de usuarios
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/EntidadClientes"
+        "400":
+          description: Error al intentar proporcionar todos los usuarios
+        "500":
+          description: Error interno del servidor
+
+  /clientes/register:
+    post:
+      description: Da de alta a un usuario en la plataforma
+      summary: Dar de alta usuario
+      tags:
+        - Cliente
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EntidadClientes"
+      responses:
+        "200":
+          description: Operacion exitosa
+        "400":
+          description: Formato de datos invalido
+        "500":
+          description: Error interno del servidor
+
+  /clientes/login:
+    post:
+      description: Acceder a la plataforma
+      tags:
+        - Cliente
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EntidadClientes"
+      responses:
+        "200":
+          description: Credenciales validas
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespuestaLogin"
+
+        "401":
+          description: Credenciales de acceso no validas
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespuestaError"
+        "500":
+          description: Problemas con el servidor
+
+  /cliente/listarPorId:
+    get:
+      description: Obtiene un cliente específico utilizando un JWT como encabezado de autorización.
+      tags:
+        - Cliente
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: Token JWT en formato "Bearer {token}".
+          schema:
+            type: string
+            example: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJudWV2b0BzaW50ZXJnaWNhLmNvbSIsImV4cCI6MTczODA4MDg4MX0.dQ7RgmgFoqq6wsp69N-I0161pnO9TjoJi9zT_190vP0"
+      responses:
+        "200":
+          description: Devuelve los datos del cliente especificado.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EntidadClientes"
+        "401":
+          description: Token JWT no válido o faltante.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespuestaError"
+        "500":
+          description: Error interno del servidor.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespuestaError"
+
+
+
+
+components:
+  schemas:
+    EntidadClientes:
+      type: object
+      properties:
+        correo:
+          type: string
+          example: usuario@ejemplo.com
+        contrasena:
+          type: string
+          example: 123456
+        edad:
+          type: integer
+          example: 18
+        nombre:
+          type: string
+          example: "Nombres"
+        apellido_paterno:
+          type: string
+          example: "ApellidoPaterno"
+        apellido_materno:
+          type: string
+          example: "ApellidoMaterno"
+
+    RespuestaLogin:
+      type: object
+      properties:
+        exitoso:
+          type: boolean
+          example: true
+        mensaje:
+          type: string
+          example: "Bienvenidos"
+        token:
+          type: string
+          example: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJudWV2b0BzaW50ZXJnaWNhLmNvbSIsImV4cCI6MTczODA4MDg4MX0.dQ7RgmgFoqq6wsp69N-I0161pnO9TjoJi9zT_190vP0"
+
+    RespuestaError:
+      type: object
+      properties:
+        exitoso:
+          type: boolean
+          example: false
+        mensaje:
+          type: string
+          example: "Token inválido o faltante"

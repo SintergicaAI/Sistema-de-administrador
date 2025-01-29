@@ -18,7 +18,7 @@ jobs:
       - name: Prepare OpenAPI for Deployment
         run: |
           mkdir -p public/openapi
-          cp path/to/openapi.yaml public/openapi/openapi.yaml
+          cp docs/Sistema_Administrador.yaml public/openapi/openapi.yaml
 
       # 3. (Opcional) Generar la documentación con Redoc (si quieres una vista web)
       - name: Generate Redoc Documentation
