@@ -1,18 +1,11 @@
-import Login from "./Login.tsx";
-import {Col,Row} from "antd";
+import {Outlet} from "react-router-dom";
+import "./styles/main.css";
 
 function App() {
-
-
   return (
-
-      <Row justify="center" align="middle" style={{
-        minHeight: "100vh",
-      }}>
-        <Col >
-          <Login/>
-        </Col>
-      </Row>
+        <>
+            <Outlet/>
+        </>
   )
 }
 

@@ -32,7 +32,7 @@ const items: MenuItem[] = [
     getItem('Files', '9', <FileOutlined />),
 ];
 
-export  default () =>{
+export const Home =  () =>{
 
     const [collapsed, setCollapsed] = useState(false);
     const {

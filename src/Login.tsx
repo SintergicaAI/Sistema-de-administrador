@@ -40,7 +40,7 @@ export const obtenerListaUsuarios = async (token:string)=> {
     }
 }
 
-function Login():any{
+function Login(){
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigation = useNavigate();
@@ -118,7 +118,7 @@ function Login():any{
             <Form.Item<FieldType>
                 label="Ingresa correo electronico"
                 name="correo"
-                rules={[{ required: true,type:"email",message: 'Favor de ingresar un email valido' }]}
+                rules={[{ required: true,type:"email",message: 'Favor de ingresar un email valido', pattern:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/}]}
             >
                 <Input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="juan@gmail.com"/>
             </Form.Item>
@@ -126,7 +126,7 @@ function Login():any{
             <Form.Item<FieldType>
                 label="Password"
                 name="contrasena"
-                rules={[{ required: true, message: 'Favor de ingresar tu contraseña' }]}
+                rules={[{ required: true, message: 'Favor de ingresar una contraseña valida', min:6}]}
             >
                 <Input.Password  value={password} onChange={e => setPassword(e.target.value)} placeholder="******"/>
             </Form.Item>
