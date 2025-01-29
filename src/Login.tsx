@@ -1,8 +1,9 @@
 import type { FormProps } from 'antd';
 import {useState} from "react";
 import {useNavigate} from "react-router";
-import { Button, Form, Input} from 'antd';
-
+import {MailOutlined,LockOutlined } from "@ant-design/icons"
+import { Button, Form, Input,Typography} from 'antd';
+import useFetch from "./hooks/useFetch.tsx";
 
 /*Url del servidor*/
 const serverUrl:string = "http://192.168.3.245:8080/";
@@ -45,6 +46,7 @@ function Login(){
     const [password, setPassword] = useState('');
     const navigation = useNavigate();
 
+    const {Title} = Typography;
     //Se ejecuta una vez cuando se renderiza el componente
    /* useEffect(()=>{
         const sesion = localStorage.getItem("usuario")  ??"sin valores";
@@ -112,13 +114,13 @@ function Login(){
             autoComplete="on"
 
         >
-            <h1 className={"form__title"}>Login</h1>
+            <Title>Login</Title>
             <Form.Item<FieldType>
                 label="Ingresa correo electronico"
                 name="correo"
                 rules={[{ required: true,type:"email",message: 'Favor de ingresar un email valido', pattern:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/}]}
             >
-                <Input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="juan@gmail.com"/>
+                <Input prefix={<MailOutlined style={{color:"#01FAF5"}}/>} type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="juan@gmail.com"/>
             </Form.Item>
 
             <Form.Item<FieldType>
@@ -126,7 +128,7 @@ function Login(){
                 name="contrasena"
                 rules={[{ required: true, message: 'Favor de ingresar una contraseña valida', min:6}]}
             >
-                <Input.Password  value={password} onChange={e => setPassword(e.target.value)} placeholder="******"/>
+                <Input.Password prefix={<LockOutlined style={{color:"#01FAF5"}}/>} value={password} onChange={e => setPassword(e.target.value)} placeholder="******"/>
             </Form.Item>
 
             {/*<Form.Item<FieldType> name="remember" valuePropName="checked" label={null}>

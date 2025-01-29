@@ -14,7 +14,7 @@ createRoot(document.getElementById('root')!).render(
           <ConfigProvider theme={{
               token: {
                   colorPrimary: "#01FAF5",
-
+                    /*fontFamily:"Inter,sans-serif",*/
               }
           }}>
 
