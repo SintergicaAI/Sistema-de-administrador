@@ -5,11 +5,19 @@ import App from './App.tsx'
 import {Home} from "./Home.tsx";
 import {AuthLayout} from "./AuthLayout.tsx";
 import Login from "./Login.tsx";
+import {ConfigProvider} from "antd";
 import "./styles/main.css";
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
       <BrowserRouter>
+          <ConfigProvider theme={{
+              token: {
+                  colorPrimary: "#01FAF5",
+
+              }
+          }}>
+
           <Routes>
               <Route path="/" element={<App />}>
                 <Route index element={<Home/>} />
@@ -18,6 +26,7 @@ createRoot(document.getElementById('root')!).render(
                   <Route path="/login" element={<Login/>}/>
               </Route>
           </Routes>
+          </ConfigProvider>
       </BrowserRouter>
   </StrictMode>,
 )

@@ -1,8 +1,8 @@
-import { Layout,Menu,theme,Breadcrumb } from "antd";
+import { Layout,Menu,theme } from "antd";
 import {MenuProps} from "antd";
 import {useState} from "react";
-import {DesktopOutlined, FileOutlined,PieChartOutlined,TeamOutlined,UserOutlined} from "@ant-design/icons";
-const {Header,Content,Footer,Sider} = Layout;
+import { FileOutlined,TeamOutlined,UserOutlined} from "@ant-design/icons";
+const {Content,Footer,Sider} = Layout;
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -21,12 +21,8 @@ function getItem(
 }
 
 const items: MenuItem[] = [
-    getItem('Option 1', '1', <PieChartOutlined />),
-    getItem('Option 2', '2', <DesktopOutlined />),
-    getItem('User', 'sub1', <UserOutlined />, [
-        getItem('Tom', '3'),
-        getItem('Bill', '4'),
-        getItem('Alex', '5'),
+    getItem('Username', 'sub1', <UserOutlined />, [
+        getItem('Information', '3'),
     ]),
     getItem('Team', 'sub2', <TeamOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
     getItem('Files', '9', <FileOutlined />),
@@ -46,16 +42,12 @@ export const Home =  () =>{
                 <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
             </Sider>
             <Layout>
-                <Header style={{ padding: 0, background: colorBgContainer }} />
-                <Content style={{ margin: '0 16px' }}>
-                    <Breadcrumb style={{ margin: '16px 0' }}>
-                        <Breadcrumb.Item>User</Breadcrumb.Item>
-                        <Breadcrumb.Item>Bill</Breadcrumb.Item>
-                    </Breadcrumb>
+                {/*<Header style={{ padding: 0, background: colorBgContainer }} />*/}
+                <Content style={{ margin: '50px 16px' }}>
                     <div
                         style={{
                             padding: 24,
-                            minHeight: 360,
+                            minHeight: "100%",
                             background: colorBgContainer,
                             borderRadius: borderRadiusLG,
                         }}
@@ -63,8 +55,8 @@ export const Home =  () =>{
                         Bill is a cat.
                     </div>
                 </Content>
-                <Footer style={{ textAlign: 'center' }}>
-                    Ant Design ©{new Date().getFullYear()} Created by Ant UED
+                <Footer style={{ textAlign: 'center', padding:"1rem" }}>
+                    Sintergica ©{new Date().getFullYear()} Created by Gonzalo Perez
                 </Footer>
             </Layout>
         </Layout>

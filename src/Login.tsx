@@ -2,7 +2,7 @@ import type { FormProps } from 'antd';
 import {useState} from "react";
 import {useNavigate} from "react-router";
 import { Button, Form, Input} from 'antd';
-import "./styles/login.css";
+
 
 /*Url del servidor*/
 const serverUrl:string = "http://192.168.3.245:8080/";
@@ -73,23 +73,21 @@ function Login(){
             /*Comprobar el resultado del backend*/
             if(result.exitoso){
 
-
-
                 /*Guardar en el local storage*/
                 let token = result.token;
                 localStorage.setItem("usuario",JSON.stringify({correo,token}));
 
-                /*Redirigir a Home*/
-                navigation("/home")
 
+                console.log(result);
+
+                /*Redirigir a Home*/
+                navigation("/")
+                return;
 
                 /*let listaUsuarios = await obtenerListaUsuarios(result.token);
                 console.log(listaUsuarios);*/
             }
-            else{
-                /*Mostrar mensaje de error*/
-            }
-            console.log(result);
+
         }catch(err){
             console.log(err);
         }
