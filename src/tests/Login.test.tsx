@@ -45,21 +45,21 @@ describe("Login Validation Test", () => {
         it("should show an error for invalid email format", async () => {
             const emailInput = screen.getByPlaceholderText("juan@gmail.com")
             await userEvent.type(emailInput, "testInvalid.com")
-            expect(await screen.findByText(/El formato del email no es válido/i)).toBeInTheDocument()
+            expect(await screen.findByText(/Favor de ingresar un email valido/i)).toBeInTheDocument()
         });
     });
 
     describe("Password Validation Test", () => {
         it("should show an error message when password is empty", async () => {
             fireEvent.click(screen.getByRole("button", { name: /Submit/i }))
-            const errorMessage = await screen.findByText(/Favor de ingresar tu contraseña/i)
+            const errorMessage = await screen.findByText(/Favor de ingresar una contraseña valida/i)
             expect(errorMessage).toBeInTheDocument()
         });
     
         it("should show an error when the password is too short", async () => {
             const passwordInput = screen.getByPlaceholderText("******")
             await userEvent.type(passwordInput, "123")
-            const errorMessage = await screen.findByText(/La contraseña debe tener al menos 6 caracteres/i)
+            const errorMessage = await screen.findByText(/Favor de ingresar una contraseña valida/i)
             expect(errorMessage).toBeInTheDocument()
         });
     });
