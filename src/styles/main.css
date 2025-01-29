@@ -1,0 +1,13 @@
+/*General styles*/
+
+:root{
+    --c_primary: hsl(209, 100%, 78%);
+    --c_secundary:#15171A;
+}
+*{
+    box-sizing: border-box;
+}
+body{
+    background-color: var(--c_secundary);
+    margin: 0;
+}
