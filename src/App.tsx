@@ -1,11 +1,10 @@
-import Login from "./Login.tsx";
-
+import {Outlet} from "react-router-dom";
 
 function App() {
-
-
   return (
-      <Login/>
+        <>
+            <Outlet/>
+        </>
   )
 }
 

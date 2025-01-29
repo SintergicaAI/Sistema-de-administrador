@@ -1,16 +1,13 @@
 /*General styles*/
 
 :root{
-    --primary: #91caff;
+    --c_primary: hsl(209, 100%, 78%);
+    --c_secundary:#15171A;
 }
 *{
     box-sizing: border-box;
 }
 body{
-    font-family: system-ui,sans-serif;
+    background-color: var(--c_secundary);
     margin: 0;
-    background-color: var(--primary);
-    display: grid;
-    place-content: center;
-    min-height: 100dvh;
 }
