@@ -1,0 +1,32 @@
+name: Deploy OpenAPI to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main # Se ejecuta cuando hay cambios en la rama "main"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Clonar el código
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # 2. Crear la carpeta para la documentación de OpenAPI
+      - name: Prepare OpenAPI for Deployment
+        run: |
+          mkdir -p public/openapi
+          cp path/to/openapi.yaml public/openapi/openapi.yaml
+
+      # 3. (Opcional) Generar la documentación con Redoc (si quieres una vista web)
+      - name: Generate Redoc Documentation
+        run: npx redoc-cli bundle public/openapi/openapi.yaml -o public/openapi/index.html
+
+      # 4. Publicar en GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: public/openapi
