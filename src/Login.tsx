@@ -2,101 +2,45 @@ import type { FormProps } from 'antd';
 import {useState} from "react";
 import {useNavigate} from "react-router";
 import {MailOutlined,LockOutlined } from "@ant-design/icons"
-import { Button, Form, Input,Typography} from 'antd';
+import { Button, Form, Input,Typography,message} from 'antd';
 import useFetch from "./hooks/useFetch.tsx";
-
-/*Url del servidor*/
-const serverUrl:string = "http://192.168.3.245:8080/";
-
 
 type FieldType = {
     correo: string;
     contrasena: string;
     remember?: string;
 };
-type ResponseBackend = {
-    exitoso:boolean,
-    mensaje:string,
-    token:string
-}
 
-export const obtenerListaUsuarios = async (token:string)=> {
-    try{
-       const response = await fetch(`${serverUrl}clientes/listar`,{
-           method: 'GET',
-           headers: {
-               Authorization:`Bearer ${token}`
-           }
-       });
-        console.log(localStorage.getItem("usuario"));
 
-       if(!response.ok){
-           throw new Error(response.statusText);
-       }
 
-        return response.json();
-    }
-    catch (error){
-        console.error(error);
-    }
-}
 
 function Login(){
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigation = useNavigate();
 
-    const {Title} = Typography;
-    //Se ejecuta una vez cuando se renderiza el componente
-   /* useEffect(()=>{
-        const sesion = localStorage.getItem("usuario")  ??"sin valores";
-        console.log(sesion);
-    },[]);*/
+    const [messageApi,contextHolder] = message.useMessage();
 
-    const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
+    const {Title} = Typography;
+
+    let{data,hasError} = useFetch("clientes/login","POST",{})
+
+    const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
         console.log('Success:', values);
         /*Movernos al componente Home*/
-
-        const {correo,contrasena} = values;
-        try{
-
-            const response = await fetch(`${serverUrl}clientes/login`,{
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({correo,contrasena})
-            });
-
-            if(response.status !== 200){
-                throw new Error(response.statusText);
-            }
-            const result:ResponseBackend = await response.json();
-            /*Comprobar el resultado del backend*/
-            if(result.exitoso){
-
-                /*Guardar en el local storage*/
-                let token = result.token;
-                localStorage.setItem("usuario",JSON.stringify({correo,token}));
-
-
-                console.log(result);
-
-                /*Redirigir a Home*/
-                navigation("/")
-                return;
-
-                /*let listaUsuarios = await obtenerListaUsuarios(result.token);
-                console.log(listaUsuarios);*/
-            }
-
-        }catch(err){
-            console.log(err);
+        if(hasError){
+            throw new Error("No se puedo acceder a los datos");
+        }else{
+            localStorage.setItem("usuario",JSON.stringify(data));
+            console.log(data);
+            navigation("/");
+            return;
         }
-
     };
+
     const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
-        console.log('Failed:', errorInfo);
+        message.error('Mandaste de manera erronea tus datos');
+        console.log(errorInfo);
     };
 
     return (
@@ -118,7 +62,7 @@ function Login(){
             <Form.Item<FieldType>
                 label="Ingresa correo electronico"
                 name="correo"
-                rules={[{ required: true,type:"email",message: 'Favor de ingresar un email valido', pattern:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/}]}
+                rules={[{ required: true},{type:"email"},{message: 'Favor de ingresar un email valido'}, {pattern:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/}]}
             >
                 <Input prefix={<MailOutlined style={{color:"#01FAF5"}}/>} type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="juan@gmail.com"/>
             </Form.Item>
@@ -126,7 +70,7 @@ function Login(){
             <Form.Item<FieldType>
                 label="Password"
                 name="contrasena"
-                rules={[{ required: true, message: 'Favor de ingresar una contraseña valida', min:6}]}
+                rules={[{ required: true, message: 'Favor de ingresar una contraseña valida', min:5}]}
             >
                 <Input.Password prefix={<LockOutlined style={{color:"#01FAF5"}}/>} value={password} onChange={e => setPassword(e.target.value)} placeholder="******"/>
             </Form.Item>
@@ -137,7 +81,7 @@ function Login(){
 
             <Form.Item label={null}>
                 <Button type="primary" htmlType="submit">
-                    Submit
+                    Enviar
                 </Button>
             </Form.Item>
         </Form>
