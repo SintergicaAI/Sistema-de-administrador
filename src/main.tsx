@@ -7,6 +7,7 @@ import {AuthLayout} from "./AuthLayout.tsx";
 import Login from "./Login.tsx";
 import {ConfigProvider} from "antd";
 import "./styles/main.css";
+import {Register} from "./Register.tsx";
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -24,6 +25,7 @@ createRoot(document.getElementById('root')!).render(
               </Route>
               <Route element={<AuthLayout/>}>
                   <Route path="/login" element={<Login/>}/>
+                  <Route path={'/register'} element={<Register/>}/>
               </Route>
           </Routes>
           </ConfigProvider>

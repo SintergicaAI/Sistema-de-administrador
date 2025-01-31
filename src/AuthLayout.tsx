@@ -5,7 +5,7 @@ import "./styles/login.css";
 export const AuthLayout = () =>{
     return (
         <Row justify="center" align="middle" style={{
-            minHeight: "100vh",
+            minHeight: "100vh"
         }}>
             <Col >
                 <Outlet/>

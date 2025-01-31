@@ -1,5 +1,4 @@
 import {useEffect, useState} from "react";
-import {useAsyncValue} from "react-router";
 
 type ErrorType = {
     code: number;
@@ -8,6 +7,8 @@ type ErrorType = {
 
 const useFetch = (endpoint:string, typeMethond = "GET",values = {}, token:string = "") => {
     const BASE_URL = "http://192.168.3.245:8080/";
+
+    const [url,setUrl] = useState(BASE_URL);
 
     const [states, setStates] = useState<{
         data: any;
@@ -25,6 +26,10 @@ const useFetch = (endpoint:string, typeMethond = "GET",values = {}, token:string
         getData();
     },[endpoint])
 
+    const changeUrl = (newEndpoint:string) => {
+        setUrl(newEndpoint);
+    }
+
     const setLoadingState = ()=>{
         setStates({
             data:null,
@@ -38,12 +43,25 @@ const useFetch = (endpoint:string, typeMethond = "GET",values = {}, token:string
         setLoadingState();
 
         /*Extenderlo para que acepte otro tipo de metodos*/
-        const objectConfiguration:RequestInit = (typeMethond === "GET") ? {
+        let objectConfiguration:RequestInit = (JSON.stringify(values) === "{}") ? {
             method: `${typeMethond}`,
-
-        }: (values.){
+            headers: {
+                ContentType: "application/json",
+            }
+        }: {
             method: `${typeMethond}`,
+            headers:{
+                "Content-Type": "application/json",
+            },
             body: JSON.stringify(values)
+        }
+
+        objectConfiguration = (token === "") ? objectConfiguration:{
+            ...objectConfiguration,
+            headers:{
+                "Content-Type": "application/json",
+                Authorization:`Bearer ${token}`
+            }
         }
 
 
@@ -51,7 +69,7 @@ const useFetch = (endpoint:string, typeMethond = "GET",values = {}, token:string
             const res = await fetch(`${BASE_URL}${endpoint}`,{...objectConfiguration});
 
             //Sleep
-            await new Promise(resolve=>{setTimeout(resolve,1000)});
+            //await new Promise(resolve=>{setTimeout(resolve,1000)});
             if(!res.ok){
                 setStates({
                     data:null,
