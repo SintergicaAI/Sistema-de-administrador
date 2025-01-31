@@ -1,5 +1,0 @@
-import userEvent from "@testing-library/user-event"
-import { screen, render } from "@testing-library/react"
-import { describe, it, expect, beforeEach } from "vitest"
-import { MemoryRouter } from "react-router-dom"
-import Register from "../Register.tsx"
