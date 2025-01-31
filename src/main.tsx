@@ -14,7 +14,9 @@ createRoot(document.getElementById('root')!).render(
       <BrowserRouter>
           <ConfigProvider theme={{
               token: {
-                  colorPrimary: "#01FAF5",
+                  colorPrimary: "#006FFB",
+                  colorTextHeading:'#35383C',
+                  colorIcon:'#006FFB',
                     /*fontFamily:"Inter,sans-serif",*/
               }
           }}>
