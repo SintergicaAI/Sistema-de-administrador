@@ -18,24 +18,39 @@ describe('Register Rendering Test', () => {
         expect(titleRegister).toBeInTheDocument()
     })
 
-    it('should render the "First Name" text', () => {
-        const labelFName = screen.getByText("First Name")
+    it('should render the "Nombre(s)" text and your placeholder', () => {
+        const labelFName = screen.getByText('Nombre(s)')
         expect(labelFName).toBeInTheDocument()
+        // const placeholderFName = screen.getByPlaceholderText('Nombre(s)')
+        // expect(placeholderFName).toBeInTheDocument()
     })
 
-    it('should render the "Last Name" text', () => {
-        const labelLName = screen.getByText("Last Name")
+    it('should render the "Apellidos" text and your placeholder', () => {
+        const labelLName = screen.getByText('Apellidos')
         expect(labelLName).toBeInTheDocument()
+        // const placeholderLName = screen.getByPlaceholderText('Apellidos')
+        // expect(placeholderLName).toBeInTheDocument()
     })
 
-    it('should render the "contrasena" text', () => {
-        const password = screen.getByText("contrasena")
+    it('should render the "Correo electronico" text and your placeholder', () => {
+        const labelEmail = screen.getByText('Correo electronico')
+        expect(labelEmail).toBeInTheDocument()
+        const placeholderEmail = screen.getByPlaceholderText('juan@gmail.com')
+        expect(placeholderEmail).toBeInTheDocument()
+    })
+
+    it('should render the "Contrasena" text and your placeholder', () => {
+        const password = screen.getByText('Contrasena')
         expect(password).toBeInTheDocument()
+        const placeholderPassword = screen.getByTestId('password-input')
+        expect(placeholderPassword).toBeInTheDocument()
     })
 
-    it('should render the "repetir contrasena" text', () => {
-        const repeatPassword = screen.getByText('repetir contrasena')
+    it('should render the "Repetir contrasena" text and your placeholder', () => {
+        const repeatPassword = screen.getByText('Repetir contrasena')
         expect(repeatPassword).toBeInTheDocument()
+        const placeholderRepeatPassword = screen.getByTestId('repeat-password-input')
+        expect(placeholderRepeatPassword).toBeInTheDocument()
     })
     
     it('should render the "Enviar" button', () => {
@@ -43,4 +58,10 @@ describe('Register Rendering Test', () => {
         expect(button).toBeInTheDocument()
     })
 
+    it('should render the "Ya tienes una cuenta?" and "Inicia sesion" text', () => {
+        const text = screen.getByText('Ya tienes una cuenta?')
+        expect(text).toBeInTheDocument()
+        const link = screen.getByText('Inicia sesion')
+        expect(link).toBeInTheDocument()
+    })
 })
