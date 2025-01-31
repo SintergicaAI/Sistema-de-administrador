@@ -3,7 +3,6 @@ import type { FormProps } from 'antd';
 import { Form, Input,Typography,message } from 'antd';
 import { useState} from "react";
 import {SubmitButton} from "./generalComponents/Form";
-import {ValidateStatus} from "antd/es/form/FormItem";
 
 type FieldType = {
     email?: string;

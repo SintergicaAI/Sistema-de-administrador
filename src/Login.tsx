@@ -89,7 +89,7 @@ function Login(){
                 <Form.Item<FieldType>
                     label="Contrasena"
                     name="contrasena"
-                    rules={[{ required: true, message: 'Favor de ingresar una contraseña valida', min:5}]}
+                    rules={[{ required: true, message: 'Favor de ingresar una contraseña valida', min:6}]}
                 >
                     <Input.Password prefix={<LockOutlined className='icon-color' />} value={password} onChange={e => setPassword(e.target.value)} placeholder="******"/>
                 </Form.Item>
