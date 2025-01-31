@@ -84,6 +84,6 @@ it('should display the message "Iniciando sesion..." when the form is submitted 
     await userEvent.type(emailInput, 'test@gmail.com')
     const passwordInput = screen.getByPlaceholderText('******')
     await userEvent.type(passwordInput, '123456')
-    userEvent.click(screen.getByRole("button", { name: /Enviar/i }))
+    userEvent.click(screen.getByRole('button', { name: /Enviar/i }))
     expect(await screen.findByText('Iniciando sesion...'))
 })
