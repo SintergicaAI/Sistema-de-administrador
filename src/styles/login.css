@@ -1,5 +1,7 @@
 /*background-color: hsl(204, 0%, 90%);*/
-
+:root {
+    --c-primary:#006FFB;
+}
 .form__container{
     padding: 1rem;
     background-color: white;
@@ -10,5 +12,9 @@
     margin-top: 0px;
 }
 .icon-color{
-    color:#006FFB;
+    color:var(--c-primary);
+}
+.ant-form-item-required::before {
+    content: "*";
+    color: var(--c-primary) !important;
 }

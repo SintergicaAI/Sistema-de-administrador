@@ -1,10 +1,10 @@
-import type { FormProps } from 'antd';
+import type {FormProps} from 'antd';
 import {useState} from "react";
 import {useNavigate} from "react-router";
 import {MailOutlined,LockOutlined } from "@ant-design/icons"
-import { Button, Form, Input,Typography,message} from 'antd';
+import { Form, Input,Typography,message} from 'antd';
 import {Flex} from 'antd';
-import useFetch from "./hooks/useFetch.tsx";
+import {SubmitButton} from "./generalComponents/Form";
 
 type FieldType = {
     correo: string;
@@ -15,14 +15,14 @@ type FieldType = {
 
 
 
+
 function Login(){
     //Hooks
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [componentDisabled,setComponentDisabled] = useState<boolean>(false);
-
+    const [form] = Form.useForm();
     //React router function
-    const navigation = useNavigate();
+    //const navigation = useNavigate();
 
     //Ant Design components
     const [messageApi,contextHolder] = message.useMessage();
@@ -36,11 +36,7 @@ function Login(){
             content:'Iniciando sesion...',
             duration:3,
         })
-        //Desahabilitamos los campos una vez que la informacion se envie exitosamente.
-        setComponentDisabled(true);
-        setTimeout(()=>{
-            setComponentDisabled(false);
-        },3000)
+
 
         console.log('Success:', values);
 
@@ -72,14 +68,14 @@ function Login(){
             labelCol={{ span: 16 }}
             wrapperCol={{ span: 30 }}
             className="form__container"
-            disabled={componentDisabled}
             style={{width:300,minHeight:300,paddingBlock:30}}
             initialValues={{ remember: true }}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
             autoComplete="on"
+            form={form}
         >
-            <Title className='space' style={{textAlign:'center',} }>Login</Title>
+            <Title style={{textAlign:'center',} }>Login</Title>
             <Flex vertical={true} gap={10}>
 
                 <Form.Item<FieldType>
@@ -104,9 +100,7 @@ function Login(){
 
                 <Form.Item label={null} labelCol={{span: 0}}>
                     {contextHolder}
-                    <Button type="primary" htmlType="submit" block>
-                        Enviar
-                    </Button>
+                    <SubmitButton form={form}>Enviar</SubmitButton>
                 </Form.Item>
             </Flex>
         </Form>
