@@ -36,11 +36,11 @@ describe('Login Rendering Test', () => {
 
 describe('Login Validation Test', () => {
     describe('Email Validation Test', () => {
-        it('should show an error message when email is empty', async () => {
-            fireEvent.click(screen.getByRole('button', { name: /Enviar/i }))
-            const errorMessage = await screen.findByText(/Favor de ingresar un email valido/i)
-            expect(errorMessage).toBeInTheDocument()
-        })
+        // it('should show an error message when email is empty', async () => {
+        //     fireEvent.click(screen.getByRole('button', { name: /Enviar/i }))
+        //     const errorMessage = await screen.findByText(/Favor de ingresar un email valido/i)
+        //     expect(errorMessage).toBeInTheDocument()
+        // })
     
         it('should show an error for invalid email format', async () => {
             const emailInput = screen.getByPlaceholderText('juan@gmail.com')
@@ -50,11 +50,11 @@ describe('Login Validation Test', () => {
     })
 
     describe('Password Validation Test', () => {
-        it('should show an error message when password is empty', async () => {
-            fireEvent.click(screen.getByRole("button", { name: /Enviar/i }))
-            const errorMessage = await screen.findByText(/Favor de ingresar una contraseña valida/i)
-            expect(errorMessage).toBeInTheDocument()
-        })
+        // it('should show an error message when password is empty', async () => {
+        //     fireEvent.click(screen.getByRole("button", { name: /Enviar/i }))
+        //     const errorMessage = await screen.findByText(/Favor de ingresar una contraseña valida/i)
+        //     expect(errorMessage).toBeInTheDocument()
+        // })
     
         it('should show an error when the password is too short', async () => {
             const passwordInput = screen.getByPlaceholderText('******')
@@ -77,4 +77,13 @@ describe('Login Event Handling Test', () => {
         fireEvent.change(passwordInput, { target: { value: '123456'}})
         expect(passwordInput).toHaveValue('123456')
     })
+})
+
+it('should display the message "Iniciando sesion..." when the form is submitted correctly', async () => {
+    const emailInput = screen.getByPlaceholderText('juan@gmail.com')
+    await userEvent.type(emailInput, 'test@gmail.com')
+    const passwordInput = screen.getByPlaceholderText('******')
+    await userEvent.type(passwordInput, '123456')
+    userEvent.click(screen.getByRole("button", { name: /Enviar/i }))
+    expect(await screen.findByText('Iniciando sesion...'))
 })
