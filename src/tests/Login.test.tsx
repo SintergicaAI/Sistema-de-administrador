@@ -29,7 +29,7 @@ describe("Login Rendering Test", () => {
     });
 
     it("should render the submit button", () => {
-        const button = screen.getByRole("button", {name: /Submit/i})
+        const button = screen.getByRole("button", {name: /Enviar/i})
         expect(button).toBeInTheDocument()
     });
 });
@@ -37,7 +37,7 @@ describe("Login Rendering Test", () => {
 describe("Login Validation Test", () => {
     describe("Email Validation Test", () => {
         it("should show an error message when email is empty", async () => {
-            fireEvent.click(screen.getByRole("button", { name: /Submit/i }))
+            fireEvent.click(screen.getByRole("button", { name: /Enviar/i }))
             const errorMessage = await screen.findByText(/Favor de ingresar un email valido/i)
             expect(errorMessage).toBeInTheDocument()
         });
@@ -51,7 +51,7 @@ describe("Login Validation Test", () => {
 
     describe("Password Validation Test", () => {
         it("should show an error message when password is empty", async () => {
-            fireEvent.click(screen.getByRole("button", { name: /Submit/i }))
+            fireEvent.click(screen.getByRole("button", { name: /Enviar/i }))
             const errorMessage = await screen.findByText(/Favor de ingresar una contraseña valida/i)
             expect(errorMessage).toBeInTheDocument()
         });
