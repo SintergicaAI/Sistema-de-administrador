@@ -1,0 +1,10 @@
+{
+  "clients": [
+    {
+      "id": 1,
+      "email": "alexis.alvarez@sintergica.ai",
+      "name": "Alexis",
+      "lastName": "Alvarez Ortega"
+    }
+  ]
+}
