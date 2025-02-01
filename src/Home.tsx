@@ -1,7 +1,9 @@
 import { Layout,Menu,theme } from "antd";
 import {MenuProps} from "antd";
 import {useState} from "react";
-import { FileOutlined,TeamOutlined,UserOutlined} from "@ant-design/icons";
+import { WechatWorkOutlined,UserOutlined, CodeFilled} from "@ant-design/icons";
+import {Outlet} from "react-router-dom";
+import { useNavigate} from "react-router";
 const {Content,Footer,Sider} = Layout;
 
 type MenuItem = Required<MenuProps>['items'][number];
@@ -21,25 +23,35 @@ function getItem(
 }
 
 const items: MenuItem[] = [
-    getItem('Username', 'sub1', <UserOutlined />, [
-        getItem('Information', '3'),
+    getItem('User', 'sub1', <UserOutlined />, [
+        getItem('Information', '/profile'),
     ]),
-    getItem('Team', 'sub2', <TeamOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
-    getItem('Files', '9', <FileOutlined />),
+    getItem('Workspace', '/workspace', <CodeFilled />,
+        [
+            getItem('Knowledge', '/workspace/knowledge'),
+            getItem('Models', '/workspace/models'),
+        ]),
+    getItem('Knowledge', '/knowledge', <WechatWorkOutlined />),
 ];
 
-export const Home =  () =>{
 
+
+export const Home =  () =>{
+    const navigate = useNavigate();
     const [collapsed, setCollapsed] = useState(false);
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
 
+    const handleMenuClick = (e: any) => {
+        navigate(e.key);
+    }
+
     return (
         <Layout style={{ minHeight: '100vh' }}>
             <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
                 <div className="demo-logo-vertical" />
-                <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
+                <Menu theme="dark" onClick={handleMenuClick} defaultSelectedKeys={['1']} mode="inline" items={items } />
             </Sider>
             <Layout>
                 {/*<Header style={{ padding: 0, background: colorBgContainer }} />*/}
@@ -52,7 +64,7 @@ export const Home =  () =>{
                             borderRadius: borderRadiusLG,
                         }}
                     >
-                        Bill is a cat.
+                        <Outlet />
                     </div>
                 </Content>
                 <Footer style={{ textAlign: 'center', padding:"1rem" }}>

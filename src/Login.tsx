@@ -1,10 +1,9 @@
 import type {FormProps} from 'antd';
+import {Flex, Form, Input, message, Typography} from 'antd';
 import {useState} from "react";
-import {useNavigate} from "react-router";
-import {MailOutlined,LockOutlined } from "@ant-design/icons"
-import { Form, Input,Typography,message} from 'antd';
-import {Flex} from 'antd';
+import {LockOutlined, MailOutlined} from "@ant-design/icons"
 import {SubmitButton} from "./generalComponents/Form";
+import {useNavigate} from "react-router";
 
 type FieldType = {
     correo: string;
@@ -20,6 +19,7 @@ function Login(){
     //Hooks
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
     const [form] = Form.useForm();
     //React router function
     //const navigation = useNavigate();
@@ -32,10 +32,12 @@ function Login(){
 
     const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
         messageApi.open({
-            type:'loading',
-            content:'Iniciando sesion...',
-            duration:3,
-        })
+            type: 'loading',
+            content: 'Iniciando sesion...',
+            duration: 3,
+        }).then(()  => navigate("/"))
+        const user = {...values, token: '1281shj19238'};
+        localStorage.setItem("user", JSON.stringify(user))
 
 
         console.log('Success:', values);

@@ -1,0 +1,139 @@
+{
+  "clients": [
+    {
+      "id": "1",
+      "email": "user1@example.com",
+      "first_name": "John",
+      "last_name": "Doe",
+      "age": 28
+    },
+    {
+      "id": "2",
+      "email": "user2@example.com",
+      "first_name": "Jane",
+      "last_name": "Smith",
+      "age": 34
+    },
+    {
+      "id": "3",
+      "email": "user3@example.com",
+      "first_name": "Alice",
+      "last_name": "Johnson",
+      "age": 22
+    }
+  ],
+  "users":  [
+    {
+      "id": "1",
+      "email": "alexis.alvarez@sintergica.ai",
+      "first_name": "Alexis",
+      "last_name": "Alvarez",
+      "role": "User"
+    }
+  ],
+  "login": {
+    "email": "user1@example.com",
+    "password": "123456"
+  },
+  "models": [
+    {
+      "id": "1",
+      "name": "Flow",
+      "description": "Copiloto flagship",
+      "isActive": true,
+      "author": {
+        "id": "1",
+        "email": "alexis.alvarez@sintergica.ai",
+        "first_name": "Alexis",
+        "last_name": "Alvarez",
+        "role": "User"
+      },
+      "image": "/vite.svg"
+    },
+    {
+      "id": "2",
+      "name": "GPT4o",
+      "description": "OpenAI Model",
+      "isActive": false,
+      "author": {
+        "id": "1",
+        "email": "alexis.alvarez@sintergica.ai",
+        "first_name": "Alexis",
+        "last_name": "Alvarez",
+        "role": "User"
+      },
+      "image": "/vite.svg"
+    },
+    {
+      "id": "3",
+      "name": "VisionAI",
+      "description": "Image Recognition Model",
+      "isActive": true,
+      "author": {
+        "id": "1",
+        "email": "alexis.alvarez@sintergica.ai",
+        "first_name": "Alexis",
+        "last_name": "Alvarez",
+        "role": "User"
+      },
+      "image": "/vite.svg"
+    },
+    {
+      "id": "4",
+      "name": "ChatBotX",
+      "description": "Customer Support Model",
+      "isActive": true,
+      "author": {
+        "id": "1",
+        "email": "alexis.alvarez@sintergica.ai",
+        "first_name": "Alexis",
+        "last_name": "Alvarez",
+        "role": "User"
+      },
+      "image": "/vite.svg"
+    },
+    {
+      "id": "5",
+      "name": "TranslatePro",
+      "description": "Language Translation Model",
+      "isActive": false,
+      "author": {
+        "id": "1",
+        "email": "alexis.alvarez@sintergica.ai",
+        "first_name": "Alexis",
+        "last_name": "Alvarez",
+        "role": "User"
+      },
+      "image": "/vite.svg"
+    },
+    {
+      "id": "6",
+      "name": "Analyzer",
+      "description": "Data Analysis Model",
+      "isActive": true,
+      "author": {
+        "id": "1",
+        "email": "alexis.alvarez@sintergica.ai",
+        "first_name": "Alexis",
+        "last_name": "Alvarez",
+        "role": "User"
+      },
+      "image": "/vite.svg"
+    }
+  ],
+  "authResponse": {
+    "success": true,
+    "message": "Welcome",
+    "token": "Bearer eyJhbGciOiJIUzI1NiJ9.ey..."
+  },
+  "errors": {
+    "invalidCredentials": {
+      "success": false,
+      "message": "Invalid credentials"
+    },
+    "internalServerError": {
+      "success": false,
+      "message": "An internal server error occurred. Please try again later."
+    }
+  }
+}
