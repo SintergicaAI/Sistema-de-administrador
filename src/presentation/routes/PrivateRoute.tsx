@@ -8,7 +8,6 @@ interface PrivateRouteProps {
   children: JSX.Element;
 }
 
-// Inyección manual de dependencias (puedes usar un contenedor como inversify si prefieres)
 const authApi = new AuthApi();
 const checkAuthStatus = new CheckAuthStatus(authApi);
 
@@ -29,4 +28,5 @@ export const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
   }
 
   return isAuthenticated ? children : <Navigate to="/login" />;
+
 };
