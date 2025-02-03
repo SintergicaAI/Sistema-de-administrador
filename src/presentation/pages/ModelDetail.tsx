@@ -11,21 +11,25 @@ const {Title} = Typography;
 export function ModelDetail() {
     const {id} = useParams();
     const [model, setModel] = useState<Model | null>(null);
-    const modelApi = new ModelApi();
-    const getModelById = new GetModelDetails(modelApi);
 
     useEffect(() => {
-        getModelById.execute(id).then(setModel);
-    }, [])
+        const modelApi = new ModelApi();
+        const getModelById = new GetModelDetails(modelApi);
+        if (id != null) {
+            getModelById.execute(id).then(setModel);
+        } else {
+            setModel(null);
+        }
+    }, [id])
 
     return (
         <Layout>
-            <Header style={{background: "#fff", padding: 0}}>
+            <Header>
                 <Title level={2} style={{margin: 0, padding: "16px"}}>
                     Model Details
                 </Title>
             </Header>
-            <Content style={{margin: "24px 16px", padding: 24, background: "#fff"}}>
+            <Content style={{margin: "24px 16px", padding: 24}}>
                 <Card>
                     <Descriptions title={`Details for Model ${id}`}>
                         <Descriptions.Item label="Model ID">{id}</Descriptions.Item>

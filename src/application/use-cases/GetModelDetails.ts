@@ -5,7 +5,7 @@ export class GetModelDetails {
     constructor(private modelRepository: ModelRepository) {
     }
 
-    async execute(id: string | undefined): Promise<Model> {
+    async execute(id: string): Promise<Model> {
         return await this.modelRepository.getModelById(id);
     }
 }

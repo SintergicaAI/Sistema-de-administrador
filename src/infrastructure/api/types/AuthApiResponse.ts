@@ -7,6 +7,7 @@ export interface LoginApiResponse {
     token: string;
 }
 
+//Pending refactoring :
 export interface RegisterApiResponse {
 
 }
@@ -26,3 +27,4 @@ export interface ForgotPasswordApiResponse {
 export interface ResetPasswordApiResponse {
 
 }
+//end pending refactoring

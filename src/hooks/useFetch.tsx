@@ -6,7 +6,7 @@ type ErrorType = {
 } | null;
 
 const useFetch = (endpoint:string, typeMethond = "GET",values = {}, token:string = "") => {
-    const BASE_URL = "http://192.168.3.245:8080/";
+    const BASE_URL = import.meta.env.VITE_API_URL;
 
     const [url,setUrl] = useState(BASE_URL);
 
@@ -66,7 +66,7 @@ const useFetch = (endpoint:string, typeMethond = "GET",values = {}, token:string
 
 
         try{
-            const res = await fetch(`${BASE_URL}${endpoint}`,{...objectConfiguration});
+            const res = await fetch(`${url}${endpoint}`,{...objectConfiguration});
 
             //Sleep
             //await new Promise(resolve=>{setTimeout(resolve,1000)});
@@ -106,6 +106,7 @@ const useFetch = (endpoint:string, typeMethond = "GET",values = {}, token:string
         data:states.data,
         isLoading: states.isLoading,
         hasError: states.hasError,
+        changeUrl,
     }
 }
 export default useFetch;

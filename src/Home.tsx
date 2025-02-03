@@ -1,10 +1,12 @@
-import { Layout,Menu,theme } from "antd";
-import {MenuProps} from "antd";
-import {useState} from "react";
-import { WechatWorkOutlined,UserOutlined, CodeFilled} from "@ant-design/icons";
+import {Avatar, Flex, Layout, Menu, MenuProps, theme} from "antd";
+import React, {useState} from "react";
+import {CodeFilled, UserOutlined, WechatWorkOutlined} from "@ant-design/icons";
 import {Outlet} from "react-router-dom";
-import { useNavigate} from "react-router";
-const {Content,Footer,Sider} = Layout;
+import {To, useNavigate} from "react-router";
+import {Header} from "antd/es/layout/layout";
+
+const {Content, Footer, Sider} = Layout;
+
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -23,39 +25,43 @@ function getItem(
 }
 
 const items: MenuItem[] = [
-    getItem('User', 'sub1', <UserOutlined />, [
+    getItem('User', 'sub1', <UserOutlined/>, [
         getItem('Information', '/profile'),
     ]),
-    getItem('Workspace', '/workspace', <CodeFilled />,
+    getItem('Workspace', '/workspace', <CodeFilled/>,
         [
             getItem('Knowledge', '/workspace/knowledge'),
             getItem('Models', '/workspace/models'),
         ]),
-    getItem('Knowledge', '/knowledge', <WechatWorkOutlined />),
+    getItem('Knowledge', '/knowledge', <WechatWorkOutlined/>),
 ];
 
+const url = "https://avatars.githubusercontent.com/u/85546178?v=4";
 
-
-export const Home =  () =>{
+export const Home = () => {
     const navigate = useNavigate();
     const [collapsed, setCollapsed] = useState(false);
     const {
-        token: { colorBgContainer, borderRadiusLG },
+        token: {colorBgContainer, borderRadiusLG},
     } = theme.useToken();
 
-    const handleMenuClick = (e: any) => {
+    const handleMenuClick = (e: { key: To; }) => {
         navigate(e.key);
     }
 
     return (
-        <Layout style={{ minHeight: '100vh' }}>
+        <Layout style={{minHeight: '100vh'}}>
             <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
-                <div className="demo-logo-vertical" />
-                <Menu theme="dark" onClick={handleMenuClick} defaultSelectedKeys={['1']} mode="inline" items={items } />
+                <Flex justify="center" align="center">
+                    <Avatar src={<img src={url} alt={"github avatar"}/>}></Avatar>
+                </Flex>
+
+                <Menu onClick={handleMenuClick} defaultSelectedKeys={['1']} mode="inline" items={items}/>
             </Sider>
+
             <Layout>
-                {/*<Header style={{ padding: 0, background: colorBgContainer }} />*/}
-                <Content style={{ margin: '50px 16px' }}>
+                <Header />
+                <Content style={{margin: '50px 16px'}}>
                     <div
                         style={{
                             padding: 24,
@@ -64,10 +70,10 @@ export const Home =  () =>{
                             borderRadius: borderRadiusLG,
                         }}
                     >
-                        <Outlet />
+                        <Outlet/>
                     </div>
                 </Content>
-                <Footer style={{ textAlign: 'center', padding:"1rem" }}>
+                <Footer style={{textAlign: 'center', padding: "1rem"}}>
                     Sintergica ©{new Date().getFullYear()} Created by Gonzalo Perez
                 </Footer>
             </Layout>
