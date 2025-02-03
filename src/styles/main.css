@@ -8,6 +8,14 @@
     box-sizing: border-box;
 }
 body{
-    background-color: var(--c_secundary);
+    background-color: var(--c_primary);
     margin: 0;
 }
+
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: var(--c_secundary);
+    }
+}
+

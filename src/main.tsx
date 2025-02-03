@@ -12,6 +12,7 @@ import {KnowledgeOverview} from "./presentation/pages/knowledgeOverview.tsx";
 import {ModelDetail} from "./presentation/pages/ModelDetail.tsx";
 import {PrivateRoute} from "./presentation/routes/PrivateRoute.tsx";
 import {validateEnv} from "../configValidator.ts";
+import {Register} from "./Register.tsx";
 
 try {
     validateEnv()
@@ -25,7 +26,7 @@ createRoot(document.getElementById('root')!).render(
             <ConfigProvider theme={
                 {
                     token: {
-                        colorPrimary: '#673AB7', // Púrpura
+                        colorPrimary: 'rgb(0, 69, 153)', // Púrpura
                         borderRadius: 8,
                     },
                     // algorithm: theme.darkAlgorithm,
@@ -46,6 +47,7 @@ createRoot(document.getElementById('root')!).render(
                 <Routes>
                     <Route element={<AuthLayout/>}>
                         <Route path="login" element={<Login/>}/>
+                        <Route path="register" element={<Register/>}/>
                     </Route>
                     <Route element={<PrivateRoute><Home/></PrivateRoute>}>
                         <Route index element={<UserProfile userId={"1"}/>}/>
