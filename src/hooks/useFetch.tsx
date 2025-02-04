@@ -1,11 +1,11 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 
 type ErrorType = {
     code: number;
     message: string
 } | null;
 
-const useFetch = (endpoint:string, typeMethond = "GET",token:string = "") => {
+const useFetch = (endpoint:string, typeMethond = "GET",values = {}, token:string = "") => {
     //const BASE_URL = "http://192.168.3.245:8080/";
     const LocalURL = 'http://localhost:3000/'
 
@@ -35,7 +35,7 @@ const useFetch = (endpoint:string, typeMethond = "GET",token:string = "") => {
         })
     }
 
-    const getData = async (values) => {
+    const getData = async () => {
         setLoadingState();
 
         /*Extenderlo para que acepte otro tipo de metodos*/

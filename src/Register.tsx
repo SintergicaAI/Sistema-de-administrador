@@ -1,8 +1,10 @@
 
 import type { FormProps } from 'antd';
+import {useNavigate} from "react-router";
 import { Form, Input,Typography,message } from 'antd';
 import { useState} from "react";
 import {SubmitButton} from "./generalComponents/Form";
+import {BASE_URL, REGISTER_ENDPOINT, sendData} from "./functions/Forms";
 
 type FieldType = {
     email?: string;
@@ -20,16 +22,28 @@ export const Register = () =>{
     const [messageApi,contextHolder] = message.useMessage()
 
     const [form] = Form.useForm();
+    const navigation = useNavigate();
 
     const {Title} = Typography;
 
     const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
-        console.log('Success:', values);
+         delete values.repeatPassword;
+        console.log('Datos enviados:', values);
         messageApi.open({
             type:'loading',
             content:'Registrando datos...',
-            duration:3,
+            duration:0,
         })
+        sendData({...values,company:null,rol:null,name:""},`${BASE_URL}${REGISTER_ENDPOINT}`)
+            .then((data) =>{
+            console.log("Successful send ", data);
+            messageApi.destroy();
+            navigation("/Login");
+        }).catch((err) => {
+            messageApi.destroy();
+            console.log(err)
+        })
+
     };
 
     const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
@@ -52,7 +66,7 @@ export const Register = () =>{
                 initialValues={{ remember: true }}
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
-                autoComplete="off"
+                autoComplete="on"
                 labelWrap
                 colon={false}
                 labelAlign={'left'}
