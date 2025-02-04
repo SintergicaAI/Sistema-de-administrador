@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 type ErrorType = {
     code: number;
@@ -6,9 +6,9 @@ type ErrorType = {
 } | null;
 
 const useFetch = (endpoint:string, typeMethond = "GET",values = {}, token:string = "") => {
-    //const BASE_URL = "http://192.168.3.245:8080/";
-    const LocalURL = 'http://localhost:3000/'
+    const BASE_URL = "http://192.168.3.245:8080/";
 
+    const [url,setUrl] = useState(BASE_URL);
 
     const [states, setStates] = useState<{
         data: any;
@@ -22,9 +22,13 @@ const useFetch = (endpoint:string, typeMethond = "GET",values = {}, token:string
         hasError: false,
     })
 
-    /*useEffect(()=>{
+    useEffect(()=>{
         getData();
-    },[endpoint])*/
+    },[endpoint])
+
+    const changeUrl = (newEndpoint:string) => {
+        setUrl(newEndpoint);
+    }
 
     const setLoadingState = ()=>{
         setStates({
@@ -62,8 +66,10 @@ const useFetch = (endpoint:string, typeMethond = "GET",values = {}, token:string
 
 
         try{
-            const res = await fetch(`${LocalURL}${endpoint}`,{...objectConfiguration});
+            const res = await fetch(`${BASE_URL}${endpoint}`,{...objectConfiguration});
 
+            //Sleep
+            //await new Promise(resolve=>{setTimeout(resolve,1000)});
             if(!res.ok){
                 setStates({
                     data:null,
@@ -92,13 +98,14 @@ const useFetch = (endpoint:string, typeMethond = "GET",values = {}, token:string
                 hasError: true,
             })
         }
+
+
     }
 
     return {
         data:states.data,
         isLoading: states.isLoading,
         hasError: states.hasError,
-        getData
     }
 }
 export default useFetch;

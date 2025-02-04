@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "antd": "^5.23.2",
-    "json-server": "^1.0.0-beta.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router": "^7.1.3",
