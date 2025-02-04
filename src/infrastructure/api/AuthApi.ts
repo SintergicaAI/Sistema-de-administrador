@@ -38,9 +38,8 @@ export class AuthApi implements AuthRepository {
             throw new Error('Credenciales inválidas');
         }
 
-        //TODO: Replace test token. Added because json-server limitations
         const data: LoginApiResponse = await response.json();
-        return new User(data.id, data.email, data.role, undefined, undefined, undefined, 'abcdtestoken');
+        return new User(data.id, data.email, data.role, undefined, undefined, undefined, data.token);
     }
 
     async logOut(): Promise<boolean> {

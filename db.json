@@ -32,8 +32,10 @@
     }
   ],
   "login": {
-    "email": "user1@example.com",
-    "password": "123456"
+    "email": "mock@example.com",
+    "password": "12345678",
+    "token": "1234567890",
+    "role": "user"
   },
   "logout": {
     "status": 200
