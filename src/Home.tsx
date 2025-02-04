@@ -1,9 +1,11 @@
-import {Avatar, Flex, Layout, Menu, MenuProps, theme} from "antd";
+import {Avatar, Flex, Layout, Menu, MenuProps, message, theme} from "antd";
 import React, {useState} from "react";
 import {CodeFilled, UserOutlined, WechatWorkOutlined} from "@ant-design/icons";
 import {Outlet} from "react-router-dom";
 import {To, useNavigate} from "react-router";
 import {Header} from "antd/es/layout/layout";
+import {AuthApi} from "./infrastructure/api/AuthApi.ts";
+import {LogOut} from "./application/use-cases/LogOut.ts";
 
 const {Content, Footer, Sider} = Layout;
 
@@ -49,6 +51,24 @@ export const Home = () => {
         navigate(e.key);
     }
 
+    const handleLogOut = () => {
+        const api = new AuthApi()
+        const logout = new LogOut(api)
+
+        logout.execute().then(() => {
+            message.open({
+                type: 'loading',
+                content: 'Cerrando sesión',
+                duration: 3,
+            }).then(()=> navigate("/login"))
+        }).catch(error => {
+            message.open({
+                type: 'error',
+                content: 'No se pudo cerrar sesión. Error: ' + error.message,
+                duration: 3,
+            })
+        })
+    }
     return (
         <Layout style={{minHeight: '100vh'}}>
             <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
@@ -57,6 +77,7 @@ export const Home = () => {
                 </Flex>
 
                 <Menu onClick={handleMenuClick} defaultSelectedKeys={['1']} mode="inline" items={items}/>
+                <button onClick={() => (handleLogOut())}>Logout</button>
             </Sider>
 
             <Layout>

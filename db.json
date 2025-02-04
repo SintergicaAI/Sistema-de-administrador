@@ -35,6 +35,9 @@
     "email": "user1@example.com",
     "password": "123456"
   },
+  "logout": {
+    "status": 200
+  },
   "models": [
     {
       "id": "1",

@@ -1,8 +1,8 @@
 import {AuthRepository} from '../../domain/repositories/AuthRepository';
 import {User} from "../../domain/entities/User.ts";
-import {LoginApiResponse} from "./types/AuthApiResponse.ts";
+import {AuthenticateApiResponse} from "./types/AuthApiResponse.ts";
 
-const BASE_URL = import.meta.env.VITE_API_URL;
+const BASE_URL = import.meta.env.VITE_TURING_API_URL;
 
 export class AuthApi implements AuthRepository {
     private readonly baseUrl = BASE_URL;
@@ -26,7 +26,7 @@ export class AuthApi implements AuthRepository {
     }
 
     async logIn(email: string, password: string): Promise<User> {
-        const response = await fetch(`${this.baseUrl}/login`, {
+        const response = await fetch(`${this.baseUrl}/auths/signin`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -38,23 +38,8 @@ export class AuthApi implements AuthRepository {
             throw new Error('Credenciales inválidas');
         }
 
-        //TODO: Replace test token. Added because json-server limitations
-        const data: LoginApiResponse = await response.json();
-        return new User(data.id, data.email, data.role, undefined, undefined, undefined, 'abcdtestoken');
-    }
-
-    async logOut(): Promise<boolean> {
-        const response = await fetch(`${this.baseUrl}/logout`)
-        if (!response.ok) {
-            throw new Error('Error en la petición')
-        }
-        return this.deleteToken()
-    }
-
-    deleteToken(): boolean {
-        localStorage.removeItem('user');
-        return !this.getUserFromStorage().token;
-
+        const data: AuthenticateApiResponse = await response.json();
+        return new User(data.id, data.email, data.role, data.name, undefined, undefined, data.token);
     }
 
     saveToken(user: User): void {
@@ -68,5 +53,10 @@ export class AuthApi implements AuthRepository {
             },
             token: user.token,
         }));
+    }
+
+    //TODO FINISH IMPLEMENTATION
+    logOut(): Promise<boolean> {
+        return Promise.resolve(false);
     }
 }

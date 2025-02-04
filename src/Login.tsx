@@ -31,8 +31,6 @@ function Login() {
     //let{data,hasError} = useFetch("clientes/login","POST",{})
 
     const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
-
-
         logIn.execute(values.correo, values.contrasena).then(() => {
                 messageApi.open({
                     type: 'loading',

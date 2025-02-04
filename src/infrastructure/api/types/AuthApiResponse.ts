@@ -7,6 +7,14 @@ export interface LoginApiResponse {
     token: string;
 }
 
+export interface AuthenticateApiResponse {
+    id: string;
+    email: string;
+    role: UserRole;
+    token: string;
+    name: string;
+}
+
 //Pending refactoring :
 export interface RegisterApiResponse {
 
