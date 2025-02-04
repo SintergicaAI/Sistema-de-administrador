@@ -1,14 +1,16 @@
 import type {FormProps} from 'antd';
 import {useState} from "react";
-import {useNavigate} from "react-router";
 import {MailOutlined,LockOutlined } from "@ant-design/icons"
 import { Form, Input,Typography,message} from 'antd';
 import {Flex} from 'antd';
 import {SubmitButton} from "./generalComponents/Form";
+import {useNavigate} from "react-router";
+import {sendData} from "./functions/Forms";
+import {BASE_URL,LOGIN_ENDPOINT} from "./functions/Forms"
 
 type FieldType = {
-    correo: string;
-    contrasena: string;
+    email: string;
+    password: string;
     remember?: string;
 };
 
@@ -22,34 +24,35 @@ function Login(){
     const [password, setPassword] = useState('');
     const [form] = Form.useForm();
     //React router function
-    //const navigation = useNavigate();
+    const navigation = useNavigate();
 
     //Ant Design components
     const [messageApi,contextHolder] = message.useMessage();
     const {Title} = Typography;
 
-    //let{data,hasError} = useFetch("clientes/login","POST",{})
 
     const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
         messageApi.open({
             type:'loading',
             content:'Iniciando sesion...',
-            duration:3,
+            duration:0,
         })
+        console.log("Datos enviados", values);
 
+        sendData(values,`${BASE_URL}${LOGIN_ENDPOINT}`).then((data) =>{
+            console.log("Successful send ", data);
+            localStorage.setItem("user", JSON.stringify("usuario",data));
 
-        console.log('Success:', values);
-
-        /*if(hasError){
-            throw new Error("No se puedo acceder a los datos");
-        }else{
-            localStorage.setItem("usuario",JSON.stringify(data));
-            console.log(data);
-
-            //Movernos al componente Home
-            navigation("/");
-            return;
-        }*/
+            if(data.exitoso){
+                messageApi.destroy();
+                navigation("/");
+            }else{
+                messageApi.destroy();
+                messageApi.open({
+                    type:"error", content:"El usuario que ingresaste no existe", duration:5
+                })
+            }
+        })
     };
 
     const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
@@ -80,7 +83,7 @@ function Login(){
 
                 <Form.Item<FieldType>
                     label="Correo electronico"
-                    name="correo"
+                    name="email"
                     rules={[{ required: true,type:"email",message: 'Favor de ingresar un email valido', pattern:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/}]}
                 >
                     <Input prefix={<MailOutlined className='icon-color'/>} type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="juan@gmail.com"/>
@@ -88,7 +91,7 @@ function Login(){
 
                 <Form.Item<FieldType>
                     label="Contrasena"
-                    name="contrasena"
+                    name="password"
                     rules={[{ required: true, message: 'Favor de ingresar una contraseña valida', min:6}]}
                 >
                     <Input.Password prefix={<LockOutlined className='icon-color' />} value={password} onChange={e => setPassword(e.target.value)} placeholder="******"/>
