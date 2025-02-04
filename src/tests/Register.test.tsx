@@ -21,15 +21,15 @@ describe('Register Rendering Test', () => {
     it('should render the "Nombre(s)" text and your placeholder', () => {
         const labelFName = screen.getByText('Nombre(s)')
         expect(labelFName).toBeInTheDocument()
-        // const placeholderFName = screen.getByPlaceholderText('Nombre(s)')
-        // expect(placeholderFName).toBeInTheDocument()
+        const placeholderFName = screen.getByPlaceholderText('Nombre(s)')
+        expect(placeholderFName).toBeInTheDocument()
     })
 
     it('should render the "Apellidos" text and your placeholder', () => {
         const labelLName = screen.getByText('Apellidos')
         expect(labelLName).toBeInTheDocument()
-        // const placeholderLName = screen.getByPlaceholderText('Apellidos')
-        // expect(placeholderLName).toBeInTheDocument()
+        const placeholderLName = screen.getByPlaceholderText('Apellidos')
+        expect(placeholderLName).toBeInTheDocument()
     })
 
     it('should render the "Correo electronico" text and your placeholder', () => {
@@ -70,14 +70,14 @@ describe('Resgiter Validation Test', () => {
     it('should show an error for invalid first name', async () => {
         const firstNameInput = screen.getByPlaceholderText('Nombre(s)')
         await userEvent.type(firstNameInput, '123')
-        const errorMessage = await screen.findByText('Ingresa el campo correcto!')
+        const errorMessage = await screen.findByText('No se permiten caracteres especiales y numeros')
         expect(errorMessage).toBeInTheDocument()
     })
 
     it('should show an error for invalid last name', async () => {
         const lastNameInput = screen.getByPlaceholderText('Apellidos')
         await userEvent.type(lastNameInput, '123')
-        const errorMessage = await screen.findByText('Ingresa el campo correcto!')
+        const errorMessage = await screen.findByText('No se permiten caracteres especiales y numeros')
         expect(errorMessage).toBeInTheDocument()
     })
 
