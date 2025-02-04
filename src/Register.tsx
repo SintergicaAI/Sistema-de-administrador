@@ -60,7 +60,7 @@ export const Register = () =>{
                 name="basic"
                 labelCol={{ span: 8 }}
                 wrapperCol={{ span: 30}}
-                style={{ maxWidth: 800 }}
+                style={{ maxWidth: 350 }}
                 layout="horizontal"
                 className='form__container'
                 initialValues={{ remember: true }}
@@ -77,17 +77,17 @@ export const Register = () =>{
                 <Form.Item<FieldType>
                     label="Nombre(s)"
                     name="firstName"
-                    rules={[{ required: true, message: 'Ingresa el campo correcto!' }]}
+                    rules={[{ required: true, message: 'Ingresa el campo correcto!'}, {pattern: /^[A-Za-zÁÉÍÓÚáéíóúñÑ' -]{1,40}$/, message: "No se permiten caracteres especiales y numeros"}]}
                 >
-                    <Input value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+                    <Input value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder="Nombre(s)"/>
                 </Form.Item>
 
                 <Form.Item<FieldType>
                     label="Apellidos"
                     name="lastName"
-                    rules={[{ required: true, message: 'Ingresa el campo correcto' }]}
+                    rules={[{ required: true, message: 'Ingresa el campo correcto' }, {pattern: /^[A-Za-zÁÉÍÓÚáéíóúñÑ' -]{1,40}$/, message: "No se permiten caracteres especiales y numeros"}] }
                 >
-                    <Input value={secondName} onChange={(e) => setSecondName(e.target.value)} />
+                    <Input value={secondName} onChange={(e) => setSecondName(e.target.value)} placeholder="Apellidos"/>
                 </Form.Item>
 
                 <Form.Item<FieldType>
@@ -103,9 +103,11 @@ export const Register = () =>{
                     name="password"
                     rules={[{ required: true, message: 'Contrasena menor a 6 caracteres', min:6 , }]}
                 >
-                    <Input.Password placeholder='Min 6 caracteres' value={password} onChange={e => setPassword(e.target.value)} />
+                    <Input.Password placeholder='Min 6 caracteres'
+                                    value={password}
+                                    onChange={e => setPassword(e.target.value)}
+                                    data-testid="password-input"/>
                 </Form.Item>
-
                 <Form.Item<FieldType>
                     label="Repetir contrasena"
                     name="repeatPassword"
@@ -122,7 +124,7 @@ export const Register = () =>{
                         })
                     ]}
                 >
-                    <Input.Password placeholder='Min 6 caracteres'/>
+                    <Input.Password placeholder='Min 6 caracteres' data-testid="repeat-password-input"/>
                 </Form.Item>
 
 
