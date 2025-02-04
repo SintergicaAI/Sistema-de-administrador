@@ -1,12 +1,11 @@
 import type {FormProps} from 'antd';
+import {Flex, Form, Input, message, Typography} from 'antd';
 import {useState} from "react";
 import {MailOutlined,LockOutlined } from "@ant-design/icons"
-import { Form, Input,Typography,message} from 'antd';
-import {Flex} from 'antd';
 import {SubmitButton} from "./generalComponents/Form";
 import {useNavigate} from "react-router";
-import {sendData} from "./functions/Forms";
-import {BASE_URL,LOGIN_ENDPOINT} from "./functions/Forms"
+import {LogIn} from "./application/use-cases/LogIn.ts";
+import {AuthApi} from "./infrastructure/api/AuthApi.ts";
 
 type FieldType = {
     email: string;
@@ -15,71 +14,62 @@ type FieldType = {
 };
 
 
+const authApi = new AuthApi();
+const logIn = new LogIn(authApi);
 
-
-
-function Login(){
+function Login() {
     //Hooks
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
     const [form] = Form.useForm();
-    //React router function
-    const navigation = useNavigate();
 
     //Ant Design components
-    const [messageApi,contextHolder] = message.useMessage();
+    const [messageApi, contextHolder] = message.useMessage();
     const {Title} = Typography;
 
 
-    const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
-        messageApi.open({
-            type:'loading',
-            content:'Iniciando sesion...',
-            duration:0,
-        })
-        console.log("Datos enviados", values);
-
-        sendData(values,`${BASE_URL}${LOGIN_ENDPOINT}`).then((data) =>{
-            console.log("Successful send ", data);
-            localStorage.setItem("user", JSON.stringify("usuario",data));
-
-            if(data.exitoso){
-                messageApi.destroy();
-                navigation("/");
-            }else{
-                messageApi.destroy();
+    const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
+        logIn.execute(values.email, values.password).then(() => {
                 messageApi.open({
-                    type:"error", content:"El usuario que ingresaste no existe", duration:5
-                })
+                    type: 'loading',
+                    content: 'Iniciando sesion...',
+                    duration: 3,
+                }).then(() => navigate("/"))
             }
-        })
-    };
+        ).catch(error => {
+            messageApi.open({
+                type: 'error',
+                content: error.message
+            });
+        });
+    }
 
     const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
         messageApi.open({
-            type:'error',
-            content:'Ingresa los campos de manera correcta'
+            type: 'error',
+            content: 'Ingresa los campos de manera correcta'
         });
         console.log(errorInfo);
     };
 
     return (
         <>
-        <Form
-            name="basic"
-            layout="vertical"
-            labelCol={{ span: 16 }}
-            wrapperCol={{ span: 30 }}
-            className="form__container"
-            style={{width:300,minHeight:300,paddingBlock:30}}
-            initialValues={{ remember: true }}
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
-            autoComplete="on"
-            form={form}
-        >
-            <Title style={{textAlign:'center',} }>Login</Title>
-            <Flex vertical={true} gap={10}>
+            <Form
+                name="basic"
+                layout="vertical"
+                labelCol={{span: 16}}
+                wrapperCol={{span: 30}}
+                className="form__container"
+                style={{width: 300, minHeight: 300, paddingBlock: 30}}
+                initialValues={{remember: true}}
+                onFinish={onFinish}
+                onFinishFailed={onFinishFailed}
+                autoComplete="on"
+                form={form}
+            >
+                <Title style={{textAlign: 'center',}}>Login</Title>
+                <Flex vertical={true} gap={10}>
 
                 <Form.Item<FieldType>
                     label="Correo electronico"
@@ -97,17 +87,18 @@ function Login(){
                     <Input.Password prefix={<LockOutlined className='icon-color' />} value={password} onChange={e => setPassword(e.target.value)} placeholder="******"/>
                 </Form.Item>
 
-                {/*<Form.Item<FieldType> name="remember" valuePropName="checked" label={null}>
+                    {/*<Form.Item<FieldType> name="remember" valuePropName="checked" label={null}>
             <Checkbox>Remember me</Checkbox>
         </Form.Item>*/}
 
-                <Form.Item label={null} labelCol={{span: 0}}>
-                    {contextHolder}
-                    <SubmitButton form={form}>Enviar</SubmitButton>
-                </Form.Item>
-            </Flex>
-        </Form>
-    </>
+                    <Form.Item label={null} labelCol={{span: 0}}>
+                        {contextHolder}
+                        <SubmitButton form={form}>Enviar</SubmitButton>
+                    </Form.Item>
+                </Flex>
+            </Form>
+        </>
     );
 }
+
 export default Login;

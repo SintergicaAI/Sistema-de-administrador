@@ -6,9 +6,9 @@ type ErrorType = {
 } | null;
 
 const useFetch = (endpoint:string, typeMethond = "GET",values = {}, token:string = "") => {
-    //const BASE_URL = "http://192.168.3.245:8080/";
-    const LocalURL = 'http://localhost:3000/'
+    const BASE_URL = import.meta.env.VITE_API_URL;
 
+    const [url,setUrl] = useState(BASE_URL);
 
     const [states, setStates] = useState<{
         data: any;
@@ -62,7 +62,7 @@ const useFetch = (endpoint:string, typeMethond = "GET",values = {}, token:string
 
 
         try{
-            const res = await fetch(`${LocalURL}${endpoint}`,{...objectConfiguration});
+            const res = await fetch(`${url}${endpoint}`,{...objectConfiguration});
 
             if(!res.ok){
                 setStates({
