@@ -1,10 +1,11 @@
 import type {FormProps} from 'antd';
 import {useState} from "react";
-import {useNavigate} from "react-router";
 import {MailOutlined,LockOutlined } from "@ant-design/icons"
 import { Form, Input,Typography,message} from 'antd';
 import {Flex} from 'antd';
 import {SubmitButton} from "./generalComponents/Form";
+import {useNavigate} from "react-router";
+import useFetch from "./hooks/useFetch.tsx";
 
 type FieldType = {
     correo: string;
@@ -22,13 +23,15 @@ function Login(){
     const [password, setPassword] = useState('');
     const [form] = Form.useForm();
     //React router function
-    //const navigation = useNavigate();
+    const navigation = useNavigate();
 
     //Ant Design components
     const [messageApi,contextHolder] = message.useMessage();
     const {Title} = Typography;
 
-    //let{data,hasError} = useFetch("clientes/login","POST",{})
+
+    const {data,hasError,getData} = useFetch('/users','GET');
+    //console.log('data value',data);
 
     const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
         messageApi.open({
@@ -36,20 +39,18 @@ function Login(){
             content:'Iniciando sesion...',
             duration:3,
         })
-
-
         console.log('Success:', values);
-
-        /*if(hasError){
+        console.log('HasError:', hasError);
+        getData(values);
+        if(hasError){
             throw new Error("No se puedo acceder a los datos");
         }else{
-            localStorage.setItem("usuario",JSON.stringify(data));
-            console.log(data);
+            localStorage.setItem("usuario",JSON.stringify(values));
 
             //Movernos al componente Home
             navigation("/");
             return;
-        }*/
+        }
     };
 
     const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {

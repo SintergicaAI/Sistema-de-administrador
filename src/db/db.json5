@@ -1,0 +1,4 @@
+{users:[
+  {id:'1',email:'nuevo@sintergica.com',password:'123456'},
+  {id:'2',email:'juan@sintergica.com',password:'123456'}
+]}
