@@ -65,3 +65,57 @@ describe('Register Rendering Test', () => {
         expect(link).toBeInTheDocument()
     })
 })
+
+describe('Resgiter Validation Test', () => {
+    it('should show an error for invalid first name', async () => {
+        const firstNameInput = screen.getByPlaceholderText('Nombre(s)')
+        await userEvent.type(firstNameInput, '123')
+        const errorMessage = await screen.findByText('Ingresa el campo correcto!')
+        expect(errorMessage).toBeInTheDocument()
+    })
+
+    it('should show an error for invalid last name', async () => {
+        const lastNameInput = screen.getByPlaceholderText('Apellidos')
+        await userEvent.type(lastNameInput, '123')
+        const errorMessage = await screen.findByText('Ingresa el campo correcto!')
+        expect(errorMessage).toBeInTheDocument()
+    })
+
+    it('should show an error for invalid email', async () => {
+        const emailInput = screen.getByPlaceholderText('juan@gmail.com')
+        await userEvent.type(emailInput, 'testInvalid.com')
+        const errorMessage = await screen.findByText('Favor de ingresar un email valido')
+        expect(errorMessage).toBeInTheDocument()
+    })
+
+    it('should show an error when the password is too short', async () => {
+        const passwordInput = screen.getByTestId('password-input')
+        await userEvent.type(passwordInput, '123')
+        const errorMessage = await screen.findByText('Contrasena menor a 6 caracteres')
+        expect(errorMessage).toBeInTheDocument()
+    })
+
+    it('should show an error when the password and repeat password do not match', async () => {
+        const passwordInput = screen.getByTestId('password-input')
+        await userEvent.type(passwordInput, '123456')
+        const repeatPasswordInput = screen.getByTestId('repeat-password-input')
+        await userEvent.type(repeatPasswordInput, '12345')
+        const errorMessage = await screen.findByText('La contrasena no coincide')
+        expect(errorMessage).toBeInTheDocument()
+    })
+})
+
+it('should display the message "Registrando datos..." when the form is submitte correctly', async () => {
+    const firstNameInput = screen.getByPlaceholderText('Nombre(s)')
+    await userEvent.type(firstNameInput, 'Juan')
+    const lastNameInput = screen.getByPlaceholderText('Apellidos')
+    await userEvent.type(lastNameInput, 'Perez')
+    const emailInput = screen.getByPlaceholderText('juan@gmail.com')
+    await userEvent.type(emailInput, 'test@gmail.com')
+    const passwordInput = screen.getByTestId('password-input')
+    await userEvent.type(passwordInput, '123456')
+    const repeatPasswordInput = screen.getByTestId('repeat-password-input')
+    await userEvent.type(repeatPasswordInput, '123456')
+    userEvent.click(screen.getByRole('button', { name: /Enviar/i }))
+    expect(await screen.findByText('Registrando datos...'))
+})
