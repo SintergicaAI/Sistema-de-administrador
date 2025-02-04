@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 
 type ErrorType = {
     code: number;
@@ -22,13 +22,9 @@ const useFetch = (endpoint:string, typeMethond = "GET",values = {}, token:string
         hasError: false,
     })
 
-    useEffect(()=>{
+    /*useEffect(()=>{
         getData();
-    },[endpoint])
-
-    const changeUrl = (newEndpoint:string) => {
-        setUrl(newEndpoint);
-    }
+    },[endpoint])*/
 
     const setLoadingState = ()=>{
         setStates({
@@ -68,8 +64,6 @@ const useFetch = (endpoint:string, typeMethond = "GET",values = {}, token:string
         try{
             const res = await fetch(`${url}${endpoint}`,{...objectConfiguration});
 
-            //Sleep
-            //await new Promise(resolve=>{setTimeout(resolve,1000)});
             if(!res.ok){
                 setStates({
                     data:null,
@@ -98,15 +92,13 @@ const useFetch = (endpoint:string, typeMethond = "GET",values = {}, token:string
                 hasError: true,
             })
         }
-
-
     }
 
     return {
         data:states.data,
         isLoading: states.isLoading,
         hasError: states.hasError,
-        changeUrl,
+        getData
     }
 }
 export default useFetch;

@@ -1,15 +1,15 @@
 import type {FormProps} from 'antd';
 import {Flex, Form, Input, message, Typography} from 'antd';
 import {useState} from "react";
-import {LockOutlined, MailOutlined} from "@ant-design/icons"
+import {MailOutlined,LockOutlined } from "@ant-design/icons"
 import {SubmitButton} from "./generalComponents/Form";
 import {useNavigate} from "react-router";
 import {LogIn} from "./application/use-cases/LogIn.ts";
 import {AuthApi} from "./infrastructure/api/AuthApi.ts";
 
 type FieldType = {
-    correo: string;
-    contrasena: string;
+    email: string;
+    password: string;
     remember?: string;
 };
 
@@ -28,10 +28,9 @@ function Login() {
     const [messageApi, contextHolder] = message.useMessage();
     const {Title} = Typography;
 
-    //let{data,hasError} = useFetch("clientes/login","POST",{})
 
     const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
-        logIn.execute(values.correo, values.contrasena).then(() => {
+        logIn.execute(values.email, values.password).then(() => {
                 messageApi.open({
                     type: 'loading',
                     content: 'Iniciando sesion...',
@@ -44,7 +43,7 @@ function Login() {
                 content: error.message
             });
         });
-    };
+    }
 
     const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
         messageApi.open({
@@ -72,28 +71,21 @@ function Login() {
                 <Title style={{textAlign: 'center',}}>Login</Title>
                 <Flex vertical={true} gap={10}>
 
-                    <Form.Item<FieldType>
-                        label="Correo electronico"
-                        name="correo"
-                        rules={[{
-                            required: true,
-                            type: "email",
-                            message: 'Favor de ingresar un email valido',
-                            pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
-                        }]}
-                    >
-                        <Input prefix={<MailOutlined className='icon-color'/>} type="email" value={email}
-                               onChange={e => setEmail(e.target.value)} placeholder="juan@gmail.com"/>
-                    </Form.Item>
+                <Form.Item<FieldType>
+                    label="Correo electronico"
+                    name="email"
+                    rules={[{ required: true,type:"email",message: 'Favor de ingresar un email valido', pattern:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/}]}
+                >
+                    <Input prefix={<MailOutlined className='icon-color'/>} type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="juan@gmail.com"/>
+                </Form.Item>
 
-                    <Form.Item<FieldType>
-                        label="Contrasena"
-                        name="contrasena"
-                        rules={[{required: true, message: 'Favor de ingresar una contraseña valida', min: 6}]}
-                    >
-                        <Input.Password prefix={<LockOutlined className='icon-color'/>} value={password}
-                                        onChange={e => setPassword(e.target.value)} placeholder="******"/>
-                    </Form.Item>
+                <Form.Item<FieldType>
+                    label="Contrasena"
+                    name="password"
+                    rules={[{ required: true, message: 'Favor de ingresar una contraseña valida', min:6}]}
+                >
+                    <Input.Password prefix={<LockOutlined className='icon-color' />} value={password} onChange={e => setPassword(e.target.value)} placeholder="******"/>
+                </Form.Item>
 
                     {/*<Form.Item<FieldType> name="remember" valuePropName="checked" label={null}>
             <Checkbox>Remember me</Checkbox>
