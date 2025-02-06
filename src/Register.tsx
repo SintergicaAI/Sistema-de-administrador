@@ -1,10 +1,8 @@
 
 import type { FormProps } from 'antd';
-import {useNavigate} from "react-router";
 import { Form, Input,Typography,message } from 'antd';
 import { useState} from "react";
 import {SubmitButton} from "./generalComponents/Form";
-import {BASE_URL, REGISTER_ENDPOINT, sendData} from "./functions/Forms";
 
 type FieldType = {
     email?: string;
@@ -22,28 +20,16 @@ export const Register = () =>{
     const [messageApi,contextHolder] = message.useMessage()
 
     const [form] = Form.useForm();
-    const navigation = useNavigate();
 
     const {Title} = Typography;
 
     const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
-         delete values.repeatPassword;
-        console.log('Datos enviados:', values);
+        console.log('Success:', values);
         messageApi.open({
             type:'loading',
             content:'Registrando datos...',
-            duration:0,
+            duration:3,
         })
-        sendData({...values,company:null,rol:null,name:""},`${BASE_URL}${REGISTER_ENDPOINT}`)
-            .then((data) =>{
-            console.log("Successful send ", data);
-            messageApi.destroy();
-            navigation("/Login");
-        }).catch((err) => {
-            messageApi.destroy();
-            console.log(err)
-        })
-
     };
 
     const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
@@ -60,13 +46,13 @@ export const Register = () =>{
                 name="basic"
                 labelCol={{ span: 8 }}
                 wrapperCol={{ span: 30}}
-                style={{ maxWidth: 350 }}
+                style={{ maxWidth: 800 }}
                 layout="horizontal"
                 className='form__container'
                 initialValues={{ remember: true }}
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
-                autoComplete="on"
+                autoComplete="off"
                 labelWrap
                 colon={false}
                 labelAlign={'left'}
@@ -77,17 +63,17 @@ export const Register = () =>{
                 <Form.Item<FieldType>
                     label="Nombre(s)"
                     name="firstName"
-                    rules={[{ required: true, message: 'Ingresa el campo correcto!'}, {pattern: /^[A-Za-zÁÉÍÓÚáéíóúñÑ' -]{1,40}$/, message: "No se permiten caracteres especiales y numeros"}]}
+                    rules={[{ required: true, message: 'Ingresa el campo correcto!' }]}
                 >
-                    <Input value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder="Nombre(s)"/>
+                    <Input value={firstName} onChange={(e) => setFirstName(e.target.value)} />
                 </Form.Item>
 
                 <Form.Item<FieldType>
                     label="Apellidos"
                     name="lastName"
-                    rules={[{ required: true, message: 'Ingresa el campo correcto' }, {pattern: /^[A-Za-zÁÉÍÓÚáéíóúñÑ' -]{1,40}$/, message: "No se permiten caracteres especiales y numeros"}] }
+                    rules={[{ required: true, message: 'Ingresa el campo correcto' }]}
                 >
-                    <Input value={secondName} onChange={(e) => setSecondName(e.target.value)} placeholder="Apellidos"/>
+                    <Input value={secondName} onChange={(e) => setSecondName(e.target.value)} />
                 </Form.Item>
 
                 <Form.Item<FieldType>
@@ -103,11 +89,9 @@ export const Register = () =>{
                     name="password"
                     rules={[{ required: true, message: 'Contrasena menor a 6 caracteres', min:6 , }]}
                 >
-                    <Input.Password placeholder='Min 6 caracteres'
-                                    value={password}
-                                    onChange={e => setPassword(e.target.value)}
-                                    data-testid="password-input"/>
+                    <Input.Password placeholder='Min 6 caracteres' value={password} onChange={e => setPassword(e.target.value)} />
                 </Form.Item>
+
                 <Form.Item<FieldType>
                     label="Repetir contrasena"
                     name="repeatPassword"
@@ -124,7 +108,7 @@ export const Register = () =>{
                         })
                     ]}
                 >
-                    <Input.Password placeholder='Min 6 caracteres' data-testid="repeat-password-input"/>
+                    <Input.Password placeholder='Min 6 caracteres'/>
                 </Form.Item>
 
 

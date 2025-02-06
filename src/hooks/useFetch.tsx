@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 type ErrorType = {
     code: number;
@@ -64,6 +64,8 @@ const useFetch = (endpoint:string, typeMethond = "GET",values = {}, token:string
         try{
             const res = await fetch(`${url}${endpoint}`,{...objectConfiguration});
 
+            //Sleep
+            //await new Promise(resolve=>{setTimeout(resolve,1000)});
             if(!res.ok){
                 setStates({
                     data:null,
