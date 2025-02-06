@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 
 type ErrorType = {
     code: number;
@@ -6,9 +6,7 @@ type ErrorType = {
 } | null;
 
 const useFetch = (endpoint:string, typeMethond = "GET",values = {}, token:string = "") => {
-    const BASE_URL = "http://192.168.3.245:8080/";
-
-    const [url,setUrl] = useState(BASE_URL);
+    const BASE_URL = import.meta.env.VITE_API_URL;
 
     const [states, setStates] = useState<{
         data: any;
@@ -22,13 +20,9 @@ const useFetch = (endpoint:string, typeMethond = "GET",values = {}, token:string
         hasError: false,
     })
 
-    useEffect(()=>{
+    /*useEffect(()=>{
         getData();
-    },[endpoint])
-
-    const changeUrl = (newEndpoint:string) => {
-        setUrl(newEndpoint);
-    }
+    },[endpoint])*/
 
     const setLoadingState = ()=>{
         setStates({
@@ -98,14 +92,13 @@ const useFetch = (endpoint:string, typeMethond = "GET",values = {}, token:string
                 hasError: true,
             })
         }
-
-
     }
 
     return {
         data:states.data,
         isLoading: states.isLoading,
         hasError: states.hasError,
+        getData
     }
 }
 export default useFetch;

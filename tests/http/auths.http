@@ -1,0 +1,25 @@
+# @no-cookie-jar
+### GET request to example server
+POST {{TURING_API_URL}}/auths/signin
+Content-Type: application/json
+
+{
+  "email": "alexis.alvarez@sintergica.ai",
+  "password": "test123"
+}
+
+> {% client.global.set("auth_token", response.body.token); %}
+###
+
+# @no-cookie-jar
+GET {{TURING_API_URL}}/auths/signout
+
+# @no-cookie-jar
+###
+GET {{TURING_API_URL}}/auths/admin/details
+
+# @no-cookie-jar
+###
+GET {{TURING_API_URL}}/auths/
+Accept: application/json
+Authorization: Bearer {{auth_token}}
