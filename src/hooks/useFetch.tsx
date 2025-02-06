@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 
 type ErrorType = {
     code: number;
@@ -7,8 +7,6 @@ type ErrorType = {
 
 const useFetch = (endpoint:string, typeMethond = "GET",values = {}, token:string = "") => {
     const BASE_URL = import.meta.env.VITE_API_URL;
-
-    const [url,setUrl] = useState(BASE_URL);
 
     const [states, setStates] = useState<{
         data: any;
@@ -62,7 +60,7 @@ const useFetch = (endpoint:string, typeMethond = "GET",values = {}, token:string
 
 
         try{
-            const res = await fetch(`${url}${endpoint}`,{...objectConfiguration});
+            const res = await fetch(`${BASE_URL}${endpoint}`,{...objectConfiguration});
 
             //Sleep
             //await new Promise(resolve=>{setTimeout(resolve,1000)});
