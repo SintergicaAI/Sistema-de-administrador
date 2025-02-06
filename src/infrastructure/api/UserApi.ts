@@ -11,6 +11,7 @@ export class UserApi implements UserRepository {
         return new User(data.id, data.email, data.role, data.first_name, data.last_name, data.password);
     }
 
+
     async getAllUsers(): Promise<User[]> {
         const response = await fetch(`${this.baseUrl}/users`);
         const data = await response.json();

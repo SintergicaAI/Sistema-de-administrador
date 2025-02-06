@@ -4,8 +4,8 @@ import {CodeFilled, UserOutlined, WechatWorkOutlined} from "@ant-design/icons";
 import {Outlet} from "react-router-dom";
 import {To, useNavigate} from "react-router";
 import {Header} from "antd/es/layout/layout";
-import {AuthApi} from "./infrastructure/api/AuthApi.ts";
-import {LogOut} from "./application/use-cases/LogOut.ts";
+import {AuthApi} from "../../infrastructure/api/AuthApi.ts";
+import {LogOut} from "../../application/use-cases/LogOut.ts";
 
 const {Content, Footer, Sider} = Layout;
 

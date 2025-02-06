@@ -1,5 +1,6 @@
 import {User} from "./User.ts";
 
+//What's model?
 export class Model {
     constructor(
         public readonly id: string,

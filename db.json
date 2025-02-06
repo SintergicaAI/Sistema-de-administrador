@@ -125,20 +125,4 @@
       },
       "image": "/vite.svg"
     }
-  ],
-  "authResponse": {
-    "success": true,
-    "message": "Welcome",
-    "token": "Bearer eyJhbGciOiJIUzI1NiJ9.ey..."
-  },
-  "errors": {
-    "invalidCredentials": {
-      "success": false,
-      "message": "Invalid credentials"
-    },
-    "internalServerError": {
-      "success": false,
-      "message": "An internal server error occurred. Please try again later."
-    }
-  }
 }
