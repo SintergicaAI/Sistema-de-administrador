@@ -9,6 +9,7 @@ import {EditOutlined} from "@ant-design/icons";
 
 const UserProfile: React.FC<{ userId: string }> = ({userId}) => {
     const [user, setUser] = useState<User | null>(null);
+    //Aqui tengo dudas en que momento se ejecuta la funcion interna "getUserById" en UserAPI class
     const userApi = new UserApi();
     const getUserProfile = new GetUserProfile(userApi);
 
