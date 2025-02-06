@@ -95,7 +95,6 @@ export const Register = () =>{
                                     onChange={e => setPassword(e.target.value)}
                                     data-testid="password-input"/>
                 </Form.Item>
-
                 <Form.Item<FieldType>
                     label="Repetir contrasena"
                     name="repeatPassword"
