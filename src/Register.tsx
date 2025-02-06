@@ -3,14 +3,19 @@ import type { FormProps } from 'antd';
 import { Form, Input,Typography,message } from 'antd';
 import { useState} from "react";
 import {SubmitButton} from "./generalComponents/Form";
-
+import {AuthApi} from "./infrastructure/api/AuthApi.ts";
+import {SignIn} from "./application/use-cases/SignIn.ts";
+import {useNavigate} from "react-router"
 type FieldType = {
-    email?: string;
-    firstName?: string;
-    lastName?: string;
-    password?: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    password: string;
     repeatPassword?: string;
 };
+
+const authApi = new AuthApi();
+const signIn = new SignIn(authApi);
 
 export const Register = () =>{
     const [email, setEmail] = useState('');
@@ -18,18 +23,31 @@ export const Register = () =>{
     const [firstName, setFirstName] = useState('');
     const [secondName, setSecondName] = useState('');
     const [messageApi,contextHolder] = message.useMessage()
+    const navigation = useNavigate();
 
     const [form] = Form.useForm();
 
     const {Title} = Typography;
 
     const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
-        console.log('Success:', values);
-        messageApi.open({
-            type:'loading',
-            content:'Registrando datos...',
-            duration:3,
+
+        signIn.execute(values.firstName,values.lastName,values.email,values.password).then(() =>{
+            messageApi.open({
+                type:'loading',
+                content:'Registrando datos...',
+                duration:3,
+            }).then(()=>{
+                navigation('/');
+            })
+
+        }).catch(() => {
+            messageApi.open({
+                type:'error',
+                content:'Tus datos no se enviaron correctamente',
+                duration:3,
+            })
         })
+
     };
 
     const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
@@ -46,13 +64,13 @@ export const Register = () =>{
                 name="basic"
                 labelCol={{ span: 8 }}
                 wrapperCol={{ span: 30}}
-                style={{ maxWidth: 800 }}
+                style={{ maxWidth: 350 }}
                 layout="horizontal"
                 className='form__container'
                 initialValues={{ remember: true }}
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
-                autoComplete="off"
+                autoComplete="on"
                 labelWrap
                 colon={false}
                 labelAlign={'left'}
@@ -63,17 +81,17 @@ export const Register = () =>{
                 <Form.Item<FieldType>
                     label="Nombre(s)"
                     name="firstName"
-                    rules={[{ required: true, message: 'Ingresa el campo correcto!' }]}
+                    rules={[{ required: true, message: 'Ingresa el campo correcto!'}, {pattern: /^[A-Za-zÁÉÍÓÚáéíóúñÑ' -]{1,40}$/, message: "No se permiten caracteres especiales y numeros"}]}
                 >
-                    <Input value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+                    <Input value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder="Nombre(s)"/>
                 </Form.Item>
 
                 <Form.Item<FieldType>
                     label="Apellidos"
                     name="lastName"
-                    rules={[{ required: true, message: 'Ingresa el campo correcto' }]}
+                    rules={[{ required: true, message: 'Ingresa el campo correcto' }, {pattern: /^[A-Za-zÁÉÍÓÚáéíóúñÑ' -]{1,40}$/, message: "No se permiten caracteres especiales y numeros"}] }
                 >
-                    <Input value={secondName} onChange={(e) => setSecondName(e.target.value)} />
+                    <Input value={secondName} onChange={(e) => setSecondName(e.target.value)} placeholder="Apellidos"/>
                 </Form.Item>
 
                 <Form.Item<FieldType>
@@ -89,9 +107,11 @@ export const Register = () =>{
                     name="password"
                     rules={[{ required: true, message: 'Contrasena menor a 6 caracteres', min:6 , }]}
                 >
-                    <Input.Password placeholder='Min 6 caracteres' value={password} onChange={e => setPassword(e.target.value)} />
+                    <Input.Password placeholder='Min 6 caracteres'
+                                    value={password}
+                                    onChange={e => setPassword(e.target.value)}
+                                    data-testid="password-input"/>
                 </Form.Item>
-
                 <Form.Item<FieldType>
                     label="Repetir contrasena"
                     name="repeatPassword"
@@ -108,7 +128,7 @@ export const Register = () =>{
                         })
                     ]}
                 >
-                    <Input.Password placeholder='Min 6 caracteres'/>
+                    <Input.Password placeholder='Min 6 caracteres' data-testid="repeat-password-input"/>
                 </Form.Item>
 
 

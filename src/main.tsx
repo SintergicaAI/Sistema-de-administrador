@@ -1,9 +1,9 @@
 import {StrictMode} from 'react'
 import {createRoot} from 'react-dom/client'
 import {BrowserRouter, Route, Routes} from "react-router";
-import {Home} from "./Home.tsx";
+import {Home} from "./presentation/pages/Home.tsx";
 import {AuthLayout} from "./AuthLayout.tsx";
-import Login from "./Login.tsx";
+import Login from "./presentation/pages/Login.tsx";
 import {ConfigProvider} from "antd";
 import "./styles/main.css";
 import UserProfile from "./presentation/pages/UserProfile.tsx";
