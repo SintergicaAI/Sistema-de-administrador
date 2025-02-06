@@ -24,11 +24,12 @@ export const Register = () =>{
     const {Title} = Typography;
 
     const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
-        console.log('Success:', values);
+         delete values.repeatPassword;
+        console.log('Datos enviados:', values);
         messageApi.open({
             type:'loading',
             content:'Registrando datos...',
-            duration:3,
+            duration:0,
         })
     };
 
@@ -46,13 +47,13 @@ export const Register = () =>{
                 name="basic"
                 labelCol={{ span: 8 }}
                 wrapperCol={{ span: 30}}
-                style={{ maxWidth: 800 }}
+                style={{ maxWidth: 350 }}
                 layout="horizontal"
                 className='form__container'
                 initialValues={{ remember: true }}
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
-                autoComplete="off"
+                autoComplete="on"
                 labelWrap
                 colon={false}
                 labelAlign={'left'}
@@ -63,17 +64,17 @@ export const Register = () =>{
                 <Form.Item<FieldType>
                     label="Nombre(s)"
                     name="firstName"
-                    rules={[{ required: true, message: 'Ingresa el campo correcto!' }]}
+                    rules={[{ required: true, message: 'Ingresa el campo correcto!'}, {pattern: /^[A-Za-zÁÉÍÓÚáéíóúñÑ' -]{1,40}$/, message: "No se permiten caracteres especiales y numeros"}]}
                 >
-                    <Input value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+                    <Input value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder="Nombre(s)"/>
                 </Form.Item>
 
                 <Form.Item<FieldType>
                     label="Apellidos"
                     name="lastName"
-                    rules={[{ required: true, message: 'Ingresa el campo correcto' }]}
+                    rules={[{ required: true, message: 'Ingresa el campo correcto' }, {pattern: /^[A-Za-zÁÉÍÓÚáéíóúñÑ' -]{1,40}$/, message: "No se permiten caracteres especiales y numeros"}] }
                 >
-                    <Input value={secondName} onChange={(e) => setSecondName(e.target.value)} />
+                    <Input value={secondName} onChange={(e) => setSecondName(e.target.value)} placeholder="Apellidos"/>
                 </Form.Item>
 
                 <Form.Item<FieldType>
@@ -89,7 +90,10 @@ export const Register = () =>{
                     name="password"
                     rules={[{ required: true, message: 'Contrasena menor a 6 caracteres', min:6 , }]}
                 >
-                    <Input.Password placeholder='Min 6 caracteres' value={password} onChange={e => setPassword(e.target.value)} />
+                    <Input.Password placeholder='Min 6 caracteres'
+                                    value={password}
+                                    onChange={e => setPassword(e.target.value)}
+                                    data-testid="password-input"/>
                 </Form.Item>
 
                 <Form.Item<FieldType>
@@ -108,7 +112,7 @@ export const Register = () =>{
                         })
                     ]}
                 >
-                    <Input.Password placeholder='Min 6 caracteres'/>
+                    <Input.Password placeholder='Min 6 caracteres' data-testid="repeat-password-input"/>
                 </Form.Item>
 
 
