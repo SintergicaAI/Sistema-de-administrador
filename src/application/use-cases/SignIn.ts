@@ -6,8 +6,8 @@ import {User} from "../../domain/entities/User.ts";
 export class SignIn {
     constructor(private authRepository: AuthRepository) {
     }
-     async execute(firstname:string, lastname:string, email:string , password:string, rol:UserRole):Promise<User>{
-        const user =  await this.authRepository.register(firstname,lastname,email,password,rol,);
+     async execute(firstname:string, lastname:string, email:string , password:string):Promise<User>{
+        const user =  await this.authRepository.register(firstname,lastname,email,password);
          if(user) {
              this.authRepository.saveToken(user);
          }

@@ -26,7 +26,7 @@ export class AuthApi implements AuthRepository {
     }
 
     async logIn(email: string, password: string): Promise<User> {
-        const response = await fetch(`${this.baseUrl}/login`, {
+        const response = await fetch(`${this.baseUrl}/clientes/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -41,6 +41,7 @@ export class AuthApi implements AuthRepository {
         const data: LoginApiResponse = await response.json();
         return new User(data.id, data.email, data.role, undefined, undefined, undefined, data.token);
     }
+
 
     async logOut(): Promise<boolean> {
         const response = await fetch(`${this.baseUrl}/logout`)
@@ -67,5 +68,22 @@ export class AuthApi implements AuthRepository {
             },
             token: user.token,
         }));
+    }
+
+    async register(firstname: string, lastname: string, email: string, password: string): Promise<User> {
+        const response = await fetch(`${this.baseUrl}/clientes/register`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({firstname, lastName:lastname,email,password,rol:null,company:null}),
+        });
+
+        if (!response.ok) {
+            throw new Error('Credenciales inválidas');
+        }
+
+        const data: LoginApiResponse = await response.json();
+        return new User(data.id, data.email, data.role, undefined, undefined, undefined, data.token);
     }
 }

@@ -3,14 +3,19 @@ import type { FormProps } from 'antd';
 import { Form, Input,Typography,message } from 'antd';
 import { useState} from "react";
 import {SubmitButton} from "./generalComponents/Form";
-
+import {AuthApi} from "./infrastructure/api/AuthApi.ts";
+import {SignIn} from "./application/use-cases/SignIn.ts";
+import {useNavigate} from "react-router"
 type FieldType = {
-    email?: string;
-    firstName?: string;
-    lastName?: string;
-    password?: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    password: string;
     repeatPassword?: string;
 };
+
+const authApi = new AuthApi();
+const signIn = new SignIn(authApi);
 
 export const Register = () =>{
     const [email, setEmail] = useState('');
@@ -18,19 +23,31 @@ export const Register = () =>{
     const [firstName, setFirstName] = useState('');
     const [secondName, setSecondName] = useState('');
     const [messageApi,contextHolder] = message.useMessage()
+    const navigation = useNavigate();
 
     const [form] = Form.useForm();
 
     const {Title} = Typography;
 
     const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
-         delete values.repeatPassword;
-        console.log('Datos enviados:', values);
-        messageApi.open({
-            type:'loading',
-            content:'Registrando datos...',
-            duration:0,
+
+        signIn.execute(values.firstName,values.lastName,values.email,values.password).then(() =>{
+            messageApi.open({
+                type:'loading',
+                content:'Registrando datos...',
+                duration:3,
+            }).then(()=>{
+                navigation('/');
+            })
+
+        }).catch(() => {
+            messageApi.open({
+                type:'error',
+                content:'Tus datos no se enviaron correctamente',
+                duration:3,
+            })
         })
+
     };
 
     const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {

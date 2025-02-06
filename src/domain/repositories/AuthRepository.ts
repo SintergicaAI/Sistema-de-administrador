@@ -1,5 +1,4 @@
 import {User} from "../entities/User.ts";
-import {UserRole} from "../enums/UserRole.ts";
 
 export interface AuthRepository {
     isAuthenticated(): Promise<boolean>;
@@ -7,5 +6,5 @@ export interface AuthRepository {
     logOut(): Promise<boolean>;
     saveToken(user: User): void;
     getToken(): string | null;
-    register(firstname:string, lastname:string, email:string , password:string, rol:UserRole ): Promise<User>;
+    register(firstname:string, lastname:string, email:string , password:string ): Promise<User>;
 }
