@@ -24,10 +24,9 @@ try {
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
         <BrowserRouter>
-            <ConfigProvider theme={
+            <ConfigProvider wave={{disabled:true}} theme={
                 {
                     token: {
-                        colorPrimary: 'rgb(0, 69, 153)', // Púrpura
                         borderRadius: 8,
                         colorSplit:'#CBD5E1',
                         fontSizeHeading1:20,
@@ -42,6 +41,13 @@ createRoot(document.getElementById('root')!).render(
                             colorText: '#64748B',
                             algorithm: true
                         },
+                        Button:{
+                            colorPrimary:'#006EFA',
+                            colorPrimaryHover:'#3092F7',
+                            colorPrimaryActive:'#005ACD',
+
+                        },
+
                         List: {
                             colorFillAlter: '#123',
                             algorithm: true,
