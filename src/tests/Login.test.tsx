@@ -29,7 +29,7 @@ describe('Login Rendering Test', () => {
     })
 
     it('should render the submit button', () => {
-        const button = screen.getByRole("button", {name: /Enviar/i})
+        const button = screen.getByRole('button', {name: /Enviar/i})
         expect(button).toBeInTheDocument()
     })
 })
