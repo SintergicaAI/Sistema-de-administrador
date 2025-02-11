@@ -13,6 +13,7 @@ import {ModelDetail} from "./presentation/pages/ModelDetail.tsx";
 import {PrivateRoute} from "./presentation/routes/PrivateRoute.tsx";
 import {validateEnv} from "../configValidator.ts";
 import {Register} from "./Register.tsx";
+import {Administration} from './presentation/pages/Administration.tsx'
 
 try {
     validateEnv()
@@ -28,18 +29,36 @@ createRoot(document.getElementById('root')!).render(
                     token: {
                         colorPrimary: 'rgb(0, 69, 153)', // Púrpura
                         borderRadius: 8,
+                        colorSplit:'#CBD5E1',
+                        fontSizeHeading1:20,
+                        borderColor:'#CBD5E1',
                     },
                     // algorithm: theme.darkAlgorithm,
                     components: {
                         Layout: {
-                            headerBg: '#ffffff',
-                            siderBg: '#ffffff',
-
+                            bodyBg:'#F1F5F9',
+                            headerBg:"#F1F5F9",
+                            headerHeight:50,
+                            siderBg: '#E2E8F0',
+                            colorText: '#64748B',
                             algorithm: true
                         },
                         List: {
                             colorFillAlter: '#123',
                             algorithm: true,
+                        },
+                        Menu: {
+                            colorText: '#64748B',
+                            itemBg:'',
+                            iconSize:24,
+                            itemSelectedBg:'#B4E0F7',
+                            itemSelectedColor:'#006EFA',
+                            itemHoverColor:'#006EFA',
+                            itemHoverBg:'',
+                            collapsedIconSize:30,
+                        },
+                        "Divider": {
+                            "margin": 0
                         }
                     },
                 }}>
@@ -66,6 +85,14 @@ createRoot(document.getElementById('root')!).render(
                             <Route path=":id" element={<ModelDetail/>}/>
                         </Route>
                         <Route path={"knowledge"} element={<KnowledgeOverview/>}/>
+                    </Route>
+                    <Route path='administration'
+                           element={
+                        <PrivateRoute>
+                            <Home/>
+                        </PrivateRoute>
+                            }>
+                            <Route index element={<Administration texto="mi equipo"/>}/>
                     </Route>
                 </Routes>
             </ConfigProvider>
