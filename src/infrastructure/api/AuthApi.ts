@@ -43,8 +43,9 @@ export class AuthApi implements AuthRepository {
     }
 
 
+    //Que le debe responder el servidor aqui?
     async logOut(): Promise<boolean> {
-        const response = await fetch(`${this.baseUrl}/logout`)
+        const response = await fetch(`${this.baseUrl}/clients/logout`)
         if (!response.ok) {
             throw new Error('Error en la petición')
         }

@@ -31,7 +31,6 @@ createRoot(document.getElementById('root')!).render(
                         borderRadius: 8,
                         colorSplit:'#CBD5E1',
                         fontSizeHeading1:20,
-                        borderColor:'#CBD5E1',
                     },
                     // algorithm: theme.darkAlgorithm,
                     components: {
@@ -56,6 +55,8 @@ createRoot(document.getElementById('root')!).render(
                             itemHoverColor:'#006EFA',
                             itemHoverBg:'',
                             collapsedIconSize:30,
+                            itemMarginInline:9,
+                            iconMarginInlineEnd:0,
                         },
                         "Divider": {
                             "margin": 0
@@ -92,7 +93,7 @@ createRoot(document.getElementById('root')!).render(
                             <Home/>
                         </PrivateRoute>
                             }>
-                            <Route index element={<Administration texto="mi equipo"/>}/>
+                            <Route index element={<Administration texto="Mi equipo"/>}/>
                     </Route>
                 </Routes>
             </ConfigProvider>

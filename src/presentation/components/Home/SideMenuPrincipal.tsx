@@ -18,10 +18,11 @@ const space_between_elements = 10;
 const {Sider} = Layout;
 export const SideMenuPrincipal = () =>{
 
+    const navigate = useNavigate();
+
     const handleLogOut = () => {
         const api = new AuthApi()
         const logout = new LogOut(api)
-        const navigate = useNavigate();
 
         logout.execute().then(() => {
             message.open({
@@ -51,7 +52,7 @@ export const SideMenuPrincipal = () =>{
                 <MenuPrincipal />
                 <Flex justify="center" align='center' vertical={true}  gap={space_between_elements}>
 
-                    <button onClick={() => (handleLogOut())} className='button-logout'>
+                    <button onClick={handleLogOut} className='button-logout'>
                         <IconLogOut className='icon-hover-logout'/>
                     </button>
                     <a href="https://sintergica.ai/">

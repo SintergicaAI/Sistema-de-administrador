@@ -2,12 +2,14 @@
     background-color: transparent;
     border: none;
     cursor: pointer;
-
 }
 
 .icon-hover-logout{
     color: #64748B;
-}
-.icon-hover-logout:hover {
-    color:#006EFA
+    &:hover{
+        color:#006EFA;
+    }
+    &:focus{
+        background-color: #006EFA;
+    }
 }

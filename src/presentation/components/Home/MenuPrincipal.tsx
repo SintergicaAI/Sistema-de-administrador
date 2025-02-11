@@ -19,6 +19,15 @@ function getItem(
     } as MenuItem;
 }
 
+const menuStyle:React.CSSProperties = {
+    borderInlineEnd: 'none',
+    flexGrow:1,
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '20px',
+    paddingInline: '0'
+}
+
 const items: MenuItem[] = [
     getItem('User', '/profile', <IconUser/>),
     getItem('Workspace', '/workspace', <SquareTerminal />,
@@ -40,6 +49,6 @@ export const MenuPrincipal = ()=>{
     }
 
     return (
-        <Menu onClick={handleMenuClick} defaultSelectedKeys={['1']} mode="inline" items={items} style={{borderInlineEnd: 'none'}}/>
+        <Menu onClick={handleMenuClick} defaultSelectedKeys={['1']} mode="inline" items={items} style={menuStyle}/>
     )
 }

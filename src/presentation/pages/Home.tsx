@@ -1,4 +1,4 @@
-import {Layout, theme} from "antd";
+import {Layout} from "antd";
 import {Outlet} from "react-router-dom";
 import {SideMenuPrincipal} from "../components/Home/SideMenuPrincipal.tsx";
 
