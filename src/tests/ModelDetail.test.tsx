@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import { beforeEach, describe, it, expect, vi, beforeAll } from 'vitest'
+import { beforeEach, describe, it, expect, vi } from 'vitest'
 import { MemoryRouter } from 'react-router-dom'
 import { ModelDetail } from '../presentation/pages/ModelDetail.tsx'
 // import { GetModelDetails } from '../application/use-cases/GetModelDetails.ts'
@@ -43,9 +43,9 @@ it('should fetch and display model details', async () => {
 })
 
 describe('Test to Verify The Case When "id" Is "null"', () => {
-    beforeAll(() => {
+    beforeEach(() => {
         // Simulamos que el id es null
-        vi.mock('react-router', async (importOriginal) => {
+        vi.doMock('react-router', async (importOriginal) => {
             const actual = await importOriginal<typeof import('react-router')>()
             return {
                 ...actual,
