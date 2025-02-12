@@ -5,7 +5,6 @@ import {Home} from "./presentation/pages/Home.tsx";
 import {AuthLayout} from "./AuthLayout.tsx";
 import Login from "./presentation/pages/Login.tsx";
 import {ConfigProvider} from "antd";
-import "./styles/main.css";
 import UserProfile from "./presentation/pages/UserProfile.tsx";
 import ModelOverview from "./presentation/pages/ModelOverview.tsx";
 import {KnowledgeOverview} from "./presentation/pages/knowledgeOverview.tsx";
@@ -14,6 +13,7 @@ import {PrivateRoute} from "./presentation/routes/PrivateRoute.tsx";
 import {validateEnv} from "../configValidator.ts";
 import {Register} from "./Register.tsx";
 import {Administration} from './presentation/pages/Administration.tsx'
+import "./styles/main.css";
 
 try {
     validateEnv()
@@ -28,23 +28,23 @@ createRoot(document.getElementById('root')!).render(
                 {
                     token: {
                         borderRadius: 8,
-                        colorSplit:'#CBD5E1',
+                        colorSplit:'var(--c_slate_300)',
                         fontSizeHeading1:20,
                     },
                     // algorithm: theme.darkAlgorithm,
                     components: {
                         Layout: {
-                            bodyBg:'#F1F5F9',
-                            headerBg:"#F1F5F9",
+                            bodyBg:'var(--c_slate_100)',
+                            headerBg:"var(--c_slate_100)",
                             headerHeight:50,
-                            siderBg: '#E2E8F0',
-                            colorText: '#64748B',
+                            siderBg: 'var(--c_slate_200)',
+                            colorText:'var(--c_slate_500)',
                             algorithm: true
                         },
                         Button:{
-                            colorPrimary:'#006EFA',
-                            colorPrimaryHover:'#3092F7',
-                            colorPrimaryActive:'#005ACD',
+                            colorPrimary:'var(--c_brand-500)',
+                            colorPrimaryHover:'var(--c_brand-400)',
+                            colorPrimaryActive:'var(--c_brand-600)',
 
                         },
 
@@ -53,12 +53,12 @@ createRoot(document.getElementById('root')!).render(
                             algorithm: true,
                         },
                         Menu: {
-                            colorText: '#64748B',
+                            colorText: 'var(--c_slate_500)',
                             itemBg:'',
                             iconSize:24,
-                            itemSelectedBg:'#B4E0F7',
-                            itemSelectedColor:'#006EFA',
-                            itemHoverColor:'#006EFA',
+                            itemSelectedBg:'var(--c_brand_100)',
+                            itemSelectedColor:'var(--c_brand_500)',
+                            itemHoverColor:'var(--c_brand_500)',
                             itemHoverBg:'',
                             collapsedIconSize:30,
                             itemMarginInline:9,
@@ -66,7 +66,20 @@ createRoot(document.getElementById('root')!).render(
                         },
                         "Divider": {
                             "margin": 0
+                        },
+                        Table: {
+                            headerBg:'rgb(from var(--c_slate_100) r g b / 0.1)',
+                            colorBgContainer:'rgb(from var(--c_slate_100) r g b / 0.1)',
+                            headerColor:'var(--c_slate_500)',
+                            fontWeightStrong:300,
+                            rowHoverBg:'var(--c_slate_200)',
+                        },
+                        Avatar:{
+                            colorTextLightSolid:'var(--c_brand-500)',
+                            colorTextPlaceholder:'var(--c_brand_100)',
+                            containerSize:40,
                         }
+
                     },
                 }}>
 

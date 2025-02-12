@@ -1,9 +1,10 @@
 import React from "react";
-import type {MenuItem} from "../type/MenuPrincipal.ts"
-import {Menu} from "antd";
+import {Menu, MenuProps} from "antd";
 import {To, useNavigate} from "react-router";
 import {UserRound as IconUser, UserPen, SquareTerminal, MessageCircle,} from 'lucide-react';
 
+
+type MenuItem = Required<MenuProps>['items'][number];
 
 function getItem(
     label: React.ReactNode,

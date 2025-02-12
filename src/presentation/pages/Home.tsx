@@ -5,13 +5,6 @@ import {SideMenuPrincipal} from "../components/Home/SideMenuPrincipal.tsx";
 export const Home = () => {
 
 
-    /*
-    Uso de variables establecidad en ConfigProvider
-    const {
-        token: {colorBgContainer, borderRadiusLG},
-    } = theme.useToken();
-*/
-
     return (
         <Layout style={{minHeight: '100vh'}}>
             <SideMenuPrincipal />

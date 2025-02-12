@@ -1,21 +1,54 @@
 /*General styles*/
 
 :root{
-    --c_primary: hsl(209, 100%, 78%);
-    --c_secundary:#15171A;
+    /*--c_primary: hsl(209, 100%, 78%);
+    --c_secundary:#15171A;*/
+
+
+    /*Colors*/
+    --c_white: #fff;
+    --c_black: #000;
+
+    --c_slate_100:#F1F5F9;
+    --c_slate_300:#CBD5E1;
+    --c_slate_200:#E2E8F0;
+    --c_slate_500:#64748B;
+
+    --c_brand_100:#B4E0F7;
+    --c_brand_400:#3092F7;
+    --c_brand-500:#006EFA;
+    --c_slate_600:#005ACD;
+
+    /*Radius*/
+    --sm-radius:8px;
+    --base-radius:12px;
+    --lg-radius:8px;
+
+    /*Font sizes*/
+    --title-size:20px;
+    --subtitle-size:16px;
+    --base-size:16px;
+    --botones-size:16px;
+    --avatar-size:12px;
+
+    /*Spacing*/
+    --xs-space:0.25rem;
+    --sm-space:0.5rem;
+    --base-space:0.75rem;
+    --lg-space:1rem;
+    --xl-space:1.25rem;
+    --2xl-space:1.5rem;
+    --3xl-space:2rem;
+    --4xl-space:2.5rem;
+    --5xl-space:4rem;
+    --6xl-space:8rem;
+
 }
 *{
     box-sizing: border-box;
 }
 body{
-    background-color: var(--c_primary);
     margin: 0;
 }
 
-
-@media (prefers-color-scheme: dark) {
-    body {
-        background-color: var(--c_secundary);
-    }
-}
 
