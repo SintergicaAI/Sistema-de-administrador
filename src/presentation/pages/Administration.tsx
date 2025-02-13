@@ -1,11 +1,13 @@
-import {Button, Flex, Layout,Table} from "antd";
-import {HeaderPages} from "../components/Home/HeaderPages.tsx";
+import {Button, Flex, Layout,Col,Row} from "antd";
+import {HeaderPages} from "../components/common/HeaderPages.tsx";
 import { UserRoundPlus } from 'lucide-react';
-const {Content} = Layout
+const {Content,Sider} = Layout
 import type {TableProps} from 'antd';
 import type {AdministrationApiResponse} from '../../infrastructure/api/types/TableApiResponse'
 import {Avatar} from "../components/common/Avatar.tsx";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import {SidebarTableAdministration} from "../components/Administration/SidebarTableAdministration.tsx";
+import {TableAdministration} from "../components/Administration/TableAdministration.tsx";
 
 const styleIcon:React.CSSProperties = {
     width: '20px',
@@ -28,15 +30,15 @@ const data:DataType[] = [
     },
     {
         key:'2',
-        fullName:'Gonzalo',
-        rol:'administrador',
+        fullName:'Pedro',
+        rol:'usuario',
         email:'gonzalo@gmail.com',
         groups:5
     },
     {
         key:'3',
-        fullName:'Gonzalo',
-        rol:'administrador',
+        fullName:'Juan',
+        rol:'usario',
         email:'gonzalo@gmail.com',
         groups:5
     }
@@ -79,52 +81,40 @@ interface RecordType {
 
 
 
+//TODO: Buscar la manera en la que solo se me seleccione un elemento
+//TODO:Separar el componente tabla de
 export const Administration = ({texto}:{texto:string}) =>{
 
-    const [selectedRowKeys,setSelectedRowKeys]=useState<string[]>([])
 
-    const selectRow = (record:RecordType) => {
-        const newSelectedRowKeys = [...selectedRowKeys];
-        const recordIndex = newSelectedRowKeys.indexOf(record.key);
+    const [selectedRow,setSelectedRow]=useState({}) //Estado para controlar el elmento seleccionado
+    const [hasNotSelected,setHasNotSelected ]=useState<boolean>(true)
 
-        if (recordIndex >= 0) {
-            // Si ya está seleccionado, lo eliminamos de la lista.
-            newSelectedRowKeys.splice(recordIndex, 1);
-        } else {
-            // Si no está seleccionado, lo agregamos a la lista.
-            newSelectedRowKeys.push(record.key);
-        }
-        setSelectedRowKeys(newSelectedRowKeys);
-    }
 
-    /*const onSelectedRowKeysChange:(newSelectedRowKeys: string[]) => void = (newSelectedRowKeys:string[]) => {
-        setSelectedRowKeys(newSelectedRowKeys );
-    };*/
+    useEffect(() => {
+        setHasNotSelected(JSON.stringify(selectedRow) === '{}')
+        console.log(selectedRow);
+    }, [selectedRow]);
 
-    const rowSelection:TableProps<DataType>['rowSelection'] ={
-        selectedRowKeys,
-        onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
-           setSelectedRowKeys(selectedRowKeys as string[]);
-        }
-    }
     return (
-        <>
+        <Layout style={{border:'1px solid red', minHeight:'100vh'}}>
             <HeaderPages text={texto}/>
-            <Content>
-                <Flex justify='flex-start' style={{marginInline:24}} >
-                    <Button type="primary" icon={<UserRoundPlus style={styleIcon}/>}> Nuevo usuario</Button>
-                </Flex>
-                <Table<DataType>
-                    dataSource={data}
-                    columns={columns}
-                    style={tableStyle}
-                    rowSelection={rowSelection}
-                    onRow={(record:RecordType)=>({
-                        onClick: () => {
-                            selectRow(record);
-                        }
-                    })}/>
-            </Content>
-        </>
+            <Layout>
+                <Content style={{paddingTop:12}}>
+                    <Flex justify='flex-start' style={{marginInline:24}} >
+                        <Button type="primary" icon={<UserRoundPlus style={styleIcon}/>}> Nuevo usuario</Button>
+                    </Flex>
+
+                    <TableAdministration setSelectedRow={setSelectedRow}/>
+                </Content>
+
+                {/*TODO:Pasar esta logicia a otro componente*/}
+                {
+                            !hasNotSelected &&
+                            (<SidebarTableAdministration userSelected={selectedRow}
+                                                         hasNotSelected={setHasNotSelected}
+                            />)
+                }
+            </Layout>
+        </Layout>
     );
 }

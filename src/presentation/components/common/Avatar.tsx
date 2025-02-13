@@ -5,9 +5,9 @@ const getInitial = (fullname:string)=>{
 }
 
 //Ver una mejor forma de juntar Avatar y name
-export const Avatar = ({name}:{name:string})=>{
+export const Avatar = ({name,style={}}:{name:string,style:CSSProperties})=>{
     return (
-        <Flex align="center" gap='var(--sm-space)'>
+        <Flex align="center" gap='var(--sm-space)' style={style}>
             <ComponentAvatar shape='circle'>{getInitial(name)}</ComponentAvatar>
             {name}
         </Flex>

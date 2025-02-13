@@ -11,7 +11,7 @@ import {KnowledgeOverview} from "./presentation/pages/knowledgeOverview.tsx";
 import {ModelDetail} from "./presentation/pages/ModelDetail.tsx";
 import {PrivateRoute} from "./presentation/routes/PrivateRoute.tsx";
 import {validateEnv} from "../configValidator.ts";
-import {Register} from "./Register.tsx";
+import {Register} from "./presentation/pages/Register.tsx";
 import {Administration} from './presentation/pages/Administration.tsx'
 import "./styles/main.css";
 
@@ -21,6 +21,7 @@ try {
     console.error(e)
 }
 
+//TODO: Separar mis rutas de los estilos
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
         <BrowserRouter>
