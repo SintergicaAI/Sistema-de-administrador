@@ -1,49 +1,34 @@
-import {Table, TableProps} from "antd";
+import {Table, TableProps, TablePaginationConfig} from "antd";
+//import { SearchOutlined } from '@ant-design/icons';
+//import type { InputRef, TableColumnsType, TableColumnType } from 'antd';
 import {Avatar} from "../common/Avatar.tsx";
 import type {AdministrationApiResponse} from "../../../infrastructure/api/types/TableApiResponse.ts";
-import {useState} from "react";
+import {Dispatch, SetStateAction, useEffect, useState} from "react";
+import {GetAllUserCompanyData} from "../../../application/use-cases/GetAllUserCompanyData.ts";
+import {TableOperation} from "../../../infrastructure/api/TableOperation.ts";
+//import type { FilterDropdownProps } from 'antd/es/table/interface';
 
 interface DataType extends AdministrationApiResponse {
     key:string;
 }
 
-
-//TODO: Generar la logica para que la informacion se consiga de un endpoint
-const data:DataType[] = [
-    {
-        key:'1',
-        fullName:'Gonzalo',
-        rol:'administrador',
-        email:'gonzalo@gmail.com',
-        groups:5
-    },
-    {
-        key:'2',
-        fullName:'Pedro',
-        rol:'usuario',
-        email:'gonzalo@gmail.com',
-        groups:5
-    },
-    {
-        key:'3',
-        fullName:'Juan',
-        rol:'usuario',
-        email:'gonzalo@gmail.com',
-        groups:5
-    }
-]
+const RenderGroups = ({groups}:{groups:string[]})=>{
+    const sizeGroup = groups.length;
+    const texto = sizeGroup >1? 'grupos': 'grupo';
+    return (<p>{sizeGroup} {texto }</p>)
+}
 
 const columns: TableProps<DataType>['columns'] = [
     {
         title:'Usuario',
-        dataIndex: 'fullName',
-        key: 'fullName',
-        render: (name)=>(<Avatar name={name}/>)
+        dataIndex: 'first_name',
+        key: 'first_name',
+        render: (name)=>(<Avatar name={name} style={{}} />)
     },
     {
         title:'Rol',
-        key:'rol',
-        dataIndex: 'rol',
+        key:'role',
+        dataIndex: 'role',
     },
     {
         title:'Correo',
@@ -54,6 +39,7 @@ const columns: TableProps<DataType>['columns'] = [
         title:'Grupos',
         key:'groups',
         dataIndex: 'groups',
+        render: (array:string[]) =>(<RenderGroups groups={array}/>)
     }
 ]
 
@@ -68,12 +54,41 @@ interface RecordType {
     key:string;
 }
 
+interface TableParams {
+    pagination?: TablePaginationConfig;
+}
 
+const operationTable = new TableOperation();
+const getAllUser = new GetAllUserCompanyData(operationTable);
 
 export const TableAdministration = ({setSelectedRow}:
-                                    { setSelectedRow:()=>{}}) =>{
+                                    { setSelectedRow:Dispatch<SetStateAction<any>>}) =>{
 
     const [selectedRowKeys,setSelectedRowKeys]=useState<string[]>([])
+
+    const [data, setData] = useState<DataType[]>();
+    const [loading, setLoading] = useState(false);
+    const [tableParams, setTableParams] = useState<TableParams>({
+        pagination: {
+            current: 1,
+            pageSize: 3,
+        },
+    });
+
+    const prepareData = ()=>{
+        setLoading(true);
+        getAllUser.execute().then( data =>{
+            setData(data);
+            setLoading(false);
+        })
+    }
+
+    useEffect(() => {
+        prepareData();
+    }, [
+        tableParams.pagination?.current,
+        tableParams.pagination?.pageSize,
+    ]);
 
     const selectRow = (record:RecordType) => {
         const newSelectedRowKeys = [...selectedRowKeys];
@@ -92,7 +107,8 @@ export const TableAdministration = ({setSelectedRow}:
 
     const rowSelection:TableProps<DataType>['rowSelection'] ={
         selectedRowKeys,
-        onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
+        preserveSelectedRowKeys:true,
+        onChange: (selectedRowKeys: React.Key[]) => {
             setSelectedRowKeys(selectedRowKeys as string[]);
         }
     }
@@ -104,11 +120,11 @@ export const TableAdministration = ({setSelectedRow}:
                 columns={columns}
                 style={tableStyle}
                 rowSelection={{...rowSelection,hideSelectAll:true}}
-                onRow={(record:RecordType)=>({
+                /*onRow={(record:RecordType)=>({
                     onClick: () => {
                         selectRow(record);
                     }
-                })}/>
+                })}*//>
         </>
     )
 }

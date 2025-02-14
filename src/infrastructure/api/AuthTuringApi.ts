@@ -25,11 +25,11 @@ export class AuthApi implements AuthRepository {
         return token;
     }
 
-    async logIn(email: string, password: string): Promise<User> {
-        const response = await fetch(`${this.baseUrl}/auths/signin`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
+      async logIn(email: string, password: string): Promise<User> {
+                    const response = await fetch(`${this.baseUrl}/auths/signin`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
             },
             body: JSON.stringify({email, password}),
         });
