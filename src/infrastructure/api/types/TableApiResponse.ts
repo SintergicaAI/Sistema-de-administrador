@@ -1,10 +1,12 @@
 //Structure of Api responses for Administration and future page with tables
+import {UserRole} from "../../../domain/enums/UserRole.ts";
 
-//TODO:Camvbiar estructura del API
 interface AdministrationApiResponse{
-    fullName:string,
-    rol:string,
-    email:string,
-    groups:number
+    id: number;
+    email: string;
+    first_name: string;
+    last_name: string;
+    groups: number|{};
+    rol: UserRole.USER | UserRole.ADMIN | UserRole.OWNER;
 }
 export type {AdministrationApiResponse}

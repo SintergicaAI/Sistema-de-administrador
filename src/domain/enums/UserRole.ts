@@ -3,3 +3,4 @@ export enum UserRole {
   USER = 'Usuario',
   OWNER = 'Dueño',
 }
+export const Roles = [UserRole.ADMIN, UserRole.USER, UserRole.OWNER];

@@ -1,8 +1,8 @@
-import type {FormProps} from 'antd';
+import {FormProps} from 'antd';
 import {Flex, Form, Input, message, Typography} from 'antd';
 import {useState} from "react";
 import {MailOutlined,LockOutlined } from "@ant-design/icons"
-import {SubmitButton} from "../../generalComponents/Form";
+import {SubmitButton} from "../components/common/SubmitButton.tsx";
 import {useNavigate} from "react-router";
 import {LogIn} from "../../application/use-cases/LogIn.ts";
 import {AuthApi} from "../../infrastructure/api/AuthApi.ts";
@@ -93,7 +93,9 @@ function Login() {
 
                     <Form.Item label={null} labelCol={{span: 0}}>
                         {contextHolder}
-                        <SubmitButton form={form}>Enviar</SubmitButton>
+                        <Flex justify="center">
+                            <SubmitButton form={form} style={{width:120}}>Enviar</SubmitButton>
+                        </Flex>
                     </Form.Item>
 
                     <p style={{textAlign:'center'}}>No tienes una cuenta? <a className='icon-color' style={{ textDecoration:'underline'}} href={'/register'}>Registrate</a></p>

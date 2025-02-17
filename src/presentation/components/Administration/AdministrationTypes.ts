@@ -4,8 +4,8 @@ type userSelected = {
     email: string;
     first_name: string;
     last_name: string;
-    groups: number|{};
+    groups: string[];
     key: string;
-    rol: UserRole.USER | UserRole.ADMIN | UserRole.OWNER;
+    role: UserRole.USER | UserRole.ADMIN | UserRole.OWNER;
 }
 export type{userSelected}

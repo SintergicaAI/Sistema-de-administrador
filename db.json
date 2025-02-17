@@ -28,7 +28,7 @@
       "email": "alexis.alvarez@sintergica.ai",
       "first_name": "Alexis",
       "last_name": "Alvarez",
-      "role": "User",
+      "role": "Usuario",
       "groups": ["Marketing"]
     },{
       "id": "2",
@@ -54,6 +54,9 @@
     "role": "user"
   },
   "logout": {
+    "status": 200
+  },
+  "invitaton": {
     "status": 200
   },
   "models": [

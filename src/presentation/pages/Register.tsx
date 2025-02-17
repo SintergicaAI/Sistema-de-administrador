@@ -2,7 +2,7 @@
 import type { FormProps } from 'antd';
 import { Form, Input,Typography,message } from 'antd';
 import { useState} from "react";
-import {SubmitButton} from "../../generalComponents/Form";
+import {SubmitButton} from "../components/common/SubmitButton.tsx";
 import {AuthApi} from "../../infrastructure/api/AuthApi.ts";
 import {SignIn} from "../../application/use-cases/SignIn.ts";
 import {useNavigate} from "react-router"

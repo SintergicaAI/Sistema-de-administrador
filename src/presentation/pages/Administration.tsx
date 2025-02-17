@@ -1,29 +1,19 @@
-import {Button, Flex, Layout} from "antd";
+import {Flex, Layout} from "antd";
 import {HeaderPages} from "../components/common/HeaderPages.tsx";
-import { UserRoundPlus } from 'lucide-react';
 const {Content} = Layout
 import {useEffect, useState} from "react";
 import {SidebarTableAdministration} from "../components/Administration/SidebarTableAdministration.tsx";
 import {TableAdministration} from "../components/Administration/TableAdministration.tsx";
+import {ButtonModal} from "../components/Administration/ButtonModal.tsx";
+import {userSelected} from "../components/Administration/AdministrationTypes.ts";
 
-const styleIcon:React.CSSProperties = {
-    width: '20px',
-    height: '20px',
-
-}
-
-
-
-
-//TODO: Buscar la manera en la que solo se me seleccione un elemento
-//TODO:Separar el componente tabla de
 export const Administration = ({texto}:{texto:string}) =>{
 
 
     const [selectedRow,setSelectedRow]=useState({}) //Estado para controlar el elmento seleccionado
     const [hasNotSelected,setHasNotSelected ]=useState<boolean>(true)
 
-
+    /*TODO:Cambiar la forma en como aparece el SideBar*/
     useEffect(() => {
         setHasNotSelected(JSON.stringify(selectedRow) === '{}')
         console.log(selectedRow);
@@ -35,16 +25,16 @@ export const Administration = ({texto}:{texto:string}) =>{
             <Layout>
                 <Content style={{paddingTop:12}}>
                     <Flex justify='flex-start' style={{marginInline:24}} >
-                        <Button type="primary" icon={<UserRoundPlus style={styleIcon}/>}> Nuevo usuario</Button>
+                            <ButtonModal/>
                     </Flex>
 
                     <TableAdministration setSelectedRow={setSelectedRow}/>
                 </Content>
 
-                {/*TODO:Pasar esta logicia a otro componente*/}
+                {/*TODO:Cambiar logica de aparecer Sidebar*/}
                 {
                             !hasNotSelected &&
-                            (<SidebarTableAdministration userSelected={selectedRow}
+                            (<SidebarTableAdministration userSelected={selectedRow as userSelected}
                                                          hasNotSelected={setHasNotSelected}
                             />)
                 }

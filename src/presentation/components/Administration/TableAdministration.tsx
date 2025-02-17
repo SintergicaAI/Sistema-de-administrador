@@ -9,7 +9,7 @@ import {TableOperation} from "../../../infrastructure/api/TableOperation.ts";
 //import type { FilterDropdownProps } from 'antd/es/table/interface';
 
 interface DataType extends AdministrationApiResponse {
-    key:string;
+    key: string;
 }
 
 const RenderGroups = ({groups}:{groups:string[]})=>{
@@ -21,8 +21,8 @@ const RenderGroups = ({groups}:{groups:string[]})=>{
 const columns: TableProps<DataType>['columns'] = [
     {
         title:'Usuario',
-        dataIndex: 'first_name',
-        key: 'first_name',
+        dataIndex: 'name',
+        key: 'name',
         render: (name)=>(<Avatar name={name} style={{}} />)
     },
     {
@@ -90,6 +90,7 @@ export const TableAdministration = ({setSelectedRow}:
         tableParams.pagination?.pageSize,
     ]);
 
+
     const selectRow = (record:RecordType) => {
         const newSelectedRowKeys = [...selectedRowKeys];
         const recordIndex = newSelectedRowKeys.indexOf(record.key);
@@ -104,9 +105,9 @@ export const TableAdministration = ({setSelectedRow}:
         setSelectedRow(record);
         setSelectedRowKeys(newSelectedRowKeys);
     }
-
     const rowSelection:TableProps<DataType>['rowSelection'] ={
         selectedRowKeys,
+        type:"checkbox",
         preserveSelectedRowKeys:true,
         onChange: (selectedRowKeys: React.Key[]) => {
             setSelectedRowKeys(selectedRowKeys as string[]);
@@ -119,12 +120,12 @@ export const TableAdministration = ({setSelectedRow}:
                 dataSource={data}
                 columns={columns}
                 style={tableStyle}
-                rowSelection={{...rowSelection,hideSelectAll:true}}
-                /*onRow={(record:RecordType)=>({
+                rowSelection={{...rowSelection,hideSelectAll:true,}}
+                onRow={(record:RecordType)=>({
                     onClick: () => {
                         selectRow(record);
                     }
-                })}*//>
+                })}/>
         </>
     )
 }

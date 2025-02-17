@@ -44,8 +44,8 @@ createRoot(document.getElementById('root')!).render(
                         },
                         Button:{
                             colorPrimary:'var(--c_brand-500)',
-                            colorPrimaryHover:'var(--c_brand-400)',
-                            colorPrimaryActive:'var(--c_brand-600)',
+                            colorPrimaryHover:'var(--c_brand_400)',
+                            colorPrimaryActive:'var(--c_brand_600)',
 
                         },
 
