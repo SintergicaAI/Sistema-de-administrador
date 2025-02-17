@@ -10,8 +10,8 @@ export const SideBarConfiguration = ({childrenHeader, contentChildren, hasNotSel
                                          hasNotSelected:Dispatch<SetStateAction<any>>})=>{
 
     const closeSideBar = () => {
-        console.log('Me diste click');
         hasNotSelected(true);
+        document.querySelector(".ant-table-row-selected")?.classList.remove("ant-table-row-selected");
     }
 
     return (

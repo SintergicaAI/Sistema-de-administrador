@@ -16,9 +16,9 @@ export const ModalContent = ()=>{
     const onFinish: FormProps<emailInput>['onFinish'] = (values) => {
         console.log(values);
         sendInvitationEmail.execute(values).
-       then((response) => {
+       then(async (response) => {
             console.log('Response:', response);
-           messageApi.open({
+           await messageApi.open({
                type:'success',
                content: 'La invitacion de email salio exitosa',
            })

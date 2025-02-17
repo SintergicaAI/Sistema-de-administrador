@@ -29,7 +29,7 @@ const CheckboxContainer = ( {grupo,startChecked}:{grupo:string,startChecked:bool
                         lineWidth:2
                     }
                 }}>
-                    <Checkbox value={grupo} defaultChecked={startChecked}></Checkbox>
+                    <Checkbox defaultChecked={startChecked}></Checkbox>
                 </ConfigProvider>
             </Flex>
         </div>
@@ -40,23 +40,23 @@ const CheckboxContainer = ( {grupo,startChecked}:{grupo:string,startChecked:bool
 
 export const Content = ({groups,rol}:{groups:string[],rol:string}) =>{
 
-    const [rolUser, setRolUser] = useState(rol);
+    /*const [rolUser, setRolUser] = useState(rol);*/
+    //console.log(`Grupos:${groups.toString()} y roles:${rol}`);
 
     const isChecked = (group:string):boolean => {
 
         return groups.includes(group);
     }
 
-    useEffect(() => {
+   /* useEffect(() => {
         setRolUser(rol);
-    }, [rol]);
+        console.log(`Cambio de rol ${rolUser}`)
+    }, [rol,groups]);*/
 
-    //console.log('ROl del usuario'+ rol);
-    console.log(`Grupos del usuario ${groups}`);
     return (
         <div style={{color:'var(--c_slate_500:#64748B)'}}>
             <p className="label">Rol</p>
-            <Radio.Group onChange={onChange} defaultValue={rolUser.toLowerCase()}
+            <Radio.Group onChange={onChange} defaultValue={rol.toLowerCase()}
                          style={{display: "flex", flexDirection: "column", gap:3}}>
 
                 {/*PREGUNTA:Lo ideal no seria hacer una peticion al backend y traer los roles?*/}
@@ -66,6 +66,7 @@ export const Content = ({groups,rol}:{groups:string[],rol:string}) =>{
                     value={role.toLowerCase()}
                     style={radioButtonStyle}
                 >{role}</Radio.Button>))}
+
             </Radio.Group>
             <p className="label">Grupos</p>
             <Flex vertical gap={3}>

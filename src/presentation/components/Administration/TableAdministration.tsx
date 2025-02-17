@@ -70,7 +70,7 @@ export const TableAdministration = ({setSelectedRow}:
     ]);
 
 
-    const selectRow = (record:RecordType) => {
+    /*const selectRow = (record:RecordType) => {
         const newSelectedRowKeys = [...selectedRowKeys];
         const recordIndex = newSelectedRowKeys.indexOf(record.key);
 
@@ -83,14 +83,21 @@ export const TableAdministration = ({setSelectedRow}:
         }
         setSelectedRow(record);
         setSelectedRowKeys(newSelectedRowKeys);
+    }*/
+    const changeRow = (selectedRow:RecordType) => {
+        setSelectedRow(selectedRow);
     }
+
     const rowSelection:TableProps<DataType>['rowSelection'] ={
         selectedRowKeys,
-        type:"checkbox",
+        type:"radio",
         preserveSelectedRowKeys:true,
-        onChange: (selectedRowKeys: React.Key[]) => {
-            setSelectedRowKeys(selectedRowKeys as string[]);
-        }
+        onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
+                setSelectedRowKeys(selectedRowKeys as string[]);
+                const [selectedRow] =  selectedRows;
+                setSelectedRow(selectedRow);
+                //console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+        },
     }
 
 
@@ -125,17 +132,23 @@ export const TableAdministration = ({setSelectedRow}:
         }
     ]
 
+
     return (
         <>
             <Table<DataType>
                 dataSource={data}
                 columns={columns}
                 style={tableStyle}
-                rowSelection={{...rowSelection,hideSelectAll:true,}}
-                onRow={(record:RecordType)=>({
-                    onClick: () => {
-                        selectRow(record);
-                    }
+                rowSelection={{...rowSelection,hideSelectAll:true,selections:false}}
+                onRow={(record, index)=>({
+                    onClick: (event) => {
+
+                        document.querySelector(".ant-table-row-selected")?.classList.remove("ant-table-row-selected");
+                        let target:HTMLTableElement = event.target as HTMLTableElement;
+                        target.closest('tr')?.classList.toggle('ant-table-row-selected');
+                        changeRow(record);
+                        /*Agregar clase cuando se de click ant-table-row-selected*/
+                    },
                 })}
                 onChange={onChange}
             />
