@@ -1,12 +1,14 @@
 import {useEffect, useState} from "react";
-import {Button, Form, type FormInstance,Flex} from "antd";
+import {Button, Form, type FormInstance} from "antd";
 
 
 export interface SubmitButtonProps {
     form: FormInstance;
+    style?: React.CSSProperties;
 }
 
-export const SubmitButton:React.FC<React.PropsWithChildren<SubmitButtonProps>> = ({form,children}) => {
+export const SubmitButton:React.FC<React.PropsWithChildren<SubmitButtonProps>> =
+    ({form,children,style}) => {
     const [submittable, setSubmittable] = useState<boolean>(false);
 
     const values = Form.useWatch([],form);
@@ -20,10 +22,8 @@ export const SubmitButton:React.FC<React.PropsWithChildren<SubmitButtonProps>> =
     }, [form,values]);
 
     return (
-        <Flex justify="center">
-            <Button type="primary" disabled={!submittable} style={{width:'120px'}} htmlType='submit' >
+            <Button type="primary" disabled={!submittable} style={style} htmlType='submit' >
                 {children }
             </Button>
-        </Flex>
     )
 }

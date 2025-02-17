@@ -1,61 +1,11 @@
-import {Table, TableProps} from "antd";
+import {Table, TableProps, TablePaginationConfig,Flex} from "antd";
 import {Avatar} from "../common/Avatar.tsx";
-import type {AdministrationApiResponse} from "../../../infrastructure/api/types/TableApiResponse.ts";
-import {useState} from "react";
-
-interface DataType extends AdministrationApiResponse {
-    key:string;
-}
-
-
-//TODO: Generar la logica para que la informacion se consiga de un endpoint
-const data:DataType[] = [
-    {
-        key:'1',
-        fullName:'Gonzalo',
-        rol:'administrador',
-        email:'gonzalo@gmail.com',
-        groups:5
-    },
-    {
-        key:'2',
-        fullName:'Pedro',
-        rol:'usuario',
-        email:'gonzalo@gmail.com',
-        groups:5
-    },
-    {
-        key:'3',
-        fullName:'Juan',
-        rol:'usuario',
-        email:'gonzalo@gmail.com',
-        groups:5
-    }
-]
-
-const columns: TableProps<DataType>['columns'] = [
-    {
-        title:'Usuario',
-        dataIndex: 'fullName',
-        key: 'fullName',
-        render: (name)=>(<Avatar name={name}/>)
-    },
-    {
-        title:'Rol',
-        key:'rol',
-        dataIndex: 'rol',
-    },
-    {
-        title:'Correo',
-        key:'email',
-        dataIndex: 'email',
-    },
-    {
-        title:'Grupos',
-        key:'groups',
-        dataIndex: 'groups',
-    }
-]
+import {CSSProperties, Dispatch, SetStateAction, useEffect, useState} from "react";
+import {GetAllUserCompanyData} from "../../../application/use-cases/GetAllUserCompanyData.ts";
+import {TableOperation} from "../../../infrastructure/api/TableOperation.ts";
+import {GetColumnSearchProps} from "./GetColumnSearchProps.tsx";
+import {DataType} from "./types/TableAdministrationTypes.ts"
+import { SlidersHorizontal } from 'lucide-react';
 
 const tableStyle:React.CSSProperties = {
     width: '90%',
@@ -63,17 +13,62 @@ const tableStyle:React.CSSProperties = {
     maxWidth: '900px',
     marginInline: 'auto',
 }
+const iconTableConfiguration:CSSProperties = {
+    width: "20px",
+    height: '20px',
+}
+
+const RenderGroups = ({groups}:{groups:string[]})=>{
+    const sizeGroup = groups.length;
+    const texto = sizeGroup >1? 'grupos': 'grupo';
+    return (<Flex align="center" gap={12}>
+                <p>{sizeGroup} {texto }</p>
+                <SlidersHorizontal style={iconTableConfiguration}/>
+            </Flex>
+    )
+}
 
 interface RecordType {
     key:string;
 }
 
+interface TableParams {
+    pagination?: TablePaginationConfig;
+}
 
+const operationTable = new TableOperation();
+const getAllUser = new GetAllUserCompanyData(operationTable);
 
 export const TableAdministration = ({setSelectedRow}:
-                                    { setSelectedRow:()=>{}}) =>{
+                                    { setSelectedRow:Dispatch<SetStateAction<any>>}) =>{
 
     const [selectedRowKeys,setSelectedRowKeys]=useState<string[]>([])
+
+    const [data, setData] = useState<DataType[]>();
+    const [loading, setLoading] = useState(false);
+    const [tableParams, setTableParams] = useState<TableParams>({
+        pagination: {
+            current: 1,
+            pageSize: 10,
+        },
+    });
+
+    const prepareData = ()=>{
+        setLoading(true);
+        getAllUser.execute().then( data =>{
+            setData(data);
+            setLoading(false);
+
+        })
+    }
+
+    useEffect(() => {
+        prepareData();
+    }, [
+        tableParams.pagination?.current,
+        tableParams.pagination?.pageSize,
+    ]);
+
 
     const selectRow = (record:RecordType) => {
         const newSelectedRowKeys = [...selectedRowKeys];
@@ -89,13 +84,46 @@ export const TableAdministration = ({setSelectedRow}:
         setSelectedRow(record);
         setSelectedRowKeys(newSelectedRowKeys);
     }
-
     const rowSelection:TableProps<DataType>['rowSelection'] ={
         selectedRowKeys,
-        onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
+        type:"checkbox",
+        preserveSelectedRowKeys:true,
+        onChange: (selectedRowKeys: React.Key[]) => {
             setSelectedRowKeys(selectedRowKeys as string[]);
         }
     }
+
+
+
+    const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter, extra) => {
+        console.log('params', pagination, filters, sorter, extra);
+    };
+
+    const columns: TableProps<DataType>['columns'] = [
+        {
+            title:'Usuario',
+            dataIndex: 'name',
+            key: 'name',
+            ...GetColumnSearchProps("name"),
+            render: (name)=>(<Avatar name={name} style={{}} />),
+        },
+        {
+            title:'Rol',
+            key:'role',
+            dataIndex: 'role',
+        },
+        {
+            title:'Correo',
+            key:'email',
+            dataIndex: 'email',
+        },
+        {
+            title:'Grupos',
+            key:'groups',
+            dataIndex: 'groups',
+            render: (array:string[]) =>(<RenderGroups groups={array}/>)
+        }
+    ]
 
     return (
         <>
@@ -103,12 +131,14 @@ export const TableAdministration = ({setSelectedRow}:
                 dataSource={data}
                 columns={columns}
                 style={tableStyle}
-                rowSelection={{...rowSelection,hideSelectAll:true}}
+                rowSelection={{...rowSelection,hideSelectAll:true,}}
                 onRow={(record:RecordType)=>({
                     onClick: () => {
                         selectRow(record);
                     }
-                })}/>
+                })}
+                onChange={onChange}
+            />
         </>
     )
 }

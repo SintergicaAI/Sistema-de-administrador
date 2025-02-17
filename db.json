@@ -28,7 +28,23 @@
       "email": "alexis.alvarez@sintergica.ai",
       "first_name": "Alexis",
       "last_name": "Alvarez",
-      "role": "User"
+      "role": "Usuario",
+      "groups": ["Marketing"]
+    },{
+      "id": "2",
+      "email": "Gonzalo@sintergica.ai",
+      "first_name": "Gonzalo",
+      "last_name": "Perez",
+      "role": "Administrador",
+      "groups": ["Marketing","Finanzas","Ventas"]
+      },
+    {
+      "id": "3",
+      "email": "Juan@sintergica.ai",
+      "first_name": "Juan",
+      "last_name": "Perez",
+      "role": "Usuario",
+      "groups": ["Ventas"]
     }
   ],
   "login": {
@@ -38,6 +54,9 @@
     "role": "user"
   },
   "logout": {
+    "status": 200
+  },
+  "invitaton": {
     "status": 200
   },
   "models": [
@@ -125,4 +144,4 @@
       },
       "image": "/vite.svg"
     }
-}
+    ]}

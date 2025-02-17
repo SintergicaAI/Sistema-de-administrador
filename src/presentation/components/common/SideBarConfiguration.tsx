@@ -2,14 +2,13 @@ import {Layout} from 'antd'
 import './styles/sidebarConfiguration.css'
 const {Sider,Header,Content} = Layout
 import { X } from 'lucide-react';
-import {useRef, useState} from 'react';
+import {Dispatch, ReactNode, SetStateAction} from 'react';
 
 
 export const SideBarConfiguration = ({childrenHeader, contentChildren, hasNotSelected}:
-                                     {childrenHeader:Element,contentChildren:Element,
-                                         hasNotSelected:()=>{}})=>{
+                                     {childrenHeader:ReactNode,contentChildren:ReactNode,
+                                         hasNotSelected:Dispatch<SetStateAction<any>>})=>{
 
-    const siderRef = useRef(null);
     const closeSideBar = () => {
         console.log('Me diste click');
         hasNotSelected(true);
