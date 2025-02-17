@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { CheckAuthStatus } from '../../application/use-cases/CheckAuthStatus';
 import { AuthApi } from '../../infrastructure/api/AuthApi';
-import LoadingSpinner from '../components/LoadingSpinner';
+import LoadingSpinner from '../components/common/LoadingSpinner.tsx';
 
 interface PrivateRouteProps {
   children: JSX.Element;

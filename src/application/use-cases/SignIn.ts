@@ -1,5 +1,4 @@
 import {AuthRepository} from "../../domain/repositories/AuthRepository.ts";
-import {UserRole} from "../../domain/enums/UserRole.ts";
 import {User} from "../../domain/entities/User.ts";
 
 //Este caso de uso es necesario? Implementa en su funcion execute la misma logica

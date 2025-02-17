@@ -26,7 +26,7 @@ export class AuthApi implements AuthRepository {
     }
 
     async logIn(email: string, password: string): Promise<User> {
-        const response = await fetch(`${this.baseUrl}/clientes/login`, {
+        const response = await fetch(`${this.baseUrl}/clients/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -43,8 +43,9 @@ export class AuthApi implements AuthRepository {
     }
 
 
+    //Que le debe responder el servidor aqui?
     async logOut(): Promise<boolean> {
-        const response = await fetch(`${this.baseUrl}/logout`)
+        const response = await fetch(`${this.baseUrl}/clients/logout`)
         if (!response.ok) {
             throw new Error('Error en la petición')
         }
@@ -71,7 +72,7 @@ export class AuthApi implements AuthRepository {
     }
 
     async register(firstname: string, lastname: string, email: string, password: string): Promise<User> {
-        const response = await fetch(`${this.baseUrl}/clientes/register`, {
+        const response = await fetch(`${this.baseUrl}/clients/register`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
