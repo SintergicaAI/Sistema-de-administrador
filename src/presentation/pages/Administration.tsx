@@ -5,7 +5,7 @@ import {useEffect, useState} from "react";
 import {SidebarTableAdministration} from "../components/Administration/SidebarTableAdministration.tsx";
 import {TableAdministration} from "../components/Administration/TableAdministration.tsx";
 import {ButtonModal} from "../components/Administration/ButtonModal.tsx";
-import {userSelected} from "../components/Administration/AdministrationTypes.ts";
+import {userSelected} from "../components/Administration/types/TableAdministrationTypes.ts";
 
 export const Administration = ({texto}:{texto:string}) =>{
 

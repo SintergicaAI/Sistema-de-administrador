@@ -1,53 +1,31 @@
-import {Table, TableProps, TablePaginationConfig} from "antd";
-//import { SearchOutlined } from '@ant-design/icons';
-//import type { InputRef, TableColumnsType, TableColumnType } from 'antd';
+import {Table, TableProps, TablePaginationConfig,Flex} from "antd";
 import {Avatar} from "../common/Avatar.tsx";
-import type {AdministrationApiResponse} from "../../../infrastructure/api/types/TableApiResponse.ts";
-import {Dispatch, SetStateAction, useEffect, useState} from "react";
+import {CSSProperties, Dispatch, SetStateAction, useEffect, useState} from "react";
 import {GetAllUserCompanyData} from "../../../application/use-cases/GetAllUserCompanyData.ts";
 import {TableOperation} from "../../../infrastructure/api/TableOperation.ts";
-//import type { FilterDropdownProps } from 'antd/es/table/interface';
-
-interface DataType extends AdministrationApiResponse {
-    key: string;
-}
-
-const RenderGroups = ({groups}:{groups:string[]})=>{
-    const sizeGroup = groups.length;
-    const texto = sizeGroup >1? 'grupos': 'grupo';
-    return (<p>{sizeGroup} {texto }</p>)
-}
-
-const columns: TableProps<DataType>['columns'] = [
-    {
-        title:'Usuario',
-        dataIndex: 'name',
-        key: 'name',
-        render: (name)=>(<Avatar name={name} style={{}} />)
-    },
-    {
-        title:'Rol',
-        key:'role',
-        dataIndex: 'role',
-    },
-    {
-        title:'Correo',
-        key:'email',
-        dataIndex: 'email',
-    },
-    {
-        title:'Grupos',
-        key:'groups',
-        dataIndex: 'groups',
-        render: (array:string[]) =>(<RenderGroups groups={array}/>)
-    }
-]
+import {GetColumnSearchProps} from "./GetColumnSearchProps.tsx";
+import {DataType} from "./types/TableAdministrationTypes.ts"
+import { SlidersHorizontal } from 'lucide-react';
 
 const tableStyle:React.CSSProperties = {
     width: '90%',
     minWidth:'450px',
     maxWidth: '900px',
     marginInline: 'auto',
+}
+const iconTableConfiguration:CSSProperties = {
+    width: "20px",
+    height: '20px',
+}
+
+const RenderGroups = ({groups}:{groups:string[]})=>{
+    const sizeGroup = groups.length;
+    const texto = sizeGroup >1? 'grupos': 'grupo';
+    return (<Flex align="center" gap={12}>
+                <p>{sizeGroup} {texto }</p>
+                <SlidersHorizontal style={iconTableConfiguration}/>
+            </Flex>
+    )
 }
 
 interface RecordType {
@@ -71,7 +49,7 @@ export const TableAdministration = ({setSelectedRow}:
     const [tableParams, setTableParams] = useState<TableParams>({
         pagination: {
             current: 1,
-            pageSize: 3,
+            pageSize: 10,
         },
     });
 
@@ -80,6 +58,7 @@ export const TableAdministration = ({setSelectedRow}:
         getAllUser.execute().then( data =>{
             setData(data);
             setLoading(false);
+
         })
     }
 
@@ -114,6 +93,38 @@ export const TableAdministration = ({setSelectedRow}:
         }
     }
 
+
+
+    const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter, extra) => {
+        console.log('params', pagination, filters, sorter, extra);
+    };
+
+    const columns: TableProps<DataType>['columns'] = [
+        {
+            title:'Usuario',
+            dataIndex: 'name',
+            key: 'name',
+            ...GetColumnSearchProps("name"),
+            render: (name)=>(<Avatar name={name} style={{}} />),
+        },
+        {
+            title:'Rol',
+            key:'role',
+            dataIndex: 'role',
+        },
+        {
+            title:'Correo',
+            key:'email',
+            dataIndex: 'email',
+        },
+        {
+            title:'Grupos',
+            key:'groups',
+            dataIndex: 'groups',
+            render: (array:string[]) =>(<RenderGroups groups={array}/>)
+        }
+    ]
+
     return (
         <>
             <Table<DataType>
@@ -125,7 +136,9 @@ export const TableAdministration = ({setSelectedRow}:
                     onClick: () => {
                         selectRow(record);
                     }
-                })}/>
+                })}
+                onChange={onChange}
+            />
         </>
     )
 }

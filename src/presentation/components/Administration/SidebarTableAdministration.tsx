@@ -1,6 +1,6 @@
 import {SideBarConfiguration} from "../common/SideBarConfiguration.tsx";
 import {Avatar} from "../common/Avatar.tsx";
-import type {userSelected} from './AdministrationTypes.ts'
+import type {userSelected} from './types/TableAdministrationTypes.ts'
 import {Content} from  './SiderContent.tsx';
 import {Dispatch} from "react";
 

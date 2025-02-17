@@ -54,4 +54,7 @@ body{
     font-weight: 300;
     font-size: var(--label-size);
 }
+.lucide{
+    color: var(--c_slate_500);
+}
 
