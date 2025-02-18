@@ -5,12 +5,13 @@ import { X } from 'lucide-react';
 import {Dispatch, ReactNode, SetStateAction} from 'react';
 
 
-export const SideBarConfiguration = ({childrenHeader, contentChildren, hasNotSelected}:
+export const SideBarConfiguration = ({childrenHeader, contentChildren, hasSelected}:
                                      {childrenHeader:ReactNode,contentChildren:ReactNode,
-                                         hasNotSelected:Dispatch<SetStateAction<any>>})=>{
+                                         hasSelected:Dispatch<SetStateAction<any>>})=>{
+
 
     const closeSideBar = () => {
-        hasNotSelected(true);
+        hasSelected(false);
         document.querySelector(".ant-table-row-selected")?.classList.remove("ant-table-row-selected");
     }
 

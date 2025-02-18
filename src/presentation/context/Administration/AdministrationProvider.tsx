@@ -1,9 +1,11 @@
 import {AdministrationContext} from './AdministrationContext'
-import {useState} from "react";
+import {ReactNode, useState} from "react";
 
-export const AdministrationContextProvider = ({children}) =>{
+
+
+export const AdministrationContextProvider = ({children}:{children:ReactNode}) =>{
     const [selectedRow,setSelectedRow]=useState({});
-    const [hasSelected,setHasSelected ]=useState<boolean>(true)
+    const [hasSelected,setHasSelected ]=useState<boolean>(false);
 
     const changeSelectedRow = (newRowSelected:{}) => {
         setSelectedRow(newRowSelected);

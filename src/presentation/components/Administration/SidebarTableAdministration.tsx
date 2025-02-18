@@ -1,19 +1,20 @@
 import {SideBarConfiguration} from "../common/SideBarConfiguration.tsx";
 import {Avatar} from "../common/Avatar.tsx";
 import type {DataType} from './types/TableAdministrationTypes.ts'
-import {Content} from  './SiderContent.tsx';
-import {Dispatch} from "react";
+import {SiderContent} from  './SiderContent.tsx';
+import {useContext} from "react";
+import {AdministrationContext} from "../../context/Administration/AdministrationContext.tsx";
 
 
 
-export const SidebarTableAdministration = (
-    {userSelected,hasNotSelected}:{userSelected:DataType,hasNotSelected:Dispatch<any>}) => {
-    const {name} = userSelected;
+export const SidebarTableAdministration = () => {
+    const {selectedRow,changeHasSelected} = useContext(AdministrationContext);
+    const {name} = selectedRow as DataType;
     return (
         <SideBarConfiguration
             childrenHeader={<Avatar name={`${name}`} style={{fontWeight:'700',fontSize:'var(--subtitle-size:16px)'}}/>}
-            contentChildren={<Content groups={userSelected.groups} rol={userSelected.role}/>}
-            hasNotSelected={hasNotSelected}
+            contentChildren={<SiderContent/>}
+            hasSelected={changeHasSelected}
         />
     )
 }

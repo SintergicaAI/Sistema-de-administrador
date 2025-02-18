@@ -3,9 +3,11 @@ import {Roles} from "../../../domain/enums/UserRole.ts";
 import {Groups} from "../../../domain/enums/UserGroups.ts";
 import {Radio, Checkbox, Flex} from 'antd';
 import type { RadioChangeEvent } from 'antd';
-import {CSSProperties, useEffect, useState} from "react";
+import {CSSProperties, useContext} from "react";
 import {ConfigProvider} from "antd";
 import './styles/administration.css';
+import {AdministrationContext} from "../../context/Administration/AdministrationContext.tsx";
+import type {DataType} from "./types/TableAdministrationTypes.ts";
 
 const onChange = (e: RadioChangeEvent) => {
     console.log(`radio checked:${e.target.value}`);
@@ -38,14 +40,16 @@ const CheckboxContainer = ( {grupo,startChecked}:{grupo:string,startChecked:bool
 }
 
 
-export const Content = ({groups,rol}:{groups:string[],rol:string}) =>{
+export const SiderContent = () =>{
 
     /*const [rolUser, setRolUser] = useState(rol);*/
     //console.log(`Grupos:${groups.toString()} y roles:${rol}`);
+    const {selectedRow} = useContext(AdministrationContext);
+    const {groups,role} = selectedRow as DataType;
 
     const isChecked = (group:string):boolean => {
 
-        return groups.includes(group);
+        return groups?.includes(group as never);
     }
 
    /* useEffect(() => {
@@ -56,16 +60,16 @@ export const Content = ({groups,rol}:{groups:string[],rol:string}) =>{
     return (
         <div style={{color:'var(--c_slate_500:#64748B)'}}>
             <p className="label">Rol</p>
-            <Radio.Group onChange={onChange} defaultValue={rol.toLowerCase()}
+            <Radio.Group onChange={onChange} defaultValue={role?.toLowerCase()}
                          style={{display: "flex", flexDirection: "column", gap:3}}>
 
                 {/*PREGUNTA:Lo ideal no seria hacer una peticion al backend y traer los roles?*/}
 
-                {Roles.map((role) =>(<Radio.Button
-                    key={role}
-                    value={role.toLowerCase()}
+                {Roles.map((rol) =>(<Radio.Button
+                    key={rol}
+                    value={rol.toLowerCase()}
                     style={radioButtonStyle}
-                >{role}</Radio.Button>))}
+                >{rol}</Radio.Button>))}
 
             </Radio.Group>
             <p className="label">Grupos</p>

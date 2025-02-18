@@ -1,12 +1,14 @@
 import {Table, TableProps, TablePaginationConfig,Flex} from "antd";
 import {Avatar} from "../common/Avatar.tsx";
-import {CSSProperties, Dispatch, SetStateAction, useEffect, useState} from "react";
+import {CSSProperties, useEffect, useState} from "react";
 import {GetAllUserCompanyData} from "../../../application/use-cases/GetAllUserCompanyData.ts";
 import {TableOperation} from "../../../infrastructure/api/TableOperation.ts";
 import {GetColumnSearchProps} from "./GetColumnSearchProps.tsx";
 import {DataType} from "./types/TableAdministrationTypes.ts"
 import { SlidersHorizontal } from 'lucide-react';
-
+import {useContext} from "react";
+import {AdministrationContext} from "../../context/Administration/AdministrationContext.tsx";
+import {valueAdministrationContext} from '../../context/Administration/AdministrationContext.tsx'
 const tableStyle:React.CSSProperties = {
     width: '90%',
     minWidth:'450px',
@@ -39,10 +41,11 @@ interface TableParams {
 const operationTable = new TableOperation();
 const getAllUser = new GetAllUserCompanyData(operationTable);
 
-export const TableAdministration = ({setSelectedRow}:
-                                    { setSelectedRow:Dispatch<SetStateAction<any>>}) =>{
+export const TableAdministration = () =>{
 
     const [selectedRowKeys,setSelectedRowKeys]=useState<string[]>([])
+
+    const {changeSelectedRow,changeHasSelected,hasSelected}:valueAdministrationContext = useContext(AdministrationContext);
 
     const [data, setData] = useState<DataType[]>();
     const [loading, setLoading] = useState(false);
@@ -85,7 +88,7 @@ export const TableAdministration = ({setSelectedRow}:
         setSelectedRowKeys(newSelectedRowKeys);
     }*/
     const changeRow = (selectedRow:RecordType) => {
-        setSelectedRow(selectedRow);
+        changeSelectedRow(selectedRow);
     }
 
     const rowSelection:TableProps<DataType>['rowSelection'] ={
@@ -95,8 +98,8 @@ export const TableAdministration = ({setSelectedRow}:
         onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
                 setSelectedRowKeys(selectedRowKeys as string[]);
                 const [selectedRow] =  selectedRows;
-                setSelectedRow(selectedRow);
-                //console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+                //setSelectedRow(selectedRow);
+                changeSelectedRow(selectedRow);
         },
     }
 
@@ -140,14 +143,15 @@ export const TableAdministration = ({setSelectedRow}:
                 columns={columns}
                 style={tableStyle}
                 rowSelection={{...rowSelection,hideSelectAll:true,selections:false}}
-                onRow={(record, index)=>({
+                onRow={(record)=>({
                     onClick: (event) => {
 
+                        //Cambiar el color del Row cuando se da click
                         document.querySelector(".ant-table-row-selected")?.classList.remove("ant-table-row-selected");
                         let target:HTMLTableElement = event.target as HTMLTableElement;
                         target.closest('tr')?.classList.toggle('ant-table-row-selected');
                         changeRow(record);
-                        /*Agregar clase cuando se de click ant-table-row-selected*/
+                        changeHasSelected(true);
                     },
                 })}
                 onChange={onChange}
