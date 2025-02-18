@@ -20,6 +20,8 @@ const radioButtonStyle:CSSProperties = {
 }
 
 const CheckboxContainer = ( {grupo,startChecked}:{grupo:string,startChecked:boolean}) =>{
+
+
     return (
         <div className='checkbox-container'>
             <Flex justify='space-between' align='center'>
@@ -31,7 +33,7 @@ const CheckboxContainer = ( {grupo,startChecked}:{grupo:string,startChecked:bool
                         lineWidth:2
                     }
                 }}>
-                    <Checkbox defaultChecked={startChecked}></Checkbox>
+                    <Checkbox defaultChecked={startChecked} value={grupo}></Checkbox>
                 </ConfigProvider>
             </Flex>
         </div>
@@ -42,8 +44,6 @@ const CheckboxContainer = ( {grupo,startChecked}:{grupo:string,startChecked:bool
 
 export const SiderContent = () =>{
 
-    /*const [rolUser, setRolUser] = useState(rol);*/
-    //console.log(`Grupos:${groups.toString()} y roles:${rol}`);
     const {selectedRow} = useContext(AdministrationContext);
     const {groups,role} = selectedRow as DataType;
 
@@ -52,16 +52,15 @@ export const SiderContent = () =>{
         return groups?.includes(group as never);
     }
 
-   /* useEffect(() => {
-        setRolUser(rol);
-        console.log(`Cambio de rol ${rolUser}`)
-    }, [rol,groups]);*/
-
     return (
         <div style={{color:'var(--c_slate_500:#64748B)'}}>
             <p className="label">Rol</p>
             <Radio.Group onChange={onChange} defaultValue={role?.toLowerCase()}
-                         style={{display: "flex", flexDirection: "column", gap:3}}>
+                         style={{display: "flex", flexDirection: "column", gap:3}}
+                         name="role"
+                         value={role.toLowerCase()}
+            >
+
 
                 {/*PREGUNTA:Lo ideal no seria hacer una peticion al backend y traer los roles?*/}
 
@@ -73,15 +72,18 @@ export const SiderContent = () =>{
 
             </Radio.Group>
             <p className="label">Grupos</p>
-            <Flex vertical gap={3}>
-                {
-                    Groups.map((group) =>(<CheckboxContainer
-                        key={group}
-                        grupo={group}
-                        startChecked={isChecked(group)}
-                    />))
-                }
-            </Flex>
+            <Checkbox.Group value={[...groups]}  style={{width:"100%"}} >
+                <Flex vertical gap={5} flex="1">
+                    {
+                        Groups.map((group) =>(<CheckboxContainer
+                            key={group}
+                            grupo={group}
+                            startChecked={isChecked(group)}
+                        />))
+                    }
+                </Flex>
+            </Checkbox.Group>
+
         </div>
     )
 }
