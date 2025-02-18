@@ -45,7 +45,7 @@ export const TableAdministration = () =>{
 
     const [selectedRowKeys,setSelectedRowKeys]=useState<string[]>([])
 
-    const {changeSelectedRow,changeHasSelected,hasSelected}:valueAdministrationContext = useContext(AdministrationContext);
+    const {changeSelectedRow,changeHasSelected,setDataTabla}:valueAdministrationContext = useContext(AdministrationContext);
 
     const [data, setData] = useState<DataType[]>();
     const [loading, setLoading] = useState(false);
@@ -61,7 +61,7 @@ export const TableAdministration = () =>{
         getAllUser.execute().then( data =>{
             setData(data);
             setLoading(false);
-
+            setDataTabla(data as []);
         })
     }
 

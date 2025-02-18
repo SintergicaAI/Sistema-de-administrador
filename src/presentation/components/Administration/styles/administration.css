@@ -17,3 +17,8 @@
         }
     }
 }
+
+.dropdown-menu{
+    background-color: var(--c_slate_100);
+    padding: var(--sm-space);
+}

@@ -56,5 +56,7 @@ body{
 }
 .lucide{
     color: var(--c_slate_500);
+    width: 20px;
+    height: 20px;
 }
 

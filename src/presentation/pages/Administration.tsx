@@ -5,15 +5,10 @@ import {TableAdministration} from "../components/Administration/TableAdministrat
 import {ButtonModal} from "../components/Administration/ButtonModal.tsx";
 import {AdministrationContextProvider} from "../context/Administration/AdministrationProvider.tsx";
 import {RenderSideBarTable} from "../components/Administration/RenderSideBarTable.tsx";
+import {ConfigurationIcons} from "../components/Administration/ConfigurationIcons.tsx";
 
 export const Administration = ({texto}:{texto:string}) =>{
 
-
-
-    /*useEffect(() => {
-        setHasNotSelected(JSON.stringify(selectedRow) === '{}')
-        console.log(selectedRow);
-    }, [selectedRow]);*/
 
     return (
         <Layout style={{minHeight:'100vh'}}>
@@ -22,8 +17,9 @@ export const Administration = ({texto}:{texto:string}) =>{
                 <AdministrationContextProvider>
 
                     <Content style={{paddingTop:12}}>
-                        <Flex justify='flex-start' style={{marginInline:24}} >
+                        <Flex justify='space-between' style={{marginInline:24}} align={"center"}>
                                 <ButtonModal/>
+                                <ConfigurationIcons/>
                         </Flex>
                         <TableAdministration/>
                     </Content>
