@@ -59,12 +59,14 @@ createRoot(document.getElementById('root')!).render(
                             itemBg:'',
                             iconSize:24,
                             itemSelectedBg:'var(--c_brand_100)',
-                            itemSelectedColor:'var(--c_brand_500)',
+                            itemSelectedColor:'var(--c_brand-500)',
                             itemHoverColor:'var(--c_brand_500)',
                             itemHoverBg:'',
-                            collapsedIconSize:30,
-                            itemMarginInline:9,
-                            iconMarginInlineEnd:0,
+                            collapsedIconSize:24,
+                            itemPaddingInline:1,
+                            itemMarginInline:10,
+                            /*itemMarginInline:9,
+                            iconMarginInlineEnd:0,*/
                         },
                         "Divider": {
                             "margin": 0
