@@ -3,12 +3,11 @@ import {Avatar} from "../common/Avatar.tsx";
 import {CSSProperties, useEffect, useState} from "react";
 import {GetAllUserCompanyData} from "../../../application/use-cases/GetAllUserCompanyData.ts";
 import {TableOperation} from "../../../infrastructure/api/TableOperation.ts";
-import {GetColumnSearchProps} from "./GetColumnSearchProps.tsx";
 import {DataType} from "./types/TableAdministrationTypes.ts"
 import { SlidersHorizontal } from 'lucide-react';
 import {useContext} from "react";
-import {AdministrationContext} from "../../context/Administration/AdministrationContext.tsx";
-import {valueAdministrationContext} from '../../context/Administration/AdministrationContext.tsx'
+import {AdministrationContext,valueAdministrationContext} from "../../context/Administration";
+
 const tableStyle:React.CSSProperties = {
     width: '90%',
     minWidth:'450px',
@@ -45,10 +44,14 @@ export const TableAdministration = () =>{
 
     const [selectedRowKeys,setSelectedRowKeys]=useState<string[]>([])
 
-    const {changeSelectedRow,changeHasSelected,setDataTabla}:valueAdministrationContext = useContext(AdministrationContext);
+    const {changeSelectedRow,
+        changeHasSelected,
+        setDataTabla,
+        searchText}:valueAdministrationContext = useContext(AdministrationContext);
 
     const [data, setData] = useState<DataType[]>();
     const [loading, setLoading] = useState(false);
+
     const [tableParams, setTableParams] = useState<TableParams>({
         pagination: {
             current: 1,
@@ -114,7 +117,15 @@ export const TableAdministration = () =>{
             title:'Usuario',
             dataIndex: 'name',
             key: 'name',
-            ...GetColumnSearchProps("name"),
+            filteredValue:[searchText],
+            onFilter:(value, record) => {
+                /*console.log('Texto a buscar ' + value);
+                console.log('Record value ' + record.toString());*/
+                return record.name
+                    .toString()
+                    .toLowerCase()
+                    .includes((value as string).toLowerCase())
+            },
             render: (name)=>(<Avatar name={name} style={{}} />),
         },
         {

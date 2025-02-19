@@ -9,7 +9,7 @@ export const ConfigurationIcons = () =>{
 
     const {dataTable} = useContext(AdministrationContext);
 
-    return (<Flex gap={16} align={"center"}>
+    return (<Flex gap={16} align={"center"} justify={'center'} style={{position:"relative"}}>
                 <p>{dataTable.length} miembros</p>
                  <SearchDropDownMenu/>
                 <SlidersHorizontal/>

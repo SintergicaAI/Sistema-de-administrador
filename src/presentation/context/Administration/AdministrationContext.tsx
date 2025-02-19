@@ -6,7 +6,9 @@ export type valueAdministrationContext = {
     selectedRow:{},
     hasSelected:boolean,
     dataTable:[],
-    setDataTabla:(newDataTabla:[]) => void
+    setDataTabla:(newDataTabla:[]) => void,
+    searchText:string,
+    changeSearchText:(newSearchText:string) => void,
 }
 
 export const AdministrationContext = createContext<valueAdministrationContext>({
@@ -15,5 +17,7 @@ export const AdministrationContext = createContext<valueAdministrationContext>({
     selectedRow:{},
     hasSelected:false,
     dataTable:[],
-    setDataTabla:(newDataTabla:{}) =>{}
+    setDataTabla:(newDataTabla:{}) =>{},
+    searchText:'',
+    changeSearchText:(newSearchText:string) => {},
 })

@@ -25,7 +25,8 @@ export const GetColumnSearchProps = (dataIndex: DataIndex): TableColumnType<Data
         setSearchText('');
     };
 
-    return {filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
+    return {filterDropdown: (
+        { setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
         <div style={{ padding: 8, backgroundColor:"white"}} onKeyDown={(e) => e.stopPropagation()} >
             <Input
                 ref={searchInput}

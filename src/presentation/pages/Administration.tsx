@@ -23,9 +23,7 @@ export const Administration = ({texto}:{texto:string}) =>{
                         </Flex>
                         <TableAdministration/>
                     </Content>
-
-                {/*TODO:Cambiar logica de aparecer Sidebar*/}
-                <RenderSideBarTable/>
+                    <RenderSideBarTable/>
                 </AdministrationContextProvider>
             </Layout>
         </Layout>
