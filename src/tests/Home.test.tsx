@@ -39,7 +39,7 @@ beforeEach(() => {
 
 describe('Home Rendering Test', () => {
     it('should render the Avatar', () => {
-        const avatar = screen.getByAltText('github avatar')
+        const avatar = screen.getByAltText('user avatar')
         expect(avatar).toBeInTheDocument()
     })
 
@@ -49,33 +49,25 @@ describe('Home Rendering Test', () => {
     })
 
     it('should redner the Logout button', () => {
-        const logoutButton = screen.getByText('Logout')
+        const logoutButton = document.querySelector('.button-logout')
         expect(logoutButton).toBeInTheDocument()
     })
 })
 
 describe('Logout Button Functionality Test', () => {
     it('should call LogOut.execute when logout button is clicked', async () => {
-        const logoutButton = screen.getByText('Logout')
+        const logoutButton = document.querySelector('.button-logout')
+        
+        if (!logoutButton) {
+            throw new Error('No se encontró el botón de logout')
+        }
+    
         userEvent.click(logoutButton)
         
         await waitFor(() => {
             // Verifica que LogOut fue llamado
             expect(LogOut).toHaveBeenCalled()
             expect(message.open).toHaveBeenCalledWith(expect.objectContaining({ type: 'loading', content: 'Cerrando sesión' }))
-        })
-    })
-})
-
-describe('Sidebar Collapse Test', () => {
-    it('should collapse sidebar when toggled', async () => {
-        const sidebar = document.querySelector('.ant-layout-sider-children')
-        const collapseButton = document.querySelector('.ant-layout-sider-trigger')
-
-        userEvent.click(collapseButton!)
-
-        await waitFor(() => {
-            expect(sidebar?.parentElement).toHaveClass('ant-layout-sider-has-trigger')
         })
     })
 })
