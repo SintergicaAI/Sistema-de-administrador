@@ -21,7 +21,7 @@ const iconTableConfiguration:CSSProperties = {
 
 const RenderGroups = ({groups}:{groups:string[]})=>{
     const sizeGroup = groups.length;
-    const texto = sizeGroup >1? 'grupos': 'grupo';
+    const texto = sizeGroup >1? 'grupos': 'grupo ';
     return (<Flex align="center" gap={12}>
                 <p>{sizeGroup} {texto }</p>
                 <SlidersHorizontal style={iconTableConfiguration}/>
@@ -90,7 +90,6 @@ export const TableAdministration = () =>{
         //Desaparecer los radio button
         getCheckboxProps:(record) =>({
             disabled:true,
-            indeterminate:false,
             style:{display: 'none'},
         })
     }
