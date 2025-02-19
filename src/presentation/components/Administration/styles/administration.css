@@ -17,10 +17,6 @@
         }
     }
 }
-.dropdown-menu-container{
-    --x-position-translate:-600px,
-}
-
 .dropdown-menu{
     width: 300px;
     position:absolute;

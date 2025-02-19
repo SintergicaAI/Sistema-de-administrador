@@ -87,6 +87,12 @@ export const TableAdministration = () =>{
                 const [selectedRow] =  selectedRows;
                 changeSelectedRow(selectedRow);
         },
+        //Desaparecer los radio button
+        getCheckboxProps:(record) =>({
+            disabled:true,
+            indeterminate:false,
+            style:{display: 'none'},
+        })
     }
 
 
@@ -108,6 +114,7 @@ export const TableAdministration = () =>{
                     .includes((value as string).toLowerCase())
             },
             render: (name)=>(<Avatar name={name} style={{}} />),
+
         },
         {
             title:'Rol',
