@@ -30,7 +30,12 @@
 
     transition: all 300ms ease-in;
 }
-.js-visible{
+.js-visible-dropdown-menu{
     opacity: 1;
     transform: translate(-50vw, -80px);
+}
+.alert-message-invitacion{
+    opacity: 0;
+    height: 0;
+    transition: all 300ms ease-in;
 }

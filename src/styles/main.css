@@ -54,12 +54,12 @@
     /*Font family*/
 
     /*Media query when the browser cant support variable fonts*/
+    --base-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+    'Noto Color Emoji';
     @supports (font-variation-settings: normal) {
-        --base-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
-        'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
-        'Noto Color Emoji';
+        --base-font: 'Archivo',sans-serif;
     }
-    --base-font: 'Archivo',sans-serif;
 }
 *{
     box-sizing: border-box;

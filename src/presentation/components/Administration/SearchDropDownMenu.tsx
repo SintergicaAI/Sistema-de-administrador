@@ -16,7 +16,7 @@ const DropDownMenu = ({isVisible,setIsVisible}:
     setTimeout(()=>{
         inputRef.current?.select();
     },1000)
-    return (<div className={`dropdown-menu ${isVisible ? "js-visible" : ""}`}>
+    return (<div className={`dropdown-menu ${isVisible ? "js-visible-dropdown-menu" : ""}`}>
                 <Input.Search placeholder={"Nombre o rol que deseas buscar"}
                               style={{marginBottom:'var(--base-space)'}}
                               onSearch={(value) => {
