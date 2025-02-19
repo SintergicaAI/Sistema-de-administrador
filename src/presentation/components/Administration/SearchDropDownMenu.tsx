@@ -7,9 +7,6 @@ import {
 } from "../../context/Administration/";
 import { X } from 'lucide-react';
 
-const handleSearch = ()=>{
-
-}
 
 const DropDownMenu = ({isVisible,setIsVisible}:
                       {isVisible:boolean,setIsVisible:Dispatch<any>}) => {
@@ -40,7 +37,7 @@ export const SearchDropDownMenu = ()=>{
 
     const [isVisible,setIsVisible]=useState(false);
 
-    return (<div className="dropdown-menu-container">
+    return (<div>
         <Search onClick={() =>{
             setIsVisible(!isVisible);
         }}/>

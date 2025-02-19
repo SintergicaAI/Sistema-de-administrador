@@ -74,22 +74,6 @@ export const TableAdministration = () =>{
         tableParams.pagination?.current,
         tableParams.pagination?.pageSize,
     ]);
-
-
-    /*const selectRow = (record:RecordType) => {
-        const newSelectedRowKeys = [...selectedRowKeys];
-        const recordIndex = newSelectedRowKeys.indexOf(record.key);
-
-        if (recordIndex >= 0) {
-            // Si ya está seleccionado, lo eliminamos de la lista.
-            newSelectedRowKeys.splice(recordIndex, 1);
-        } else {
-            // Si no está seleccionado, lo agregamos a la lista.
-            newSelectedRowKeys.push(record.key);
-        }
-        setSelectedRow(record);
-        setSelectedRowKeys(newSelectedRowKeys);
-    }*/
     const changeRow = (selectedRow:RecordType) => {
         changeSelectedRow(selectedRow);
     }
@@ -101,7 +85,6 @@ export const TableAdministration = () =>{
         onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
                 setSelectedRowKeys(selectedRowKeys as string[]);
                 const [selectedRow] =  selectedRows;
-                //setSelectedRow(selectedRow);
                 changeSelectedRow(selectedRow);
         },
     }
@@ -119,8 +102,6 @@ export const TableAdministration = () =>{
             key: 'name',
             filteredValue:[searchText],
             onFilter:(value, record) => {
-                /*console.log('Texto a buscar ' + value);
-                console.log('Record value ' + record.toString());*/
                 return record.name
                     .toString()
                     .toLowerCase()
