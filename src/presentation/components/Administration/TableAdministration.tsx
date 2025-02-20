@@ -1,4 +1,4 @@
-import {Table, TableProps, TablePaginationConfig,Flex} from "antd";
+import {Table, TableProps, Flex, GetProp} from "antd";
 import {Avatar} from "../common/Avatar.tsx";
 import {CSSProperties, useEffect, useState} from "react";
 import {GetAllUserCompanyData} from "../../../application/use-cases/GetAllUserCompanyData.ts";
@@ -7,6 +7,8 @@ import {DataType} from "./types/TableAdministrationTypes.ts"
 import { SlidersHorizontal } from 'lucide-react';
 import {useContext} from "react";
 import {AdministrationContext,valueAdministrationContext} from "../../context/Administration";
+
+type TablePaginationConfig = Exclude<GetProp<TableProps, 'pagination'>, boolean>;
 
 const tableStyle:React.CSSProperties = {
     width: '90%',
@@ -52,19 +54,33 @@ export const TableAdministration = () =>{
     const [data, setData] = useState<DataType[]>();
     const [loading, setLoading] = useState(false);
 
+    const PAGE_SIZE = 5;
     const [tableParams, setTableParams] = useState<TableParams>({
         pagination: {
             current: 1,
-            pageSize: 5,
+           pageSize: PAGE_SIZE
         },
     });
 
     const prepareData = ()=>{
         setLoading(true);
-        getAllUser.execute().then( data =>{
+        const page = tableParams.pagination?.current ?? 1;
+        console.log(page);
+
+        getAllUser.execute(page,PAGE_SIZE).then(result =>{
+            const [data,next] = result
+            console.log('currentPage ', page)
+            console.log('Data ', data);
             setData(data);
             setLoading(false);
             setDataTabla(data as []);
+
+            setTableParams({
+                ...tableParams,
+                pagination:{
+                    ...tableParams.pagination,
+                }
+            })
         })
     }
 
@@ -99,9 +115,6 @@ export const TableAdministration = () =>{
     const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter, extra) => {
        setTableParams({pagination})
 
-        if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-            setData([]);
-        }
     };
 
     const columns: TableProps<DataType>['columns'] = [
@@ -149,7 +162,7 @@ export const TableAdministration = () =>{
                 dataSource={data}
                 columns={columns}
                 style={tableStyle}
-                rowSelection={{...rowSelection,hideSelectAll:true,selections:false}}
+                rowSelection={{...rowSelection,hideSelectAll:true}}
                 onRow={(record)=>({
                     onClick: (event) => {
 
@@ -161,8 +174,18 @@ export const TableAdministration = () =>{
                         changeHasSelected(true);
                     },
                 })}
-                onChange={onChange}
-                pagination={tableParams.pagination}
+                loading={loading}
+                pagination={{...tableParams.pagination,
+                    onChange:(page) =>{
+                            setTableParams({
+                                ...tableParams,
+                                pagination:{
+                                    ...tableParams.pagination,
+                                    current:page
+                                }
+                            })
+                        }
+                }}
             />
         </>
     )
