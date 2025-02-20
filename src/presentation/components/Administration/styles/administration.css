@@ -39,3 +39,6 @@
     height: 0;
     transition: all 300ms ease-in;
 }
+.ant-radio-button-wrapper::before{
+    width: 0 !important;
+}

@@ -55,7 +55,7 @@ export const TableAdministration = () =>{
     const [tableParams, setTableParams] = useState<TableParams>({
         pagination: {
             current: 1,
-            pageSize: 10,
+            pageSize: 5,
         },
     });
 
@@ -97,7 +97,11 @@ export const TableAdministration = () =>{
 
 
     const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter, extra) => {
-        console.log('params', pagination, filters, sorter, extra);
+       setTableParams({pagination})
+
+        if (pagination.pageSize !== tableParams.pagination?.pageSize) {
+            setData([]);
+        }
     };
 
     const columns: TableProps<DataType>['columns'] = [
@@ -158,6 +162,7 @@ export const TableAdministration = () =>{
                     },
                 })}
                 onChange={onChange}
+                pagination={tableParams.pagination}
             />
         </>
     )

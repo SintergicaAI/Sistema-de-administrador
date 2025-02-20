@@ -45,6 +45,29 @@
       "last_name": "Perez",
       "role": "Usuario",
       "groups": ["Ventas"]
+    },
+    {
+      "id": "4",
+      "email": "pepe@sintergica.ai",
+      "first_name": "Jose Manuel",
+      "last_name": "Alvarez",
+      "role": "Usuario",
+      "groups": ["Marketing"]
+    },{
+      "id": "5",
+      "email": "Alberto@sintergica.ai",
+      "first_name": "Alberto",
+      "last_name": "Ramirez Ramirez",
+      "role": "Dueño",
+      "groups": ["Marketing","Finanzas","Ventas"]
+    },
+    {
+      "id": "6",
+      "email": "Lupita@sintergica.ai",
+      "first_name": "Lupita",
+      "last_name": "Sor juana",
+      "role": "Usuario",
+      "groups": ["Ventas"]
     }
   ],
   "login": {

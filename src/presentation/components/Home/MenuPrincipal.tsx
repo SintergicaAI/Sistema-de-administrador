@@ -39,7 +39,7 @@ const menuStyle:React.CSSProperties = {
 const items: MenuItem[] = [
     /*TODO:Generar funcionalidad que extrae del localStorage el nombre del usuario
     *  Para colocarlo en el componente Avatar*/
-    getItem('User', '/profile', <Avatar name={'G'}/>),
+    getItem('User', '/profile', <Avatar name={'G'} style={{backgroundColor:'var(--c_white)'}}/>),
     getItem('Workspace', '/workspace', <SquareTerminal  style={iconSize}/>,
         [
             getItem('Knowledge', '/workspace/knowledge'),

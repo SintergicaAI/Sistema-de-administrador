@@ -13,6 +13,6 @@
         background-color: #006EFA;
     }
 }
-.ant-menu-item:nth-child(1) .ant-menu-title-content{
-    text-wrap: nowrap;
+.ant-menu-item:nth-child(1) {
+    padding-inline: 0;
 }

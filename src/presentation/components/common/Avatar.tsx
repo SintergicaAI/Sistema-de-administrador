@@ -1,5 +1,5 @@
 import {Avatar as ComponentAvatar} from 'antd';
-import {GetProps} from 'antd'
+import {CSSProperties} from "react";
 
 const getInitial = (fullname:string)=>{
     const firstSecondName = fullname.split(' ').slice(0,2);
@@ -9,11 +9,10 @@ const getInitial = (fullname:string)=>{
     return initials.join('');
 }
 
-type AvatarProps = GetProps<typeof ComponentAvatar>
-export const Avatar = ({name,avatarProps}:
-                       {name:string,avatarProps?:AvatarProps})=>{
+export const Avatar = ({name,style}:
+                       {name:string,style?:CSSProperties})=>{
 
     return (
-        <ComponentAvatar shape='circle' {...avatarProps}>{getInitial(name)}</ComponentAvatar>
+        <ComponentAvatar shape='circle' style={style}>{getInitial(name)}</ComponentAvatar>
     );
 }
