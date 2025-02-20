@@ -1,7 +1,7 @@
 
 import {Roles} from "../../../domain/enums/UserRole.ts";
 import {Groups} from "../../../domain/enums/UserGroups.ts";
-import {Radio, Checkbox, Flex} from 'antd';
+import {Radio, Checkbox, Flex, GetProp} from 'antd';
 import type { RadioChangeEvent } from 'antd';
 import {CSSProperties, useContext, useEffect, useState} from "react";
 import {ConfigProvider} from "antd";
@@ -45,19 +45,23 @@ export const SiderContent = () =>{
     const {groups,role} = selectedRow as DataType;
 
     const [valueRadio,setValueRadio]=useState(role);
+    const [valueGroups,setValueGroups]=useState(groups);
 
     useEffect(()=>{
-        console.log('Cambio de rol ', role);
         setValueRadio(role);
-    },[role])
+        setValueGroups(groups);
+    },[role,groups]);
 
     const isChecked = (group:string):boolean => {
 
         return groups?.includes(group as never);
     }
     const onChange = (e: RadioChangeEvent) => {
-        console.log(`radio checked:${e.target.value}`);
         setValueRadio(e.target.value);
+    };
+
+    const handleChange: GetProp<typeof Checkbox.Group, 'onChange'> = (checkedValues) => {
+        setValueGroups([...(checkedValues as [])]);
     };
 
     return (
@@ -82,7 +86,12 @@ export const SiderContent = () =>{
 
             </Radio.Group>
             <p className="label">Grupos</p>
-            <Checkbox.Group value={[...groups]}  style={{width:"100%"}} >
+            {/*value={[...groups]}*/}
+            <Checkbox.Group
+                value={[...valueGroups]}
+                style={{width:"100%"}}
+                onChange={handleChange}
+            >
                 <Flex vertical gap={5} flex="1">
                     {
                         Groups.map((group) =>(<CheckboxContainer
