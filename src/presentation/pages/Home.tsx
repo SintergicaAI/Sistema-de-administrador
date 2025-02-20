@@ -8,24 +8,7 @@ export const Home = () => {
     return (
         <Layout style={{minHeight: '100vh'}}>
             <SideMenuPrincipal />
-
             <Layout>
-                    {/*<Header />
-                    <Content style={{margin: '50px 16px'}}>
-                        <div
-                            style={{
-                                padding: 24,
-                                minHeight: "100%",
-                                background: colorBgContainer,
-                                borderRadius: borderRadiusLG,
-                            }}
-                        >
-                            <Outlet/>
-                        </div>
-                    </Content>
-                    <Footer style={{textAlign: 'center', padding: "1rem"}}>
-                        Sintergica ©{new Date().getFullYear()} Created by Gonzalo Perez
-                    </Footer>*/}
                 <Outlet/>
                 </Layout>
             </Layout>

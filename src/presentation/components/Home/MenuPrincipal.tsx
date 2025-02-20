@@ -1,10 +1,15 @@
-import React from "react";
+import React, {CSSProperties} from "react";
 import {Menu, MenuProps} from "antd";
 import {To, useNavigate} from "react-router";
-import {UserRound as IconUser, UserPen, SquareTerminal, MessageCircle,} from 'lucide-react';
-
+import {UserPen, SquareTerminal, MessageCircle,} from 'lucide-react';
+import {Avatar } from '../common/Avatar.tsx';
 
 type MenuItem = Required<MenuProps>['items'][number];
+
+const iconSize:CSSProperties = {
+    width:24,
+    height:24,
+}
 
 function getItem(
     label: React.ReactNode,
@@ -26,18 +31,22 @@ const menuStyle:React.CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
     gap: '20px',
-    paddingInline: '0'
+    paddingInline: '0',
+    alignItems: 'center',
 }
 
+
 const items: MenuItem[] = [
-    getItem('User', '/profile', <IconUser/>),
-    getItem('Workspace', '/workspace', <SquareTerminal />,
+    /*TODO:Generar funcionalidad que extrae del localStorage el nombre del usuario
+    *  Para colocarlo en el componente Avatar*/
+    getItem('User', '/profile', <Avatar name={'G'} style={{backgroundColor:'var(--c_white)'}}/>),
+    getItem('Workspace', '/workspace', <SquareTerminal  style={iconSize}/>,
         [
             getItem('Knowledge', '/workspace/knowledge'),
             getItem('Models', '/workspace/models'),
         ]),
-    getItem('Knowledge', '/knowledge', <MessageCircle />),
-    getItem('Admin','/administration', <UserPen />),
+    getItem('Knowledge', '/knowledge', <MessageCircle style={iconSize}/>),
+    getItem('Admin','/administration', <UserPen style={iconSize}/>),
 ];
 
 export const MenuPrincipal = ()=>{

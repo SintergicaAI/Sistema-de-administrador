@@ -1,11 +1,12 @@
 import {Table, TableProps, TablePaginationConfig,Flex} from "antd";
 import {Avatar} from "../common/Avatar.tsx";
-import {CSSProperties, Dispatch, SetStateAction, useEffect, useState} from "react";
+import {CSSProperties, useEffect, useState} from "react";
 import {GetAllUserCompanyData} from "../../../application/use-cases/GetAllUserCompanyData.ts";
 import {TableOperation} from "../../../infrastructure/api/TableOperation.ts";
-import {GetColumnSearchProps} from "./GetColumnSearchProps.tsx";
 import {DataType} from "./types/TableAdministrationTypes.ts"
 import { SlidersHorizontal } from 'lucide-react';
+import {useContext} from "react";
+import {AdministrationContext,valueAdministrationContext} from "../../context/Administration";
 
 const tableStyle:React.CSSProperties = {
     width: '90%',
@@ -20,7 +21,7 @@ const iconTableConfiguration:CSSProperties = {
 
 const RenderGroups = ({groups}:{groups:string[]})=>{
     const sizeGroup = groups.length;
-    const texto = sizeGroup >1? 'grupos': 'grupo';
+    const texto = sizeGroup >1? 'grupos': 'grupo ';
     return (<Flex align="center" gap={12}>
                 <p>{sizeGroup} {texto }</p>
                 <SlidersHorizontal style={iconTableConfiguration}/>
@@ -39,17 +40,22 @@ interface TableParams {
 const operationTable = new TableOperation();
 const getAllUser = new GetAllUserCompanyData(operationTable);
 
-export const TableAdministration = ({setSelectedRow}:
-                                    { setSelectedRow:Dispatch<SetStateAction<any>>}) =>{
+export const TableAdministration = () =>{
 
     const [selectedRowKeys,setSelectedRowKeys]=useState<string[]>([])
 
+    const {changeSelectedRow,
+        changeHasSelected,
+        setDataTabla,
+        searchText}:valueAdministrationContext = useContext(AdministrationContext);
+
     const [data, setData] = useState<DataType[]>();
     const [loading, setLoading] = useState(false);
+
     const [tableParams, setTableParams] = useState<TableParams>({
         pagination: {
             current: 1,
-            pageSize: 10,
+            pageSize: 5,
         },
     });
 
@@ -58,7 +64,7 @@ export const TableAdministration = ({setSelectedRow}:
         getAllUser.execute().then( data =>{
             setData(data);
             setLoading(false);
-
+            setDataTabla(data as []);
         })
     }
 
@@ -68,35 +74,34 @@ export const TableAdministration = ({setSelectedRow}:
         tableParams.pagination?.current,
         tableParams.pagination?.pageSize,
     ]);
-
-
-    const selectRow = (record:RecordType) => {
-        const newSelectedRowKeys = [...selectedRowKeys];
-        const recordIndex = newSelectedRowKeys.indexOf(record.key);
-
-        if (recordIndex >= 0) {
-            // Si ya está seleccionado, lo eliminamos de la lista.
-            newSelectedRowKeys.splice(recordIndex, 1);
-        } else {
-            // Si no está seleccionado, lo agregamos a la lista.
-            newSelectedRowKeys.push(record.key);
-        }
-        setSelectedRow(record);
-        setSelectedRowKeys(newSelectedRowKeys);
+    const changeRow = (selectedRow:RecordType) => {
+        changeSelectedRow(selectedRow);
     }
+
     const rowSelection:TableProps<DataType>['rowSelection'] ={
         selectedRowKeys,
-        type:"checkbox",
+        type:"radio",
         preserveSelectedRowKeys:true,
-        onChange: (selectedRowKeys: React.Key[]) => {
-            setSelectedRowKeys(selectedRowKeys as string[]);
-        }
+        onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
+                setSelectedRowKeys(selectedRowKeys as string[]);
+                const [selectedRow] =  selectedRows;
+                changeSelectedRow(selectedRow);
+        },
+        //Desaparecer los radio button
+        getCheckboxProps:(record) =>({
+            disabled:true,
+            style:{display: 'none'},
+        })
     }
 
 
 
     const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter, extra) => {
-        console.log('params', pagination, filters, sorter, extra);
+       setTableParams({pagination})
+
+        if (pagination.pageSize !== tableParams.pagination?.pageSize) {
+            setData([]);
+        }
     };
 
     const columns: TableProps<DataType>['columns'] = [
@@ -104,8 +109,20 @@ export const TableAdministration = ({setSelectedRow}:
             title:'Usuario',
             dataIndex: 'name',
             key: 'name',
-            ...GetColumnSearchProps("name"),
-            render: (name)=>(<Avatar name={name} style={{}} />),
+            filteredValue:[searchText],
+            onFilter:(value, record) => {
+                return record.name
+                    .toString()
+                    .toLowerCase()
+                    .includes((value as string).toLowerCase())
+            },
+            render: (name)=>(
+                <Flex align="center" gap='var(--sm-space)'>
+                    <Avatar name={name}/>
+                    {name}
+                </Flex>
+            ),
+
         },
         {
             title:'Rol',
@@ -125,19 +142,27 @@ export const TableAdministration = ({setSelectedRow}:
         }
     ]
 
+
     return (
         <>
             <Table<DataType>
                 dataSource={data}
                 columns={columns}
                 style={tableStyle}
-                rowSelection={{...rowSelection,hideSelectAll:true,}}
-                onRow={(record:RecordType)=>({
-                    onClick: () => {
-                        selectRow(record);
-                    }
+                rowSelection={{...rowSelection,hideSelectAll:true,selections:false}}
+                onRow={(record)=>({
+                    onClick: (event) => {
+
+                        //Cambiar el color del Row cuando se da click
+                        document.querySelector(".ant-table-row-selected")?.classList.remove("ant-table-row-selected");
+                        let target:HTMLTableElement = event.target as HTMLTableElement;
+                        target.closest('tr')?.classList.toggle('ant-table-row-selected');
+                        changeRow(record);
+                        changeHasSelected(true);
+                    },
                 })}
                 onChange={onChange}
+                pagination={tableParams.pagination}
             />
         </>
     )

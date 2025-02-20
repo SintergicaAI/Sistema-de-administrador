@@ -31,6 +31,7 @@ createRoot(document.getElementById('root')!).render(
                         borderRadius: 8,
                         colorSplit:'var(--c_slate_300)',
                         fontSizeHeading1:20,
+                        fontFamily:'var(--base-font)'
                     },
                     // algorithm: theme.darkAlgorithm,
                     components: {
@@ -58,12 +59,14 @@ createRoot(document.getElementById('root')!).render(
                             itemBg:'',
                             iconSize:24,
                             itemSelectedBg:'var(--c_brand_100)',
-                            itemSelectedColor:'var(--c_brand_500)',
+                            itemSelectedColor:'var(--c_brand-500)',
                             itemHoverColor:'var(--c_brand_500)',
                             itemHoverBg:'',
-                            collapsedIconSize:30,
-                            itemMarginInline:9,
-                            iconMarginInlineEnd:0,
+                            collapsedIconSize:24,
+                            itemPaddingInline:1,
+                            itemMarginInline:10,
+                            /*itemMarginInline:9,
+                            iconMarginInlineEnd:0,*/
                         },
                         "Divider": {
                             "margin": 0
@@ -78,7 +81,8 @@ createRoot(document.getElementById('root')!).render(
                         Avatar:{
                             colorTextLightSolid:'var(--c_brand-500)',
                             colorTextPlaceholder:'var(--c_brand_100)',
-                            containerSize:40,
+                            containerSize:32,
+                            fontSize:12,
                         }
 
                     },

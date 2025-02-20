@@ -6,8 +6,19 @@ import {AuthApi} from "../../../infrastructure/api/AuthApi.ts";
 import {LogOut} from "../../../application/use-cases/LogOut.ts";
 import {useNavigate} from "react-router";
 import {LogOut as IconLogOut} from 'lucide-react';
-import './style/button-logout.css';
+import './style/home-components.css';
 
+const siderStyle: React.CSSProperties = {
+    overflowX: 'hidden',
+    height: '100vh',
+    position: 'sticky',
+    insetInlineStart: 0,
+    top: 0,
+    bottom: 0,
+    scrollbarWidth: 'thin',
+    scrollbarGutter: 'stable',
+    padding:'var(--sm-space)',
+};
 
 
 //todo:Cambiar URL a una consulta a la API
@@ -41,7 +52,7 @@ export const SideMenuPrincipal = () =>{
     //const [collapsed, setCollapsed] = useState(false);
 
     return (
-        <Sider  collapsed={true} style={{padding:'8px'}}>
+        <Sider  collapsed={true} style={siderStyle}>
             <Flex vertical={true} justify="space-between" gap={space_between_elements} style={{minHeight:'100%'}} >
                 <Flex justify="center" align="center" vertical={true}>
                     {
@@ -53,7 +64,7 @@ export const SideMenuPrincipal = () =>{
                 <Flex justify="center" align='center' vertical={true}  gap={space_between_elements}>
 
                     <button onClick={handleLogOut} className='button-logout'>
-                        <IconLogOut className='icon-hover-logout'/>
+                        <IconLogOut className='icon-hover-logout' style={{width:'24px',height:'24px'}}/>
                     </button>
                     <a href="https://sintergica.ai/">
                         <img src="/src/assets/brand.svg" alt="" width="48" height="48"/>

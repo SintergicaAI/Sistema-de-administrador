@@ -1,4 +1,11 @@
 /*General styles*/
+@font-face {
+    font-family: 'Archivo';
+    src:
+    url('../assets/Fonts/Archivo-Variable.ttf') format('truetype') tech('variations'),
+    url('../assets/Fonts/Archivo-Variable.ttf') format('truetype-variations');
+    font-weight: 100 900;
+}
 
 :root{
     /*--c_primary: hsl(209, 100%, 78%);
@@ -43,6 +50,16 @@
     --4xl-space:2.5rem;
     --5xl-space:4rem;
     --6xl-space:8rem;
+
+    /*Font family*/
+
+    /*Media query when the browser cant support variable fonts*/
+    --base-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+    'Noto Color Emoji';
+    @supports (font-variation-settings: normal) {
+        --base-font: 'Archivo',sans-serif;
+    }
 }
 *{
     box-sizing: border-box;
@@ -56,5 +73,7 @@ body{
 }
 .lucide{
     color: var(--c_slate_500);
+    width: 20px;
+    height: 20px;
 }
 

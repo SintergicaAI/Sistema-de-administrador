@@ -1,5 +1,5 @@
 
-import type { FormProps } from 'antd';
+import {Flex, FormProps} from 'antd';
 import { Form, Input,Typography,message } from 'antd';
 import { useState} from "react";
 import {SubmitButton} from "../components/common/SubmitButton.tsx";
@@ -134,7 +134,9 @@ export const Register = () =>{
 
                 <Form.Item label={null} labelCol={{span: 0}}>
                     {contextHolder}
-                    <SubmitButton form={form} >Enviar</SubmitButton>
+                    <Flex justify='center'>
+                        <SubmitButton form={form} style={{width:120}}>Enviar</SubmitButton>
+                    </Flex>
                 </Form.Item>
                 <p style={{textAlign:'center'}}>Ya tienes una cuenta? <a className='icon-color' style={{ textDecoration:'underline'}} href={'/login'}>Inicia sesion</a></p>
             </Form>

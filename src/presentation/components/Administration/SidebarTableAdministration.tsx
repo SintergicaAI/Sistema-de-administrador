@@ -1,19 +1,27 @@
 import {SideBarConfiguration} from "../common/SideBarConfiguration.tsx";
 import {Avatar} from "../common/Avatar.tsx";
-import type {userSelected} from './types/TableAdministrationTypes.ts'
-import {Content} from  './SiderContent.tsx';
-import {Dispatch} from "react";
+import type {DataType} from './types/TableAdministrationTypes.ts'
+import {SiderContent} from  './SiderContent.tsx';
+import {useContext} from "react";
+import {AdministrationContext} from "../../context/Administration/AdministrationContext.tsx";
+import {Flex} from "antd";
 
 
 
-export const SidebarTableAdministration = (
-    {userSelected,hasNotSelected}:{userSelected:userSelected,hasNotSelected:Dispatch<any>}) => {
-    const {first_name, last_name,groups,role} = userSelected;
+export const SidebarTableAdministration = () => {
+    const {selectedRow,changeHasSelected} = useContext(AdministrationContext);
+    const {name} = selectedRow as DataType;
+    /*style={{fontWeight:'700',fontSize:'var(--subtitle-size:16px)'}*/
     return (
         <SideBarConfiguration
-            childrenHeader={<Avatar name={`${first_name} ${last_name}`} style={{fontWeight:'700',fontSize:'var(--subtitle-size:16px)'}}/>}
-            contentChildren={<Content groups={groups} rol={role}/>}
-            hasNotSelected={hasNotSelected}
+            childrenHeader={(
+                <Flex align={'center'} gap={5}>
+                    <Avatar name={name}/>
+                    <p style={{fontWeight:'700',fontSize:'var(--subtitle-size:16px)'}}>{name}</p>
+                </Flex>
+            )}
+            contentChildren={<SiderContent/>}
+            hasSelected={changeHasSelected}
         />
     )
 }

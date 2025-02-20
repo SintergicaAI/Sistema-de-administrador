@@ -1,8 +1,10 @@
-import {Form, FormProps, Input,message} from "antd";
+import {Form, FormProps, Input,message,Alert} from "antd";
 import { Mail } from 'lucide-react';
 import {SubmitButton} from "../common/SubmitButton.tsx";
 import {InvitationApi} from "../../../infrastructure/api/InvitationApi.ts";
 import {SendInvitationEmail} from "../../../application/use-cases/SendInvitationEmail.ts";
+import {useState} from "react";
+import {AlertMessages} from "../common/AlertMessages.tsx";
 
 type emailInput = string;
 
@@ -11,22 +13,29 @@ const sendInvitationEmail = new SendInvitationEmail(invitationAPI);
 export const ModalContent = ()=>{
     const [form] = Form.useForm();
     const [messageApi]= message.useMessage()
-
+    const [showMessage, setShowMessage] = useState(false);
+    const [alertConfiguration,setAlertConfiguarion] = useState({})
 
     const onFinish: FormProps<emailInput>['onFinish'] = (values) => {
         console.log(values);
         sendInvitationEmail.execute(values).
-       then((response) => {
-            console.log('Response:', response);
-           messageApi.open({
-               type:'success',
-               content: 'La invitacion de email salio exitosa',
-           })
+       then( (response) => {
+            //console.log('Response:', response);
+            setShowMessage(true);
+            setAlertConfiguarion({
+                ...alertConfiguration,
+                message:'Invitacion enviada',
+                description:'La invitacion se ha enviado exitosamente',
+                type:'success'
+            })
        })
            .catch((error)=>{
-               messageApi.open({
-                   type:'error',
-                   content:'El email no se pudo enviar, intentelo mas tarde'
+               setShowMessage(true);
+               setAlertConfiguarion({
+                   ...alertConfiguration,
+                   message:'Invitacion no enviada',
+                   description:error.message,
+                   type:'error'
                })
                console.log(error);
            })
@@ -42,10 +51,10 @@ export const ModalContent = ()=>{
     return (<>
         <p>Ingresa el email del colaborador</p>
         <Form
-            name="invitation"
+            name="invitaton"
             labelCol={{ span: 6 }}
             wrapperCol={{ flex:1}}
-            style={{ maxWidth: 600 }}
+            style={{ maxWidth: 600, marginBottom:'var(--base-space)'}}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
             autoComplete="off"
@@ -66,5 +75,12 @@ export const ModalContent = ()=>{
                 <SubmitButton form={form}>Invitar</SubmitButton>
             </Form.Item>
         </Form>
+
+        {/*TODO:Componente que albergue varios tipos de mensaje*/}
+        {
+            showMessage && (<AlertMessages {...alertConfiguration} onClose={()=>{setShowMessage(false)}}/>)
+        }
+
+
     </>)
 }

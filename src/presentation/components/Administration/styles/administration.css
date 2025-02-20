@@ -17,3 +17,28 @@
         }
     }
 }
+.dropdown-menu{
+    width: 300px;
+    position:absolute;
+    background-color: var(--c_white);
+    padding: var(--sm-space);
+    z-index: 1;
+    border-radius: var(--sm-radius);
+
+    opacity: 0;
+    transform: translate(-50vw, -200px);
+
+    transition: all 300ms ease-in;
+}
+.js-visible-dropdown-menu{
+    opacity: 1;
+    transform: translate(-50vw, -80px);
+}
+.alert-message-invitacion{
+    opacity: 0;
+    height: 0;
+    transition: all 300ms ease-in;
+}
+.ant-radio-button-wrapper::before{
+    width: 0 !important;
+}

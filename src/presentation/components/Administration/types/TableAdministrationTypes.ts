@@ -5,8 +5,8 @@ interface DataType {
     name:string;
     id: number;
     email: string;
-    groups: number|{};
-    rol: UserRole.USER | UserRole.ADMIN | UserRole.OWNER;
+    groups: [];
+    role: UserRole.USER | UserRole.ADMIN | UserRole.OWNER;
 }
 type DataIndex = keyof DataType;
 
