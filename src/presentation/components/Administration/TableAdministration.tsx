@@ -112,7 +112,12 @@ export const TableAdministration = () =>{
                     .toLowerCase()
                     .includes((value as string).toLowerCase())
             },
-            render: (name)=>(<Avatar name={name} style={{}} />),
+            render: (name)=>(
+                <Flex align="center" gap='var(--sm-space)'>
+                    <Avatar name={name}/>
+                    {name}
+                </Flex>
+            ),
 
         },
         {

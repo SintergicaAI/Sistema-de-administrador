@@ -81,7 +81,8 @@ createRoot(document.getElementById('root')!).render(
                         Avatar:{
                             colorTextLightSolid:'var(--c_brand-500)',
                             colorTextPlaceholder:'var(--c_brand_100)',
-                            containerSize:40,
+                            containerSize:32,
+                            fontSize:12,
                         }
 
                     },

@@ -6,7 +6,7 @@ import {AuthApi} from "../../../infrastructure/api/AuthApi.ts";
 import {LogOut} from "../../../application/use-cases/LogOut.ts";
 import {useNavigate} from "react-router";
 import {LogOut as IconLogOut} from 'lucide-react';
-import './style/button-logout.css';
+import './style/home-components.css';
 
 
 

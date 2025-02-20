@@ -1,8 +1,8 @@
 import React, {CSSProperties} from "react";
 import {Menu, MenuProps} from "antd";
 import {To, useNavigate} from "react-router";
-import {UserRound as IconUser, UserPen, SquareTerminal, MessageCircle,} from 'lucide-react';
-
+import {UserPen, SquareTerminal, MessageCircle,} from 'lucide-react';
+import {Avatar } from '../common/Avatar.tsx';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -31,11 +31,15 @@ const menuStyle:React.CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
     gap: '20px',
-    paddingInline: '0'
+    paddingInline: '0',
+    alignItems: 'center',
 }
 
+
 const items: MenuItem[] = [
-    getItem('User', '/profile', <IconUser style={iconSize}/>),
+    /*TODO:Generar funcionalidad que extrae del localStorage el nombre del usuario
+    *  Para colocarlo en el componente Avatar*/
+    getItem('User', '/profile', <Avatar name={'G'}/>),
     getItem('Workspace', '/workspace', <SquareTerminal  style={iconSize}/>,
         [
             getItem('Knowledge', '/workspace/knowledge'),

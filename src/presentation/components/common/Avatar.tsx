@@ -1,17 +1,19 @@
-import {Avatar as ComponentAvatar,Flex} from 'antd';
-import {CSSProperties} from "react";
+import {Avatar as ComponentAvatar} from 'antd';
+import {GetProps} from 'antd'
 
 const getInitial = (fullname:string)=>{
-    return fullname.charAt(0).toUpperCase();
+    const firstSecondName = fullname.split(' ').slice(0,2);
+    const initials = firstSecondName.map((name)=>{
+        return name.charAt(0).toUpperCase();
+    })
+    return initials.join('');
 }
 
-//Ver una mejor forma de juntar Avatar y name
-export const Avatar = ({name,style={}}:{name:string,style:CSSProperties |{}})=>{
+type AvatarProps = GetProps<typeof ComponentAvatar>
+export const Avatar = ({name,avatarProps}:
+                       {name:string,avatarProps?:AvatarProps})=>{
 
     return (
-        <Flex align="center" gap='var(--sm-space)' style={style}>
-            <ComponentAvatar shape='circle'>{getInitial(name)}</ComponentAvatar>
-            {name}
-        </Flex>
+        <ComponentAvatar shape='circle' {...avatarProps}>{getInitial(name)}</ComponentAvatar>
     );
 }
