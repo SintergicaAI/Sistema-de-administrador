@@ -53,7 +53,7 @@ export const SideMenuPrincipal = () =>{
                 <Flex justify="center" align='center' vertical={true}  gap={space_between_elements}>
 
                     <button onClick={handleLogOut} className='button-logout'>
-                        <IconLogOut className='icon-hover-logout'/>
+                        <IconLogOut className='icon-hover-logout' style={{width:'24px',height:'24px'}}/>
                     </button>
                     <a href="https://sintergica.ai/">
                         <img src="/src/assets/brand.svg" alt="" width="48" height="48"/>
