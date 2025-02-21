@@ -7,10 +7,10 @@ import {SearchDropDownMenu} from "./SearchDropDownMenu.tsx";
 
 export const ConfigurationIcons = () =>{
 
-    const {dataTable} = useContext(AdministrationContext);
+    const {totalItemsTable} = useContext(AdministrationContext);
 
     return (<Flex gap={16} align={"center"} justify={'center'} style={{position:"relative"}}>
-                <p>{dataTable.length} miembros</p>
+                <p>{totalItemsTable} miembros</p>
                  <SearchDropDownMenu/>
                 <SlidersHorizontal/>
             </Flex>)

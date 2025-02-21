@@ -68,6 +68,45 @@
       "last_name": "Sor juana",
       "role": "Usuario",
       "groups": ["Ventas"]
+    },
+    {
+      "id": "7",
+      "email": "Gonzalo@sintergica.ai",
+      "first_name": "Gonzalo",
+      "last_name": "Perez",
+      "role": "Administrador",
+      "groups": ["Marketing","Finanzas","Ventas"]
+    },
+    {
+      "id": "8",
+      "email": "Juan@sintergica.ai",
+      "first_name": "Juan",
+      "last_name": "Perez",
+      "role": "Usuario",
+      "groups": ["Ventas"]
+    },
+    {
+      "id": "9",
+      "email": "pepe@sintergica.ai",
+      "first_name": "Jose Manuel",
+      "last_name": "Alvarez",
+      "role": "Usuario",
+      "groups": ["Marketing"]
+    },{
+      "id": "10",
+      "email": "Alberto@sintergica.ai",
+      "first_name": "Alberto",
+      "last_name": "Ramirez Ramirez",
+      "role": "Dueño",
+      "groups": ["Marketing","Finanzas","Ventas"]
+    },
+    {
+      "id": "11",
+      "email": "Lupita@sintergica.ai",
+      "first_name": "Lupita",
+      "last_name": "Sor juana",
+      "role": "Usuario",
+      "groups": ["Ventas"]
     }
   ],
   "login": {

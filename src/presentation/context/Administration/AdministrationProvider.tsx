@@ -8,6 +8,7 @@ export const AdministrationContextProvider = ({children}:{children:ReactNode}) =
     const [hasSelected,setHasSelected ]=useState<boolean>(false);
     const [dataTable,setDataTabla] = useState<[]>([]);
     const [searchText, setSearchText] = useState('');
+    const [totalItemsTable,setTotalItemsTable]=useState(0);
 
     const changeSelectedRow = (newRowSelected:{}) => {
         setSelectedRow(newRowSelected);
@@ -28,6 +29,8 @@ export const AdministrationContextProvider = ({children}:{children:ReactNode}) =
                 changeSelectedRow,
                 changeHasSelected,
                 dataTable,
+                totalItemsTable,
+                setTotalItemsTable,
                 setDataTabla,
                 searchText,
                 changeSearchText,
