@@ -1,35 +1,13 @@
 import {Table, TableProps, Flex, GetProp} from "antd";
 import {Avatar} from "../common/Avatar.tsx";
-import {CSSProperties, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {GetAllUserCompanyData} from "../../../application/use-cases/GetAllUserCompanyData.ts";
 import {TableOperation} from "../../../infrastructure/api/TableOperation.ts";
 import {DataType} from "./types/TableAdministrationTypes.ts"
-import { SlidersHorizontal } from 'lucide-react';
 import {useContext} from "react";
 import {AdministrationContext,valueAdministrationContext} from "../../context/Administration";
+import {RenderGroups, tableStyle} from "./TableConfiguration.tsx";
 
-//type TablePaginationConfig = Exclude<GetProp<TableProps, 'pagination'>, boolean>;
-
-const tableStyle:React.CSSProperties = {
-    width: '90%',
-    minWidth:'450px',
-    maxWidth: '900px',
-    marginInline: 'auto',
-}
-const iconTableConfiguration:CSSProperties = {
-    width: "20px",
-    height: '20px',
-}
-
-const RenderGroups = ({groups}:{groups:string[]})=>{
-    const sizeGroup = groups.length;
-    const texto = sizeGroup >1? 'grupos': 'grupo ';
-    return (<Flex align="center" gap={12}>
-                <p>{sizeGroup} {texto }</p>
-                <SlidersHorizontal style={iconTableConfiguration}/>
-            </Flex>
-    )
-}
 
 interface RecordType {
     key:string;
