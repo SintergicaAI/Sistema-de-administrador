@@ -13,4 +13,4 @@ describe('Login Test', () => {
       cy.get('[placeholder="******"]').type('123456')
       cy.contains('Enviar').click()
     })
-  })
+})
