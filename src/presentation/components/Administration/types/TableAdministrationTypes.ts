@@ -1,13 +1,8 @@
-import {UserRole} from "../../../../domain/enums/UserRole.ts";
+import {AdministrationApiResponse} from "../../../../infrastructure/api/types/TableApiResponse.ts";
 
-interface DataType {
+interface DataType extends AdministrationApiResponse{
     key:string;
-    name:string;
-    id: number;
-    email: string;
-    groups: [];
-    role: UserRole.USER | UserRole.ADMIN | UserRole.OWNER;
+    role: string;
 }
-type DataIndex = keyof DataType;
 
-export type{DataType,DataIndex}
+export type{DataType}

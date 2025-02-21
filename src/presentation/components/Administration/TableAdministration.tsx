@@ -1,4 +1,4 @@
-import {Table, TableProps, Flex, GetProp} from "antd";
+import {Table, TableProps, Flex} from "antd";
 import {Avatar} from "../common/Avatar.tsx";
 import {useEffect, useState} from "react";
 import {GetAllUserCompanyData} from "../../../application/use-cases/GetAllUserCompanyData.ts";
@@ -59,7 +59,7 @@ export const TableAdministration = () =>{
                 changeSelectedRow(selectedRow);
         },
         //Desaparecer los radio button
-        getCheckboxProps:(record) =>({
+        getCheckboxProps:() =>({
             disabled:true,
             style:{display: 'none'},
         })
@@ -68,8 +68,8 @@ export const TableAdministration = () =>{
     const columns: TableProps<DataType>['columns'] = [
         {
             title:'Usuario',
-            dataIndex: 'name',
-            key: 'name',
+            dataIndex: 'fullName',
+            key: 'fullName',
             filteredValue:[searchText],
             onFilter:(value, record) => {
                 return record.name
