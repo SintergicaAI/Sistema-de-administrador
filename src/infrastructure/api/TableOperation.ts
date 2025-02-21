@@ -15,9 +15,9 @@ export class TableOperation implements TableOperationRepository  {
         if(!response.ok){
             throw new Error('Error en la solicitud de datos');
         }
-        const {data,next} = await response.json();
+        const {data,items} = await response.json();
          return [data.map((user:AdministrationApiResponse) => (
-             {...user, key:user.id,name:`${user.first_name} ${user.last_name}`})),next];
+             {...user, key:user.id,name:`${user.first_name} ${user.last_name}`})),items];
     }
 
 }

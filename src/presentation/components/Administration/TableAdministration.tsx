@@ -8,7 +8,7 @@ import { SlidersHorizontal } from 'lucide-react';
 import {useContext} from "react";
 import {AdministrationContext,valueAdministrationContext} from "../../context/Administration";
 
-type TablePaginationConfig = Exclude<GetProp<TableProps, 'pagination'>, boolean>;
+//type TablePaginationConfig = Exclude<GetProp<TableProps, 'pagination'>, boolean>;
 
 const tableStyle:React.CSSProperties = {
     width: '90%',
@@ -35,10 +35,6 @@ interface RecordType {
     key:string;
 }
 
-interface TableParams {
-    pagination?: TablePaginationConfig;
-}
-
 const operationTable = new TableOperation();
 const getAllUser = new GetAllUserCompanyData(operationTable);
 
@@ -48,48 +44,29 @@ export const TableAdministration = () =>{
 
     const {changeSelectedRow,
         changeHasSelected,
-        setDataTabla,
+        setTotalItemsTable,
         searchText}:valueAdministrationContext = useContext(AdministrationContext);
 
     const [data, setData] = useState<DataType[]>();
     const [loading, setLoading] = useState(false);
-
+    const [totalRecords, setTotalRecords] = useState<number>(1);
+    const [currentPage, setCurrentPage] = useState(1);
     const PAGE_SIZE = 5;
-    const [tableParams, setTableParams] = useState<TableParams>({
-        pagination: {
-            current: 1,
-           pageSize: PAGE_SIZE
-        },
-    });
 
     const prepareData = ()=>{
         setLoading(true);
-        const page = tableParams.pagination?.current ?? 1;
-        console.log(page);
-
-        getAllUser.execute(page,PAGE_SIZE).then(result =>{
-            const [data,next] = result
-            console.log('currentPage ', page)
-            console.log('Data ', data);
+        getAllUser.execute(currentPage,PAGE_SIZE).then(result =>{
+            const [data,items] = result
             setData(data);
             setLoading(false);
-            setDataTabla(data as []);
-
-            setTableParams({
-                ...tableParams,
-                pagination:{
-                    ...tableParams.pagination,
-                }
-            })
+            setTotalItemsTable(parseInt(items));
+            setTotalRecords(items);
         })
     }
 
     useEffect(() => {
         prepareData();
-    }, [
-        tableParams.pagination?.current,
-        tableParams.pagination?.pageSize,
-    ]);
+    }, [currentPage]);
     const changeRow = (selectedRow:RecordType) => {
         changeSelectedRow(selectedRow);
     }
@@ -109,13 +86,6 @@ export const TableAdministration = () =>{
             style:{display: 'none'},
         })
     }
-
-
-
-    const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter, extra) => {
-       setTableParams({pagination})
-
-    };
 
     const columns: TableProps<DataType>['columns'] = [
         {
@@ -175,16 +145,13 @@ export const TableAdministration = () =>{
                     },
                 })}
                 loading={loading}
-                pagination={{...tableParams.pagination,
+                pagination={{
+                    pageSize:PAGE_SIZE,
+                    total:totalRecords,
                     onChange:(page) =>{
-                            setTableParams({
-                                ...tableParams,
-                                pagination:{
-                                    ...tableParams.pagination,
-                                    current:page
-                                }
-                            })
-                        }
+                        setCurrentPage(page)
+                    },
+                    position:['bottomCenter']
                 }}
             />
         </>
