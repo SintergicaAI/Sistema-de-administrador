@@ -4,7 +4,7 @@ export class GetAllUserCompanyData {
 
     constructor(private getAllUsersFromCampany:TableOperationRepository ){}
 
-    async execute():Promise<any[]>{
-        return await this.getAllUsersFromCampany.getAllUsersFromCampany(0,0);
+    async execute(page:number,size:number):Promise<any[]>{
+        return await this.getAllUsersFromCampany.getAllUsersFromCampany(page,size);
     }
 }
