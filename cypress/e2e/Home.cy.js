@@ -18,14 +18,35 @@ describe('Home Page Sidebar Test', () => {
             cy.get('.ant-layout-sider-children').should('have.length', 1)
         })
 
-        it('user should can to interact with the sidebar', () => {
+        it('user should can to see the profile section', () => {
             cy.contains('li', 'User').click()
             cy.url().should('include', '/profile')
-            //entre estos dos va el espacio de trabajo
-            // cy.contains('li', 'Knowledge').click()
-            // cy.url().should('include', '/knowledge')
+        })
+
+        it('user should can to see the workspace section', () => {
+            cy.contains('li', 'Workspace').click()
+            cy.get('.ant-menu-submenu-popup').should('be.visible').contains('li', 'Knowledge').click()
+            cy.url().should('include', '/workspace/knowledge')
+            cy.contains('li', 'Workspace').click()
+            cy.get('.ant-menu-submenu-popup').should('be.visible').contains('li', 'Models').click()
+            cy.url().should('include', '/workspace/models')
+        })
+
+        it('user should can to see the knowledge section', () => {
+            cy.contains('li', 'Knowledge').click()
+            cy.url().should('include', '/knowledge')
+        })
+
+        it('user should can to see the admin section', () => {
             cy.contains('li', 'Admin').click()
             cy.url().should('include', '/administration')
+        })
+
+        it('user should can logout', () => {
+            cy.intercept('GET', '/clients/logout', { statusCode: 200 })// Se simula la respuesat de la API
+            cy.get('.button-logout').click()
+            cy.contains('Cerrando sesión')
+            cy.url().should('include', '/login')
         })
 
         it('user should can navigate to sintergica.ai on click', () => {
