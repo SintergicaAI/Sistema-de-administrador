@@ -77,7 +77,10 @@ export const TableAdministration = () =>{
                 return record.name
                     .toString()
                     .toLowerCase()
-                    .includes((value as string).toLowerCase())
+                    .includes((value as string).toLowerCase()) ||
+                    record.role.toString()
+                            .toLowerCase()
+                            .includes((value as string).toLowerCase())
             },
             render: (name)=>(
                 <Flex align="center" gap='var(--sm-space)'>
@@ -91,6 +94,7 @@ export const TableAdministration = () =>{
             title:'Rol',
             key:'role',
             dataIndex: 'role',
+            filteredValue: [searchText],
         },
         {
             title:'Correo',
