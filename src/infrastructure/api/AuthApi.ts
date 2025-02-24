@@ -1,6 +1,6 @@
 import {AuthRepository} from '../../domain/repositories/AuthRepository';
 import {User} from "../../domain/entities/User.ts";
-import {LoginApiResponse} from "./types/AuthApiResponse.ts";
+import {AuthenticateApiResponse, LoginApiResponse} from "./types/AuthApiResponse.ts";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -25,7 +25,7 @@ export class AuthApi implements AuthRepository {
         return token;
     }
 
-    async logIn(email: string, password: string): Promise<User> {
+    async logIn(email: string, password: string): Promise<string> {
         const response = await fetch(`${this.baseUrl}/clients/login`, {
             method: 'POST',
             headers: {
@@ -35,11 +35,11 @@ export class AuthApi implements AuthRepository {
         });
 
         if (!response.ok) {
-            throw new Error('Credenciales inválidas');
+            return Promise.reject(response);
         }
 
-        const data: LoginApiResponse = await response.json();
-        return new User(data.id, data.email, data.role, undefined, undefined, undefined, data.token);
+        const {token}: LoginApiResponse = await response.json();
+        return Promise.resolve(`${token}`);
     }
 
 
@@ -58,16 +58,9 @@ export class AuthApi implements AuthRepository {
 
     }
 
-    saveToken(user: User): void {
+    saveToken(token: string): void {
         localStorage.setItem('user', JSON.stringify({
-            user: {
-                id: user.id,
-                email: user.email,
-                role: user.role,
-                firstName: user.firstName,
-                lastName: user.lastName,
-            },
-            token: user.token,
+            token: token,
         }));
     }
 
@@ -84,7 +77,7 @@ export class AuthApi implements AuthRepository {
             throw new Error('Credenciales inválidas');
         }
 
-        const data: LoginApiResponse = await response.json();
+        const data: AuthenticateApiResponse = await response.json();
         return new User(data.id, data.email, data.role, undefined, undefined, undefined, data.token);
     }
 }
