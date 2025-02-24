@@ -16,6 +16,7 @@ export class TableOperation implements TableOperationRepository  {
 
 
         if(!response.ok){
+            console.log(response);
             throw new Error('Error en la solicitud de datos');
         }
         const {userDTOPage,totalPages} = await response.json();

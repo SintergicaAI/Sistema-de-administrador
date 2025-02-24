@@ -65,6 +65,7 @@ export const TableAdministration = () =>{
         })
     }
 
+    /*TODO:Modificar mecanismo de filtrado de datos*/
     const columns: TableProps<DataType>['columns'] = [
         {
             title:'Usuario',

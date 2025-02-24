@@ -14,5 +14,5 @@
     }
 }
 .ant-menu-item:nth-child(1) {
-    padding-inline: 0;
+    padding-inline: 2px;
 }
