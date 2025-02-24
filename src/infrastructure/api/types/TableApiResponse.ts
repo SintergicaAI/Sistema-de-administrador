@@ -9,6 +9,6 @@ interface AdministrationApiResponse{
     email: string;
     name: string;
     lastName: string;
-    groupDTOList: number|group[];
+    groupDTOList: group[];
 }
 export type {AdministrationApiResponse}

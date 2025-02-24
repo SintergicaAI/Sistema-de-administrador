@@ -15,7 +15,7 @@ const iconTableConfiguration:CSSProperties = {
 }
 
 export const RenderGroups = ({groups}:{groups:string[]})=>{
-    const sizeGroup = groups.length;
+    const sizeGroup = groups?.length ?? 0;
     const texto = sizeGroup >1? 'grupos': 'grupo ';
     return (<Flex align="center" gap={12}>
             <p>{sizeGroup} {texto }</p>

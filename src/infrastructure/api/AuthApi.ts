@@ -7,6 +7,7 @@ const BASE_URL = import.meta.env.VITE_API_URL;
 export class AuthApi implements AuthRepository {
     private readonly baseUrl = BASE_URL;
 
+    //TODO: valorar si sigue siendo necesario este metodo
     private getUserFromStorage(): { user: Partial<User> | null, token: string | null } {
         const storedUser = localStorage.getItem('user');
         if (!storedUser) {

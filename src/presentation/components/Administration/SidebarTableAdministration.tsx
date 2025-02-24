@@ -3,21 +3,21 @@ import {Avatar} from "../common/Avatar.tsx";
 import type {DataType} from './types/TableAdministrationTypes.ts'
 import {SiderContent} from  './SiderContent.tsx';
 import {useContext} from "react";
-import {AdministrationContext} from "../../context/Administration/AdministrationContext.tsx";
+import {AdministrationContext} from "../../context/Administration";
 import {Flex} from "antd";
 
 
 
 export const SidebarTableAdministration = () => {
     const {selectedRow,changeHasSelected} = useContext(AdministrationContext);
-    const {name} = selectedRow as DataType;
+    const {name,lastName} = selectedRow as DataType;
     /*style={{fontWeight:'700',fontSize:'var(--subtitle-size:16px)'}*/
     return (
         <SideBarConfiguration
             childrenHeader={(
                 <Flex align={'center'} gap={5}>
-                    <Avatar name={name}/>
-                    <p style={{fontWeight:'700',fontSize:'var(--subtitle-size:16px)'}}>{name}</p>
+                    <Avatar name={`${name} ${lastName}`}/>
+                    <p style={{fontWeight:'700',fontSize:'var(--subtitle-size:16px)'}}>{`${name} ${lastName}`}</p>
                 </Flex>
             )}
             contentChildren={<SiderContent/>}

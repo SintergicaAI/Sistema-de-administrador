@@ -28,13 +28,14 @@ export const TableAdministration = () =>{
     const [data, setData] = useState<DataType[]>();
     const [loading, setLoading] = useState(false);
     const [totalRecords, setTotalRecords] = useState<number>(1);
-    const [currentPage, setCurrentPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(0);
     const PAGE_SIZE = 5;
 
     const prepareData = ()=>{
         setLoading(true);
         getAllUser.execute(currentPage,PAGE_SIZE).then(result =>{
             const [data,items] = result
+            console.log(data);
             setData(data);
             setLoading(false);
             setTotalItemsTable(parseInt(items));
