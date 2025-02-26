@@ -17,9 +17,6 @@ export class TableOperation implements TableOperationRepository  {
                     Authorization:`Bearer ${token}`
                 }
             })
-        //await fetch(`${LOCAL_TEST}/users?_page=${page}&_per_page=${size}`, {})
-        //await fetch(`${LOCAL_TEST}/users`, {});
-
 
         if(!response.ok){
             console.log(response);

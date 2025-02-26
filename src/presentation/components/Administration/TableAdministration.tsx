@@ -23,9 +23,8 @@ export const TableAdministration = () =>{
     const {changeSelectedRow,
         changeHasSelected,
         setTotalItemsTable,
-        searchText}:valueAdministrationContext = useContext(AdministrationContext);
-
-    const [data, setData] = useState<DataType[]>();
+        searchText,
+    dataTable, setDataTabla}:valueAdministrationContext = useContext(AdministrationContext);
     const [loading, setLoading] = useState(false);
     const [totalRecords, setTotalRecords] = useState<number>(1);
     const [currentPage, setCurrentPage] = useState(0);
@@ -36,7 +35,7 @@ export const TableAdministration = () =>{
         getAllUser.execute(currentPage,PAGE_SIZE).then(result =>{
             const [data,items] = result
             console.log(data);
-            setData(data);
+            setDataTabla(data);
             setLoading(false);
             setTotalItemsTable(parseInt(items));
             setTotalRecords(items);
@@ -113,7 +112,7 @@ export const TableAdministration = () =>{
     return (
         <>
             <Table<DataType>
-                dataSource={data}
+                dataSource={dataTable}
                 columns={columns}
                 style={tableStyle}
                 rowSelection={{...rowSelection,hideSelectAll:true}}
