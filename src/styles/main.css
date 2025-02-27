@@ -26,6 +26,9 @@
     --c_brand-500:#006EFA;
     --c_brand_600:#005ACD;
 
+    --c_danger_400:#F87171;
+    --c_danger_600:#DC2626;
+
     /*Radius*/
     --sm-radius:8px;
     --base-radius:12px;

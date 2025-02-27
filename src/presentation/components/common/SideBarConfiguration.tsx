@@ -22,7 +22,9 @@ export const SideBarConfiguration = ({childrenHeader, contentChildren, hasSelect
                     display:'flex',
                     justifyContent:'space-between',
                     alignItems:'center',paddingInline:0}}
-                >{childrenHeader} <X onClick={closeSideBar}/></Header>
+                >{childrenHeader}
+                    <X onClick={closeSideBar}/>
+                </Header>
                 <Content> {contentChildren}</Content>
             </Layout>
         </Sider>
