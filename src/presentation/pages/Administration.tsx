@@ -7,6 +7,14 @@ import {AdministrationContextProvider} from "../context/Administration/Administr
 import {RenderSideBarTable} from "../components/Administration/RenderSideBarTable.tsx";
 import {ConfigurationIcons} from "../components/Administration/ConfigurationIcons.tsx";
 
+const HeaderButtonsStyle:React.CSSProperties = {
+    width: '90%',
+    minWidth:'450px',
+    maxWidth: '1024px',
+    marginInline: 'auto',
+    marginBlockEnd:'24px',
+}
+
 export const Administration = ({texto}:{texto:string}) =>{
 
 
@@ -17,7 +25,9 @@ export const Administration = ({texto}:{texto:string}) =>{
                 <AdministrationContextProvider>
 
                     <Content style={{paddingTop:12}}>
-                        <Flex justify='space-between' style={{marginInline:24}} align={"center"}>
+                        <Flex
+                            justify='space-between'
+                            style={HeaderButtonsStyle} align={"center"}>
                                 <ButtonModal/>
                                 <ConfigurationIcons/>
                         </Flex>
