@@ -1,13 +1,10 @@
-import {UserRole} from "../../../../domain/enums/UserRole.ts";
+import {UserDTO} from "../../../../infrastructure/api/types/CompanyResponse.ts";
 
-interface DataType {
-    key:string;
-    name:string;
-    id: number;
-    email: string;
-    groups: [];
-    role: UserRole.USER | UserRole.ADMIN | UserRole.OWNER;
+interface DataType extends UserDTO{
+    fullName: string;
+    role: string;
+    key: string;
+    groups: string[];
 }
-type DataIndex = keyof DataType;
 
-export type{DataType,DataIndex}
+export type{DataType}

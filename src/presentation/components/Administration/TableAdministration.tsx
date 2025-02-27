@@ -1,4 +1,4 @@
-import {Table, TableProps, Flex, GetProp} from "antd";
+import {Table, TableProps, Flex} from "antd";
 import {Avatar} from "../common/Avatar.tsx";
 import {useEffect, useState} from "react";
 import {GetAllUserCompanyData} from "../../../application/use-cases/GetAllUserCompanyData.ts";
@@ -7,6 +7,8 @@ import {DataType} from "./types/TableAdministrationTypes.ts"
 import {useContext} from "react";
 import {AdministrationContext,valueAdministrationContext} from "../../context/Administration";
 import {RenderGroups, tableStyle} from "./TableConfiguration.tsx";
+import {UserDTO} from "../../../infrastructure/api/types/CompanyResponse.ts";
+import {v4 as uuid} from "uuid";
 
 
 interface RecordType {
@@ -16,6 +18,23 @@ interface RecordType {
 const operationTable = new TableOperation();
 const getAllUser = new GetAllUserCompanyData(operationTable);
 
+const formatDataTable = (data: []):DataType[] => {
+
+    return [...data.map(
+        (user:UserDTO) =>
+            (
+                //
+                {...user,
+                    fullName:`${user.name} ${user.lastName}`,
+                    role:'Usuario',
+                    key: uuid() as string,
+                    groups: [...user.groupsDTO.map(group => group.name.split(" ")[0])]
+
+                }
+            )
+    )]
+}
+
 export const TableAdministration = () =>{
 
     const [selectedRowKeys,setSelectedRowKeys]=useState<string[]>([])
@@ -23,24 +42,26 @@ export const TableAdministration = () =>{
     const {changeSelectedRow,
         changeHasSelected,
         setTotalItemsTable,
-        searchText}:valueAdministrationContext = useContext(AdministrationContext);
-
-    const [data, setData] = useState<DataType[]>();
+        totalItemsTable,
+        searchText,
+        dataTable,
+        setDataTabla}:valueAdministrationContext = useContext(AdministrationContext);
     const [loading, setLoading] = useState(false);
-    const [totalRecords, setTotalRecords] = useState<number>(1);
-    const [currentPage, setCurrentPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(0);
     const PAGE_SIZE = 5;
 
     const prepareData = ()=>{
         setLoading(true);
         getAllUser.execute(currentPage,PAGE_SIZE).then(result =>{
             const [data,items] = result
-            setData(data);
+            console.log(data);
+            setDataTabla((formatDataTable(data) as[]) );
             setLoading(false);
             setTotalItemsTable(parseInt(items));
-            setTotalRecords(items);
         })
     }
+
+
 
     useEffect(() => {
         prepareData();
@@ -59,23 +80,27 @@ export const TableAdministration = () =>{
                 changeSelectedRow(selectedRow);
         },
         //Desaparecer los radio button
-        getCheckboxProps:(record) =>({
+        getCheckboxProps:() =>({
             disabled:true,
             style:{display: 'none'},
         })
     }
 
+    /*TODO:Modificar mecanismo de filtrado de datos*/
     const columns: TableProps<DataType>['columns'] = [
         {
             title:'Usuario',
-            dataIndex: 'name',
-            key: 'name',
+            dataIndex: 'fullName',
+            key: 'fullName',
             filteredValue:[searchText],
             onFilter:(value, record) => {
                 return record.name
                     .toString()
                     .toLowerCase()
-                    .includes((value as string).toLowerCase())
+                    .includes((value as string).toLowerCase()) ||
+                    record.role.toString()
+                            .toLowerCase()
+                            .includes((value as string).toLowerCase())
             },
             render: (name)=>(
                 <Flex align="center" gap='var(--sm-space)'>
@@ -89,6 +114,7 @@ export const TableAdministration = () =>{
             title:'Rol',
             key:'role',
             dataIndex: 'role',
+            filteredValue: [searchText],
         },
         {
             title:'Correo',
@@ -107,7 +133,7 @@ export const TableAdministration = () =>{
     return (
         <>
             <Table<DataType>
-                dataSource={data}
+                dataSource={dataTable}
                 columns={columns}
                 style={tableStyle}
                 rowSelection={{...rowSelection,hideSelectAll:true}}
@@ -125,7 +151,7 @@ export const TableAdministration = () =>{
                 loading={loading}
                 pagination={{
                     pageSize:PAGE_SIZE,
-                    total:totalRecords,
+                    total:totalItemsTable,
                     onChange:(page) =>{
                         setCurrentPage(page)
                     },

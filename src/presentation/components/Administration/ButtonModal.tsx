@@ -1,8 +1,8 @@
-import {UserRoundPlus} from "lucide-react";
 import {Button} from "antd";
 import {useState} from "react";
 import {ModalConfiguration} from "../common/ModalConfiguration.tsx";
 import {ModalContent} from "./ModalContent.tsx";
+import { SquarePlus } from 'lucide-react';
 
 const styleIcon:React.CSSProperties = {
     width: '20px',
@@ -19,7 +19,7 @@ export const ButtonModal = ()=>{
 
     return (<>
             <Button type="primary"
-                    icon={<UserRoundPlus style={styleIcon}/>}
+                    icon={<SquarePlus style={styleIcon}/>}
             onClick={showModal}>
                 Nuevo usuario
             </Button>

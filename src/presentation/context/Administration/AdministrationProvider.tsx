@@ -6,7 +6,7 @@ import {ReactNode, useState} from "react";
 export const AdministrationContextProvider = ({children}:{children:ReactNode}) =>{
     const [selectedRow,setSelectedRow]=useState({});
     const [hasSelected,setHasSelected ]=useState<boolean>(false);
-    const [dataTable,setDataTabla] = useState<[]>([]);
+    const [dataTable,setDataTabla] = useState<any[]>([]);
     const [searchText, setSearchText] = useState('');
     const [totalItemsTable,setTotalItemsTable]=useState(0);
 

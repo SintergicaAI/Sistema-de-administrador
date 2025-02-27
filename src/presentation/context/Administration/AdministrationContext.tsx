@@ -1,12 +1,14 @@
 import {createContext} from "react";
+import {DataType} from "../../components/Administration/types/TableAdministrationTypes.ts";
+
 
 export type valueAdministrationContext = {
     changeSelectedRow:(newRowSelected:{})=>void,
     changeHasSelected:(newHasSelected:boolean)=>void,
     selectedRow:{},
     hasSelected:boolean,
-    dataTable:[],
-    setDataTabla:(newDataTabla:[]) => void,
+    dataTable:DataType[],
+    setDataTabla:(newDataTabla:DataType[]) => void,
     totalItemsTable:number,
     setTotalItemsTable:(size:number) => void,
     searchText:string,

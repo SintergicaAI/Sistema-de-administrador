@@ -1,12 +1,14 @@
 //Structure of Api responses for Administration and future page with tables
-import {UserRole} from "../../../domain/enums/UserRole.ts";
+
+type group = {
+    id: string;
+    name: string;
+}
 
 interface AdministrationApiResponse{
-    id: number;
     email: string;
-    first_name: string;
-    last_name: string;
-    groups: number|{};
-    rol: UserRole.USER | UserRole.ADMIN | UserRole.OWNER;
+    name: string;
+    lastName: string;
+    groupDTOList: group[];
 }
 export type {AdministrationApiResponse}
