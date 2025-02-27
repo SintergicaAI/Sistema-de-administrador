@@ -28,7 +28,7 @@ export const ButtonModal = ()=>{
                 Content={<ModalContent/>}
                 isModalOpen={isModalOpen}
                 setIsModalOpen={setIsModalOpen}
-                Title={'Invitar a usuario'}
+                Title={'Invitar a un nuevo usuario'}
             />
         </>)
 }

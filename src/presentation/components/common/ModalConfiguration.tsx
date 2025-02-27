@@ -1,4 +1,5 @@
 import {Modal } from 'antd';
+import {ConfigProvider} from "antd";
 
 export const ModalConfiguration = (
     {Content, isModalOpen,setIsModalOpen,Title}:
@@ -15,13 +16,28 @@ export const ModalConfiguration = (
         setIsModalOpen(false);
     }
     return (<>
+        <ConfigProvider
+            theme={
+                {
+                    components:{
+                        Modal: {
+                            titleFontSize:20,
+                        }
+                    }
+
+                }
+            }
+        >
                 <Modal title={Title}
                        open={isModalOpen}
                        onOk={handleOk}
                        onCancel={handleCancel}
-                       okButtonProps={{style:{display: 'none'}}}>
+                       okButtonProps={{style:{display: 'none'}}}
+                       cancelButtonProps={{style:{display: 'none'}}}
+                >
 
                     {Content}
                 </Modal>
+        </ConfigProvider>
             </>)
 }
