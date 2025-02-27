@@ -1,8 +1,10 @@
-import {AdministrationApiResponse} from "../../../../infrastructure/api/types/TableApiResponse.ts";
+import {UserDTO} from "../../../../infrastructure/api/types/CompanyResponse.ts";
 
-interface DataType extends AdministrationApiResponse{
-    key:string;
+interface DataType extends UserDTO{
+    fullName: string;
     role: string;
+    key: string;
+    groups: string[];
 }
 
 export type{DataType}

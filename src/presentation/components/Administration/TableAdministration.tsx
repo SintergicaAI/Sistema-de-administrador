@@ -7,6 +7,8 @@ import {DataType} from "./types/TableAdministrationTypes.ts"
 import {useContext} from "react";
 import {AdministrationContext,valueAdministrationContext} from "../../context/Administration";
 import {RenderGroups, tableStyle} from "./TableConfiguration.tsx";
+import {UserDTO} from "../../../infrastructure/api/types/CompanyResponse.ts";
+import {v4 as uuid} from "uuid";
 
 
 interface RecordType {
@@ -16,6 +18,23 @@ interface RecordType {
 const operationTable = new TableOperation();
 const getAllUser = new GetAllUserCompanyData(operationTable);
 
+const formatDataTable = (data: []):DataType[] => {
+
+    return [...data.map(
+        (user:UserDTO) =>
+            (
+                //
+                {...user,
+                    fullName:`${user.name} ${user.lastName}`,
+                    role:'Usuario',
+                    key: uuid() as string,
+                    groups: [...user.groupsDTO.map(group => group.name.split(" ")[0])]
+
+                }
+            )
+    )]
+}
+
 export const TableAdministration = () =>{
 
     const [selectedRowKeys,setSelectedRowKeys]=useState<string[]>([])
@@ -23,10 +42,11 @@ export const TableAdministration = () =>{
     const {changeSelectedRow,
         changeHasSelected,
         setTotalItemsTable,
+        totalItemsTable,
         searchText,
-    dataTable, setDataTabla}:valueAdministrationContext = useContext(AdministrationContext);
+        dataTable,
+        setDataTabla}:valueAdministrationContext = useContext(AdministrationContext);
     const [loading, setLoading] = useState(false);
-    const [totalRecords, setTotalRecords] = useState<number>(1);
     const [currentPage, setCurrentPage] = useState(0);
     const PAGE_SIZE = 5;
 
@@ -35,12 +55,13 @@ export const TableAdministration = () =>{
         getAllUser.execute(currentPage,PAGE_SIZE).then(result =>{
             const [data,items] = result
             console.log(data);
-            setDataTabla(data);
+            setDataTabla((formatDataTable(data) as[]) );
             setLoading(false);
             setTotalItemsTable(parseInt(items));
-            setTotalRecords(items);
         })
     }
+
+
 
     useEffect(() => {
         prepareData();
@@ -130,7 +151,7 @@ export const TableAdministration = () =>{
                 loading={loading}
                 pagination={{
                     pageSize:PAGE_SIZE,
-                    total:totalRecords,
+                    total:totalItemsTable,
                     onChange:(page) =>{
                         setCurrentPage(page)
                     },
