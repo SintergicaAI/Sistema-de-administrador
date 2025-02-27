@@ -1,12 +1,8 @@
 import {TableOperationRepository} from "../../domain/repositories/TableOperationRepository.ts";
-import { v4 as uuid } from 'uuid'
-import {UserDTO} from "./types/CompanyResponse.ts";
 import {AuthApi} from "./AuthApi.ts";
-import {PaginableResponse, UsersCompanyPagination} from "./types/PaginableResponse.ts";
+import {UsersCompanyPagination} from "./types/PaginableResponse.ts";
 
-/*http://localhost:3000/users?_page=1&_per_page=5*/
 const BASE_URL = import.meta.env.VITE_API_URL;
-//const LOCAL_TEST = 'http://localhost:3000';
 
 export class TableOperation implements TableOperationRepository  {
 

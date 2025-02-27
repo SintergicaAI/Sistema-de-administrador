@@ -9,13 +9,15 @@ import {AdministrationContext,valueAdministrationContext} from "../../context/Ad
 import {RenderGroups, tableStyle} from "./TableConfiguration.tsx";
 import {UserDTO} from "../../../infrastructure/api/types/CompanyResponse.ts";
 import {v4 as uuid} from "uuid";
+import {LocalOperation} from "../../../infrastructure/api/LocalOperation.ts";
 
 
 interface RecordType {
     key:string;
 }
 
-const operationTable = new TableOperation();
+/*const operationTable = new TableOperation();*/
+const operationTable = new LocalOperation();
 const getAllUser = new GetAllUserCompanyData(operationTable);
 
 const formatDataTable = (data: []):DataType[] => {
@@ -47,7 +49,7 @@ export const TableAdministration = () =>{
         dataTable,
         setDataTabla}:valueAdministrationContext = useContext(AdministrationContext);
     const [loading, setLoading] = useState(false);
-    const [currentPage, setCurrentPage] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
     const PAGE_SIZE = 5;
 
     const prepareData = ()=>{
@@ -55,7 +57,8 @@ export const TableAdministration = () =>{
         getAllUser.execute(currentPage,PAGE_SIZE).then(result =>{
             const [data,items] = result
             console.log(data);
-            setDataTabla((formatDataTable(data) as[]) );
+            setDataTabla(data);
+            //setDataTabla((formatDataTable(data) as[]) );
             setLoading(false);
             setTotalItemsTable(parseInt(items));
         })
@@ -93,7 +96,7 @@ export const TableAdministration = () =>{
             dataIndex: 'fullName',
             key: 'fullName',
             filteredValue:[searchText],
-            onFilter:(value, record) => {
+            /*onFilter:(value, record) => {
                 return record.name
                     .toString()
                     .toLowerCase()
@@ -101,7 +104,7 @@ export const TableAdministration = () =>{
                     record.role.toString()
                             .toLowerCase()
                             .includes((value as string).toLowerCase())
-            },
+            },*/
             render: (name)=>(
                 <Flex align="center" gap='var(--sm-space)'>
                     <Avatar name={name}/>
