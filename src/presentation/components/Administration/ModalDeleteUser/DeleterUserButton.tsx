@@ -11,8 +11,6 @@ const deleteUser = new DeleteUser(companyApi);
 export const DeleterUserButton = ()=>{
     const {selectedRow,dataTable,setDataTabla,changeHasSelected} = useContext(AdministrationContext);
 
-
-    //Pregunta Alexis si esto esta bien
     const handleDelete = async ()=>{
         const {email} = selectedRow as DataType;
         try{
@@ -28,6 +26,6 @@ export const DeleterUserButton = ()=>{
     }
 
     return (
-        <Trash2 color='var(--c_danger_400)' onClick={handleDelete}/>
+        <Trash2 color='var(--c_danger_400)' onClick={handleDelete} style={{marginInlineStart:'auto'}}/>
     )
 }

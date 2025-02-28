@@ -40,11 +40,12 @@ export const Register = () =>{
                 navigation('/');
             })
 
-        }).catch(() => {
+        }).catch((error) => {
+            console.log(error);
             messageApi.open({
                 type:'error',
                 content:'Tus datos no se enviaron correctamente',
-                duration:3,
+                duration:5,
             })
         })
 

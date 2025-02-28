@@ -74,8 +74,9 @@ export class AuthApi implements AuthRepository {
         });
 
         if (!response.ok) {
-            throw new Error('Credenciales inválidas');
+            throw new Error(`Error ${response.status}`);
         }
+
 
         const data: AuthenticateApiResponse = await response.json();
         return new User(data.id, data.email, data.role, undefined, undefined, undefined, data.token);
