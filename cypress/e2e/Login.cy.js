@@ -9,8 +9,9 @@ describe('Login Test', () => {
     })
   
     it('user should can to login', () => {
-        cy.get('[placeholder="juan@gmail.com"]').type('test01@gmail.com')
+        cy.get('[placeholder="juan@gmail.com"]').type('test02@gmail.com')
         cy.get('[placeholder="******"]').type('123456')
         cy.contains('Enviar').click()
+        cy.contains('Iniciando sesion...')
     })
 })
