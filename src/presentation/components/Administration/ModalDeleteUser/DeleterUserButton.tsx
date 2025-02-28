@@ -1,9 +1,10 @@
 import { Trash2 } from 'lucide-react';
-import {CompanyApi} from "../../../infrastructure/api/CompanyApi.ts";
-import {DeleteUser} from "../../../application/use-cases/DeleteUser.ts";
 import {useContext} from "react";
-import {AdministrationContext} from "../../context/Administration";
-import {DataType} from "./types/TableAdministrationTypes.ts";
+
+import {CompanyApi} from "../../../../infrastructure/api/CompanyApi.ts";
+import {DataType} from "../types/TableAdministrationTypes.ts";
+import {AdministrationContext} from "../../../context/Administration";
+import {DeleteUser} from "../../../../application/use-cases/DeleteUser.ts";
 
 
 const companyApi = new CompanyApi();

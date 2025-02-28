@@ -5,7 +5,7 @@ import {SiderContent} from  './SiderContent.tsx';
 import {useContext} from "react";
 import {AdministrationContext} from "../../context/Administration";
 import {Flex} from "antd";
-import {DeleterUserButton} from "./DeleterUserButton.tsx";
+import {DeleterUserButton} from "./ModalDeleteUser/DeleterUserButton.tsx";
 
 
 const SiderHeader = ()=>{

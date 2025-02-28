@@ -1,8 +1,8 @@
 import {Button} from "antd";
 import {useState} from "react";
-import {ModalConfiguration} from "../common/ModalConfiguration.tsx";
-import {ModalContent} from "./ModalContent.tsx";
 import { SquarePlus } from 'lucide-react';
+import {ModalConfiguration} from "../../common/ModalConfiguration.tsx";
+import {ModalContent} from "./ModalContentInviteUser.tsx";
 
 const styleIcon:React.CSSProperties = {
     width: '20px',

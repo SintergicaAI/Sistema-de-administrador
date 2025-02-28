@@ -1,10 +1,10 @@
 import {Form, FormProps, Input, message, Divider, ConfigProvider, Select, Flex} from "antd";
-import {SubmitButton} from "../common/SubmitButton.tsx";
-import {InvitationApi} from "../../../infrastructure/api/InvitationApi.ts";
-import {SendInvitationEmail} from "../../../application/use-cases/SendInvitationEmail.ts";
 import {useState} from "react";
-import {AlertMessages} from "../common/AlertMessages.tsx";
 import { Send } from 'lucide-react';
+import {SubmitButton} from "../../common/SubmitButton.tsx";
+import {InvitationApi} from "../../../../infrastructure/api/InvitationApi.ts";
+import {SendInvitationEmail} from "../../../../application/use-cases/SendInvitationEmail.ts";
+import {AlertMessages} from "../../common/AlertMessages.tsx";
 
 type FieldType = {
     email: string,
