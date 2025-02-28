@@ -5,10 +5,11 @@ import {Button, Form, type FormInstance} from "antd";
 export interface SubmitButtonProps {
     form: FormInstance;
     style?: React.CSSProperties;
+    icon?: React.ReactNode;
 }
 
 export const SubmitButton:React.FC<React.PropsWithChildren<SubmitButtonProps>> =
-    ({form,children,style}) => {
+    ({form,children,style,icon}) => {
     const [submittable, setSubmittable] = useState<boolean>(false);
 
     const values = Form.useWatch([],form);
@@ -22,7 +23,13 @@ export const SubmitButton:React.FC<React.PropsWithChildren<SubmitButtonProps>> =
     }, [form,values]);
 
     return (
-            <Button type="primary" disabled={!submittable} style={style} htmlType='submit' >
+            <Button
+                type="primary"
+                disabled={!submittable}
+                style={style}
+                htmlType='submit'
+                icon={icon}
+            >
                 {children }
             </Button>
     )

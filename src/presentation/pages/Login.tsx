@@ -17,6 +17,11 @@ type FieldType = {
 const authApi = new AuthApi();
 const logIn = new LogIn(authApi);
 
+enum LoginStatusResponse {
+    WRONG_PASSWORD = 401,
+    DENIEND_ACCES = 404
+}
+
 function Login() {
     //Hooks
     const [email, setEmail] = useState('');
@@ -37,10 +42,13 @@ function Login() {
                     duration: 3,
                 }).then(() => navigate("/"))
             }
-        ).catch(error => {
+        ).catch((error:Response) => {
+            let message = error.status ===
+            LoginStatusResponse.WRONG_PASSWORD ? 'Contraseña incorrecta' : 'No tiene acceso'
+
             messageApi.open({
                 type: 'error',
-                content: error.message
+                content: message,
             });
         });
     }
