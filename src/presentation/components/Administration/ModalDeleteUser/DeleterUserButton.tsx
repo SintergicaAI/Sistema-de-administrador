@@ -1,32 +1,24 @@
 import { Trash2 } from 'lucide-react';
-import {useContext} from "react";
-
-import {CompanyApi} from "../../../../infrastructure/api/CompanyApi.ts";
-import {DataType} from "../types/TableAdministrationTypes.ts";
-import {AdministrationContext} from "../../../context/Administration";
-import {DeleteUser} from "../../../../application/use-cases/DeleteUser.ts";
+import {useState} from "react";
+import {ModalConfiguration} from "../../common/ModalConfiguration.tsx";
+import {ModalContentDeleteUser} from "./ModalContentDeleteUser.tsx";
 
 
-const companyApi = new CompanyApi();
-const deleteUser = new DeleteUser(companyApi);
+
 export const DeleterUserButton = ()=>{
-    const {selectedRow,dataTable,setDataTabla,changeHasSelected} = useContext(AdministrationContext);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const handleDelete = async ()=>{
-        const {email} = selectedRow as DataType;
-        try{
-            const deletedUser = await deleteUser.execute(email);
-            const newData = dataTable.filter((data)=>data.email !== deletedUser.email);
-            console.log(newData);
-            setDataTabla(newData);
-            changeHasSelected(false);
-        }catch(e){
-            console.log(e);
-        }
+    const showModal = () => {
+        setIsModalOpen(true);
+    };
 
-    }
 
     return (
-        <Trash2 color='var(--c_danger_400)' onClick={handleDelete} style={{marginInlineStart:'auto'}}/>
+        <>
+            <Trash2 color='var(--c_danger_400)' onClick={showModal} style={{marginInlineStart:'auto'}}/>
+            <ModalConfiguration Content={<ModalContentDeleteUser setIsModalOpen={setIsModalOpen}/>}
+                                isModalOpen={isModalOpen}
+                                setIsModalOpen={setIsModalOpen} Title={"Eliminar usuario?"}/>
+        </>
     )
 }

@@ -2,7 +2,7 @@ import {Flex, Layout} from "antd";
 import {HeaderPages} from "../components/common/HeaderPages.tsx";
 const {Content} = Layout
 import {TableAdministration} from "../components/Administration/TableAdministration.tsx";
-import {ButtonModal} from "../components/Administration/ModalInviteUser/ButtonModalInviteUser.tsx";
+import {ButtonModalInviteUser} from "../components/Administration/ModalInviteUser/ButtonModalInviteUser.tsx";
 import {AdministrationContextProvider} from "../context/Administration/AdministrationProvider.tsx";
 import {RenderSideBarTable} from "../components/Administration/RenderSideBarTable.tsx";
 import {ConfigurationIcons} from "../components/Administration/ConfigurationIcons.tsx";
@@ -28,7 +28,7 @@ export const Administration = ({texto}:{texto:string}) =>{
                         <Flex
                             justify='space-between'
                             style={HeaderButtonsStyle} align={"center"}>
-                                <ButtonModal/>
+                                <ButtonModalInviteUser/>
                                 <ConfigurationIcons/>
                         </Flex>
                         <TableAdministration/>

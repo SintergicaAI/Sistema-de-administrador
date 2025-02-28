@@ -1,10 +1,10 @@
-import {Form, FormProps, Input, message, Divider, ConfigProvider, Select, Flex} from "antd";
-import {useState} from "react";
-import { Send } from 'lucide-react';
+import {Form, FormProps, Input, message, ConfigProvider, Select, Flex} from "antd";
 import {SubmitButton} from "../../common/SubmitButton.tsx";
 import {InvitationApi} from "../../../../infrastructure/api/InvitationApi.ts";
 import {SendInvitationEmail} from "../../../../application/use-cases/SendInvitationEmail.ts";
+import {useState} from "react";
 import {AlertMessages} from "../../common/AlertMessages.tsx";
+import { Send } from 'lucide-react';
 
 type FieldType = {
     email: string,
@@ -14,7 +14,7 @@ type FieldType = {
 
 const invitationAPI = new InvitationApi();
 const sendInvitationEmail = new SendInvitationEmail(invitationAPI);
-export const ModalContent = ()=>{
+export const ModalContentInviteUser = ()=>{
     const [form] = Form.useForm();
     const [messageApi]= message.useMessage()
     const [showMessage, setShowMessage] = useState(false);
@@ -22,8 +22,8 @@ export const ModalContent = ()=>{
 
     const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
         console.log(values);
-        sendInvitationEmail.execute(values).
-       then( (response) => {
+        sendInvitationEmail.execute(values.email).
+       then( () => {
             //console.log('Response:', response);
             setShowMessage(true);
             setAlertConfiguarion({
@@ -53,11 +53,6 @@ export const ModalContent = ()=>{
     };
 
     return (<>
-        <Divider style={{
-            width: 520,
-            position: 'relative',
-            left: -24,
-        }}/>
         <ConfigProvider theme={{
             components:{
                 Form:{

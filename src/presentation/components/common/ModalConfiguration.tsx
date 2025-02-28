@@ -1,4 +1,4 @@
-import {Modal } from 'antd';
+import {Divider, Modal} from 'antd';
 import {ConfigProvider} from "antd";
 
 export const ModalConfiguration = (
@@ -35,7 +35,11 @@ export const ModalConfiguration = (
                        okButtonProps={{style:{display: 'none'}}}
                        cancelButtonProps={{style:{display: 'none'}}}
                 >
-
+                    <Divider style={{
+                        width: 520,
+                        position: 'relative',
+                        left: -24,
+                    }}/>
                     {Content}
                 </Modal>
         </ConfigProvider>
