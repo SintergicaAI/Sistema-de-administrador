@@ -1,6 +1,5 @@
 import {TableOperationRepository} from "../../domain/repositories/TableOperationRepository.ts";
 
-const LOCAL_TEST = 'http://localhost:300';
 /*http://localhost:3000/users?_page=1&_per_page=5*/
 
 export class LocalOperation  implements TableOperationRepository{
@@ -24,5 +23,6 @@ export class LocalOperation  implements TableOperationRepository{
             }
             )),items];
     }
+
 
 }

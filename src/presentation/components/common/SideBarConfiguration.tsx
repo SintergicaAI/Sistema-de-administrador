@@ -21,8 +21,10 @@ export const SideBarConfiguration = ({childrenHeader, contentChildren, hasSelect
                 <Header style={{
                     display:'flex',
                     justifyContent:'space-between',
+                    gap:10,
                     alignItems:'center',paddingInline:0}}
-                >{childrenHeader}
+                >
+                    {childrenHeader}
                     <X onClick={closeSideBar}/>
                 </Header>
                 <Content> {contentChildren}</Content>

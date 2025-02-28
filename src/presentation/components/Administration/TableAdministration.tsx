@@ -2,7 +2,6 @@ import {Table, TableProps, Flex} from "antd";
 import {Avatar} from "../common/Avatar.tsx";
 import {useEffect, useState} from "react";
 import {GetAllUserCompanyData} from "../../../application/use-cases/GetAllUserCompanyData.ts";
-import {TableOperation} from "../../../infrastructure/api/TableOperation.ts";
 import {DataType} from "./types/TableAdministrationTypes.ts"
 import {useContext} from "react";
 import {AdministrationContext,valueAdministrationContext} from "../../context/Administration";
@@ -69,8 +68,10 @@ export const TableAdministration = () =>{
     useEffect(() => {
         prepareData();
     }, [currentPage]);
+
     const changeRow = (selectedRow:RecordType) => {
         changeSelectedRow(selectedRow);
+        console.log(selectedRow);
     }
 
     const rowSelection:TableProps<DataType>['rowSelection'] ={
