@@ -1,4 +1,4 @@
-import {SideBarConfiguration} from "../common/SideBarConfiguration.tsx";
+import {SideBarGeneral} from "../common/SideBarGeneral.tsx";
 import {Avatar} from "../common/Avatar.tsx";
 import type {DataType} from './types/TableAdministrationTypes.ts'
 import {SiderContent} from  './SiderContent.tsx';
@@ -26,7 +26,7 @@ const SiderHeader = ()=>{
 export const SidebarTableAdministration = () => {
     const {changeHasSelected} = useContext(AdministrationContext);
     return (
-        <SideBarConfiguration
+        <SideBarGeneral
             childrenHeader={<SiderHeader/>}
             contentChildren={<SiderContent/>}
             hasSelected={changeHasSelected}

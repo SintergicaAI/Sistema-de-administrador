@@ -1,7 +1,7 @@
 import {Divider, Modal} from 'antd';
 import {ConfigProvider} from "antd";
 
-export const ModalConfiguration = (
+export const ModalGeneral = (
     {Content, isModalOpen,setIsModalOpen,Title}:
                                    {Content:React.ReactNode,
                                        isModalOpen:boolean,
