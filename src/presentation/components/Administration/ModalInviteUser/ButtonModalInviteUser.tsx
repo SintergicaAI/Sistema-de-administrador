@@ -1,6 +1,6 @@
 import {Button} from "antd";
 import {useState} from "react";
-import {ModalConfiguration} from "../../common/ModalConfiguration.tsx";
+import {ModalGeneral} from "../../common/ModalGeneral.tsx";
 import {ModalContentInviteUser} from "./ModalContentInviteUser.tsx";
 import { SquarePlus } from 'lucide-react';
 
@@ -24,7 +24,7 @@ export const ButtonModalInviteUser = ()=>{
                 Nuevo usuario
             </Button>
 
-            <ModalConfiguration
+            <ModalGeneral
                 Content={<ModalContentInviteUser/>}
                 isModalOpen={isModalOpen}
                 setIsModalOpen={setIsModalOpen}

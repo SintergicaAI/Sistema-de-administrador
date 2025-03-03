@@ -1,0 +1,38 @@
+
+.sidebar-configuration {
+    background-color: var(--c_slate_50);
+    border-inline-start: 1px solid var(--c_slate_300);
+    padding-inline: var(--lg-space);
+    padding-block: var(--xl-space);
+}
+.lucide{
+    cursor: pointer;
+}
+
+.checkbox-container{
+    background-color: var(--c_slate_100);
+    padding: var(--sm-space);
+    border-radius: var(--sm-radius);
+
+    .checkbok__tag{
+        margin-block: 0;
+        font-weight: 600;
+        color: var(--c_brand_900);
+        padding: var(--sm-space);
+        background-color: var(--c_brand_200);
+        border-radius: var(--2xl-space);
+    }
+    &:has( input:checked ){
+        background-color: var(--c_brand_100);
+        color: var(--c_brand-500);
+    }
+}
+.radio-button{
+    color : #000;
+    background-color: var(--c_slate_100);
+
+    &:has( input:checked ){
+        background-color: var(--c_brand_100);
+        color: var(--c_brand-500);
+    }
+}
