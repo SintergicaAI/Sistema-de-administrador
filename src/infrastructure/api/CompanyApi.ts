@@ -26,7 +26,7 @@ export class CompanyApi implements CompanyRepository {
         return Promise.resolve(user);
     }
 
-    async findUsersInCompany(searchParams: UserSearchParams): Promise<UserList> {
+    async findUsersInCompany(searchParams: UserSearchParams): Promise<UsersCompanyPagination> {
         const token = this.authApi.getToken();
         if (!token) {
             throw new Error('No autorizado');
@@ -40,7 +40,7 @@ export class CompanyApi implements CompanyRepository {
         });
 
         const response = await fetch(
-            `${this.baseUrl}/companies/users?${queryParams}`,
+            `${this.baseUrl}/company/users?${queryParams}`,
             {
                 method: 'GET',
                 headers: {
