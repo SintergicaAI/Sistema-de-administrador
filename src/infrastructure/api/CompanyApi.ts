@@ -2,6 +2,7 @@ import {CompanyRepository, UserList, UserSearchParams} from "../../domain/reposi
 import {AuthApi} from "./AuthApi.ts";
 import {UserDeleted} from "../../domain/types/UserDTO.ts";
 import { User } from "../../domain/entities/User";
+import {UsersCompanyPagination} from "./types/PaginableResponse.ts";
 
 
 export class CompanyApi implements CompanyRepository {
