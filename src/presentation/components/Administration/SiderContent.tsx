@@ -1,9 +1,8 @@
 
 import {Roles} from "../../../domain/enums/UserRole.ts";
 import {Groups} from "../../../domain/enums/UserGroups.ts";
-import {Radio, Checkbox, Flex, GetProp} from 'antd';
-import type { RadioChangeEvent } from 'antd';
-import {CSSProperties, useContext, useEffect, useState} from "react";
+import {Checkbox, Flex, GetProp} from 'antd';
+import {useContext, useEffect, useState} from "react";
 import './styles/administration.css';
 import {AdministrationContext} from "../../context/Administration";
 import type {DataType} from "./types/TableAdministrationTypes.ts";
@@ -11,29 +10,30 @@ import {InputSearch, CheckBox} from "../common";
 import {RadioButton} from "../common/RadioButton.tsx";
 import {RadioGroup} from "../common/RadioGroup.tsx";
 
-
-
-const radioButtonStyle:CSSProperties = {
-    borderRadius:'var(--sm-radius)',
-
-}
-
 export const SiderContent = () =>{
 
     const {selectedRow} = useContext(AdministrationContext);
     const {groups,role} = selectedRow as DataType;
 
     const [valueGroups,setValueGroups]=useState(groups);
-    const [isCheckedRadio, setCheckedRadio]= useState(true);
+    const [checkedRadio,setCheckedRadio]=useState(role);
 
     useEffect(()=>{
         setValueGroups(groups);
+        deleteCheckedRadio();
     },[role,groups]);
 
     const isChecked = (group:string):boolean => {
 
         return groups?.includes(group as never);
     }
+
+    const deleteCheckedRadio = () =>{
+        document.querySelector("input[type='radio']:checked")?.removeAttribute("checked");
+        setCheckedRadio(role);
+    }
+
+
 
     const handleChange: GetProp<typeof Checkbox.Group, 'onChange'> = (checkedValues) => {
         setValueGroups([...(checkedValues as [])]);
@@ -44,8 +44,9 @@ export const SiderContent = () =>{
         <div>
             <p className="label">Rol</p>
             <RadioGroup>
-                {Roles.map((rol) =>(<RadioButton
-                    isChecked={rol === role ? isCheckedRadio: !isCheckedRadio}
+                {Roles.map((rol) =>(
+                    <RadioButton
+                    isChecked={rol === checkedRadio }
                     rol={rol}
                     key={rol}
                     name={"roles"}
