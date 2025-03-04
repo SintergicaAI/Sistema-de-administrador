@@ -1,22 +1,3 @@
-.checkbox-container{
-    background-color: var(--c_slate_200);
-    padding: var(--sm-space);
-    border-radius: var(--sm-radius);
-    & p{
-        margin-block: 0;
-        font-weight: 400;
-        color: var(--c_slate_500);
-        font-size: var(--base-size);
-    }
-    &:has( input:checked ){
-        background-color: var(--c_brand_100);
-        color: var(--c_brand-500);
-
-        p{
-            color: var(--c_brand-500);
-        }
-    }
-}
 .dropdown-menu{
     width: 300px;
     position:absolute;

@@ -68,8 +68,10 @@ export const TableAdministration = () =>{
     useEffect(() => {
         prepareData();
     }, [currentPage]);
+
     const changeRow = (selectedRow:RecordType) => {
         changeSelectedRow(selectedRow);
+        console.log(selectedRow);
     }
 
     const rowSelection:TableProps<DataType>['rowSelection'] ={

@@ -37,7 +37,7 @@ createRoot(document.getElementById('root')!).render(
                     components: {
                         Layout: {
                             bodyBg:'var(--c_slate_100)',
-                            headerBg:"var(--c_slate_100)",
+                            headerBg:"inherit",
                             headerHeight:50,
                             siderBg: 'var(--c_slate_200)',
                             colorText:'var(--c_slate_500)',

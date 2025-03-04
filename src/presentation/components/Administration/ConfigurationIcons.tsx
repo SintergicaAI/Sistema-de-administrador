@@ -2,7 +2,7 @@ import {AdministrationContext} from "../../context/Administration/Administration
 import {useContext} from "react";
 import {Flex} from "antd";
 //import {SearchDropDownMenu} from "./SearchDropDownMenu.tsx";
-import {InputSearch} from "./InputSearch.tsx";
+import {InputSearchUsers} from "./InputSearchUsers.tsx";
 
 
 export const ConfigurationIcons = () =>{
@@ -11,6 +11,6 @@ export const ConfigurationIcons = () =>{
 
     return (<Flex gap={16} align={"center"} justify={'center'} style={{position:"relative"}}>
                 <p>{totalItemsTable} asistentes</p>
-                <InputSearch/>
+                <InputSearchUsers/>
             </Flex>)
 }

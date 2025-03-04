@@ -1,8 +1,8 @@
 import {Button} from "antd";
 import {useState} from "react";
+import {ModalGeneral} from "../../common/ModalGeneral.tsx";
+import {ModalContentInviteUser} from "./ModalContentInviteUser.tsx";
 import { SquarePlus } from 'lucide-react';
-import {ModalConfiguration} from "../../common/ModalConfiguration.tsx";
-import {ModalContent} from "./ModalContentInviteUser.tsx";
 
 const styleIcon:React.CSSProperties = {
     width: '20px',
@@ -10,7 +10,7 @@ const styleIcon:React.CSSProperties = {
 
 }
 
-export const ButtonModal = ()=>{
+export const ButtonModalInviteUser = ()=>{
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const showModal = () => {
@@ -24,8 +24,8 @@ export const ButtonModal = ()=>{
                 Nuevo usuario
             </Button>
 
-            <ModalConfiguration
-                Content={<ModalContent/>}
+            <ModalGeneral
+                Content={<ModalContentInviteUser/>}
                 isModalOpen={isModalOpen}
                 setIsModalOpen={setIsModalOpen}
                 Title={'Invitar a un nuevo usuario'}
