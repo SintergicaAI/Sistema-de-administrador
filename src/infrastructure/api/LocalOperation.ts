@@ -85,4 +85,15 @@ export class LocalOperation  implements CompanyRepository {
         )),total:items};
     }
 
+    async getCompanyGroups(): Promise<string[]> {
+        const response = await fetch(`${this.baseUrl}/groups`,{});
+
+        if(!response.ok) {
+            return Promise.reject(response.statusText);
+        }
+        const data:string[] = await response.json();
+
+        return Promise.resolve(data);
+    }
+
 }

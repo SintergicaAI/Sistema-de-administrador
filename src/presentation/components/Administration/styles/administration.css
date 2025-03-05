@@ -11,6 +11,11 @@
 
     transition: all 300ms ease-in;
 }
+.label{
+    font-weight: 300;
+    font-size: var(--label-size);
+    color: var(--c_slate_500);
+}
 .js-visible-dropdown-menu{
     opacity: 1;
     transform: translate(-50vw, -80px);
