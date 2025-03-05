@@ -1,27 +1,4 @@
 {
-  "clients": [
-    {
-      "id": "1",
-      "email": "user1@example.com",
-      "first_name": "John",
-      "last_name": "Doe",
-      "age": 28
-    },
-    {
-      "id": "2",
-      "email": "user2@example.com",
-      "first_name": "Jane",
-      "last_name": "Smith",
-      "age": 34
-    },
-    {
-      "id": "3",
-      "email": "user3@example.com",
-      "first_name": "Alice",
-      "last_name": "Johnson",
-      "age": 22
-    }
-  ],
   "users": [
     {
       "id": "1",
@@ -30,7 +7,8 @@
       "last_name": "Alvarez",
       "role": "Usuario",
       "groups": ["Marketing"]
-    },{
+    },
+    {
       "id": "2",
       "email": "Gonzalo@sintergica.ai",
       "first_name": "Gonzalo",
@@ -53,7 +31,8 @@
       "last_name": "Alvarez",
       "role": "Usuario",
       "groups": ["Marketing"]
-    },{
+    },
+    {
       "id": "5",
       "email": "Alberto@sintergica.ai",
       "first_name": "Alberto",
@@ -92,7 +71,8 @@
       "last_name": "Alvarez",
       "role": "Usuario",
       "groups": ["Marketing"]
-    },{
+    },
+    {
       "id": "10",
       "email": "Alberto@sintergica.ai",
       "first_name": "Alberto",
@@ -109,6 +89,56 @@
       "groups": ["Ventas"]
     }
   ],
+  "search": [
+    {
+      "id": "1",
+      "email": "alexis.alvarez@sintergica.ai",
+      "first_name": "Alexis",
+      "last_name": "Alvarez",
+      "role": "Usuario",
+      "groups": ["Marketing"]
+    },
+    {
+      "id": "2",
+      "email": "alberto.alvarez@sintergica.ai",
+      "first_name": "Alberto",
+      "last_name": "Alvarez",
+      "role": "Usuario",
+      "groups": ["Ventas", "Marketing"]
+    },
+    {
+      "id": "3",
+      "email": "Antonio.alvarez@sintergica.ai",
+      "first_name": "Antonio",
+      "last_name": "Alvarez",
+      "role": "Usuario",
+      "groups": ["Ventas"]
+    },
+    {
+      "id": "4",
+      "email": "Ana.gabriela@sintergica.ai",
+      "first_name": "Ana",
+      "last_name": "Gabriela",
+      "role": "Administrador",
+      "groups": ["Finanzas"]
+    },
+    {
+      "id": "5",
+      "email": "Ana.Marquez@sintergica.ai",
+      "first_name": "Ana",
+      "last_name": "Marquez",
+      "role": "Usuario",
+      "groups": ["Finanzas"]
+    },
+    {
+      "id": "6",
+      "email": "Estafania.Lopez@sintergica.ai",
+      "first_name": "Estafania",
+      "last_name": "Lopez",
+      "role": "Dueño",
+      "groups": ["Finanzas"]
+    }
+  ],
   "login": {
     "email": "mock@example.com",
     "password": "12345678",
@@ -121,6 +151,7 @@
   "invitaton": {
     "status": 200
   },
+  "groups":["Ventas","Marketing","General","Finanzas"],
   "models": [
     {
       "id": "1",

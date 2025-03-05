@@ -1,6 +1,6 @@
 import {AdministrationContext, valueAdministrationContext} from "../../context/Administration";
 import {useContext} from "react";
-import {InputSearch} from "../common/InputSearch.tsx";
+import {InputSearch} from "../common";
 
 
 export const InputSearchUsers = () => {

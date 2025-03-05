@@ -8,6 +8,7 @@ export class User {
         public readonly firstName?: string,
         public readonly lastName?: string,
         public readonly password?: string,
+        public readonly groups?: string[],
         public token?: string,
     ) {
     }
@@ -16,7 +17,7 @@ export class User {
         return `${this.firstName} ${this.lastName}`;
     }
 
-    get isAdmin(): boolean {
+    /*get isAdmin(): boolean {
         return this.role === UserRole.ADMIN;
-    }
+    }*/
 }

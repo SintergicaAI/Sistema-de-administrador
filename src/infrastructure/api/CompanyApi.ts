@@ -5,8 +5,8 @@ import { User } from "../../domain/entities/User";
 
 
 export class CompanyApi implements CompanyRepository {
-    private readonly baseUrl = import.meta.env.VITE_API_URL;
-    //private readonly baseUrl = import.meta.env.VITE_LOCAL_TEST;
+    //private readonly baseUrl = import.meta.env.VITE_API_URL;
+    private readonly baseUrl = import.meta.env.VITE_LOCAL_TEST;
     private authApi: AuthApi;
 
     constructor() {
@@ -33,15 +33,15 @@ export class CompanyApi implements CompanyRepository {
             throw new Error('No autorizado');
         }
 
-        //Investigar sobre esta clase
         const queryParams = new URLSearchParams({
-            /*query: searchParams.query,*/
+            query: searchParams.query,
             page: searchParams.page?.toString() || '1',
             limit: searchParams.limit?.toString() || '10',
             ...(searchParams.groups && { groups: searchParams.groups })
         });
 
-
+        //Comprobar si es necesario el query
+        if((queryParams.get("query") as string).length === 0) queryParams.delete("query");
 
         const response = await fetch(
             `${this.baseUrl}/company/users?${queryParams}`,
@@ -59,6 +59,7 @@ export class CompanyApi implements CompanyRepository {
         }
 
         const data = await response.json();
+        console.log(data);
         return data.users.map((userData: any) => new User(
             userData.id,
             userData.email,
