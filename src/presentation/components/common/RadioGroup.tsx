@@ -1,8 +1,7 @@
 import {RadioButton} from './RadioButton';
-import {ChangeEvent, useContext, useEffect, useState} from "react";
+import {ChangeEvent, useContext, useState} from "react";
 import {AdministrationContext} from "../../context/Administration";
 import type {DataType} from "../Administration/types/TableAdministrationTypes.ts";
-import {Roles} from "../../../domain/enums/UserRole.ts";
 
 type RadioGroup = {
     options:string[];
@@ -32,13 +31,6 @@ export const RadioGroup = ({radioObjet}:Props) =>{
         <div
             style={{display: "flex", flexDirection: "column", gap:3}}
         >
-            {/*{
-                Roles.map((rol,index) => (<RadioButton rol={`${rol}`}
-                                               name={"role"}
-                                               handleChange={handleRadioChange}
-                                               key={index}
-                                               isChecked={role} /> ))
-            }*/}
             {radioButtons.map((option,index) =>(
                 <RadioButton rol={`${option}`}
                              name={radioObjet.nameGroup}

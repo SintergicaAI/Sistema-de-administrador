@@ -2,7 +2,7 @@ import {Form, FormProps, Input, message, ConfigProvider, Select, Flex} from "ant
 import {SubmitButton} from "../../common/SubmitButton.tsx";
 import {InvitationApi} from "../../../../infrastructure/api/InvitationApi.ts";
 import {SendInvitationEmail} from "../../../../application/use-cases/SendInvitationEmail.ts";
-import {useState} from "react";
+import {Dispatch, SetStateAction, useState} from "react";
 import {AlertMessages} from "../../common/AlertMessages.tsx";
 import { Send } from 'lucide-react';
 
@@ -11,10 +11,16 @@ type FieldType = {
     username: string,
     TextArea:string,
 };
+type Props = {
+    setIsModalOpen:Dispatch<SetStateAction<any>>;
+    setInvitationSend:Dispatch<SetStateAction<any>>;
+}
 
 const invitationAPI = new InvitationApi();
 const sendInvitationEmail = new SendInvitationEmail(invitationAPI);
-export const ModalContentInviteUser = ()=>{
+
+
+export const ModalContentInviteUser = ({setIsModalOpen,setInvitationSend}:Props)=>{
     const [form] = Form.useForm();
     const [messageApi]= message.useMessage()
     const [showMessage, setShowMessage] = useState(false);
@@ -24,14 +30,8 @@ export const ModalContentInviteUser = ()=>{
         console.log(values);
         sendInvitationEmail.execute(values.email).
        then( () => {
-            //console.log('Response:', response);
-            setShowMessage(true);
-            setAlertConfiguarion({
-                ...alertConfiguration,
-                message:'Invitacion enviada',
-                description:'La invitacion se ha enviado exitosamente',
-                type:'success'
-            })
+            setIsModalOpen(false);
+            setInvitationSend(true);
        })
            .catch((error)=>{
                setShowMessage(true);
