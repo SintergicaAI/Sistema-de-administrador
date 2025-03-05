@@ -1,5 +1,5 @@
 import {Table, TableProps, Flex} from "antd";
-import {Avatar} from "../common/Avatar.tsx";
+import {Avatar} from "../common";
 import {useEffect, useState} from "react";
 import {GetAllUserCompanyData} from "../../../application/use-cases/GetAllUserCompanyData.ts";
 import {DataType} from "./types/TableAdministrationTypes.ts"
@@ -8,7 +8,8 @@ import {AdministrationContext,valueAdministrationContext} from "../../context/Ad
 import {RenderGroups, tableStyle} from "./TableConfiguration.tsx";
 import {UserDTO} from "../../../infrastructure/api/types/CompanyResponse.ts";
 import {v4 as uuid} from "uuid";
-import {LocalOperation} from "../../../infrastructure/api/LocalOperation.ts";
+import {CompanyApi} from "../../../infrastructure/api/CompanyApi.ts";
+import {UserSearchParams} from "../../../domain/repositories/CompanyRepository.ts";
 
 
 interface RecordType {
@@ -16,7 +17,7 @@ interface RecordType {
 }
 
 /*const operationTable = new TableOperation();*/
-const operationTable = new LocalOperation();
+const operationTable = new CompanyApi();
 const getAllUser = new GetAllUserCompanyData(operationTable);
 
 const formatDataTable = (data: []):DataType[] => {
@@ -51,15 +52,23 @@ export const TableAdministration = () =>{
     const [currentPage, setCurrentPage] = useState(1);
     const PAGE_SIZE = 5;
 
+
+
     const prepareData = ()=>{
         setLoading(true);
-        getAllUser.execute(currentPage,PAGE_SIZE).then(result =>{
-            const [data,items] = result
-            console.log(data);
-            setDataTabla(data);
-            //setDataTabla((formatDataTable(data) as[]) );
+
+        const searchParams: UserSearchParams = {
+            page:currentPage,
+            limit:5,
+            query:""
+        }
+
+        getAllUser.execute(searchParams).then(result =>{
+            const {users,total} = result
+            console.log(users);
+            setDataTabla((formatDataTable(users as[])) );
             setLoading(false);
-            setTotalItemsTable(parseInt(items));
+            setTotalItemsTable(total);
         })
     }
 

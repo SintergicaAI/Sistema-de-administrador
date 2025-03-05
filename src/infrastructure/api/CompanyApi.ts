@@ -6,6 +6,7 @@ import { User } from "../../domain/entities/User";
 
 export class CompanyApi implements CompanyRepository {
     private readonly baseUrl = import.meta.env.VITE_API_URL;
+    //private readonly baseUrl = import.meta.env.VITE_LOCAL_TEST;
     private authApi: AuthApi;
 
     constructor() {
@@ -32,15 +33,18 @@ export class CompanyApi implements CompanyRepository {
             throw new Error('No autorizado');
         }
 
+        //Investigar sobre esta clase
         const queryParams = new URLSearchParams({
-            query: searchParams.query,
+            /*query: searchParams.query,*/
             page: searchParams.page?.toString() || '1',
             limit: searchParams.limit?.toString() || '10',
-            ...(searchParams.role && { role: searchParams.role })
+            ...(searchParams.groups && { groups: searchParams.groups })
         });
 
+
+
         const response = await fetch(
-            `${this.baseUrl}/companies/users?${queryParams}`,
+            `${this.baseUrl}/company/users?${queryParams}`,
             {
                 method: 'GET',
                 headers: {

@@ -7,10 +7,11 @@ export interface CompanyRepository {
 }
 
 export interface UserSearchParams {
-    query: string;  // Puede ser nombre, email, etc.
+    query: string | "";  // Puede ser nombre, email, etc.
     page?: number;
     limit?: number;
-    role?: string;
+    groups?: string;
+
 }
 
 export interface UserList {
