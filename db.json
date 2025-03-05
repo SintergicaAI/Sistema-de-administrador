@@ -6,23 +6,30 @@
       "first_name": "Alexis",
       "last_name": "Alvarez",
       "role": "Usuario",
-      "groups": ["Marketing"]
+      "groups": [
+        "Marketing"
+      ]
     },
     {
       "id": "2",
-      "email": "Gonzalo@sintergica.ai",
-      "first_name": "Gonzalo",
-      "last_name": "Perez",
-      "role": "Administrador",
-      "groups": ["Marketing","Finanzas","Ventas"]
-      },
+      "email": "alberto.alvarez@sintergica.ai",
+      "first_name": "Alberto",
+      "last_name": "Alvarez",
+      "role": "Usuario",
+      "groups": [
+        "Ventas",
+        "Marketing"
+      ]
+    },
     {
       "id": "3",
-      "email": "Juan@sintergica.ai",
-      "first_name": "Juan",
-      "last_name": "Perez",
+      "email": "Antonio.alvarez@sintergica.ai",
+      "first_name": "Antonio",
+      "last_name": "Alvarez",
       "role": "Usuario",
-      "groups": ["Ventas"]
+      "groups": [
+        "Ventas"
+      ]
     },
     {
       "id": "4",
@@ -30,7 +37,9 @@
       "first_name": "Jose Manuel",
       "last_name": "Alvarez",
       "role": "Usuario",
-      "groups": ["Marketing"]
+      "groups": [
+        "Marketing"
+      ]
     },
     {
       "id": "5",
@@ -38,7 +47,11 @@
       "first_name": "Alberto",
       "last_name": "Ramirez Ramirez",
       "role": "Dueño",
-      "groups": ["Marketing","Finanzas","Ventas"]
+      "groups": [
+        "Marketing",
+        "Finanzas",
+        "Ventas"
+      ]
     },
     {
       "id": "6",
@@ -46,7 +59,9 @@
       "first_name": "Lupita",
       "last_name": "Sor juana",
       "role": "Usuario",
-      "groups": ["Ventas"]
+      "groups": [
+        "Ventas"
+      ]
     },
     {
       "id": "7",
@@ -54,7 +69,11 @@
       "first_name": "Gonzalo",
       "last_name": "Perez",
       "role": "Administrador",
-      "groups": ["Marketing","Finanzas","Ventas"]
+      "groups": [
+        "Marketing",
+        "Finanzas",
+        "Ventas"
+      ]
     },
     {
       "id": "8",
@@ -62,7 +81,9 @@
       "first_name": "Juan",
       "last_name": "Perez",
       "role": "Usuario",
-      "groups": ["Ventas"]
+      "groups": [
+        "Ventas"
+      ]
     },
     {
       "id": "9",
@@ -70,7 +91,9 @@
       "first_name": "Jose Manuel",
       "last_name": "Alvarez",
       "role": "Usuario",
-      "groups": ["Marketing"]
+      "groups": [
+        "Marketing"
+      ]
     },
     {
       "id": "10",
@@ -78,7 +101,11 @@
       "first_name": "Alberto",
       "last_name": "Ramirez Ramirez",
       "role": "Dueño",
-      "groups": ["Marketing","Finanzas","Ventas"]
+      "groups": [
+        "Marketing",
+        "Finanzas",
+        "Ventas"
+      ]
     },
     {
       "id": "11",
@@ -86,7 +113,9 @@
       "first_name": "Lupita",
       "last_name": "Sor juana",
       "role": "Usuario",
-      "groups": ["Ventas"]
+      "groups": [
+        "Ventas"
+      ]
     }
   ],
   "search": [
@@ -96,7 +125,9 @@
       "first_name": "Alexis",
       "last_name": "Alvarez",
       "role": "Usuario",
-      "groups": ["Marketing"]
+      "groups": [
+        "Marketing"
+      ]
     },
     {
       "id": "2",
@@ -104,7 +135,10 @@
       "first_name": "Alberto",
       "last_name": "Alvarez",
       "role": "Usuario",
-      "groups": ["Ventas", "Marketing"]
+      "groups": [
+        "Ventas",
+        "Marketing"
+      ]
     },
     {
       "id": "3",
@@ -112,7 +146,9 @@
       "first_name": "Antonio",
       "last_name": "Alvarez",
       "role": "Usuario",
-      "groups": ["Ventas"]
+      "groups": [
+        "Ventas"
+      ]
     },
     {
       "id": "4",
@@ -120,7 +156,9 @@
       "first_name": "Ana",
       "last_name": "Gabriela",
       "role": "Administrador",
-      "groups": ["Finanzas"]
+      "groups": [
+        "Finanzas"
+      ]
     },
     {
       "id": "5",
@@ -128,7 +166,9 @@
       "first_name": "Ana",
       "last_name": "Marquez",
       "role": "Usuario",
-      "groups": ["Finanzas"]
+      "groups": [
+        "Finanzas"
+      ]
     },
     {
       "id": "6",
@@ -136,7 +176,9 @@
       "first_name": "Estafania",
       "last_name": "Lopez",
       "role": "Dueño",
-      "groups": ["Finanzas"]
+      "groups": [
+        "Finanzas"
+      ]
     }
   ],
   "login": {
@@ -151,7 +193,12 @@
   "invitaton": {
     "status": 200
   },
-  "groups":["Ventas","Marketing","General","Finanzas"],
+  "groups": [
+    "Ventas",
+    "Marketing",
+    "General",
+    "Finanzas"
+  ],
   "models": [
     {
       "id": "1",
@@ -237,4 +284,5 @@
       },
       "image": "/vite.svg"
     }
-    ]}
+  ]
+}

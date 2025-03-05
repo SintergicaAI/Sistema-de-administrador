@@ -1,7 +1,4 @@
-
-
 /*http://localhost:3000/users?_page=1&_per_page=5*/
-
 
 import {CompanyRepository, UserList, UserSearchParams} from "../../domain/repositories/CompanyRepository.ts";
 import {UserDeleted} from "../../domain/types/UserDTO.ts";
@@ -27,10 +24,8 @@ export class LocalOperation  implements CompanyRepository {
     }
 
     async deleteUser(email: string): Promise<UserDeleted> {
-        const response = await fetch("",{
-            headers:{
-                Authorization:`Bearer ${this.authApi.getToken()}`
-            }
+        const response = await fetch(`${this.baseUrl}/users/${email}`,{
+            method: "DELETE",
         });
 
         if(!response.ok) {
@@ -57,12 +52,10 @@ export class LocalOperation  implements CompanyRepository {
         if((queryParams.get("query") as string).length === 0) queryParams.delete("query");
 
         const response = await fetch(
-            /* `${this.baseUrl}/company/users?${queryParams}`*/
             `${this.baseUrl}/users?${queryParams}`,
             {
                 method: 'GET',
                 headers: {
-                    /*'Authorization': `Bearer ${token}`,*/
                     'Content-Type': 'application/json',
                 }
             }

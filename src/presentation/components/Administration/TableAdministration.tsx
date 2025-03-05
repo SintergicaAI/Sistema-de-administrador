@@ -68,7 +68,7 @@ export const TableAdministration = () =>{
 
         getAllUser.execute(searchParams).then(result =>{
             const {users,total} = result
-            console.log(users, total);
+            //console.log(users, total);
             setDataInmutable(users);
             setDataTabla( (formatDataTable(users as[])) );
             setLoading(false);
@@ -78,14 +78,14 @@ export const TableAdministration = () =>{
 
     //Trabajar el filtrado utilizando el endpoint search.
     const filterDataByName = () =>{
-        console.log('Entramos al filtrado de datos');
+        //console.log('Entramos al filtrado de datos');
         const filterData = dataInmutable.filter((data)=>{
             if(data.fullName.toLowerCase().includes(searchText.toLowerCase())){
                 return data;
             }
         })
 
-        console.log(filterData);
+        //console.log(filterData);
         if(filterData.length > 0){
             setDataTabla((formatDataTable(filterData as[])));
         }  else{
