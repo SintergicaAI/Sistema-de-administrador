@@ -2,6 +2,7 @@ import {CompanyRepository, UserList, UserSearchParams} from "../../domain/reposi
 import {AuthApi} from "./AuthApi.ts";
 import {UserDeleted} from "../../domain/types/UserDTO.ts";
 import { User } from "../../domain/entities/User";
+import {UsersCompanyPagination} from "./types/PaginableResponse.ts";
 
 
 export class CompanyApi implements CompanyRepository {
@@ -27,7 +28,7 @@ export class CompanyApi implements CompanyRepository {
         return Promise.resolve(user);
     }
 
-    async findUsersInCompany(searchParams: UserSearchParams): Promise<UserList> {
+    async findUsersInCompany(searchParams: UserSearchParams): Promise<UsersCompanyPagination> {
         const token = this.authApi.getToken();
         if (!token) {
             throw new Error('No autorizado');
