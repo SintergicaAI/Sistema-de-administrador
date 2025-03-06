@@ -2,10 +2,12 @@ import {CompanyRepository, UserList, UserSearchParams} from "../../domain/reposi
 import {AuthApi} from "./AuthApi.ts";
 import {UserDeleted} from "../../domain/types/UserDTO.ts";
 import { User } from "../../domain/entities/User";
+import {UsersCompanyPagination} from "./types/PaginableResponse.ts";
 
 
 export class CompanyApi implements CompanyRepository {
-    private readonly baseUrl = import.meta.env.VITE_API_URL;
+    //private readonly baseUrl = import.meta.env.VITE_API_URL;
+    private readonly baseUrl = import.meta.env.VITE_LOCAL_TEST;
     private authApi: AuthApi;
 
     constructor() {
@@ -26,7 +28,7 @@ export class CompanyApi implements CompanyRepository {
         return Promise.resolve(user);
     }
 
-    async findUsersInCompany(searchParams: UserSearchParams): Promise<UserList> {
+    async findUsersInCompany(searchParams: UserSearchParams): Promise<UsersCompanyPagination> {
         const token = this.authApi.getToken();
         if (!token) {
             throw new Error('No autorizado');
@@ -36,11 +38,14 @@ export class CompanyApi implements CompanyRepository {
             query: searchParams.query,
             page: searchParams.page?.toString() || '1',
             limit: searchParams.limit?.toString() || '10',
-            ...(searchParams.role && { role: searchParams.role })
+            ...(searchParams.groups && { groups: searchParams.groups })
         });
 
+        //Comprobar si es necesario el query
+        if((queryParams.get("query") as string).length === 0) queryParams.delete("query");
+
         const response = await fetch(
-            `${this.baseUrl}/companies/users?${queryParams}`,
+            `${this.baseUrl}/company/users?${queryParams}`,
             {
                 method: 'GET',
                 headers: {
@@ -55,6 +60,7 @@ export class CompanyApi implements CompanyRepository {
         }
 
         const data = await response.json();
+        console.log(data);
         return data.users.map((userData: any) => new User(
             userData.id,
             userData.email,

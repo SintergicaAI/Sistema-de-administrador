@@ -1,14 +1,17 @@
 import {Table, TableProps, Flex} from "antd";
-import {Avatar} from "../common/Avatar.tsx";
+import {Avatar} from "../common";
 import {useEffect, useState} from "react";
 import {GetAllUserCompanyData} from "../../../application/use-cases/GetAllUserCompanyData.ts";
 import {DataType} from "./types/TableAdministrationTypes.ts"
 import {useContext} from "react";
 import {AdministrationContext,valueAdministrationContext} from "../../context/Administration";
 import {RenderGroups, tableStyle} from "./TableConfiguration.tsx";
-import {UserDTO} from "../../../infrastructure/api/types/CompanyResponse.ts";
+//import {UserDTO} from "../../../infrastructure/api/types/CompanyResponse.ts";
 import {v4 as uuid} from "uuid";
+//import {CompanyApi} from "../../../infrastructure/api/CompanyApi.ts";
+import {UserSearchParams} from "../../../domain/repositories/CompanyRepository.ts";
 import {LocalOperation} from "../../../infrastructure/api/LocalOperation.ts";
+import {User} from "../../../domain/entities/User.ts";
 
 
 interface RecordType {
@@ -22,14 +25,13 @@ const getAllUser = new GetAllUserCompanyData(operationTable);
 const formatDataTable = (data: []):DataType[] => {
 
     return [...data.map(
-        (user:UserDTO) =>
+        (user:User) =>
             (
                 //
                 {...user,
-                    fullName:`${user.name} ${user.lastName}`,
-                    role:'Usuario',
+                    fullName:`${user.fullName}`,
                     key: uuid() as string,
-                    groups: [...user.groupsDTO.map(group => group.name.split(" ")[0])]
+                 /*   groups: [...user.groupsDTO.map(group => group.name.split(" ")[0])]*/
 
                 }
             )
@@ -47,27 +49,60 @@ export const TableAdministration = () =>{
         searchText,
         dataTable,
         setDataTabla}:valueAdministrationContext = useContext(AdministrationContext);
+
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
+    const [dataInmutable,setDataInmutable] = useState<User[]>([]) //Guarda los datos de la tabla original
     const PAGE_SIZE = 5;
+
+
 
     const prepareData = ()=>{
         setLoading(true);
-        getAllUser.execute(currentPage,PAGE_SIZE).then(result =>{
-            const [data,items] = result
-            console.log(data);
-            setDataTabla(data);
-            //setDataTabla((formatDataTable(data) as[]) );
+
+        const searchParams: UserSearchParams = {
+            page:currentPage,
+            limit:5,
+            query:""
+        }
+
+        getAllUser.execute(searchParams).then(result =>{
+            const {users,total} = result
+            //console.log(users, total);
+            setDataInmutable(users);
+            setDataTabla( (formatDataTable(users as[])) );
             setLoading(false);
-            setTotalItemsTable(parseInt(items));
+            setTotalItemsTable(total);
         })
     }
 
+    //Trabajar el filtrado utilizando el endpoint search.
+    const filterDataByName = () =>{
+        //console.log('Entramos al filtrado de datos');
+        const filterData = dataInmutable.filter((data)=>{
+            if(data.fullName.toLowerCase().includes(searchText.toLowerCase())){
+                return data;
+            }
+        })
+
+        //console.log(filterData);
+        if(filterData.length > 0){
+            setDataTabla((formatDataTable(filterData as[])));
+        }  else{
+            setDataTabla((formatDataTable(dataInmutable as[])));
+        }
+
+        setCurrentPage(1);
+    }
 
 
     useEffect(() => {
         prepareData();
     }, [currentPage]);
+
+    useEffect(() => {
+        filterDataByName();
+    }, [searchText]);
 
     const changeRow = (selectedRow:RecordType) => {
         changeSelectedRow(selectedRow);
@@ -96,16 +131,6 @@ export const TableAdministration = () =>{
             title:'Usuario',
             dataIndex: 'fullName',
             key: 'fullName',
-            filteredValue:[searchText],
-            /*onFilter:(value, record) => {
-                return record.name
-                    .toString()
-                    .toLowerCase()
-                    .includes((value as string).toLowerCase()) ||
-                    record.role.toString()
-                            .toLowerCase()
-                            .includes((value as string).toLowerCase())
-            },*/
             render: (name)=>(
                 <Flex align="center" gap='var(--sm-space)'>
                     <Avatar name={name}/>

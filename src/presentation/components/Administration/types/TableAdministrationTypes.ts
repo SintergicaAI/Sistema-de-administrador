@@ -1,10 +1,9 @@
-import {UserDTO} from "../../../../infrastructure/api/types/CompanyResponse.ts";
+import { User } from "../../../../domain/entities/User.ts";
 
-interface DataType extends UserDTO{
+
+interface DataType extends User{
     fullName: string;
-    role: string;
     key: string;
-    groups: string[];
 }
 
 export type{DataType}

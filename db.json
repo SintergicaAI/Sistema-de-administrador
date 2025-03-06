@@ -1,27 +1,4 @@
 {
-  "clients": [
-    {
-      "id": "1",
-      "email": "user1@example.com",
-      "first_name": "John",
-      "last_name": "Doe",
-      "age": 28
-    },
-    {
-      "id": "2",
-      "email": "user2@example.com",
-      "first_name": "Jane",
-      "last_name": "Smith",
-      "age": 34
-    },
-    {
-      "id": "3",
-      "email": "user3@example.com",
-      "first_name": "Alice",
-      "last_name": "Johnson",
-      "age": 22
-    }
-  ],
   "users": [
     {
       "id": "1",
@@ -29,22 +6,30 @@
       "first_name": "Alexis",
       "last_name": "Alvarez",
       "role": "Usuario",
-      "groups": ["Marketing"]
-    },{
+      "groups": [
+        "Marketing"
+      ]
+    },
+    {
       "id": "2",
-      "email": "Gonzalo@sintergica.ai",
-      "first_name": "Gonzalo",
-      "last_name": "Perez",
-      "role": "Administrador",
-      "groups": ["Marketing","Finanzas","Ventas"]
-      },
+      "email": "alberto.alvarez@sintergica.ai",
+      "first_name": "Alberto",
+      "last_name": "Alvarez",
+      "role": "Usuario",
+      "groups": [
+        "Ventas",
+        "Marketing"
+      ]
+    },
     {
       "id": "3",
-      "email": "Juan@sintergica.ai",
-      "first_name": "Juan",
-      "last_name": "Perez",
+      "email": "Antonio.alvarez@sintergica.ai",
+      "first_name": "Antonio",
+      "last_name": "Alvarez",
       "role": "Usuario",
-      "groups": ["Ventas"]
+      "groups": [
+        "Ventas"
+      ]
     },
     {
       "id": "4",
@@ -52,14 +37,21 @@
       "first_name": "Jose Manuel",
       "last_name": "Alvarez",
       "role": "Usuario",
-      "groups": ["Marketing"]
-    },{
+      "groups": [
+        "Marketing"
+      ]
+    },
+    {
       "id": "5",
       "email": "Alberto@sintergica.ai",
       "first_name": "Alberto",
       "last_name": "Ramirez Ramirez",
       "role": "Dueño",
-      "groups": ["Marketing","Finanzas","Ventas"]
+      "groups": [
+        "Marketing",
+        "Finanzas",
+        "Ventas"
+      ]
     },
     {
       "id": "6",
@@ -67,7 +59,9 @@
       "first_name": "Lupita",
       "last_name": "Sor juana",
       "role": "Usuario",
-      "groups": ["Ventas"]
+      "groups": [
+        "Ventas"
+      ]
     },
     {
       "id": "7",
@@ -75,7 +69,11 @@
       "first_name": "Gonzalo",
       "last_name": "Perez",
       "role": "Administrador",
-      "groups": ["Marketing","Finanzas","Ventas"]
+      "groups": [
+        "Marketing",
+        "Finanzas",
+        "Ventas"
+      ]
     },
     {
       "id": "8",
@@ -83,7 +81,9 @@
       "first_name": "Juan",
       "last_name": "Perez",
       "role": "Usuario",
-      "groups": ["Ventas"]
+      "groups": [
+        "Ventas"
+      ]
     },
     {
       "id": "9",
@@ -91,14 +91,21 @@
       "first_name": "Jose Manuel",
       "last_name": "Alvarez",
       "role": "Usuario",
-      "groups": ["Marketing"]
-    },{
+      "groups": [
+        "Marketing"
+      ]
+    },
+    {
       "id": "10",
       "email": "Alberto@sintergica.ai",
       "first_name": "Alberto",
       "last_name": "Ramirez Ramirez",
       "role": "Dueño",
-      "groups": ["Marketing","Finanzas","Ventas"]
+      "groups": [
+        "Marketing",
+        "Finanzas",
+        "Ventas"
+      ]
     },
     {
       "id": "11",
@@ -106,7 +113,72 @@
       "first_name": "Lupita",
       "last_name": "Sor juana",
       "role": "Usuario",
-      "groups": ["Ventas"]
+      "groups": [
+        "Ventas"
+      ]
+    }
+  ],
+  "search": [
+    {
+      "id": "1",
+      "email": "alexis.alvarez@sintergica.ai",
+      "first_name": "Alexis",
+      "last_name": "Alvarez",
+      "role": "Usuario",
+      "groups": [
+        "Marketing"
+      ]
+    },
+    {
+      "id": "2",
+      "email": "alberto.alvarez@sintergica.ai",
+      "first_name": "Alberto",
+      "last_name": "Alvarez",
+      "role": "Usuario",
+      "groups": [
+        "Ventas",
+        "Marketing"
+      ]
+    },
+    {
+      "id": "3",
+      "email": "Antonio.alvarez@sintergica.ai",
+      "first_name": "Antonio",
+      "last_name": "Alvarez",
+      "role": "Usuario",
+      "groups": [
+        "Ventas"
+      ]
+    },
+    {
+      "id": "4",
+      "email": "Ana.gabriela@sintergica.ai",
+      "first_name": "Ana",
+      "last_name": "Gabriela",
+      "role": "Administrador",
+      "groups": [
+        "Finanzas"
+      ]
+    },
+    {
+      "id": "5",
+      "email": "Ana.Marquez@sintergica.ai",
+      "first_name": "Ana",
+      "last_name": "Marquez",
+      "role": "Usuario",
+      "groups": [
+        "Finanzas"
+      ]
+    },
+    {
+      "id": "6",
+      "email": "Estafania.Lopez@sintergica.ai",
+      "first_name": "Estafania",
+      "last_name": "Lopez",
+      "role": "Dueño",
+      "groups": [
+        "Finanzas"
+      ]
     }
   ],
   "login": {
@@ -121,6 +193,12 @@
   "invitaton": {
     "status": 200
   },
+  "groups": [
+    "Ventas",
+    "Marketing",
+    "General",
+    "Finanzas"
+  ],
   "models": [
     {
       "id": "1",
@@ -206,4 +284,5 @@
       },
       "image": "/vite.svg"
     }
-    ]}
+  ]
+}

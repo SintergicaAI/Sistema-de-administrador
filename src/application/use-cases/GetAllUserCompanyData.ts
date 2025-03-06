@@ -1,10 +1,10 @@
-import {TableOperationRepository} from "../../domain/repositories/TableOperationRepository.ts";
+import {CompanyRepository, UserList, UserSearchParams} from "../../domain/repositories/CompanyRepository.ts";
 
 export class GetAllUserCompanyData {
 
-    constructor(private getAllUsersFromCampany:TableOperationRepository ){}
+    constructor(private getAllUsersFromCampany:CompanyRepository ){}
 
-    async execute(page:number,size:number):Promise<any[]>{
-        return await this.getAllUsersFromCampany.getAllUsersFromCampany(page,size);
+    async execute(params:UserSearchParams):Promise<UserList>{
+        return await this.getAllUsersFromCampany.findUsersInCompany(params);
     }
 }

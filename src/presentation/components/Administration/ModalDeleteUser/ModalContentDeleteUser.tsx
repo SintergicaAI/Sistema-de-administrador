@@ -1,14 +1,15 @@
 import {Dispatch, SetStateAction, useContext} from "react";
 import {AdministrationContext} from "../../../context/Administration";
 import {DataType} from "../types/TableAdministrationTypes.ts";
-import {CompanyApi} from "../../../../infrastructure/api/CompanyApi.ts";
+//import {CompanyApi} from "../../../../infrastructure/api/CompanyApi.ts";
 import {DeleteUser} from "../../../../application/use-cases/DeleteUser.ts";
 import {Button, Col, Flex, Row} from 'antd';
 import {Avatar} from "../../common/Avatar.tsx";
 import { Trash2 } from 'lucide-react';
 import { X } from 'lucide-react';
+import {LocalOperation} from "../../../../infrastructure/api/LocalOperation.ts";
 
-const companyApi = new CompanyApi();
+const companyApi = new LocalOperation();
 const deleteUser = new DeleteUser(companyApi);
 
 type Props = {
@@ -21,11 +22,12 @@ export const ModalContentDeleteUser = ({setIsModalOpen}:Props) =>{
     const {fullName} = selectedRow as DataType;
 
     const handleDelete = async ()=>{
-        const {email} = selectedRow as DataType;
+        const {id} = selectedRow as DataType;
         try{
-            const deletedUser = await deleteUser.execute(email);
-            const newData = dataTable.filter((data)=>data.email !== deletedUser.email);
-            console.log(newData);
+            const deletedUser = await deleteUser.execute(id);
+            console.log('deletedUser',deletedUser);
+            const newData = dataTable.filter((data)=>data.id !== deletedUser.email);
+            console.log(newData.length);
             setDataTabla(newData);
             changeHasSelected(false);
             setIsModalOpen(false);
