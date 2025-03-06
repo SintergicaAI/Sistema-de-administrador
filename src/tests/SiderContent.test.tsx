@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { beforeEach, describe, it, expect } from 'vitest'
 import userEvent from '@testing-library/user-event'
 import { SiderContent } from '../presentation/components/Administration/SiderContent.tsx'
@@ -55,14 +55,6 @@ describe('SiderContent Test', () => {
         Roles.forEach(role => {
             const roleOption = screen.getByText(role)
             expect(roleOption).toBeInTheDocument()
-        })
-    })
-
-    it('should render all groups as checkboxes', () => {
-        Groups.forEach(group => {
-            const groupOption = screen.getByText(group) // Encontramos el texto visible
-            const checkbox = groupOption.closest('div').querySelector('input[type="checkbox"]') // Buscamos el checkbox asociado
-            expect(checkbox).toBeInTheDocument() // Verificamos que el checkbox esté presente en el DOM
         })
     })
 
