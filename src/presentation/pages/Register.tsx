@@ -104,7 +104,7 @@ export const Register = () =>{
                 </Form.Item>
 
                 <Form.Item<FieldType>
-                    label="Contrasena"
+                    label="Contraseña"
                     name="password"
                     rules={[{ required: true, message: 'Contrasena menor a 6 caracteres', min:6 , }]}
                 >
@@ -114,7 +114,7 @@ export const Register = () =>{
                                     data-testid="password-input"/>
                 </Form.Item>
                 <Form.Item<FieldType>
-                    label="Repetir contrasena"
+                    label="Repetir contraseña"
                     name="repeatPassword"
                     dependencies={['password']}
                     rules={[{ required: true, message:"Favor de confirmar contrasena"},
@@ -139,7 +139,7 @@ export const Register = () =>{
                         <SubmitButton form={form} style={{width:120}}>Enviar</SubmitButton>
                     </Flex>
                 </Form.Item>
-                <p style={{textAlign:'center'}}>Ya tienes una cuenta? <a className='icon-color' style={{ textDecoration:'underline'}} href={'/login'}>Inicia sesion</a></p>
+                <p style={{textAlign:'center'}}>Ya tienes una cuenta? <a className='icon-color' style={{ textDecoration:'underline'}} href={'/login'}>Inicia sesión</a></p>
             </Form>
         </>
     );

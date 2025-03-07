@@ -88,7 +88,7 @@ function Login() {
                 </Form.Item>
 
                 <Form.Item<FieldType>
-                    label="Contrasena"
+                    label="Contraseña"
                     name="password"
                     rules={[{ required: true, message: 'Favor de ingresar una contraseña valida', min:6}]}
                 >

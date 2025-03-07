@@ -80,15 +80,23 @@ export const SiderContent = () =>{
                 onChange={handleChange}
             >
                 <Flex vertical gap={5} flex="1">
-                    {companyGroups.length !== 0 ? companyGroups.map((group) =>(<CheckBox
-                        key={group}
-                        grupo={group}
-                        startChecked={isChecked(group)}
-                    />)) : <NotFound/>}
+                    {companyGroups.length !== 0 ?
+                        companyGroups.map((group) =>(
+                            <CheckBox
+                                key={group}
+                                grupo={group}
+                                startChecked={isChecked(group)} />
+                        )): <NotFound/>}
 
                 </Flex>
             </Checkbox.Group>
 
         </div>
+        /*companyGroups.map((group) =>(
+                            <CheckBox
+                        key={group}
+                        grupo={group}
+                        startChecked={isChecked(group)}
+                    />))*/
     )
 }
