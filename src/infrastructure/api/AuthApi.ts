@@ -23,7 +23,7 @@ export class AuthApi implements AuthRepository {
 
     getToken(): string | null {
         const {token} = this.getUserFromStorage();
-        return token?.token;
+        return token;
     }
 
     async logIn(email: string, password: string): Promise<string> {

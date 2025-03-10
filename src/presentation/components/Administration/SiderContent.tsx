@@ -4,8 +4,9 @@ import './styles/administration.css';
 import {AdministrationContext} from "../../context/Administration";
 import {InputSearch, CheckBox} from "../common";
 import {RadioGroup} from "../common/RadioGroup.tsx";
-import {LocalOperation} from "../../../infrastructure/api/LocalOperation.ts";
 import {GetCompanyGroups} from "../../../application/use-cases/GetCompanyGroups.ts";
+import {CompanyApi} from "../../../infrastructure/api/CompanyApi.ts";
+import { Spin } from 'antd';
 
 const radioGroup = {
     options:["Administrador","Usuario", "Dueño"],
@@ -13,11 +14,16 @@ const radioGroup = {
 }
 
 type SelectedProps ={
-    groups:string[];
+    groups:groupItem[];
     role:string;
 }
 
-const companyAPI = new LocalOperation();
+type groupItem = {
+    id: string;
+    name: string;
+}
+
+const companyAPI = new CompanyApi();
 const getGroupCompany = new GetCompanyGroups(companyAPI);
 
 const NotFound = ()=>{
@@ -26,14 +32,18 @@ const NotFound = ()=>{
     )
 }
 
+const getGroups = (groups:groupItem[])=>{
+    return groups.map(item=> item.name.toLowerCase());
+}
+
 export const SiderContent = () =>{
 
     const {selectedRow} = useContext(AdministrationContext);
     const {groups,role} = selectedRow as SelectedProps;
 
     const [companyGroups, setCompanyGroups] = useState<string[]>([]);
-    const [valueGroups,setValueGroups]=useState(groups);
-
+    const [valueGroups,setValueGroups]=useState(getGroups(groups));
+    const [loading,setLoading]=useState(true);
 
 
     const isChecked = (group:string):boolean => {
@@ -48,6 +58,8 @@ export const SiderContent = () =>{
     const getGroupsFromCompany =  () =>{
         getGroupCompany.execute()
             .then((data)=>{
+                console.log(data);
+                setLoading(false);
             setCompanyGroups(data);
         }).catch(()=>{
             setCompanyGroups([]);
@@ -59,7 +71,8 @@ export const SiderContent = () =>{
     }, []);
 
     useEffect(()=>{
-        setValueGroups(groups);
+        setValueGroups(getGroups(groups));
+        console.log(groups);
     },[role,groups]);
 
     return (
@@ -79,14 +92,14 @@ export const SiderContent = () =>{
                 onChange={handleChange}
             >
                 <Flex vertical gap={5} flex="1">
-                    {companyGroups.length !== 0 ?
+                    {!loading?
                         companyGroups.map((group) =>(
                             <CheckBox
                                 key={group}
                                 grupo={group}
                                 startChecked={isChecked(group)} />
-                        )): <NotFound/>}
-
+                        )): <Spin/>}
+                    {!loading && companyGroups.length == 0 ? <NotFound/>:''}
                 </Flex>
             </Checkbox.Group>
         </div>

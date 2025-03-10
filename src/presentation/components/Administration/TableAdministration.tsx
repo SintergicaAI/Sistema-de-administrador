@@ -24,13 +24,13 @@ const getAllUser = new GetAllUserCompanyData(operationTable);
 const formatDataTable = (data: []):DataType[] => {
 
     return [...data.map(
-        (user:User) =>
+        (user:any) =>
             (
                 //
                 {...user,
                     fullName:`${user.fullName}`,
                     key: uuid() as string,
-                 /*   groups: [...user.groupsDTO.map(group => group.name.split(" ")[0])]*/
+                   /* groups: [...user.groups.map(group => group.name.split(" ")[0])]*/
 
                 }
             )
@@ -67,7 +67,7 @@ export const TableAdministration = () =>{
 
         getAllUser.execute(searchParams).then(result =>{
             const {users,total} = result
-            //console.log(users, total);
+            console.log(users, total);
             setDataInmutable(users);
             setDataTabla( (formatDataTable(users as[])) );
             setLoading(false);
@@ -181,7 +181,7 @@ export const TableAdministration = () =>{
                     pageSize:PAGE_SIZE,
                     total:totalItemsTable,
                     onChange:(page) =>{
-                        setCurrentPage(page)
+                        setCurrentPage(page - 1 )
                     },
                     position:['bottomCenter']
                 }}

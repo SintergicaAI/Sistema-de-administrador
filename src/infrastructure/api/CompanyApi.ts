@@ -42,7 +42,7 @@ export class CompanyApi implements CompanyRepository {
         if((queryParams.get("query") as string).length === 0) queryParams.delete("query");
 
         const response = await fetch(
-            `http://localhost:80/company/users?${queryParams}`,
+            `http://localhost/company/users?${queryParams}`,
             {
                 method: 'GET',
                 headers: {
@@ -53,24 +53,43 @@ export class CompanyApi implements CompanyRepository {
         );
 
         if (!response.ok) {
-            throw new Error('Error al buscar usuarios en la compañía');
+            throw new Error(response.statusText);
         }
 
-        const data = await response.json();
-        console.log(data);
-        return data.users.map((userData: any) => new User(
-            userData.id,
-            userData.email,
-            userData.role,
-            userData.firstname,
-            userData.lastname,
-            userData.company,
-            undefined
-        ));
+        const {userDTOPage,totalElements} = await response.json();
+        return {users:userDTOPage.map((userData: any) => new User(
+                "",
+                userData.email,
+                userData.role,
+                userData.name,
+                userData.lastName,
+                undefined,
+                userData.groupDTOList,
+                undefined
+
+            )), total:totalElements}
+
     }
 
-    getCompanyGroups(): Promise<string[]> {
-        return Promise.resolve([]);
+    async getCompanyGroups(): Promise<string[]> {
+        const token = this.authApi.getToken();
+        if (!token) {
+            throw new Error('No autorizado');
+        }
+
+        const response = await fetch("http://localhost/company/groups",{
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            }
+        });
+
+        if(!response.ok) {
+            throw new Error('No se encontraron los grupos');
+        }
+        const data = await response.json();
+        return data.map((element) => element?.name.toLowerCase());
     }
 
 }
