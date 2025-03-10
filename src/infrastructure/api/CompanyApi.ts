@@ -2,12 +2,10 @@ import {CompanyRepository, UserList, UserSearchParams} from "../../domain/reposi
 import {AuthApi} from "./AuthApi.ts";
 import {UserDeleted} from "../../domain/types/UserDTO.ts";
 import { User } from "../../domain/entities/User";
-import {UsersCompanyPagination} from "./types/PaginableResponse.ts";
 
 
 export class CompanyApi implements CompanyRepository {
-    //private readonly baseUrl = import.meta.env.VITE_API_URL;
-    private readonly baseUrl = import.meta.env.VITE_LOCAL_TEST;
+    private readonly baseUrl = import.meta.env.DOCKER_API_URL;
     private authApi: AuthApi;
 
     constructor() {
@@ -28,16 +26,15 @@ export class CompanyApi implements CompanyRepository {
         return Promise.resolve(user);
     }
 
-    async findUsersInCompany(searchParams: UserSearchParams): Promise<UsersCompanyPagination> {
+    async findUsersInCompany(searchParams: UserSearchParams): Promise<UserList> {
         const token = this.authApi.getToken();
         if (!token) {
             throw new Error('No autorizado');
         }
-
         const queryParams = new URLSearchParams({
             query: searchParams.query,
-            page: searchParams.page?.toString() || '1',
-            limit: searchParams.limit?.toString() || '10',
+            page: searchParams.page?.toString() || '0',
+            size: searchParams.size?.toString() || '10',
             ...(searchParams.groups && { groups: searchParams.groups })
         });
 
@@ -45,7 +42,7 @@ export class CompanyApi implements CompanyRepository {
         if((queryParams.get("query") as string).length === 0) queryParams.delete("query");
 
         const response = await fetch(
-            `${this.baseUrl}/company/users?${queryParams}`,
+            `http://localhost:80/company/users?${queryParams}`,
             {
                 method: 'GET',
                 headers: {
@@ -70,6 +67,10 @@ export class CompanyApi implements CompanyRepository {
             userData.company,
             undefined
         ));
+    }
+
+    getCompanyGroups(): Promise<string[]> {
+        return Promise.resolve([]);
     }
 
 }

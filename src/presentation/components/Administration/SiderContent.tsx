@@ -33,7 +33,6 @@ export const SiderContent = () =>{
 
     const [companyGroups, setCompanyGroups] = useState<string[]>([]);
     const [valueGroups,setValueGroups]=useState(groups);
-    const [valueRole,setValueRole]=useState(role);
 
 
 
@@ -50,7 +49,7 @@ export const SiderContent = () =>{
         getGroupCompany.execute()
             .then((data)=>{
             setCompanyGroups(data);
-        }).catch((err)=>{
+        }).catch(()=>{
             setCompanyGroups([]);
         })
     }
@@ -72,7 +71,7 @@ export const SiderContent = () =>{
             <InputSearch
                 placeholder={"Buscar"}
                 styles={{marginBottom:8}}
-                searchMethod={(value)=>{}}/>
+                searchMethod={()=>{}}/>
 
             <Checkbox.Group
                 value={[...valueGroups]}
@@ -90,13 +89,6 @@ export const SiderContent = () =>{
 
                 </Flex>
             </Checkbox.Group>
-
         </div>
-        /*companyGroups.map((group) =>(
-                            <CheckBox
-                        key={group}
-                        grupo={group}
-                        startChecked={isChecked(group)}
-                    />))*/
     )
 }

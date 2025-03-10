@@ -28,3 +28,20 @@
 .ant-radio-button-wrapper::before{
     width: 0 !important;
 }
+.button-filter{
+    background-color: var(--c_slate_200);
+    padding: var(--sm-space) var(--xs-space);
+    border-radius: var(--sm-radius);
+    color: var(--c_slate_500);
+    border: 1px solid var(--c_slate_200);
+
+    &:hover{
+        color: var(--c_brand-500);
+        border-color: var(--c_brand-500);
+    }
+    &.button-filter--active{
+        background-color: var(--c_brand_100);
+        color: var(--c_brand-500);
+        padding: var(--sm-space) var(--xs-space);
+    }
+}

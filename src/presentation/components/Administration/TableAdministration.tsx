@@ -8,10 +8,9 @@ import {AdministrationContext,valueAdministrationContext} from "../../context/Ad
 import {RenderGroups, tableStyle} from "./TableConfiguration.tsx";
 //import {UserDTO} from "../../../infrastructure/api/types/CompanyResponse.ts";
 import {v4 as uuid} from "uuid";
-//import {CompanyApi} from "../../../infrastructure/api/CompanyApi.ts";
 import {UserSearchParams} from "../../../domain/repositories/CompanyRepository.ts";
-import {LocalOperation} from "../../../infrastructure/api/LocalOperation.ts";
 import {User} from "../../../domain/entities/User.ts";
+import {CompanyApi} from "../../../infrastructure/api/CompanyApi.ts";
 
 
 interface RecordType {
@@ -19,7 +18,7 @@ interface RecordType {
 }
 
 /*const operationTable = new TableOperation();*/
-const operationTable = new LocalOperation();
+const operationTable = new CompanyApi();
 const getAllUser = new GetAllUserCompanyData(operationTable);
 
 const formatDataTable = (data: []):DataType[] => {
@@ -51,7 +50,7 @@ export const TableAdministration = () =>{
         setDataTabla}:valueAdministrationContext = useContext(AdministrationContext);
 
     const [loading, setLoading] = useState(false);
-    const [currentPage, setCurrentPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(0);
     const [dataInmutable,setDataInmutable] = useState<User[]>([]) //Guarda los datos de la tabla original
     const PAGE_SIZE = 5;
 
@@ -62,7 +61,7 @@ export const TableAdministration = () =>{
 
         const searchParams: UserSearchParams = {
             page:currentPage,
-            limit:5,
+            size:5,
             query:""
         }
 
@@ -92,7 +91,7 @@ export const TableAdministration = () =>{
             setDataTabla((formatDataTable(dataInmutable as[])));
         }
 
-        setCurrentPage(1);
+        //setCurrentPage(1);
     }
 
 

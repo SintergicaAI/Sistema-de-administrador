@@ -10,7 +10,7 @@ export interface CompanyRepository {
 export interface UserSearchParams {
     query: string ;  // Puede ser nombre, email, etc.
     page?: number;
-    limit?: number;
+    size?: number;
     groups?: string;
 
 }
