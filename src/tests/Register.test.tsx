@@ -105,18 +105,3 @@ describe('Resgiter Validation Test', () => {
         expect(errorMessage).toBeInTheDocument()
     })
 })
-
-// it('should display the message "Registrando datos..." when the form is submitte correctly', async () => {
-//     const firstNameInput = screen.getByPlaceholderText('Nombre(s)')
-//     await userEvent.type(firstNameInput, 'Juan')
-//     const lastNameInput = screen.getByPlaceholderText('Apellidos')
-//     await userEvent.type(lastNameInput, 'Perez')
-//     const emailInput = screen.getByPlaceholderText('juan@gmail.com')
-//     await userEvent.type(emailInput, 'test@gmail.com')
-//     const passwordInput = screen.getByTestId('password-input')
-//     await userEvent.type(passwordInput, '123456')
-//     const repeatPasswordInput = screen.getByTestId('repeat-password-input')
-//     await userEvent.type(repeatPasswordInput, '123456')
-//     userEvent.click(screen.getByRole('button', { name: /Enviar/i }))
-//     expect(await screen.findByText('Registrando datos...'))
-// })
