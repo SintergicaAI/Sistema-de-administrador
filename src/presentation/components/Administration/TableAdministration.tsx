@@ -6,7 +6,6 @@ import {DataType} from "./types/TableAdministrationTypes.ts"
 import {useContext} from "react";
 import {AdministrationContext,valueAdministrationContext} from "../../context/Administration";
 import {RenderGroups, tableStyle} from "./TableConfiguration.tsx";
-//import {UserDTO} from "../../../infrastructure/api/types/CompanyResponse.ts";
 import {v4 as uuid} from "uuid";
 import {UserSearchParams} from "../../../domain/repositories/CompanyRepository.ts";
 import {User} from "../../../domain/entities/User.ts";

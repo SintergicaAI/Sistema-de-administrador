@@ -5,7 +5,7 @@ import { User } from "../../domain/entities/User";
 
 
 export class CompanyApi implements CompanyRepository {
-    private readonly baseUrl = import.meta.env.DOCKER_API_URL;
+    //private readonly baseUrl = import.meta.env.DOCKER_API_URL;
     private authApi: AuthApi;
 
     constructor() {

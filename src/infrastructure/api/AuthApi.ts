@@ -1,4 +1,4 @@
-import {AuthRepository} from '../../domain/repositories/AuthRepository';
+import {AuthRepository, UserToken} from '../../domain/repositories/AuthRepository';
 import {User} from "../../domain/entities/User.ts";
 import {AuthenticateApiResponse, LoginApiResponse} from "./types/AuthApiResponse.ts";
 
@@ -26,7 +26,7 @@ export class AuthApi implements AuthRepository {
         return token;
     }
 
-    async logIn(email: string, password: string): Promise<string> {
+    async logIn(email: string, password: string): Promise<UserToken> {
         const response = await fetch(`${this.baseUrl}/users/login`, {
             method: 'POST',
             headers: {
@@ -39,8 +39,8 @@ export class AuthApi implements AuthRepository {
             return Promise.reject(response);
         }
 
-        const {token}: LoginApiResponse = await response.json();
-        return Promise.resolve(`${token}`);
+        const {token,refreshToken}: LoginApiResponse = await response.json();
+        return {token,refreshToken};
     }
 
 
@@ -59,10 +59,8 @@ export class AuthApi implements AuthRepository {
 
     }
 
-    saveToken(token: string): void {
-        localStorage.setItem('user', JSON.stringify({
-            token: token,
-        }));
+    saveToken(token: UserToken): void {
+        localStorage.setItem('user', JSON.stringify(token));
     }
 
     async register(firstname: string, lastname: string, email: string, password: string): Promise<User> {
@@ -80,6 +78,6 @@ export class AuthApi implements AuthRepository {
 
 
         const data: AuthenticateApiResponse = await response.json();
-        return new User(data.id, data.email, data.role, undefined, undefined, undefined, data.token);
+        return new User(data.id, data.email, data.role, undefined, undefined, undefined, undefined,data.token);
     }
 }
