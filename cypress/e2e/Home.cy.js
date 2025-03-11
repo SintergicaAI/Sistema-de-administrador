@@ -7,8 +7,8 @@ describe('Home Page Sidebar Test', () => {
         beforeEach(() => {
             cy.url().should('include', '/login')
             cy.contains('Login')
-            cy.intercept('GET', '/users/1', { statusCode: 200, body: { id: 1, name: 'test02' } })// Se simula la respuesat de la API
-            cy.get('[placeholder="juan@gmail.com"]').type('test02@gmail.com')
+            cy.intercept('GET', '/users/1', { statusCode: 200, body: { id: 1, name: 'bob' } })// Se simula la respuesat de la API
+            cy.get('[placeholder="juan@gmail.com"]').type('bob@gmail.com')
             cy.get('[placeholder="******"]').type('123456')
             cy.contains('Enviar').click()
         })
