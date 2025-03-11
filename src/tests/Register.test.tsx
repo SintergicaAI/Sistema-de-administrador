@@ -40,14 +40,14 @@ describe('Register Rendering Test', () => {
     })
 
     it('should render the "Contrasena" text and your placeholder', () => {
-        const password = screen.getByText('Contrasena')
+        const password = screen.getByText('Contraseña')
         expect(password).toBeInTheDocument()
         const placeholderPassword = screen.getByTestId('password-input')
         expect(placeholderPassword).toBeInTheDocument()
     })
 
     it('should render the "Repetir contrasena" text and your placeholder', () => {
-        const repeatPassword = screen.getByText('Repetir contrasena')
+        const repeatPassword = screen.getByText('Repetir contraseña')
         expect(repeatPassword).toBeInTheDocument()
         const placeholderRepeatPassword = screen.getByTestId('repeat-password-input')
         expect(placeholderRepeatPassword).toBeInTheDocument()
@@ -61,7 +61,7 @@ describe('Register Rendering Test', () => {
     it('should render the "Ya tienes una cuenta?" and "Inicia sesion" text', () => {
         const text = screen.getByText('Ya tienes una cuenta?')
         expect(text).toBeInTheDocument()
-        const link = screen.getByText('Inicia sesion')
+        const link = screen.getByText('Inicia sesión')
         expect(link).toBeInTheDocument()
     })
 })
