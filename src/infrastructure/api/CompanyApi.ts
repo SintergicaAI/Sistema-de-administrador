@@ -2,6 +2,12 @@ import {CompanyRepository, UserList, UserSearchParams} from "../../domain/reposi
 import {AuthApi} from "./AuthApi.ts";
 import {UserDeleted} from "../../domain/types/UserDTO.ts";
 import { User } from "../../domain/entities/User";
+import {PaginableResponse} from "./types/PaginableResponse.ts";
+
+type GroupItem = {
+    index:string;
+    name: string;
+}
 
 
 export class CompanyApi implements CompanyRepository {
@@ -27,19 +33,20 @@ export class CompanyApi implements CompanyRepository {
     }
 
     async findUsersInCompany(searchParams: UserSearchParams): Promise<UserList> {
+
         const token = this.authApi.getToken();
         if (!token) {
             throw new Error('No autorizado');
         }
         const queryParams = new URLSearchParams({
-            query: searchParams.query,
+            fullname: searchParams.query,
             page: searchParams.page?.toString() || '0',
             size: searchParams.size?.toString() || '10',
             ...(searchParams.groups && { groups: searchParams.groups })
         });
 
         //Comprobar si es necesario el query
-        if((queryParams.get("query") as string).length === 0) queryParams.delete("query");
+        if((queryParams.get("fullname") as string).length === 0) queryParams.delete("fullname");
 
         const response = await fetch(
             `http://localhost/company/users?${queryParams}`,
@@ -56,15 +63,15 @@ export class CompanyApi implements CompanyRepository {
             throw new Error(response.statusText);
         }
 
-        const {userDTOPage,totalElements} = await response.json();
-        return {users:userDTOPage.map((userData: any) => new User(
+        const {data,totalElements}:PaginableResponse = await response.json();
+        return {users:data.map((userData: any) => new User(
                 "",
                 userData.email,
                 userData.role,
                 userData.name,
                 userData.lastName,
                 undefined,
-                userData.groupDTOList,
+                userData.groups,
                 undefined
 
             )), total:totalElements}
@@ -89,7 +96,7 @@ export class CompanyApi implements CompanyRepository {
             throw new Error('No se encontraron los grupos');
         }
         const data = await response.json();
-        return data.map((element) => element?.name.toLowerCase());
+        return data.map((element:GroupItem) => element?.name.toLowerCase());
     }
 
 }

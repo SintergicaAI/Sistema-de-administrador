@@ -1,5 +1,8 @@
 import {AdministrationContext} from './AdministrationContext'
 import {ReactNode, useState} from "react";
+import {DataType} from "../../components/Administration/types/TableAdministrationTypes.ts";
+import {v4 as uuid} from "uuid";
+import {User} from "../../../domain/entities/User.ts";
 
 
 
@@ -9,6 +12,7 @@ export const AdministrationContextProvider = ({children}:{children:ReactNode}) =
     const [dataTable,setDataTabla] = useState<any[]>([]);
     const [searchText, setSearchText] = useState('');
     const [totalItemsTable,setTotalItemsTable]=useState(0);
+    const [loadingTable, setLoadingTable] = useState(false);
 
     const changeSelectedRow = (newRowSelected:{}) => {
         setSelectedRow(newRowSelected);
@@ -22,6 +26,25 @@ export const AdministrationContextProvider = ({children}:{children:ReactNode}) =
         setSearchText(newSearchText);
     }
 
+    const formatDataTable = (data: User[]):DataType[] => {
+
+        return [...data.map(
+            (user:any) =>
+                (
+                    //
+                    {...user,
+                        fullName:`${user.fullName}`,
+                        key: uuid() as string,
+                    }
+                )
+        )]
+    }
+    const changeDataTabla = (newDataTabla:User[]) => {
+        setDataTabla(formatDataTable(newDataTabla));
+    }
+
+
+
     return (<>
         <AdministrationContext.Provider
             value={{selectedRow,
@@ -31,10 +54,11 @@ export const AdministrationContextProvider = ({children}:{children:ReactNode}) =
                 dataTable,
                 totalItemsTable,
                 setTotalItemsTable,
-                setDataTabla,
+                changeDataTabla,
                 searchText,
                 changeSearchText,
-
+                loadingTable,
+                setLoadingTable
         }}>
             {children}
         </AdministrationContext.Provider>

@@ -17,6 +17,7 @@ export class AuthApi implements AuthRepository {
     }
 
     async isAuthenticated(): Promise<boolean> {
+        //llame el endpoint de refreshToken
         const {token} = this.getUserFromStorage();
         return !!token;
     }
@@ -79,5 +80,11 @@ export class AuthApi implements AuthRepository {
 
         const data: AuthenticateApiResponse = await response.json();
         return new User(data.id, data.email, data.role, undefined, undefined, undefined, undefined,data.token);
+    }
+
+    refreshToken(token: string): Promise<string> {
+        //llamada a la API
+
+        //Guardar el nuevo token
     }
 }

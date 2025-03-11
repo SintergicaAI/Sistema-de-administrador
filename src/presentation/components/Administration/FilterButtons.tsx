@@ -1,11 +1,10 @@
 import {Flex,Button,ConfigProvider} from 'antd';
-import {LocalOperation} from "../../../infrastructure/api/LocalOperation.ts";
-import {GetCompanyGroups} from "../../../application/use-cases/GetCompanyGroups.ts";
+//import {GetCompanyGroups} from "../../../application/use-cases/GetCompanyGroups.ts";
 import {Dispatch, useEffect, useRef, useState} from "react";
 
 
-const companyAPI = new LocalOperation();
-const getGroupCompany = new GetCompanyGroups(companyAPI);
+/*const companyAPI = new LocalOperation();
+const getGroupCompany = new GetCompanyGroups(companyAPI);*/
 
 type Props = {
     name: string;
@@ -34,7 +33,7 @@ export const FilterButtons = () => {
     const [companyGroups, setCompanyGroups] = useState<string[]>([]);
     const [filters, setFilters] = useState<string[]>([]);
 
-    const getGroupsFromCompany =  () =>{
+    /*const getGroupsFromCompany =  () =>{
         getGroupCompany.execute()
             .then((data)=>{
                 setCompanyGroups(data);
@@ -42,9 +41,9 @@ export const FilterButtons = () => {
             setCompanyGroups([]);
         })
     }
-
+*/
     useEffect(() => {
-        getGroupsFromCompany()
+        /*getGroupsFromCompany()*/
     }, []);
 
     useEffect(() => {
