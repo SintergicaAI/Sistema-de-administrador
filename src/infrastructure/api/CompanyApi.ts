@@ -11,7 +11,7 @@ type GroupItem = {
 
 
 export class CompanyApi implements CompanyRepository {
-    //private readonly baseUrl = import.meta.env.DOCKER_API_URL;
+    private readonly baseUrl = `http://localhost`;
     private authApi: AuthApi;
 
     constructor() {
@@ -49,7 +49,7 @@ export class CompanyApi implements CompanyRepository {
         if((queryParams.get("fullname") as string).length === 0) queryParams.delete("fullname");
 
         const response = await fetch(
-            `http://localhost/company/users?${queryParams}`,
+            `${this.baseUrl}/company/users?${queryParams}`,
             {
                 method: 'GET',
                 headers: {
@@ -89,7 +89,7 @@ export class CompanyApi implements CompanyRepository {
             throw new Error('No autorizado');
         }
 
-        const response = await fetch("http://localhost/company/groups",{
+        const response = await fetch(`${this.baseUrl}/company/groups`,{
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,

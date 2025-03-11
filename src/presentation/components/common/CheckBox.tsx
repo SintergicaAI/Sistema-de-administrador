@@ -1,5 +1,6 @@
 import './styles/SideBar.css';
 import {Checkbox, ConfigProvider, Flex} from "antd";
+import {upperCaseOneWord} from "../../utilities";
 
 type Props ={
     grupo:string,
@@ -11,7 +12,7 @@ export const CheckBox = ({grupo,startChecked}:Props)=>{
     return (
         <div className='checkbox-container'>
             <Flex justify='space-between' align='center'>
-                <p className="checkbok__tag">{grupo}</p>
+                <p className="checkbok__tag">{upperCaseOneWord(grupo)}</p>
                 <ConfigProvider theme={{
                     token:{
                         colorBorder:'var(--c_slate_500)',

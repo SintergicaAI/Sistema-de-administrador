@@ -1,10 +1,12 @@
 import {Flex,Button,ConfigProvider} from 'antd';
-//import {GetCompanyGroups} from "../../../application/use-cases/GetCompanyGroups.ts";
+import {GetCompanyGroups} from "../../../application/use-cases/GetCompanyGroups.ts";
 import {Dispatch, useEffect, useRef, useState} from "react";
+import {CompanyApi} from "../../../infrastructure/api/CompanyApi.ts";
+import {upperCaseOneWord} from "../../utilities";
 
 
-/*const companyAPI = new LocalOperation();
-const getGroupCompany = new GetCompanyGroups(companyAPI);*/
+const companyAPI = new CompanyApi();
+const getGroupCompany = new GetCompanyGroups(companyAPI);
 
 type Props = {
     name: string;
@@ -24,7 +26,7 @@ export const ButtonFilter = ({name}:Props) =>{
                 console.log(buttonRef.current.dataset.filter);
             }}
         >
-            {name}
+            {upperCaseOneWord(name)}
         </button>
     )
 }
@@ -33,7 +35,7 @@ export const FilterButtons = () => {
     const [companyGroups, setCompanyGroups] = useState<string[]>([]);
     const [filters, setFilters] = useState<string[]>([]);
 
-    /*const getGroupsFromCompany =  () =>{
+    const getGroupsFromCompany =  () =>{
         getGroupCompany.execute()
             .then((data)=>{
                 setCompanyGroups(data);
@@ -41,9 +43,8 @@ export const FilterButtons = () => {
             setCompanyGroups([]);
         })
     }
-*/
     useEffect(() => {
-        /*getGroupsFromCompany()*/
+        getGroupsFromCompany()
     }, []);
 
     useEffect(() => {
@@ -56,7 +57,11 @@ export const FilterButtons = () => {
             </div>
             <Flex justify='flex-start' gap={8}>
                 {companyGroups.length !== 0 ? companyGroups.map((company,index) => (
-                    <ButtonFilter name={company} key={index}/>
+                    <ButtonFilter
+                        name={company}
+                        key={index}
+                        setFilter={setFilters}
+                    />
                 )):""}
             </Flex>
             </>
