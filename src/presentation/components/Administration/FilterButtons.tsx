@@ -1,4 +1,4 @@
-import {Flex,Button,ConfigProvider} from 'antd';
+import {Flex} from 'antd';
 import {GetCompanyGroups} from "../../../application/use-cases/GetCompanyGroups.ts";
 import {Dispatch, useEffect, useRef, useState} from "react";
 import {CompanyApi} from "../../../infrastructure/api/CompanyApi.ts";

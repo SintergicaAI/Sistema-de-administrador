@@ -16,11 +16,13 @@
 
     .checkbok__tag{
         font-size: var(--avatar-size);
+        text-align: center;
+        min-width: 80px;
         margin-block: 0;
         font-weight: 600;
-        color: var(--c_brand_900);
+        color: var(--c_brand_50);
         padding: var(--sm-space) var(--base-space);
-        background-color: var(--c_brand_200);
+        background-color: var(--c_brand-500);
         border-radius: var(--2xl-space);
     }
     &:has( input:checked ){
