@@ -20,6 +20,7 @@ const mockContextValue = {
     setDataTabla: vi.fn(),
     totalItemsTable: 10,
     setTotalItemsTable: vi.fn(),
+    setLoadingTable: vi.fn(),
     searchText: "",
     changeSearchText: vi.fn(),
     dataTable: [
