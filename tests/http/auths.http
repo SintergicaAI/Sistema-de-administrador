@@ -1,11 +1,11 @@
 # @no-cookie-jar
 ### GET request to example server
-POST {{TURING_API_URL}}/auths/signin
+POST {{TURING_API_URL}}/users/login
 Content-Type: application/json
 
 {
-  "email": "alexis.alvarez@sintergica.ai",
-  "password": "test123"
+  "email": "bob@gmail.com",
+  "password": "123456"
 }
 
 > {% client.global.set("auth_token", response.body.token); %}
@@ -21,5 +21,10 @@ GET {{TURING_API_URL}}/auths/admin/details
 # @no-cookie-jar
 ###
 GET {{TURING_API_URL}}/auths/
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
+###
+GET {{TURING_API_URL}}/company/users?fullname=bob&page=0&size=5
 Accept: application/json
 Authorization: Bearer {{auth_token}}

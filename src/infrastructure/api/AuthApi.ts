@@ -1,21 +1,23 @@
-import {AuthRepository} from '../../domain/repositories/AuthRepository';
+import {AuthRepository, UserToken} from '../../domain/repositories/AuthRepository';
 import {User} from "../../domain/entities/User.ts";
 import {AuthenticateApiResponse, LoginApiResponse} from "./types/AuthApiResponse.ts";
 
-const BASE_URL = import.meta.env.VITE_API_URL;
+/*const BASE_URL = import.meta.env.VITE_API_URL;*/
 
 export class AuthApi implements AuthRepository {
-    private readonly baseUrl = BASE_URL;
+    private readonly baseUrl = "http://localhost:80";
 
     private getUserFromStorage(): { user: Partial<User> | null, token: string | null } {
         const storedUser = localStorage.getItem('user');
         if (!storedUser) {
             return {user: null, token: null};
         }
+       /* console.log(JSON.parse(storedUser));*/
         return JSON.parse(storedUser);
     }
 
     async isAuthenticated(): Promise<boolean> {
+        //llame el endpoint de refreshToken
         const {token} = this.getUserFromStorage();
         return !!token;
     }
@@ -25,7 +27,7 @@ export class AuthApi implements AuthRepository {
         return token;
     }
 
-    async logIn(email: string, password: string): Promise<string> {
+    async logIn(email: string, password: string): Promise<UserToken> {
         const response = await fetch(`${this.baseUrl}/users/login`, {
             method: 'POST',
             headers: {
@@ -38,8 +40,8 @@ export class AuthApi implements AuthRepository {
             return Promise.reject(response);
         }
 
-        const {token}: LoginApiResponse = await response.json();
-        return Promise.resolve(`${token}`);
+        const {token,refreshToken}: LoginApiResponse = await response.json();
+        return {token,refreshToken};
     }
 
 
@@ -58,10 +60,8 @@ export class AuthApi implements AuthRepository {
 
     }
 
-    saveToken(token: string): void {
-        localStorage.setItem('user', JSON.stringify({
-            token: token,
-        }));
+    saveToken(token: UserToken): void {
+        localStorage.setItem('user', JSON.stringify(token));
     }
 
     async register(firstname: string, lastname: string, email: string, password: string): Promise<User> {
@@ -79,6 +79,12 @@ export class AuthApi implements AuthRepository {
 
 
         const data: AuthenticateApiResponse = await response.json();
-        return new User(data.id, data.email, data.role, undefined, undefined, undefined, data.token);
+        return new User(data.id, data.email, data.role, undefined, undefined, undefined, undefined,data.token);
+    }
+
+    refreshToken(token: string): Promise<string> {
+        //llamada a la API
+
+        //Guardar el nuevo token
     }
 }

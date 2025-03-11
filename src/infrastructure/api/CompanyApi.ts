@@ -2,12 +2,16 @@ import {CompanyRepository, UserList, UserSearchParams} from "../../domain/reposi
 import {AuthApi} from "./AuthApi.ts";
 import {UserDeleted} from "../../domain/types/UserDTO.ts";
 import { User } from "../../domain/entities/User";
-import {UsersCompanyPagination} from "./types/PaginableResponse.ts";
+import {PaginableResponse} from "./types/PaginableResponse.ts";
+
+type GroupItem = {
+    index:string;
+    name: string;
+}
 
 
 export class CompanyApi implements CompanyRepository {
-    //private readonly baseUrl = import.meta.env.VITE_API_URL;
-    private readonly baseUrl = import.meta.env.VITE_LOCAL_TEST;
+    //private readonly baseUrl = import.meta.env.DOCKER_API_URL;
     private authApi: AuthApi;
 
     constructor() {
@@ -28,24 +32,24 @@ export class CompanyApi implements CompanyRepository {
         return Promise.resolve(user);
     }
 
-    async findUsersInCompany(searchParams: UserSearchParams): Promise<UsersCompanyPagination> {
+    async findUsersInCompany(searchParams: UserSearchParams): Promise<UserList> {
+
         const token = this.authApi.getToken();
         if (!token) {
             throw new Error('No autorizado');
         }
-
         const queryParams = new URLSearchParams({
-            query: searchParams.query,
-            page: searchParams.page?.toString() || '1',
-            limit: searchParams.limit?.toString() || '10',
+            fullname: searchParams.query,
+            page: searchParams.page?.toString() || '0',
+            size: searchParams.size?.toString() || '10',
             ...(searchParams.groups && { groups: searchParams.groups })
         });
 
         //Comprobar si es necesario el query
-        if((queryParams.get("query") as string).length === 0) queryParams.delete("query");
+        if((queryParams.get("fullname") as string).length === 0) queryParams.delete("fullname");
 
         const response = await fetch(
-            `${this.baseUrl}/company/users?${queryParams}`,
+            `http://localhost/company/users?${queryParams}`,
             {
                 method: 'GET',
                 headers: {
@@ -56,20 +60,43 @@ export class CompanyApi implements CompanyRepository {
         );
 
         if (!response.ok) {
-            throw new Error('Error al buscar usuarios en la compañía');
+            throw new Error(response.statusText);
         }
 
+        const {data,totalElements}:PaginableResponse = await response.json();
+        return {users:data.map((userData: any) => new User(
+                "",
+                userData.email,
+                userData.role,
+                userData.name,
+                userData.lastName,
+                undefined,
+                userData.groups,
+                undefined
+
+            )), total:totalElements}
+
+    }
+
+    async getCompanyGroups(): Promise<string[]> {
+        const token = this.authApi.getToken();
+        if (!token) {
+            throw new Error('No autorizado');
+        }
+
+        const response = await fetch("http://localhost/company/groups",{
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            }
+        });
+
+        if(!response.ok) {
+            throw new Error('No se encontraron los grupos');
+        }
         const data = await response.json();
-        console.log(data);
-        return data.users.map((userData: any) => new User(
-            userData.id,
-            userData.email,
-            userData.role,
-            userData.firstname,
-            userData.lastname,
-            userData.company,
-            undefined
-        ));
+        return data.map((element:GroupItem) => element?.name.toLowerCase());
     }
 
 }

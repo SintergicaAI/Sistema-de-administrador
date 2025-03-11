@@ -1,5 +1,6 @@
 import {createContext} from "react";
 import {DataType} from "../../components/Administration/types/TableAdministrationTypes.ts";
+import {User} from "../../../domain/entities/User.ts";
 
 
 export type valueAdministrationContext = {
@@ -8,22 +9,26 @@ export type valueAdministrationContext = {
     selectedRow:{},
     hasSelected:boolean,
     dataTable:DataType[],
-    setDataTabla:(newDataTabla:DataType[]) => void,
+    changeDataTabla:(newDataTabla:User[]) => void,
     totalItemsTable:number,
     setTotalItemsTable:(size:number) => void,
     searchText:string,
     changeSearchText:(newSearchText:string) => void,
+    loadingTable:boolean,
+    setLoadingTable:(newLoading:boolean) => void,
 }
 
 export const AdministrationContext = createContext<valueAdministrationContext>({
-    changeSelectedRow:(newRowSelected:{})=>{},
-    changeHasSelected:(newHasSelected:boolean)=>{},
+    changeSelectedRow:()=>{},
+    changeHasSelected:()=>{},
     selectedRow:{},
     hasSelected:false,
     dataTable:[],
     totalItemsTable:0,
-    setTotalItemsTable:(size:number) => {},
-    setDataTabla:(newDataTabla:{}) =>{},
+    setTotalItemsTable:() => {},
+    changeDataTabla:() =>{},
     searchText:'',
-    changeSearchText:(newSearchText:string) => {},
+    changeSearchText:() => {},
+    loadingTable:false,
+    setLoadingTable:() => {},
 })

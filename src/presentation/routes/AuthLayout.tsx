@@ -1,6 +1,6 @@
 import {Col,Row} from "antd";
 import {Outlet} from "react-router-dom";
-import "./styles/login.css";
+import "../pages/styles/login.css";
 
 export const AuthLayout = () =>{
     return (

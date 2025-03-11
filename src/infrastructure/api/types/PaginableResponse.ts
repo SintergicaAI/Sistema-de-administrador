@@ -1,9 +1,10 @@
 import {UserDTO} from "./CompanyResponse.ts";
 
 export interface PaginableResponse {
-    currentPage: number,
-    totalPages: number,
+    data:[],
     totalElements: number;
+    currentPage?: number,
+    totalPages?: number,
 }
 export interface UsersCompanyPagination extends PaginableResponse {
     userDTOPage:UserDTO[]

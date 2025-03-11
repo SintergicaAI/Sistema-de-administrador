@@ -84,9 +84,9 @@ export class LocalOperation  implements CompanyRepository {
         if(!response.ok) {
             return Promise.reject(response.statusText);
         }
-        const data:string[] = await response.json();
+        const {groups}:{groups:string[]} = await response.json();
 
-        return Promise.resolve(data);
+        return Promise.resolve(groups);
     }
 
 }

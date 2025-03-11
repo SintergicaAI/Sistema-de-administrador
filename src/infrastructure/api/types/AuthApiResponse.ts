@@ -3,6 +3,7 @@ import {UserRole} from "../../../domain/enums/UserRole.ts";
 //Archivo que contiene las diferentes respuestas
 export interface LoginApiResponse {
     token: string;
+    refreshToken:string;
 }
 
 export interface AuthenticateApiResponse {

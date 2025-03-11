@@ -118,69 +118,6 @@
       ]
     }
   ],
-  "search": [
-    {
-      "id": "1",
-      "email": "alexis.alvarez@sintergica.ai",
-      "first_name": "Alexis",
-      "last_name": "Alvarez",
-      "role": "Usuario",
-      "groups": [
-        "Marketing"
-      ]
-    },
-    {
-      "id": "2",
-      "email": "alberto.alvarez@sintergica.ai",
-      "first_name": "Alberto",
-      "last_name": "Alvarez",
-      "role": "Usuario",
-      "groups": [
-        "Ventas",
-        "Marketing"
-      ]
-    },
-    {
-      "id": "3",
-      "email": "Antonio.alvarez@sintergica.ai",
-      "first_name": "Antonio",
-      "last_name": "Alvarez",
-      "role": "Usuario",
-      "groups": [
-        "Ventas"
-      ]
-    },
-    {
-      "id": "4",
-      "email": "Ana.gabriela@sintergica.ai",
-      "first_name": "Ana",
-      "last_name": "Gabriela",
-      "role": "Administrador",
-      "groups": [
-        "Finanzas"
-      ]
-    },
-    {
-      "id": "5",
-      "email": "Ana.Marquez@sintergica.ai",
-      "first_name": "Ana",
-      "last_name": "Marquez",
-      "role": "Usuario",
-      "groups": [
-        "Finanzas"
-      ]
-    },
-    {
-      "id": "6",
-      "email": "Estafania.Lopez@sintergica.ai",
-      "first_name": "Estafania",
-      "last_name": "Lopez",
-      "role": "Dueño",
-      "groups": [
-        "Finanzas"
-      ]
-    }
-  ],
   "login": {
     "email": "mock@example.com",
     "password": "12345678",
@@ -193,12 +130,12 @@
   "invitaton": {
     "status": 200
   },
-  "groups": [
-    "Ventas",
-    "Marketing",
-    "General",
-    "Finanzas"
-  ],
+  "groups": {
+    "groups": ["Ventas",
+      "Marketing",
+      "General",
+      "Finanzas"]
+  },
   "models": [
     {
       "id": "1",

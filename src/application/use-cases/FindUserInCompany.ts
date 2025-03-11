@@ -9,8 +9,8 @@ export class FindUserInCompany {
             return await this.companyRepository.findUsersInCompany(
                 searchParams
             );
-        } catch (error) {
-            throw new Error(`Error al buscar usuarios: ${error.message}`);
+        } catch (error:unknown) {
+            throw new Error(`Error al buscar usuarios: ${error}`);
         }
     }
 }
