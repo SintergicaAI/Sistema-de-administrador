@@ -7,10 +7,10 @@ import {AuthenticateApiResponse, LoginApiResponse} from "./types/AuthApiResponse
 export class AuthApi implements AuthRepository {
     private readonly baseUrl = "http://localhost:80";
 
-    private getUserFromStorage(): { user: Partial<User> | null, token: string | null } {
+    private getUserFromStorage(): LoginApiResponse {
         const storedUser = localStorage.getItem('user');
         if (!storedUser) {
-            return {user: null, token: null};
+            return {refreshToken:'',token:''};
         }
        /* console.log(JSON.parse(storedUser));*/
         return JSON.parse(storedUser);
@@ -82,9 +82,26 @@ export class AuthApi implements AuthRepository {
         return new User(data.id, data.email, data.role, undefined, undefined, undefined, undefined,data.token);
     }
 
-    refreshToken(token: string): Promise<string> {
+    async getNewToken(userRefreshToken: string){
         //llamada a la API
-
+        const response = await fetch(`${this.baseUrl}/users/refreshToken`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${userRefreshToken}`,
+            }
+        })
+        if (!response.ok){
+            return Promise.reject(response);
+        }
+        const {token,refreshToken}: LoginApiResponse = await response.json();
         //Guardar el nuevo token
+        this.saveToken({token,refreshToken});
+        return true;
+    }
+
+     getRefreshToken(): string  {
+        const {refreshToken} = this.getUserFromStorage();
+        return refreshToken;
     }
 }

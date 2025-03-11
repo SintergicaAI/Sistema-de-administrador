@@ -126,6 +126,8 @@ export const TableAdministration = () =>{
                         document.querySelector(".ant-table-row-selected")?.classList.remove("ant-table-row-selected");
                         let target:HTMLTableElement = event.target as HTMLTableElement;
                         target.closest('tr')?.classList.toggle('ant-table-row-selected');
+
+                        //Cambiar el row seleccionado y renderizar el SiderContent
                         changeRow(record);
                         changeHasSelected(true);
                     },
@@ -136,6 +138,7 @@ export const TableAdministration = () =>{
                     total:totalItemsTable,
                     onChange:(page) =>{
                         setCurrentPage(page - 1 )
+                        changeHasSelected(false) //PREGUNTA:cuando cambiamos de pagina, es necesario cerrar el sideBar?
                     },
                     position:['bottomCenter']
                 }}
