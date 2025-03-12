@@ -97,8 +97,13 @@ export class CompanyApi implements CompanyRepository {
             }
         });
 
-        if(!response.ok) {
-            throw new Error('No se encontraron los grupos');
+        //Refrescar el token
+        if(response.status === 403) {
+            this.authApi.getNewToken(this.authApi.getRefreshToken() as string)
+                .then(r => console.log(`Se actualizo el token ${r}`))
+                .catch((err: Error) => {
+                    console.log(err)
+                });
         }
         const data = await response.json();
         return data.map((element:GroupItem) => element?.name.toLowerCase());
