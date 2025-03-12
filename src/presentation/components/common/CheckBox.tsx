@@ -5,13 +5,14 @@ import { SquareCheckBig } from 'lucide-react';
 import {ChangeEvent, useEffect} from "react";
 
 type Props ={
+    id:string,
     grupo:string,
     checkedValue:string[],
     handleChange:(event:ChangeEvent<HTMLInputElement>) => void,
 }
 
 
-export const CheckBox = ({grupo,checkedValue,handleChange}:Props)=>{
+export const CheckBox = ({id,grupo,checkedValue,handleChange}:Props)=>{
 
     return (
         <label className='checkbox-container'>
@@ -20,6 +21,7 @@ export const CheckBox = ({grupo,checkedValue,handleChange}:Props)=>{
 
                 <div>
                     <input
+                        id={id}
                         name={'grupo'}
                         value={grupo}
                         type="checkbox"

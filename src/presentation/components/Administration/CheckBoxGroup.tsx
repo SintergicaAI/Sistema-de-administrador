@@ -20,6 +20,9 @@ type SelectedProps ={
 const getGroups = (groups:groupItem[])=>{
     return groups.map(item=> item.name.toLowerCase());
 }
+const getId = (groupName:string,groups:groupItem[]) =>{
+    return groups.find((item)=> item.id === groupName)?.id as string;
+}
 
 export const CheckBoxGroup = ()=>{
     const {selectedRow,changeSelectedRow} = useContext(AdministrationContext);
@@ -32,7 +35,6 @@ export const CheckBoxGroup = ()=>{
     const getGroupsFromCompany =  () =>{
         getGroupCompany.execute()
             .then((data)=>{
-                console.log(data);
                 setLoading(false);
                 setCompanyGroups(data);
             }).catch(()=>{
@@ -45,18 +47,32 @@ export const CheckBoxGroup = ()=>{
 
     useEffect(() => {
         setUserGroup(getGroups(groups));
-        console.log(userGroup);
     }, [groups]);
 
     const handleCheckBoxGroup = (value:ChangeEvent<HTMLInputElement>) => {
-        console.log(value.target.value);
-        /*changeSelectedRow({...selectedRow,groups:[]});*/
+
+
+        if(value.target.checked)
+        {
+            changeSelectedRow(
+                {...selectedRow,
+                    groups:[...groups,{id:value.target.id,name:value.target.value}]}
+            );
+        }
+        else{
+            const numero = [...groups].findIndex((item:groupItem)=> item.name.toLowerCase() === value.target.value.toLowerCase());
+            changeSelectedRow(
+                {...selectedRow,
+                    groups:[...groups.filter((_, index) => index !== numero)]}
+            );
+        }
     }
     return (<>
         <Flex gap={5} flex="1" vertical>
             {!loading?
                 companyGroups.map((groupFromCompany,index) =>(
                     <CheckBox
+                        id={(getId(groupFromCompany,groups))}
                         key={index}
                         grupo={groupFromCompany}
                         handleChange={handleCheckBoxGroup}
