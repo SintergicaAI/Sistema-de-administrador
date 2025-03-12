@@ -33,8 +33,6 @@ export const InputSearchUsers = () => {
     }
 
     useEffect(() => {
-       /* console.log('Se disparo el efecto');
-        console.log(`Query search ${searchText}`);*/
         findUserByName();
     }, [searchText]);
 

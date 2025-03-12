@@ -11,7 +11,7 @@ export interface UserSearchParams {
     query: string ;  // Puede ser nombre, email, etc.
     page?: number;
     size?: number;
-    groups?: string;
+    groups?: string[];
 
 }
 

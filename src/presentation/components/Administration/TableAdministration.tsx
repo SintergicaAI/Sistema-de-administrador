@@ -34,6 +34,13 @@ export const TableAdministration = () =>{
     //const [dataInmutable,setDataInmutable] = useState<User[]>([]) //Guarda los datos de la tabla original
     const PAGE_SIZE = 5;
 
+    useEffect(() => {
+        prepareData();
+    }, [currentPage]);
+
+    useEffect(() => {
+        setCurrentPage(0);
+    }, [searchText]);
 
 
     const prepareData = ()=>{
@@ -53,9 +60,6 @@ export const TableAdministration = () =>{
         })
     }
 
-    useEffect(() => {
-        prepareData();
-    }, [currentPage]);
 
     const changeRow = (selectedRow:RecordType) => {
         changeSelectedRow(selectedRow);
@@ -96,7 +100,6 @@ export const TableAdministration = () =>{
             title:'Rol',
             key:'role',
             dataIndex: 'role',
-            filteredValue: [searchText],
         },
         {
             title:'Correo',

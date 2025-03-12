@@ -28,3 +28,9 @@ Authorization: Bearer {{auth_token}}
 GET {{TURING_API_URL}}/company/users?fullname=bob&page=0&size=5
 Accept: application/json
 Authorization: Bearer {{auth_token}}
+
+###
+GET {{TURING_API_URL}}/company/users?page=0&size=5&groups=[VENTAS]
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
