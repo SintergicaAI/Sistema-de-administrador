@@ -1,6 +1,5 @@
 import {ChangeEvent, useContext, useEffect, useState} from "react";
 import {AdministrationContext} from "../../context/Administration";
-import type {DataType} from "./types/TableAdministrationTypes.ts";
 import {Flex,Spin} from "antd";
 import {CheckBox} from "../common";
 import {NotFound} from "../common/NotFound.tsx";

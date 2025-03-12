@@ -1,8 +1,8 @@
 import './styles/SideBar.css';
-import {Checkbox, ConfigProvider, Flex} from "antd";
+import {Flex} from "antd";
 import {upperCaseOneWord} from "../../utilities";
 import { SquareCheckBig } from 'lucide-react';
-import {ChangeEvent, useEffect} from "react";
+import {ChangeEvent} from "react";
 
 type Props ={
     id:string,

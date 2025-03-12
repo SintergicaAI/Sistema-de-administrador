@@ -1,6 +1,6 @@
 import './styles/SideBar.css';
 import { CircleCheckBig } from 'lucide-react';
-import {ChangeEvent, useRef} from "react";
+import {ChangeEvent} from "react";
 
 type Props = {
     rol:string,

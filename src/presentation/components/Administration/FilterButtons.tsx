@@ -11,10 +11,11 @@ const getGroupCompany = new GetCompanyGroups(companyAPI);
 type Props = {
     name: string;
     setFilter:Dispatch<React.SetStateAction<any>>;
+    filters:string[]
 }
 
-export const ButtonFilter = ({name}:Props) =>{
-    const buttonRef = useRef(null);
+export const ButtonFilter = ({name,filters,setFilter}:Props) =>{
+    const buttonRef = useRef(null!);
 
     return (
         <button
@@ -22,8 +23,14 @@ export const ButtonFilter = ({name}:Props) =>{
             data-filter={name}
             ref={buttonRef}
             onClick={() => {
-                buttonRef.current?.classList.toggle('button-filter--active');
-                console.log(buttonRef.current.dataset.filter);
+                buttonRef.current.classList.toggle('button-filter--active');
+                const typeFilter = buttonRef.current.dataset.filter;
+
+                if( buttonRef.current?.classList.contains('button-filter--active') ){
+                    setFilter([...filters,typeFilter]);
+                }else{
+                    setFilter([...filters.filter(item => item.toLowerCase() !== typeFilter) ]);
+                }
             }}
         >
             {upperCaseOneWord(name)}
@@ -35,6 +42,7 @@ export const FilterButtons = () => {
     const [companyGroups, setCompanyGroups] = useState<string[]>([]);
     const [filters, setFilters] = useState<string[]>([]);
 
+
     const getGroupsFromCompany =  () =>{
         getGroupCompany.execute()
             .then((data)=>{
@@ -43,6 +51,7 @@ export const FilterButtons = () => {
             setCompanyGroups([]);
         })
     }
+
     useEffect(() => {
         getGroupsFromCompany()
     }, []);
@@ -61,32 +70,10 @@ export const FilterButtons = () => {
                         name={company}
                         key={index}
                         setFilter={setFilters}
+                        filters={filters}
                     />
                 )):""}
             </Flex>
             </>
     )
-
-    /*<ConfigProvider theme={
-                        {
-                            token:{
-
-                            },
-                            components:{
-                            Button:{
-                                    defaultBg:'var(--c_slate_200)',
-                                    defaultColor:'var(--c_slate_500)',
-                                    borderRadius:8,
-                                    defaultHoverBg:'var(--c_slate_200)',
-                                    defaultHoverColor:'var(--c_brand-500)',
-                                    defaultHoverBorderColor:'var(--c_brand-500)',
-                                    defaultActiveBg:'var(--c_brand_100)',
-                                    defaultActiveColor:'var(--c_brand-500)'
-                                }
-                            }
-                        }
-                    }
-                        >
-                        <ButtonFilter name={company}/>
-                    </ConfigProvider>*/
 }
