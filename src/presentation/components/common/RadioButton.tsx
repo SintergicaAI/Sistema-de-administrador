@@ -11,8 +11,6 @@ type Props = {
 
 export const RadioButton = ({rol,name,isChecked,handleChange}:Props) =>{
 
-    /*Me sale un Warning*/
-    //const checkedProp = isChecked ? {checked:true} : {};
     return (
         <>
         <label className="radio-button">
