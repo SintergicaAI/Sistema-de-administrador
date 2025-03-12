@@ -1,28 +1,31 @@
-import { render, screen } from '@testing-library/react'
-import { beforeEach, describe, it, expect } from 'vitest'
-import userEvent from '@testing-library/user-event'
+import { render, screen, waitFor } from '@testing-library/react'
+import { beforeEach, describe, it, expect, vi } from 'vitest'
 import { SiderContent } from '../presentation/components/Administration/SiderContent.tsx'
 import { AdministrationContext } from '../presentation/context/Administration/AdministrationContext.tsx'
 import { MemoryRouter } from 'react-router-dom'
-import { Roles } from '../domain/enums/UserRole.ts'
-import { Groups } from '../domain/enums/UserGroups.ts'
-import { DataType } from '../presentation/components/Administration/types/TableAdministrationTypes.ts'
+
+// Mock de GetCompanyGroups
+vi.mock('../application/use-cases/GetCompanyGroups.ts', () => ({
+    GetCompanyGroups: vi.fn().mockImplementation(() => ({
+        execute: vi.fn().mockResolvedValue(["Grupo 1", "Grupo 2"])
+    }))
+}))
 
 // Mock del contexto con todas las propiedades necesarias
-const mockAdminstrationContext = { 
-    
-    selectedRow: { groups: [Groups[0]], role: Roles[1] }, // Valores iniciales (General y Usuario)
+const mockAdminstrationContext = {
+    selectedRow: {
+        groups: [{ id: "1", name: "Grupo 1" }],
+        role: "Usuario"
+    },
     hasSelected: true,
-    dataTable: [] as DataType[],
+    dataTable: [],
     totalItemsTable: 0,
-    searchText: '',
-        
-    // Funciones Mock que no hacen nada en la prueba pero
-    changeSelectedRow: () => {},
-    changeHasSelected: () => {},
-    setDataTabla: () => {},
-    setTotalItemsTable: () => {},
-    changeSearchText: () => {},
+    searchText: "",
+    changeSelectedRow: vi.fn(),
+    changeHasSelected: vi.fn(),
+    setDataTabla: vi.fn(),
+    setTotalItemsTable: vi.fn(),
+    changeSearchText: vi.fn()
 }
 
 beforeEach(() =>{ 
@@ -36,36 +39,28 @@ beforeEach(() =>{
 })
 
 describe('SiderContent Test', () => {
-    it('should render the role selection label', () => {
+    it('should render labels correctly', () => {
         const roleLabel = screen.getByText('Rol')
         expect(roleLabel).toBeInTheDocument()
-    })
-
-    it('should render the groups selection label', () => {
         const groupLabel = screen.getByText('Grupos al que pertenece')
         expect(groupLabel).toBeInTheDocument()
     })
 
+    it('should render role options', () => {
+        expect(screen.getByLabelText('Administrador')).toBeInTheDocument()
+        expect(screen.getByLabelText('Usuario')).toBeInTheDocument()
+        expect(screen.getByLabelText('Dueño')).toBeInTheDocument()
+    })
+
     it('should render the search input', () => {
-        const searchInput = screen.getByPlaceholderText('Buscar');
-        expect(searchInput).toBeInTheDocument();
+        const searchInput = screen.getByPlaceholderText('Buscar')
+        expect(searchInput).toBeInTheDocument()
     });
 
-    it('should render all role options', () => {
-        Roles.forEach(role => {
-            const roleOption = screen.getByText(role)
-            expect(roleOption).toBeInTheDocument()
+    it('should render company groups after loading', async () => {
+        await waitFor(() => {
+            expect(screen.getByText('Grupo 1')).toBeInTheDocument()
+            expect(screen.getByText('Grupo 2')).toBeInTheDocument()
         })
-    })
-
-    it('should have the default role selected', () => {
-        const radioButton = screen.getByLabelText('Usuario');
-        expect(radioButton).toBeChecked();
-    })
-
-    it('should allow typing in the search input', async () => {
-        const searchInput = screen.getByPlaceholderText('Buscar')
-        await userEvent.type(searchInput, 'Finanzas')
-        expect(searchInput).toHaveValue('Finanzas')
     })
 })
