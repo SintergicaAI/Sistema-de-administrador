@@ -11,6 +11,31 @@ beforeAll(() => {
     }))
 })
 
+// Mock de la clase AuthApi
+vi.mock("../infrastructure/api/AuthApi.ts", () => ({
+    AuthApi: vi.fn().mockImplementation(() => ({
+        getToken: vi.fn().mockReturnValue('mocked-token'),
+    }))
+}))
+
+// Mock de la clase CompanyApi
+vi.mock("../infrastructure/api/CompanyApi.ts", () => ({
+    CompanyApi: vi.fn().mockImplementation(() => ({
+        findUsersInCompany: vi.fn().mockResolvedValue({
+            ok: true,  // Simulando que la respuesta es exitosa
+            json: () => Promise.resolve([
+                {
+                    id: "1",
+                    fullName: "Juan Pérez",
+                    role: "Admin",
+                    email: "juan@example.com",
+                    groups: ["General"]
+                }
+            ])
+        })
+    }))
+}))
+
 // Mock del contexto
 const mockContextValue = {
     changeSelectedRow: vi.fn(),
@@ -18,6 +43,7 @@ const mockContextValue = {
     selectedRow: {},
     hasSelected: false,
     setDataTabla: vi.fn(),
+    changeDataTabla: vi.fn(),
     totalItemsTable: 10,
     setTotalItemsTable: vi.fn(),
     setLoadingTable: vi.fn(),
