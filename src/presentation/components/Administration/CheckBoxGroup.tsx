@@ -20,7 +20,7 @@ const getGroups = (groups:groupItem[])=>{
     return groups.map(item=> item.name.toLowerCase());
 }
 const getId = (groupName:string,groups:groupItem[]) =>{
-    return groups.find((item)=> item.id === groupName)?.id as string;
+    return groups.find((item)=> item.name === groupName)?.id as string;
 }
 
 export const CheckBoxGroup = ()=>{

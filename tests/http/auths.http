@@ -25,12 +25,17 @@ Accept: application/json
 Authorization: Bearer {{auth_token}}
 
 ###
-GET {{TURING_API_URL}}/company/users?fullname=bob&page=0&size=5
+GET {{TURING_API_URL}}/company/users?fullname=Ali&page=0&size=5
 Accept: application/json
 Authorization: Bearer {{auth_token}}
 
 ###
-GET {{TURING_API_URL}}/company/users?page=0&size=5&groups=[VENTAS]
+GET {{TURING_API_URL}}/company/users?page=0&size=14&groups=vendedores%2ccontadores
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
+###
+GET {{TURING_API_URL}}/company/groups
 Accept: application/json
 Authorization: Bearer {{auth_token}}
 

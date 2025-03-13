@@ -31,9 +31,9 @@
 .button-filter{
     background-color: var(--c_slate_200);
     min-width: 80px;
-    font-size: var(--base-size);
+    font-size: var(--label-size);
     font-weight: 500;
-    padding: var(--sm-space) var(--xs-space);
+    padding: var(--sm-space);
     border-radius: var(--sm-radius);
     color: var(--c_slate_500);
     border: 1px solid var(--c_slate_200);

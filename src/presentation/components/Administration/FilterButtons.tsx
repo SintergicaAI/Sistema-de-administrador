@@ -3,14 +3,11 @@ import {GetCompanyGroups} from "../../../application/use-cases/GetCompanyGroups.
 import {Dispatch, useContext, useEffect, useRef, useState} from "react";
 import {CompanyApi} from "../../../infrastructure/api/CompanyApi.ts";
 import {upperCaseOneWord} from "../../utilities";
-import {GetAllUserCompanyData} from "../../../application/use-cases/GetAllUserCompanyData.ts";
-import {UserSearchParams} from "../../../domain/repositories/CompanyRepository.ts";
-import {AdministrationContext} from "../../context/Administration";
+import {AdministrationContext, valueAdministrationContext} from "../../context/Administration";
 
 
 const companyAPI = new CompanyApi();
 const getGroupCompany = new GetCompanyGroups(companyAPI);
-const findUsersInCompany = new GetAllUserCompanyData(companyAPI);
 
 type Props = {
     name: string;
@@ -44,8 +41,7 @@ export const ButtonFilter = ({name,filters,setFilter}:Props) =>{
 
 export const FilterButtons = () => {
     const [companyGroups, setCompanyGroups] = useState<string[]>([]);
-    const [filters, setFilters] = useState<string[]>([]);
-    const {changeDataTabla} = useContext(AdministrationContext)
+    const {filters,setFilters}:valueAdministrationContext = useContext(AdministrationContext);
 
     const getGroupsFromCompany =  () =>{
         getGroupCompany.execute()
@@ -56,28 +52,9 @@ export const FilterButtons = () => {
         })
     }
 
-    const getUsersInCompanyByGroup = ()=>{
-        const searchParams: UserSearchParams = {
-            page:0,
-            size:5,
-            query:"",
-            groups:filters
-        }
-        findUsersInCompany.execute(searchParams).then((data)=>{
-            const {users} = data;
-            console.log(users);
-            //changeDataTabla(users);
-        })
-    }
-
     useEffect(() => {
         getGroupsFromCompany()
     }, []);
-
-    useEffect(() => {
-        console.log(filters);
-        getUsersInCompanyByGroup();
-    }, [filters]);
 
     return (<>
             <div>

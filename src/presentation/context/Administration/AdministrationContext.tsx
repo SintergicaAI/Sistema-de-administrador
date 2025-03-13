@@ -16,6 +16,8 @@ export type valueAdministrationContext = {
     changeSearchText:(newSearchText:string) => void,
     loadingTable:boolean,
     setLoadingTable:(newLoading:boolean) => void,
+    filters:string[],
+    setFilters:(filters:string[]) => void,
 }
 
 export const AdministrationContext = createContext<valueAdministrationContext>({
@@ -31,4 +33,6 @@ export const AdministrationContext = createContext<valueAdministrationContext>({
     changeSearchText:() => {},
     loadingTable:false,
     setLoadingTable:() => {},
+    filters:[],
+    setFilters:() => {},
 })

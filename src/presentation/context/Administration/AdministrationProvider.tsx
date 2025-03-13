@@ -13,6 +13,7 @@ export const AdministrationContextProvider = ({children}:{children:ReactNode}) =
     const [searchText, setSearchText] = useState('');
     const [totalItemsTable,setTotalItemsTable]=useState(0);
     const [loadingTable, setLoadingTable] = useState(false);
+    const [filters, setFilters] = useState<string[]>([]);
 
     const changeSelectedRow = (newRowSelected:{}) => {
         setSelectedRow(newRowSelected);
@@ -58,7 +59,9 @@ export const AdministrationContextProvider = ({children}:{children:ReactNode}) =
                 searchText,
                 changeSearchText,
                 loadingTable,
-                setLoadingTable
+                setLoadingTable,
+                filters,
+                setFilters
         }}>
             {children}
         </AdministrationContext.Provider>
