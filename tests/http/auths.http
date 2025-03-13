@@ -8,13 +8,17 @@ Content-Type: application/json
   "password": "123456"
 }
 
-> {% client.global.set("auth_token", response.body.token); %}
+> {% client.global.set("auth_token", response.body.token);
+    client.global.set("refresh_token", response.body.refreshToken);
+%}
 ###
 
 # @no-cookie-jar
-GET {{TURING_API_URL}}/auths/signout
+POST {{TURING_API_URL}}/users/logout
+Content-Type: application/json
+Authorization: Bearer {{refresh_token}}
 
-# @no-cookie-jar
+
 ###
 GET {{TURING_API_URL}}/auths/admin/details
 

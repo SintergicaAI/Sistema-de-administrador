@@ -47,7 +47,13 @@ export class AuthApi implements AuthRepository {
 
     //Que le debe responder el servidor aqui?
     async logOut(): Promise<boolean> {
-        const response = await fetch(`${this.baseUrl}/clients/logout`)
+        const response = await fetch(`${this.baseUrl}/users/logout`,{
+            method:'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${this.getRefreshToken()}`,
+            }
+        })
         if (!response.ok) {
             throw new Error('Error en la petición')
         }
