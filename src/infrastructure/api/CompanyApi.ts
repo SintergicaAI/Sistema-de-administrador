@@ -120,4 +120,29 @@ export class CompanyApi implements CompanyRepository {
 
     }
 
+    async addNewUserToCompany(email:string): Promise<boolean> {
+        const token = this.authApi.getToken();
+        if (!token) {
+            throw new Error('No autorizado');
+        }
+        try{
+            const response = await fetch(`${this.baseUrl}/company/users/${email}`,{
+                method: 'POST',
+                headers:{
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                }
+            })
+            //Refrescar el token
+            if(response.status === 403) {
+                this.refreshToke()
+            }
+
+            return true;
+        }catch (e) {
+            console.log(e)
+            return false
+        }
+    }
+
 }

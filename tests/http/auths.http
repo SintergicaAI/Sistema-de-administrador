@@ -8,8 +8,10 @@ Content-Type: application/json
   "password": "123456"
 }
 
-> {% client.global.set("auth_token", response.body.token);
+> {%
+    client.global.set("auth_token", response.body.token);
     client.global.set("refresh_token", response.body.refreshToken);
+    client.global.set("email", response.body.email);
 %}
 ###
 
@@ -45,6 +47,11 @@ Authorization: Bearer {{auth_token}}
 
 ###
 DELETE {{TURING_API_URL}}/company/users/Robert@gmail.com
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
+###
+POST {{TURING_API_URL}}/company/users/gonza@gmail.com
 Accept: application/json
 Authorization: Bearer {{auth_token}}
 
