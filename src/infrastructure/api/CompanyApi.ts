@@ -27,7 +27,8 @@ export class CompanyApi implements CompanyRepository {
     }
 
     async deleteUser(email: string): Promise<UserDeleted> {
-        const response = await fetch("",{
+        const response = await fetch(`${this.baseUrl}/company/users/${email}`,{
+            method:'DELETE',
             headers:{
                 Authorization:`Bearer ${this.authApi.getToken()}`
             }

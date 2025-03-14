@@ -43,3 +43,8 @@ GET {{TURING_API_URL}}/company/groups
 Accept: application/json
 Authorization: Bearer {{auth_token}}
 
+###
+DELETE {{TURING_API_URL}}/company/users/Robert@gmail.com
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+

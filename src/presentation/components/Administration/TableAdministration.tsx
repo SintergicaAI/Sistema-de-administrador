@@ -70,6 +70,7 @@ export const TableAdministration = () =>{
             changeDataTabla( users);
             setLoadingTable(false);
             setTotalItemsTable(total);
+
         })
     }
 
