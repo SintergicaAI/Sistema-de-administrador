@@ -39,11 +39,33 @@ describe('Admin Section Test On The Home Page', () => {
             cy.contains('td', '0 grupo')
         })
 
-        it('user should can add a new user to their team', () => {
+        it('user should see an error message if the invitation was not sent ', () => {
             cy.contains('li', 'Admin').click()
             cy.url().should('include', '/administration')
             cy.contains('Nuevo usuario').should('be.visible').click()
             cy.get('.ant-modal-content').should('be.visible')
+            cy.get('[placeholder="ejemplo@mail.com"]').should('be.visible').type('test01@gmail.com')
+            cy.get('[placeholder="Juan..."]').should('be.visible').type('userTest01')
+            cy.get('.ant-select-selector').should('be.visible').click()
+            cy.get('.ant-select-dropdown').should('be.visible').contains('Usuario').click()
+            cy.get('[id="invitaton_TextArea"]').should('be.visible').type('Este es un texto de prueba :)')
+            cy.intercept('GET', '/invitaton', { statusCode: 200 })// Se simula la respuesat de la API
+            cy.contains('Enviar invitación').should('be.visible').click()
+            cy.get('.ant-alert-message').should('be.visible').contains('Invitacion enviada correctamente')
+        })
+
+        it('user should can add a new admin to their team', () => {
+            cy.contains('li', 'Admin').click()
+            cy.url().should('include', '/administration')
+            cy.contains('Nuevo usuario').should('be.visible').click()
+            cy.get('.ant-modal-content').should('be.visible')
+            cy.get('[placeholder="ejemplo@mail.com"]').should('be.visible').type('test02@gmail.com')
+            cy.get('[placeholder="Juan..."]').should('be.visible').type('userTest02')
+            cy.get('.ant-select-selector').should('be.visible').click()
+            cy.get('.ant-select-dropdown').should('be.visible').contains('Administrador').click()
+            cy.get('[id="invitaton_TextArea"]').should('be.visible').type('Este es un texto de prueba :)')
+            cy.contains('Enviar invitación').should('be.visible').click()
+            cy.get('.ant-alert-message').should('be.visible').contains('Invitacion no enviada')
         })
     })
 })
