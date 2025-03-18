@@ -3,6 +3,7 @@ import { Navigate } from 'react-router-dom';
 import { CheckAuthStatus } from '../../application/use-cases/CheckAuthStatus';
 import { AuthApi } from '../../infrastructure/api/AuthApi';
 import LoadingSpinner from '../components/common/LoadingSpinner.tsx';
+import {GetNewTokenResponse} from "../../application/use-cases/GetNewToken.ts";
 
 interface PrivateRouteProps {
   children: JSX.Element;
@@ -10,6 +11,7 @@ interface PrivateRouteProps {
 
 const authApi = new AuthApi();
 const checkAuthStatus = new CheckAuthStatus(authApi);
+const getNewToken = new GetNewTokenResponse(authApi);
 
 export const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
@@ -19,8 +21,10 @@ export const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
       const auth = await checkAuthStatus.execute();
       setIsAuthenticated(auth);
     };
-
-    checkAuth().then(r => console.log(r));
+    checkAuth().then(async () =>{
+      const r = await getNewToken.execute(authApi.getRefreshToken());
+      console.log(`Se hizo el refresh Token: ${r}`);
+    });
   }, []);
 
   if (isAuthenticated === null) {

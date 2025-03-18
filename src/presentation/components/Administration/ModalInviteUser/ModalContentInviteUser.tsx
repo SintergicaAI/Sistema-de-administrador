@@ -1,10 +1,10 @@
 import {Form, FormProps, Input, message, ConfigProvider, Select, Flex} from "antd";
 import {SubmitButton} from "../../common/SubmitButton.tsx";
-import {InvitationApi} from "../../../../infrastructure/api/InvitationApi.ts";
-import {SendInvitationEmail} from "../../../../application/use-cases/SendInvitationEmail.ts";
 import {Dispatch, SetStateAction, useState} from "react";
 import {AlertMessages} from "../../common/AlertMessages.tsx";
 import { Send } from 'lucide-react';
+import {CompanyApi} from "../../../../infrastructure/api/CompanyApi.ts";
+import {AddNewUserToCompany} from "../../../../application/use-cases/AddNewUserToCompany.ts";
 
 type FieldType = {
     email: string,
@@ -16,9 +16,8 @@ type Props = {
     setInvitationSend:Dispatch<SetStateAction<any>>;
 }
 
-const invitationAPI = new InvitationApi();
-const sendInvitationEmail = new SendInvitationEmail(invitationAPI);
-
+const companyApi = new CompanyApi();
+const addNewUser = new AddNewUserToCompany(companyApi);
 
 export const ModalContentInviteUser = ({setIsModalOpen,setInvitationSend}:Props)=>{
     const [form] = Form.useForm();
@@ -28,7 +27,7 @@ export const ModalContentInviteUser = ({setIsModalOpen,setInvitationSend}:Props)
 
     const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
         console.log(values);
-        sendInvitationEmail.execute(values.email).
+        addNewUser.execute(values.email).
        then( () => {
             setIsModalOpen(false);
             setInvitationSend(true);

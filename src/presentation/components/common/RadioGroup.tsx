@@ -15,7 +15,7 @@ type Props = {
 export const RadioGroup = ({radioObjet}:Props) =>{
 
     //console.log(radioObjet.options);
-    const [radioButtons, setRadioButtons] = useState<string[]>(radioObjet.options);
+    const [radioButtons] = useState<string[]>(radioObjet.options);
     const {selectedRow,changeSelectedRow} = useContext(AdministrationContext);
     const {role} = selectedRow as DataType;
 
@@ -23,8 +23,8 @@ export const RadioGroup = ({radioObjet}:Props) =>{
     //Actualizar el dato role de selectedRow
     const handleRadioChange = (value:ChangeEvent<HTMLInputElement>)=>{
        changeSelectedRow({...selectedRow,role:value.target.value});
-        console.log(value.target.value);
-        console.log(selectedRow);
+        /*console.log(value.target.value);
+        console.log(selectedRow);*/
     }
 
     return (

@@ -1,6 +1,6 @@
 import './styles/SideBar.css';
 import { CircleCheckBig } from 'lucide-react';
-import {ChangeEvent, useRef} from "react";
+import {ChangeEvent} from "react";
 
 type Props = {
     rol:string,
@@ -11,8 +11,6 @@ type Props = {
 
 export const RadioButton = ({rol,name,isChecked,handleChange}:Props) =>{
 
-    /*Me sale un Warning*/
-    //const checkedProp = isChecked ? {checked:true} : {};
     return (
         <>
         <label className="radio-button">

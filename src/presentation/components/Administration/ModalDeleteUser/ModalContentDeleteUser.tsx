@@ -1,15 +1,14 @@
-import {Dispatch, SetStateAction, useContext} from "react";
+import {Dispatch, SetStateAction, useContext, useState} from "react";
 import {AdministrationContext} from "../../../context/Administration";
 import {DataType} from "../types/TableAdministrationTypes.ts";
-//import {CompanyApi} from "../../../../infrastructure/api/CompanyApi.ts";
 import {DeleteUser} from "../../../../application/use-cases/DeleteUser.ts";
-import {Button, Col, Flex, Row} from 'antd';
-import {Avatar} from "../../common/Avatar.tsx";
+import {Button, Col, Flex, Row,Spin} from 'antd';
+import {Avatar} from "../../common";
 import { Trash2 } from 'lucide-react';
 import { X } from 'lucide-react';
-import {LocalOperation} from "../../../../infrastructure/api/LocalOperation.ts";
+import {CompanyApi} from "../../../../infrastructure/api/CompanyApi.ts";
 
-const companyApi = new LocalOperation();
+const companyApi = new CompanyApi();
 const deleteUser = new DeleteUser(companyApi);
 
 type Props = {
@@ -18,19 +17,29 @@ type Props = {
 
 
 export const ModalContentDeleteUser = ({setIsModalOpen}:Props) =>{
-    const {selectedRow,dataTable,setDataTabla,changeHasSelected} = useContext(AdministrationContext);
+    const {selectedRow,
+        dataTable,
+        changeDataTabla,
+        changeHasSelected, setTotalItemsTable,totalItemsTable} = useContext(AdministrationContext);
+    const [loading, setLoading] = useState(false);
+
     const {fullName} = selectedRow as DataType;
 
-    const handleDelete = async ()=>{
-        const {id} = selectedRow as DataType;
+    const handleDelete =  ()=>{
+        const {email} = selectedRow as DataType;
+        setLoading(true);
         try{
-            const deletedUser = await deleteUser.execute(id);
-            console.log('deletedUser',deletedUser);
-            const newData = dataTable.filter((data)=>data.id !== deletedUser.email);
-            console.log(newData.length);
-            setDataTabla(newData);
-            changeHasSelected(false);
-            setIsModalOpen(false);
+            deleteUser.execute(email).then((deletedUser)=>{
+                console.log('deletedUser',deletedUser);
+                const newData = dataTable.filter((data)=>data.email !== deletedUser.email);
+                console.log(newData.length);
+
+                setTotalItemsTable( totalItemsTable - 1 )
+                changeDataTabla(newData);
+                changeHasSelected(false);
+                setLoading(false);
+                setIsModalOpen(false);
+            });
         }catch(e){
             console.log(e);
         }
@@ -40,6 +49,7 @@ export const ModalContentDeleteUser = ({setIsModalOpen}:Props) =>{
         <Row justify={'center'} align={'middle'} style={{minHeight:'180px'}}>
             <Col span={16}>
                 <div >
+                    <Spin spinning={loading} fullscreen/>
                     <Flex align={'center'} gap={5} justify={'center'}>
                         <Avatar name={`${fullName}`}/>
                         <p style={{fontWeight:'700',fontSize:'var(--subtitle-size:16px)'}}>{`${fullName}`}</p>

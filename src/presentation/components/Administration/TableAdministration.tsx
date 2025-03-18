@@ -17,6 +17,8 @@ interface RecordType {
 const operationTable = new CompanyApi();
 const getAllUser = new GetAllUserCompanyData(operationTable);
 
+
+
 export const TableAdministration = () =>{
 
     const [selectedRowKeys,setSelectedRowKeys]=useState<string[]>([])
@@ -28,34 +30,50 @@ export const TableAdministration = () =>{
         searchText,
         dataTable,
         changeDataTabla,
-    setLoadingTable,loadingTable}:valueAdministrationContext = useContext(AdministrationContext);
+        setLoadingTable,
+        filters,
+        loadingTable}:valueAdministrationContext = useContext(AdministrationContext);
 
-    const [currentPage, setCurrentPage] = useState(0);
-    //const [dataInmutable,setDataInmutable] = useState<User[]>([]) //Guarda los datos de la tabla original
-    const PAGE_SIZE = 5;
+    const [searchParams,setSearchParams]=useState<UserSearchParams>({
+        query:"",
+        groups:'',
+        page:0, //currentPage
+        size:5 //pageSize
+    });
+
+    //UseEffect para preparar los datos
+    useEffect(() => {
+        prepareData(searchParams);
+    }, []);
+
+    //Si hubo un cambio en las propiedades, que pida otra vez los datos
+    useEffect(() => {
+        prepareData(searchParams);
+    }, [searchParams]);
+
+    useEffect(() => {
+        setSearchParams({...searchParams, query:searchText});
+    }, [searchText]);
+
+    useEffect(() => {
+        console.log(`Filters: ${filters.length}`);
+        setSearchParams({...searchParams, groups:filters?.toString() || ''});
+    }, [filters]);
 
 
-
-    const prepareData = ()=>{
+    const prepareData = (searchParams:UserSearchParams)=>{
         setLoadingTable(true);
-
-        const searchParams: UserSearchParams = {
-            page:currentPage,
-            size:5,
-            query:""
-        }
 
         getAllUser.execute(searchParams).then(result =>{
             const {users,total} = result
+            console.log(`Users ${users.length}`);
             changeDataTabla( users);
             setLoadingTable(false);
             setTotalItemsTable(total);
+
         })
     }
 
-    useEffect(() => {
-        prepareData();
-    }, [currentPage]);
 
     const changeRow = (selectedRow:RecordType) => {
         changeSelectedRow(selectedRow);
@@ -78,7 +96,6 @@ export const TableAdministration = () =>{
         })
     }
 
-    /*TODO:Modificar mecanismo de filtrado de datos*/
     const columns: TableProps<DataType>['columns'] = [
         {
             title:'Usuario',
@@ -96,7 +113,6 @@ export const TableAdministration = () =>{
             title:'Rol',
             key:'role',
             dataIndex: 'role',
-            filteredValue: [searchText],
         },
         {
             title:'Correo',
@@ -126,20 +142,26 @@ export const TableAdministration = () =>{
                         document.querySelector(".ant-table-row-selected")?.classList.remove("ant-table-row-selected");
                         let target:HTMLTableElement = event.target as HTMLTableElement;
                         target.closest('tr')?.classList.toggle('ant-table-row-selected');
+
+                        //Cambiar el row seleccionado y renderizar el SiderContent
                         changeRow(record);
                         changeHasSelected(true);
                     },
                 })}
                 loading={loadingTable}
                 pagination={{
-                    pageSize:PAGE_SIZE,
+                    pageSize:searchParams.size,
                     total:totalItemsTable,
-                    onChange:(page) =>{
-                        setCurrentPage(page - 1 )
+                    showSizeChanger:true,
+                    onChange:(page,pageSize) =>{
+                        setSearchParams({...searchParams, page:page-1,size:pageSize});
+                        changeHasSelected(false) //PREGUNTA:cuando cambiamos de pagina, es necesario cerrar el sideBar?
                     },
-                    position:['bottomCenter']
+                    position:['bottomCenter'],
+                    pageSizeOptions:[5,10,20,50]
                 }}
             />
+
         </>
     )
 }

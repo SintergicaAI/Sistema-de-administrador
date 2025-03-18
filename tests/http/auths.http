@@ -8,13 +8,19 @@ Content-Type: application/json
   "password": "123456"
 }
 
-> {% client.global.set("auth_token", response.body.token); %}
+> {%
+    client.global.set("auth_token", response.body.token);
+    client.global.set("refresh_token", response.body.refreshToken);
+    client.global.set("email", response.body.email);
+%}
 ###
 
 # @no-cookie-jar
-GET {{TURING_API_URL}}/auths/signout
+POST {{TURING_API_URL}}/users/logout
+Content-Type: application/json
+Authorization: Bearer {{refresh_token}}
 
-# @no-cookie-jar
+
 ###
 GET {{TURING_API_URL}}/auths/admin/details
 
@@ -25,6 +31,27 @@ Accept: application/json
 Authorization: Bearer {{auth_token}}
 
 ###
-GET {{TURING_API_URL}}/company/users?fullname=bob&page=0&size=5
+GET {{TURING_API_URL}}/company/users?fullname=Ali&page=0&size=5
 Accept: application/json
 Authorization: Bearer {{auth_token}}
+
+###
+GET {{TURING_API_URL}}/company/users?page=0&size=14&groups=vendedores%2ccontadores
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
+###
+GET {{TURING_API_URL}}/company/groups
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
+###
+DELETE {{TURING_API_URL}}/company/users/Robert@gmail.com
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
+###
+POST {{TURING_API_URL}}/company/users/gonza@gmail.com
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+

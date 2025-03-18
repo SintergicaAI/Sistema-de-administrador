@@ -7,11 +7,11 @@ export type UserToken = {
 
 export interface AuthRepository {
     isAuthenticated(): Promise<boolean>;
-    refreshToken(token:string): Promise<string>;
+    getNewToken(refreshToken:string): Promise<boolean>;
+    getRefreshToken():string;
     logIn(username: string, password: string): Promise<UserToken>;
     logOut(): Promise<boolean>;
     saveToken(token: UserToken): void;
     getToken(): string | null;
-    getRefreshToken(): string | null;
     register(firstname:string, lastname:string, email:string , password:string ): Promise<User>;
 }

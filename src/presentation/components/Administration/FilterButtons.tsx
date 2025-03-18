@@ -1,18 +1,22 @@
-import {Flex,Button,ConfigProvider} from 'antd';
-//import {GetCompanyGroups} from "../../../application/use-cases/GetCompanyGroups.ts";
-import {Dispatch, useEffect, useRef, useState} from "react";
+import {Flex} from 'antd';
+import {GetCompanyGroups} from "../../../application/use-cases/GetCompanyGroups.ts";
+import {Dispatch, useContext, useEffect, useRef, useState} from "react";
+import {CompanyApi} from "../../../infrastructure/api/CompanyApi.ts";
+import {upperCaseOneWord} from "../../utilities";
+import {AdministrationContext, valueAdministrationContext} from "../../context/Administration";
 
 
-/*const companyAPI = new LocalOperation();
-const getGroupCompany = new GetCompanyGroups(companyAPI);*/
+const companyAPI = new CompanyApi();
+const getGroupCompany = new GetCompanyGroups(companyAPI);
 
 type Props = {
     name: string;
     setFilter:Dispatch<React.SetStateAction<any>>;
+    filters:string[]
 }
 
-export const ButtonFilter = ({name}:Props) =>{
-    const buttonRef = useRef(null);
+export const ButtonFilter = ({name,filters,setFilter}:Props) =>{
+    const buttonRef = useRef(null!);
 
     return (
         <button
@@ -20,20 +24,26 @@ export const ButtonFilter = ({name}:Props) =>{
             data-filter={name}
             ref={buttonRef}
             onClick={() => {
-                buttonRef.current?.classList.toggle('button-filter--active');
-                console.log(buttonRef.current.dataset.filter);
+                buttonRef.current.classList.toggle('button-filter--active');
+                const typeFilter = buttonRef.current.dataset.filter;
+
+                if( buttonRef.current?.classList.contains('button-filter--active') ){
+                    setFilter([...filters,typeFilter]);
+                }else{
+                    setFilter([...filters.filter(item => item.toLowerCase() !== typeFilter) ]);
+                }
             }}
         >
-            {name}
+            {upperCaseOneWord(name)}
         </button>
     )
 }
 
 export const FilterButtons = () => {
     const [companyGroups, setCompanyGroups] = useState<string[]>([]);
-    const [filters, setFilters] = useState<string[]>([]);
+    const {filters,setFilters}:valueAdministrationContext = useContext(AdministrationContext);
 
-    /*const getGroupsFromCompany =  () =>{
+    const getGroupsFromCompany =  () =>{
         getGroupCompany.execute()
             .then((data)=>{
                 setCompanyGroups(data);
@@ -41,47 +51,25 @@ export const FilterButtons = () => {
             setCompanyGroups([]);
         })
     }
-*/
-    useEffect(() => {
-        /*getGroupsFromCompany()*/
-    }, []);
 
     useEffect(() => {
-        console.log(filters);
-    }, [filters]);
+        getGroupsFromCompany()
+    }, []);
 
     return (<>
             <div>
-                <p>Filtar por grupos</p>
+                <p>Filtrar por grupos</p>
             </div>
             <Flex justify='flex-start' gap={8}>
                 {companyGroups.length !== 0 ? companyGroups.map((company,index) => (
-                    <ButtonFilter name={company} key={index}/>
+                    <ButtonFilter
+                        name={company}
+                        key={index}
+                        setFilter={setFilters}
+                        filters={filters}
+                    />
                 )):""}
             </Flex>
             </>
     )
-
-    /*<ConfigProvider theme={
-                        {
-                            token:{
-
-                            },
-                            components:{
-                            Button:{
-                                    defaultBg:'var(--c_slate_200)',
-                                    defaultColor:'var(--c_slate_500)',
-                                    borderRadius:8,
-                                    defaultHoverBg:'var(--c_slate_200)',
-                                    defaultHoverColor:'var(--c_brand-500)',
-                                    defaultHoverBorderColor:'var(--c_brand-500)',
-                                    defaultActiveBg:'var(--c_brand_100)',
-                                    defaultActiveColor:'var(--c_brand-500)'
-                                }
-                            }
-                        }
-                    }
-                        >
-                        <ButtonFilter name={company}/>
-                    </ConfigProvider>*/
 }

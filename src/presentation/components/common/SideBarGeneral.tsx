@@ -16,7 +16,7 @@ export const SideBarGeneral = ({childrenHeader, contentChildren, hasSelected}:
     }
 
     return (
-        <Sider className="sidebar-configuration" width="25%">
+        <Sider className="sidebar-configuration" width="30%">
             <Layout style={{backgroundColor:"inherit"}}>
                 <Header style={{
                     display:'flex',

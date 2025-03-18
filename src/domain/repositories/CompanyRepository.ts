@@ -4,7 +4,8 @@ import {User} from "../entities/User.ts";
 export interface CompanyRepository {
     deleteUser(email:string):Promise<UserDeleted>;
     findUsersInCompany(searchParams: UserSearchParams): Promise<UserList>;
-    getCompanyGroups():Promise<string[]>
+    getCompanyGroups():Promise<string[]>;
+    addNewUserToCompany(email:string):Promise<boolean>;
 }
 
 export interface UserSearchParams {
