@@ -15,10 +15,6 @@ import {User} from "../../../domain/entities/User.ts";
 interface RecordType {
     key:string;
 }
-type groupItem = {
-    id: string;
-    name: string;
-}
 
 const operationTable = new CompanyApi();
 const getAllUser = new GetAllUserCompanyData(operationTable);
@@ -43,7 +39,8 @@ export const TableAdministration = () =>{
 
     const [searchParams,setSearchParams]=useState<UserSearchParams>({
         query:"",
-        groups:'',
+        size:5,
+        page:1,
     });
 
     //UseEffect para preparar los datos
@@ -52,19 +49,15 @@ export const TableAdministration = () =>{
         prepareData();
     }, []);
 
-    //Si hubo un cambio en las propiedades, que pida otra vez los datos
-    useEffect(() => {
-       filteringData(searchParams);
-    }, [searchParams]);
 
     useEffect(() => {
         console.log("Hubo cambios en el query")
-        setSearchParams({...searchParams, query:searchText});
+        filteringData();
     }, [searchText]);
 
     useEffect(() => {
         console.log("Hubo cambios en los filtros.")
-        setSearchParams({...searchParams, groups:filters?.toString() || ''});
+        filteringData();
     }, [filters]);
 
     const formatData = (data:User[])=>{
@@ -94,19 +87,21 @@ export const TableAdministration = () =>{
         })
     }
 
-    const filteringData = ({page,size,query,groups}:UserSearchParams)=>{
-        console.log('Query: ' + searchText + 'Groups:' + filters);
-        console.log('Datatable ' + dataTable.length);
+    const filteringData = ()=>{
+       /* console.log('Query: ' + searchText + 'Groups:' + filters);
+        console.log('Datatable ' + dataTable.length);*/
         let aux:DataType[] = []
 
-        aux= (query.length > 0 ) ? dataTable.filter((item)=>{
-                if(item.fullName.toLowerCase().includes(query.toLowerCase())) return item;
+        //Filtramos primero por query
+        aux= (searchText.length > 0 ) ? dataTable.filter((item)=>{
+                if(item.fullName.toLowerCase().includes(searchText.toLowerCase())) return item;
         }) : dataTable;
 
 
+        //Filtrado por grupo
         aux = (filters.length > 0) ? aux.filter((item)=>{
-            if(item.groups?.length !== 0){
-                const arrayGroups = item.groups.map((item:groupItem)=> item.name.toLowerCase());
+            if(item.groups && item.groups?.length !== 0){
+                const arrayGroups = item.groups.map((item)=> item.name.toLowerCase());
 
                 //Verifica si ALGUN grupo del usuario esta en el arreglo groups
                 return arrayGroups.some(group => filters.includes(group));
@@ -115,6 +110,8 @@ export const TableAdministration = () =>{
 
         //console.log('Elementos de arreglo auxiliar final' + aux.length)
         console.log(aux);
+        setSearchParams({...searchParams,page:1})
+        console.log(searchParams);
         setFilterData(aux);
     }
 
@@ -194,12 +191,14 @@ export const TableAdministration = () =>{
                 loading={loadingTable}
                 pagination={{
                     pageSize:searchParams.size,
+                    current:searchParams.page,
                     total:totalItemsTable,
                     showSizeChanger:true,
                     onChange:(page,pageSize) =>{
-                        console.log("Metodo de paginacion llamado");
-                        setSearchParams({...searchParams, page:page-1,size:pageSize});
-                        changeHasSelected(false) //PREGUNTA:cuando cambiamos de pagina, es necesario cerrar el sideBar?
+                        setLoadingTable(true);
+                        setSearchParams({...searchParams, page:page,size:pageSize});
+                        changeHasSelected(false)
+                        setLoadingTable(false);
                     },
                     position:['bottomCenter'],
                     pageSizeOptions:[5,10,20,50]
