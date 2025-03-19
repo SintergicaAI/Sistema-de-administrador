@@ -41,25 +41,25 @@ export class CompanyApi implements CompanyRepository {
         return Promise.resolve(user);
     }
 
-    async findUsersInCompany(searchParams: UserSearchParams): Promise<UserList> {
+    async findUsersInCompany(searchParams: UserSearchParams | {}): Promise<UserList> {
 
         const token = this.authApi.getToken();
         if (!token) {
             throw new Error('No autorizado');
         }
-        const queryParams = new URLSearchParams({
-            page: searchParams.page?.toString() || '0',
-            size: searchParams.size?.toString() || '10',
-            groups:searchParams.groups || '',
-            fullname: searchParams.query
-        });
+        let  queryParams:URLSearchParams = new URLSearchParams();
 
-        //Comprobar si es necesario el query y groups
-        if((queryParams.get("fullname") as string).length === 0) queryParams.delete("fullname");
-        if((queryParams.get("groups") as string).length === 0) queryParams.delete("groups");
-
-            console.log(queryParams.toString())
-
+        if(Object.keys(searchParams).length > 0){
+             queryParams = new URLSearchParams({
+                page: searchParams.page?.toString() || '',
+                size: searchParams.size?.toString() || '',
+                groups:searchParams.groups || '',
+                fullname: searchParams.query
+            });
+            //Comprobar si es necesario el query y groups
+            if((queryParams.get("fullname") as string).length === 0) queryParams.delete("fullname");
+            if((queryParams.get("groups") as string).length === 0) queryParams.delete("groups");
+        }
         const response = await fetch(
             `${this.baseUrl}/company/users?${queryParams}`,
             {
