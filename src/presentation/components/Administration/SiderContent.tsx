@@ -2,6 +2,7 @@ import './styles/administration.css';
 import {InputSearch} from "../common";
 import {RadioGroup} from "../common/RadioGroup.tsx";
 import {CheckBoxGroup} from "./CheckBoxGroup.tsx";
+import {useState} from "react";
 
 const radioGroup = {
     options:["Administrador","Usuario", "Dueño"],
@@ -10,6 +11,7 @@ const radioGroup = {
 
 export const SiderContent = () =>{
 
+    const [filterValue,setFilterValue] = useState("");
     return (
         <div>
             <p className="label">Rol</p>
@@ -19,9 +21,9 @@ export const SiderContent = () =>{
             <InputSearch
                 placeholder={"Buscar"}
                 styles={{marginBottom:8}}
-                searchMethod={()=>{}}/>
+                searchMethod={setFilterValue}/>
 
-            <CheckBoxGroup/>
+            <CheckBoxGroup filterValue={filterValue}/>
         </div>
     )
 }

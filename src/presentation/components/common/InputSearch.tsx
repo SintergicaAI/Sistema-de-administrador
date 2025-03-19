@@ -1,6 +1,6 @@
 import { Search } from 'lucide-react';
 import {Input} from 'antd';
-import {CSSProperties, useState} from "react";
+import {CSSProperties, useRef, useState} from "react";
 
 type Props = {
     placeholder:string,
@@ -19,13 +19,11 @@ export const InputSearch = ({placeholder,styles,searchMethod}:Props) =>{
                                strokeWidth={1}
                                onClick={()=>{ searchMethod(inputValue);}}
                />}
-               onPressEnter={() =>{
-                   searchMethod(inputValue);
-               }
-               }
-
                style={styles}
-               onChange={(e) =>{ setInputValue(e.target.value)}}
+               onChange={(e) =>{
+                   setInputValue(e.target.value);
+                   searchMethod(e.target.value)}
+        }
         />
 
     )
