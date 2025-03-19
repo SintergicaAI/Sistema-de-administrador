@@ -8,10 +8,16 @@ import {AdministrationContext,valueAdministrationContext} from "../../context/Ad
 import {RenderGroups, tableStyle} from "./TableConfiguration.tsx";
 import {UserSearchParams} from "../../../domain/repositories/CompanyRepository.ts";
 import {CompanyApi} from "../../../infrastructure/api/CompanyApi.ts";
+import {v4 as uuid} from "uuid";
+import {User} from "../../../domain/entities/User.ts";
 
 
 interface RecordType {
     key:string;
+}
+type groupItem = {
+    id: string;
+    name: string;
 }
 
 const operationTable = new CompanyApi();
@@ -22,6 +28,7 @@ const getAllUser = new GetAllUserCompanyData(operationTable);
 export const TableAdministration = () =>{
 
     const [selectedRowKeys,setSelectedRowKeys]=useState<string[]>([])
+    const [filterData, setFilterData]=useState<DataType[]>([])
 
     const {changeSelectedRow,
         changeHasSelected,
@@ -43,22 +50,37 @@ export const TableAdministration = () =>{
 
     //UseEffect para preparar los datos
     useEffect(() => {
+        console.log("Primer use Effect, se dispara al renderizar el componente");
         prepareData(searchParams);
     }, []);
 
     //Si hubo un cambio en las propiedades, que pida otra vez los datos
     useEffect(() => {
-        prepareData(searchParams);
+       filteringData(searchParams);
     }, [searchParams]);
 
     useEffect(() => {
+        console.log("Hubo cambios en el query")
         setSearchParams({...searchParams, query:searchText});
     }, [searchText]);
 
     useEffect(() => {
-        console.log(`Filters: ${filters.length}`);
+        console.log("Hubo cambios en los filtros.")
         setSearchParams({...searchParams, groups:filters?.toString() || ''});
     }, [filters]);
+
+    const formatData = (data:User[])=>{
+        return [...data.map(
+            (user:any) =>
+                (
+                    //
+                    {...user,
+                        fullName:`${user.fullName}`,
+                        key: uuid() as string,
+                    }
+                )
+        )]
+    }
 
 
     const prepareData = (searchParams:UserSearchParams)=>{
@@ -68,12 +90,47 @@ export const TableAdministration = () =>{
             const {users,total} = result
             console.log(`Users ${users.length}`);
             changeDataTabla( users);
+            setFilterData(formatData(users));
             setLoadingTable(false);
             setTotalItemsTable(total);
 
         })
     }
 
+    const filteringData = ({page,size,query,groups}:UserSearchParams)=>{
+        setLoadingTable(true);
+        let aux:DataType[] = []
+        if(query.length == 0){
+            setFilterData(dataTable);
+            console.log(dataTable);
+        }
+        if(groups?.length == 0){
+            setFilterData(dataTable);
+        }
+        if(query.length > 0){
+            aux=
+            dataTable.filter((item)=>{
+                if(item.fullName.toLowerCase().includes(query.toLowerCase())) return item;
+            })
+            //setFilterData(formatData(aux));
+        }
+        if(groups){
+            const arrayFilter = groups.split(",");
+            console.log(arrayFilter);
+            dataTable.filter((item)=>{
+                const arrayGroups = item.groups.map((item:groupItem)=> item.name.toLowerCase());
+                    if(item.groups?.length){
+                        console.log(arrayGroups);
+                        arrayFilter.forEach(filter=>{
+                            if (arrayGroups.includes(filter)) return item;
+                        })
+                    }
+                })
+            //setFilterData(formatData(aux));
+        }
+        console.log(aux);
+        setLoadingTable(false);
+    }
 
     const changeRow = (selectedRow:RecordType) => {
         changeSelectedRow(selectedRow);
@@ -131,7 +188,7 @@ export const TableAdministration = () =>{
     return (
         <>
             <Table<DataType>
-                dataSource={dataTable}
+                dataSource={filterData}
                 columns={columns}
                 style={tableStyle}
                 rowSelection={{...rowSelection,hideSelectAll:true}}
@@ -154,6 +211,7 @@ export const TableAdministration = () =>{
                     total:totalItemsTable,
                     showSizeChanger:true,
                     onChange:(page,pageSize) =>{
+                        console.log("Metodo de paginacion llamado");
                         setSearchParams({...searchParams, page:page-1,size:pageSize});
                         changeHasSelected(false) //PREGUNTA:cuando cambiamos de pagina, es necesario cerrar el sideBar?
                     },

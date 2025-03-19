@@ -31,7 +31,7 @@ Accept: application/json
 Authorization: Bearer {{auth_token}}
 
 ###
-GET {{TURING_API_URL}}/company/users?fullname=Ali&page=0&size=5
+GET {{TURING_API_URL}}/company/users
 Accept: application/json
 Authorization: Bearer {{auth_token}}
 
