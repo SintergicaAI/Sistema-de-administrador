@@ -105,9 +105,11 @@ export const TableAdministration = () =>{
 
 
         aux = (filters.length > 0) ? aux.filter((item)=>{
-            if(item.groups?.length){
-                const arrayGroups = item.groups.map((item:groupItem)=> item.name.toLowerCase()) ;
-                return filters.includes(arrayGroups.toString());
+            if(item.groups?.length !== 0){
+                const arrayGroups = item.groups.map((item:groupItem)=> item.name.toLowerCase());
+
+                //Verifica si ALGUN grupo del usuario esta en el arreglo groups
+                return arrayGroups.some(group => filters.includes(group));
             }
         }) : aux;
 
