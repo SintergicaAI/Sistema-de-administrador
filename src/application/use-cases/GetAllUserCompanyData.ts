@@ -4,7 +4,7 @@ export class GetAllUserCompanyData {
 
     constructor(private getAllUsersFromCampany:CompanyRepository ){}
 
-    async execute(params:UserSearchParams):Promise<UserList>{
+    async execute(params:UserSearchParams | {}):Promise<UserList>{
         return await this.getAllUsersFromCampany.findUsersInCompany(params);
     }
 }

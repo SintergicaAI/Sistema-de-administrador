@@ -41,7 +41,7 @@ export class CompanyApi implements CompanyRepository {
         return Promise.resolve(user);
     }
 
-    async findUsersInCompany(searchParams: UserSearchParams = {}): Promise<UserList> {
+    async findUsersInCompany(searchParams: UserSearchParams | {}): Promise<UserList> {
 
         const token = this.authApi.getToken();
         if (!token) {
@@ -60,12 +60,6 @@ export class CompanyApi implements CompanyRepository {
             if((queryParams.get("fullname") as string).length === 0) queryParams.delete("fullname");
             if((queryParams.get("groups") as string).length === 0) queryParams.delete("groups");
         }
-
-
-
-
-            //console.log(queryParams.toString())
-
         const response = await fetch(
             `${this.baseUrl}/company/users?${queryParams}`,
             {

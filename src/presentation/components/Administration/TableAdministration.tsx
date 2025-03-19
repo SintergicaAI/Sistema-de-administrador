@@ -44,14 +44,12 @@ export const TableAdministration = () =>{
     const [searchParams,setSearchParams]=useState<UserSearchParams>({
         query:"",
         groups:'',
-        page:0, //currentPage
-        size:5 //pageSize
     });
 
     //UseEffect para preparar los datos
     useEffect(() => {
         console.log("Primer use Effect, se dispara al renderizar el componente");
-        prepareData(searchParams);
+        prepareData();
     }, []);
 
     //Si hubo un cambio en las propiedades, que pida otra vez los datos
@@ -83,12 +81,11 @@ export const TableAdministration = () =>{
     }
 
 
-    const prepareData = (searchParams:UserSearchParams)=>{
+    const prepareData = ()=>{
         setLoadingTable(true);
-
-        getAllUser.execute(searchParams).then(result =>{
+        getAllUser.execute({}).then(result =>{
             const {users,total} = result
-            console.log(`Users ${users.length}`);
+            console.log(users);
             changeDataTabla( users);
             setFilterData(formatData(users));
             setLoadingTable(false);
@@ -98,38 +95,25 @@ export const TableAdministration = () =>{
     }
 
     const filteringData = ({page,size,query,groups}:UserSearchParams)=>{
-        setLoadingTable(true);
+        console.log('Query: ' + searchText + 'Groups:' + filters);
+        console.log('Datatable ' + dataTable.length);
         let aux:DataType[] = []
-        if(query.length == 0){
-            setFilterData(dataTable);
-            console.log(dataTable);
-        }
-        if(groups?.length == 0){
-            setFilterData(dataTable);
-        }
-        if(query.length > 0){
-            aux=
-            dataTable.filter((item)=>{
+
+        aux= (query.length > 0 ) ? dataTable.filter((item)=>{
                 if(item.fullName.toLowerCase().includes(query.toLowerCase())) return item;
-            })
-            //setFilterData(formatData(aux));
-        }
-        if(groups){
-            const arrayFilter = groups.split(",");
-            console.log(arrayFilter);
-            dataTable.filter((item)=>{
-                const arrayGroups = item.groups.map((item:groupItem)=> item.name.toLowerCase());
-                    if(item.groups?.length){
-                        console.log(arrayGroups);
-                        arrayFilter.forEach(filter=>{
-                            if (arrayGroups.includes(filter)) return item;
-                        })
-                    }
-                })
-            //setFilterData(formatData(aux));
-        }
+        }) : dataTable;
+
+
+        aux = (filters.length > 0) ? aux.filter((item)=>{
+            if(item.groups?.length){
+                const arrayGroups = item.groups.map((item:groupItem)=> item.name.toLowerCase()) ;
+                return filters.includes(arrayGroups.toString());
+            }
+        }) : aux;
+
+        //console.log('Elementos de arreglo auxiliar final' + aux.length)
         console.log(aux);
-        setLoadingTable(false);
+        setFilterData(aux);
     }
 
     const changeRow = (selectedRow:RecordType) => {
