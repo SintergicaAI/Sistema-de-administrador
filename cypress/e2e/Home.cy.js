@@ -1,6 +1,13 @@
 describe('Home Page Sidebar Test', () => {
     beforeEach(() => {
         cy.visit('http://localhost:5173/')
+
+        // Se intercepta el refreshToken ya que Cypress limpia el estado de la aplicación entre pruebas, lo que puede
+        // causar que no guarde el rT en las cookies o localStorage
+        cy.intercept('POST', '/users/refreshToken', {
+            statusCode: 200,
+            body: { accessToken: 'test-refreshToken' }
+        }).as('refreshToken')
     })
 
     describe('When The User Login...', () => {
@@ -11,6 +18,7 @@ describe('Home Page Sidebar Test', () => {
             cy.get('[placeholder="juan@gmail.com"]').type('bob@gmail.com')
             cy.get('[placeholder="******"]').type('123456')
             cy.contains('Enviar').click()
+            cy.wait(2000)// Esto evita que los test fallen por los loaders de la aplicaión
         })
 
         it('user should can to see sidebar', () => {
@@ -43,7 +51,7 @@ describe('Home Page Sidebar Test', () => {
         })
 
         it('user should can logout', () => {
-            cy.intercept('GET', '/clients/logout', { statusCode: 200 })// Se simula la respuesat de la API
+            cy.intercept('POST', '/users/logout', { statusCode: 200 })// Se simula la respuesat de la API
             cy.get('.button-logout').click()
             cy.contains('Cerrando sesión')
             cy.url().should('include', '/login')

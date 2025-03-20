@@ -1,6 +1,13 @@
 describe('Admin Section Test On The Home Page', () => {
     beforeEach(() => {
         cy.visit('http://localhost:5173/')
+
+        // Se intercepta el refreshToken ya que Cypress limpia el estado de la aplicación entre pruebas, lo que puede
+        // causar que no guarde el rT en las cookies o localStorage
+        cy.intercept('POST', '/users/refreshToken', {
+            statusCode: 200,
+            body: { accessToken: 'test-refreshToken' }
+        }).as('refreshToken')
     })
 
     describe('When The User Login...', () => {
