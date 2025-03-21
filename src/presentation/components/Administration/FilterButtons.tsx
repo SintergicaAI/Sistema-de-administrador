@@ -60,7 +60,7 @@ export const FilterButtons = () => {
             <div>
                 <p>Filtrar por grupos</p>
             </div>
-            <Flex justify='flex-start' gap={8}>
+            <Flex justify='flex-start' gap={8} wrap='wrap'>
                 {companyGroups.length !== 0 ? companyGroups.map((company,index) => (
                     <ButtonFilter
                         name={company}

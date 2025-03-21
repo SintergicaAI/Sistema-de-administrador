@@ -4,16 +4,20 @@ import {useEffect, useState, useContext} from "react";
 import {GetAllUserCompanyData} from "../../../application/use-cases/GetAllUserCompanyData.ts";
 import {DataType} from "./types/TableAdministrationTypes.ts";
 import {AdministrationContext, valueAdministrationContext} from "../../context/Administration";
-import {RenderGroups, tableStyle} from "./TableConfiguration.tsx";
 import {UserSearchParams} from "../../../domain/repositories/CompanyRepository.ts";
 import {CompanyApi} from "../../../infrastructure/api/CompanyApi.ts";
 import {v4 as uuid} from "uuid";
+import {RenderGroups} from "./RenderGroups.tsx";
+import {User} from "../../../domain/entities/User.ts";
 
-
-interface RecordType {
-    key:string;
-}
 const DEFAULT_PAGE_SIZE = 5; // Introduced constant for better clarity
+
+const tableStyle:React.CSSProperties = {
+    width: '90%',
+    minWidth:'450px',
+    maxWidth: '1024px',
+    marginInline: 'auto',
+}
 
 const operationTable = new CompanyApi();
 const getAllUser = new GetAllUserCompanyData(operationTable);
@@ -23,6 +27,7 @@ export const TableAdministration = () => {
     const [filterData, setFilterData] = useState<DataType[]>([]);
     const {
         changeSelectedRow,
+        selectedRow,
         changeHasSelected,
         setTotalItemsTable,
         totalItemsTable,
@@ -49,7 +54,11 @@ export const TableAdministration = () => {
         prepareData();
     }, []);
 
-    const formatData = (data: DataType[]) =>
+    useEffect(() => {
+        changeDataRow();
+    }, [selectedRow]);
+
+    const formatData = (data: User[]) =>
         data.map((user) => ({
             ...user,
             fullName: `${user.fullName}`,
@@ -95,10 +104,25 @@ export const TableAdministration = () => {
             })
             : data;
 
-    const changeRow = (selectedRow: RecordType) => {
+    /*const changeRow = (selectedRow: RecordType) => {
         changeSelectedRow(selectedRow);
         console.log(selectedRow);
-    };
+    };*/
+
+    const changeDataRow = () =>{
+        const newDataRow = {...(selectedRow as DataType) };
+        console.log(newDataRow);
+
+        const newData =  filterData.map((dataItem) => {
+            if(dataItem.key === newDataRow.key) {
+                return {...newDataRow}
+            }else{
+                return dataItem;
+            }
+
+        })
+        setFilterData(newData);
+    }
 
     const rowSelection: TableProps<DataType>["rowSelection"] = {
         selectedRowKeys,
@@ -142,7 +166,7 @@ export const TableAdministration = () => {
             title: "Grupos",
             key: "groups",
             dataIndex: "groups",
-            render: (array: string[]) => <RenderGroups groups={array}/>,
+            render: (array: string[], record) => <RenderGroups groups={array} record={record}/>,
         },
     ];
 
@@ -160,7 +184,7 @@ export const TableAdministration = () => {
                         ?.classList.remove("ant-table-row-selected");
                     const target = event.target as HTMLTableElement;
                     target.closest("tr")?.classList.toggle("ant-table-row-selected");
-                    changeRow(record);
+                    changeSelectedRow(record);
                     changeHasSelected(true);
                 },
             })}

@@ -59,11 +59,11 @@ export const CheckBoxGroup = ({filterValue}:Props)=>{
            } ).length;
            groupPerPerson.set(groups,numberOfGroups);
         })
-        console.log(groupPerPerson);
+        //console.log(groupPerPerson);
     }
 
     const filterCompanyGroups = () =>{
-        console.log("Valor filtrado " + filterValue);
+        //console.log("Valor filtrado " + filterValue);
         if(filterValue.length != 0){
             setCompanyFilter(companyFilter.filter((item) => item.toLowerCase().includes(filterValue.toLowerCase())))
         }

@@ -60,22 +60,22 @@ export class CompanyApi implements CompanyRepository {
             if((queryParams.get("fullname") as string).length === 0) queryParams.delete("fullname");
             if((queryParams.get("groups") as string).length === 0) queryParams.delete("groups");
         }
-        const response = await fetch(
-            `${this.baseUrl}/company/users?${queryParams}`,
-            {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json',
+        let response:Response;
+        try{
+             response = await fetch(
+                `${this.baseUrl}/company/users?${queryParams}`,
+                {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    }
                 }
-            }
-        );
-
-        //TODO:Cambiarlo por 401
-        if (response.status === 403) {
+            );
+        }catch(e){
             this.refreshToke();
+            this.findUsersInCompany({});
         }
-
         const {data,totalElements}:PaginableResponse = await response.json();
         return {users:data.map((userData: any) => new User(
                 "",
