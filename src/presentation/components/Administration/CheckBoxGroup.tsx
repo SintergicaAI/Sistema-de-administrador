@@ -26,9 +26,10 @@ const getGroups = (groups:groupItem[])=>{
 const getId = (groupName:string,groups:groupItem[]) =>{
     return groups.find((item)=> item.name === groupName)?.id as string;
 }
+const groupPerPerson = new Map<string, number>();
 
 export const CheckBoxGroup = ({filterValue}:Props)=>{
-    const {selectedRow,changeSelectedRow} = useContext(AdministrationContext);
+    const {selectedRow,changeSelectedRow,dataTable} = useContext(AdministrationContext);
     const {groups} = selectedRow as SelectedProps ;
 
     const [companyGroups, setCompanyGroups] = useState<string[]>([]);
@@ -37,16 +38,28 @@ export const CheckBoxGroup = ({filterValue}:Props)=>{
     const [loading,setLoading]=useState(true);
     let COMPANY_GROUPS:string[] = [];
 
+
     const getGroupsFromCompany =  () =>{
         getGroupCompany.execute()
             .then((data)=>{
                 setLoading(false);
                 setCompanyGroups(data);
                 setCompanyFilter(data);
-                console.log(COMPANY_GROUPS);
+                getAmountofGroups(data);
             }).catch(()=>{
             setCompanyGroups([]);
         })
+    }
+
+    //Create a Map<group,userPerGroup>
+    const getAmountofGroups = (companyGroups:string[]) =>{
+        companyGroups.forEach((groups)=> {
+           let numberOfGroups = dataTable.filter(row =>{
+               return getGroups(row.groups).includes(groups.toLowerCase());
+           } ).length;
+           groupPerPerson.set(groups,numberOfGroups);
+        })
+        console.log(groupPerPerson);
     }
 
     const filterCompanyGroups = () =>{
@@ -99,6 +112,7 @@ export const CheckBoxGroup = ({filterValue}:Props)=>{
                         grupo={groupFromCompany}
                         handleChange={handleCheckBoxGroup}
                         checkedValue={userGroup}
+                        groupSize={groupPerPerson.get(groupFromCompany)}
                          />
                 )): <Spin/>}
             {!loading && companyFilter.length == 0 ? <NotFound message={'No se encontraron los grupos'}/>:''}

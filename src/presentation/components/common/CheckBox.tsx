@@ -9,17 +9,23 @@ type Props ={
     grupo:string,
     checkedValue:string[],
     handleChange:(event:ChangeEvent<HTMLInputElement>) => void,
+    groupSize:number |  undefined,
 }
 
 
-export const CheckBox = ({id,grupo,checkedValue,handleChange}:Props)=>{
+export const CheckBox = ({id,
+                             grupo,
+                             checkedValue,
+                             groupSize,
+                             handleChange}:Props)=>{
 
     return (
         <label className='checkbox-container'>
             <Flex justify='space-between' align='center'>
                 <p className="checkbok__tag">{upperCaseOneWord(grupo)}</p>
 
-                <div>
+                <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', gap:'8px'}}>
+                    <p style={{color:'var(--c_slate_400)'}}>{groupSize} miembros</p>
                     <input
                         id={id}
                         name={'grupo'}
