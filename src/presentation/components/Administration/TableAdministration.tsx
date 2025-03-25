@@ -25,6 +25,8 @@ const getAllUser = new GetAllUserCompanyData(operationTable);
 export const TableAdministration = () => {
     const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([]);
     const [filterData, setFilterData] = useState<DataType[]>([]);
+
+
     const {
         changeSelectedRow,
         selectedRow,
@@ -32,7 +34,7 @@ export const TableAdministration = () => {
         setTotalItemsTable,
         totalItemsTable,
         searchText,
-        dataTable,
+        dataTable, //Datatable deberia ser un estado?
         changeDataTabla,
         setLoadingTable,
         filters,
@@ -121,6 +123,7 @@ export const TableAdministration = () => {
             }
 
         })
+        changeDataTabla(newData);
         setFilterData(newData);
     }
 

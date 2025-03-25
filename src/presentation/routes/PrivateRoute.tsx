@@ -23,7 +23,7 @@ export const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
     };
     checkAuth().then(async () =>{
       const r = await getNewToken.execute(authApi.getRefreshToken());
-      console.log(`Se hizo el refresh Token: ${r}`);
+      /*console.log(`Se hizo el refresh Token: ${r}`);*/
     });
   }, []);
 

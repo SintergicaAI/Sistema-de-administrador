@@ -23,11 +23,11 @@ type SelectedProps ={
 const getGroups = (groups:groupItem[])=>{
     return groups.map(item=> item.name.toLowerCase());
 }
-const getId = (groupName:string,groups:groupItem[]) =>{
-    return groups.find((item)=> item.name === groupName)?.id as string;
-}
-const groupPerPerson = new Map<string, number>();
 
+const copyGroupPerPerson = new Map<string, number>();
+
+
+//TODO:Checking for memorization
 export const CheckBoxGroup = ({filterValue}:Props)=>{
     const {selectedRow,changeSelectedRow,dataTable} = useContext(AdministrationContext);
     const {groups} = selectedRow as SelectedProps ;
@@ -35,8 +35,8 @@ export const CheckBoxGroup = ({filterValue}:Props)=>{
     const [companyGroups, setCompanyGroups] = useState<string[]>([]);
     const [companyFilter, setCompanyFilter] = useState<string[]>([]);
     const [userGroup, setUserGroup] = useState<string[]>(getGroups(groups));
+    const [groupsPerPerson,setGroupsPerPerson] = useState<Map<string,number>>(copyGroupPerPerson);
     const [loading,setLoading]=useState(true);
-    let COMPANY_GROUPS:string[] = [];
 
 
     const getGroupsFromCompany =  () =>{
@@ -57,18 +57,48 @@ export const CheckBoxGroup = ({filterValue}:Props)=>{
            let numberOfGroups = dataTable.filter(row =>{
                return getGroups(row.groups).includes(groups.toLowerCase());
            } ).length;
-           groupPerPerson.set(groups,numberOfGroups);
+           copyGroupPerPerson.set(groups,numberOfGroups);
         })
-        //console.log(groupPerPerson);
+        setGroupsPerPerson(new Map(copyGroupPerPerson));
+    }
+
+    const updateAmountPerGroups = (key:string, newValue:number) =>{
+
+        const previousValue = copyGroupPerPerson.get(key) as number;
+        copyGroupPerPerson.set(key,previousValue + newValue);
+        setGroupsPerPerson(new Map(copyGroupPerPerson));
     }
 
     const filterCompanyGroups = () =>{
-        //console.log("Valor filtrado " + filterValue);
         if(filterValue.length != 0){
             setCompanyFilter(companyFilter.filter((item) => item.toLowerCase().includes(filterValue.toLowerCase())))
         }
         else{
             setCompanyFilter([...companyGroups]);
+        }
+    }
+
+    const handleCheckBoxGroup = (value:ChangeEvent<HTMLInputElement>) => {
+        if(value.target.checked)
+        {
+            //console.log(copyGroupPerPerson.get(value.target.value));
+            changeSelectedRow(
+                {...selectedRow,
+                    groups:[...groups,{id:value.target.id,name:value.target.value}]}
+            );
+
+            //Actualizamos los grupos del usuario
+            setUserGroup( (prevState) => [...prevState,value.target.value]);
+            updateAmountPerGroups(value.target.value, 1);
+        }
+        else{
+            const numero = [...groups].findIndex((item:groupItem)=> item.name.toLowerCase() === value.target.value.toLowerCase());
+            changeSelectedRow(
+                {...selectedRow,
+                    groups:[...groups.filter((_, index) => index !== numero)]}
+            );
+            setUserGroup( (prevState) => prevState.filter(item => item.toLowerCase() !== value.target.value.toLowerCase()));
+            updateAmountPerGroups(value.target.value, -1);
         }
     }
 
@@ -80,39 +110,21 @@ export const CheckBoxGroup = ({filterValue}:Props)=>{
         filterCompanyGroups();
     }, [filterValue]);
 
+    //Aqui modificamos la cantidad de miembros pro grupos
     useEffect(() => {
         setUserGroup(getGroups(groups));
     }, [groups]);
 
-    const handleCheckBoxGroup = (value:ChangeEvent<HTMLInputElement>) => {
-
-
-        if(value.target.checked)
-        {
-            changeSelectedRow(
-                {...selectedRow,
-                    groups:[...groups,{id:value.target.id,name:value.target.value}]}
-            );
-        }
-        else{
-            const numero = [...groups].findIndex((item:groupItem)=> item.name.toLowerCase() === value.target.value.toLowerCase());
-            changeSelectedRow(
-                {...selectedRow,
-                    groups:[...groups.filter((_, index) => index !== numero)]}
-            );
-        }
-    }
     return (<>
         <Flex gap={5} flex="1" vertical>
             {!loading?
                 companyFilter.map((groupFromCompany,index) =>(
                     <CheckBox
-                        id={(getId(groupFromCompany,groups))}
                         key={index}
                         grupo={groupFromCompany}
                         handleChange={handleCheckBoxGroup}
                         checkedValue={userGroup}
-                        groupSize={groupPerPerson.get(groupFromCompany)}
+                        groupSize={groupsPerPerson.get(groupFromCompany)}
                          />
                 )): <Spin/>}
             {!loading && companyFilter.length == 0 ? <NotFound message={'No se encontraron los grupos'}/>:''}
