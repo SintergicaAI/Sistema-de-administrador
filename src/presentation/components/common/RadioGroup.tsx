@@ -23,13 +23,11 @@ export const RadioGroup = ({radioObjet}:Props) =>{
     //Actualizar el dato role de selectedRow
     const handleRadioChange = (value:ChangeEvent<HTMLInputElement>)=>{
        changeSelectedRow({...selectedRow,role:value.target.value});
-        console.log(value.target.value);
-        console.log(selectedRow);
     }
 
     return (
         <div
-            style={{display: "flex", flexDirection: "column", gap:3}}
+            style={{display: "grid", gridTemplateColumns:"repeat(2,1fr)"}}
         >
             {radioButtons.map((option,index) =>(
                 <RadioButton rol={`${option}`}

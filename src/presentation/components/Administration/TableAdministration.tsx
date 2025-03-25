@@ -12,13 +12,6 @@ import {User} from "../../../domain/entities/User.ts";
 
 const DEFAULT_PAGE_SIZE = 5; // Introduced constant for better clarity
 
-const tableStyle:React.CSSProperties = {
-    width: '90%',
-    minWidth:'450px',
-    maxWidth: '1024px',
-    marginInline: 'auto',
-}
-
 const operationTable = new CompanyApi();
 const getAllUser = new GetAllUserCompanyData(operationTable);
 
@@ -150,7 +143,7 @@ export const TableAdministration = () => {
             key: "fullName",
             render: (name) => (
                 <Flex align="center" gap="var(--sm-space)">
-                    <Avatar name={name}/>
+                    <Avatar name={name} type={"active"}/>
                     {name}
                 </Flex>
             ),
@@ -177,7 +170,6 @@ export const TableAdministration = () => {
         <Table<DataType>
             dataSource={filterData}
             columns={columns}
-            style={tableStyle}
             rowSelection={{...rowSelection, hideSelectAll: true}}
             onRow={(record) => ({
                 onClick: (event) => {

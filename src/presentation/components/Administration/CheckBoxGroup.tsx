@@ -5,9 +5,9 @@ import {CheckBox} from "../common";
 import {NotFound} from "../common/NotFound.tsx";
 import {CompanyApi} from "../../../infrastructure/api/CompanyApi.ts";
 import {GetCompanyGroups} from "../../../application/use-cases/GetCompanyGroups.ts";
+//import {AddUserToGroupCompany} from "../../../application/use-cases/AddUserToGroupCompany.ts";
 
-const companyAPI = new CompanyApi();
-const getGroupCompany = new GetCompanyGroups(companyAPI);
+
 
 type Props = {
     filterValue:string;
@@ -19,13 +19,16 @@ type groupItem = {
 }
 type SelectedProps ={
     groups:groupItem[];
+    email:string;
 }
 const getGroups = (groups:groupItem[])=>{
     return groups.map(item=> item.name.toLowerCase());
 }
 
+const companyAPI = new CompanyApi();
+const getGroupCompany = new GetCompanyGroups(companyAPI);
+//const  addUserToGroupCompany = new AddUserToGroupCompany(companyAPI);
 const copyGroupPerPerson = new Map<string, number>();
-
 
 //TODO:Checking for memorization
 export const CheckBoxGroup = ({filterValue}:Props)=>{
@@ -81,15 +84,20 @@ export const CheckBoxGroup = ({filterValue}:Props)=>{
     const handleCheckBoxGroup = (value:ChangeEvent<HTMLInputElement>) => {
         if(value.target.checked)
         {
-            //console.log(copyGroupPerPerson.get(value.target.value));
             changeSelectedRow(
                 {...selectedRow,
-                    groups:[...groups,{id:value.target.id,name:value.target.value}]}
+                    groups:[...groups,{name:value.target.value}]}
             );
 
             //Actualizamos los grupos del usuario
             setUserGroup( (prevState) => [...prevState,value.target.value]);
             updateAmountPerGroups(value.target.value, 1);
+            //const {email} = selectedRow as SelectedProps
+            /*addUserToGroupCompany.execute(email, userGroup).then(()=>{
+                console.log(`Users groups ${userGroup}`)
+            }).catch((reason) =>{
+                console.log(reason);
+            });*/
         }
         else{
             const numero = [...groups].findIndex((item:groupItem)=> item.name.toLowerCase() === value.target.value.toLowerCase());

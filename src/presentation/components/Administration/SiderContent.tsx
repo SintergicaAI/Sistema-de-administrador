@@ -5,7 +5,7 @@ import {CheckBoxGroup} from "./CheckBoxGroup.tsx";
 import {useState} from "react";
 
 const radioGroup = {
-    options:["Administrador","Usuario", "Dueño"],
+    options:["Administrador","Usuario"],
     nameGroup:"role"
 }
 

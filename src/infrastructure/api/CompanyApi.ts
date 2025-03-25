@@ -3,6 +3,7 @@ import {AuthApi} from "./AuthApi.ts";
 import {UserDeleted} from "../../domain/types/UserDTO.ts";
 import { User } from "../../domain/entities/User";
 import {PaginableResponse} from "./types/PaginableResponse.ts";
+import {data} from "react-router";
 
 type GroupItem = {
     index:string;
@@ -142,6 +143,38 @@ export class CompanyApi implements CompanyRepository {
         }catch (e) {
             console.log(e)
             return false
+        }
+    }
+
+    deleterUserFromCompany(group: string, email: string): Promise<boolean> {
+
+
+        return Promise.resolve(false);
+    }
+
+    async addUserToGroupCompany(email: string, group: string[]): Promise<boolean> {
+        const token = this.authApi.getToken();
+        if (!token) {
+            throw new Error('No autorizado');
+        }
+        try{
+            const response = await fetch(`${this.baseUrl}/company/users/${email}`,{
+                method: 'POST',
+                headers:{
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(group),
+            })
+            //Refrescar el token
+            if(response.status === 403) {
+                this.refreshToke()
+            }
+
+            return Promise.resolve(true);
+        }catch (e) {
+            console.log(e)
+            return Promise.resolve(false);
         }
     }
 

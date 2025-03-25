@@ -1,6 +1,12 @@
 import {Avatar as ComponentAvatar} from 'antd';
 import {CSSProperties} from "react";
 
+type Props = {
+    name: string,
+    style?:CSSProperties
+    type?: "active" | "invitate"
+}
+
 const getInitial = (fullname:string)=>{
     const firstSecondName = fullname.split(' ').slice(0,2);
     const initials = firstSecondName.map((name)=>{
@@ -9,10 +15,14 @@ const getInitial = (fullname:string)=>{
     return initials.join('');
 }
 
-export const Avatar = ({name,style}:
-                       {name:string,style?:CSSProperties})=>{
 
+
+export const Avatar = ({name,style,type}:Props)=>{
+
+    const avatarName = (type === "active") ? getInitial(name) : "IN";
     return (
-        <ComponentAvatar shape='circle' style={style}>{getInitial(name)}</ComponentAvatar>
+        <ComponentAvatar shape='circle' style={style}>{
+            avatarName
+        }</ComponentAvatar>
     );
 }
