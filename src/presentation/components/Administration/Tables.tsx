@@ -1,11 +1,7 @@
 import { Tabs } from 'antd';
 import type { TabsProps } from 'antd';
-import {TableAdministration} from "./Administration/TableAdministration.tsx";
-import {TableInvitados} from "./Administration/TableInvitados.tsx";
-
-const onChange = (key: string) => {
-    console.log(key);
-};
+import {TableAdministration} from "./TableAdministration.tsx";
+import {TableInvitados} from "./TableInvitados.tsx";
 
 const items: TabsProps['items'] = [
     {
@@ -21,6 +17,6 @@ const items: TabsProps['items'] = [
 ];
 export const Tables = () =>{
     return (<>
-        <Tabs defaultActiveKey="1" items={items} onChange={onChange} />;
+        <Tabs defaultActiveKey="1" items={items} />;
     </>)
 }

@@ -22,6 +22,12 @@ Authorization: Bearer {{refresh_token}}
 
 
 ###
+POST {{TURING_API_URL}}/users/refreshToken
+Content-Type: application/json
+Authorization: Bearer {{refresh_token}}
+
+
+###
 GET {{TURING_API_URL}}/auths/admin/details
 
 # @no-cookie-jar
@@ -56,4 +62,8 @@ Accept: application/json
 Authorization: Bearer {{auth_token}}
 
 ###
+PATCH {{TURING_API_URL}}/company/users/jhon@gmail.com/groups
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
 
+{"group_ids":["Prueba"]}

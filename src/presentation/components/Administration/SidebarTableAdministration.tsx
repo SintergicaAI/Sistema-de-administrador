@@ -14,7 +14,7 @@ const SiderHeader = ()=>{
     return (
         <div style={{flexGrow: 1}}>
             <Flex align={'center'} gap={5}>
-                <Avatar name={`${fullName}`}/>
+                <Avatar name={`${fullName}`} type={'active'}/>
                 <p style={{fontWeight:'700',fontSize:'var(--subtitle-size:16px)'}}>{`${fullName}`}</p>
                 <DeleterUserButton/>
             </Flex>

@@ -19,7 +19,7 @@ const getInitial = (fullname:string)=>{
 
 export const Avatar = ({name,style,type}:Props)=>{
 
-    const avatarName = (type === "active") ? getInitial(name) : "IN";
+    const avatarName = (type === "active") ? getInitial(name) : "Inv";
     return (
         <ComponentAvatar shape='circle' style={style}>{
             avatarName

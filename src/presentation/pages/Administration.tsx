@@ -6,7 +6,7 @@ import {AdministrationContextProvider} from "../context/Administration";
 import {RenderSideBarTable} from "../components/Administration/RenderSideBarTable.tsx";
 import {ConfigurationIcons} from "../components/Administration/ConfigurationIcons.tsx";
 import {FilterButtons} from "../components/Administration/FilterButtons.tsx";
-import {Tables} from "../components/Tables.tsx";
+import {Tables} from "../components/Administration/Tables.tsx";
 
 const ContentStyle:React.CSSProperties = {
     width: '90%',
@@ -15,6 +15,7 @@ const ContentStyle:React.CSSProperties = {
     marginInline: 'auto',
     marginBlockEnd:'24px',
     paddingTop:12,
+    paddingInline:10
 }
 
 export const Administration = ({texto}:{texto:string}) =>{
@@ -42,5 +43,5 @@ export const Administration = ({texto}:{texto:string}) =>{
                 </AdministrationContextProvider>
             </Layout>
         </Layout>
-    );
+    )
 }

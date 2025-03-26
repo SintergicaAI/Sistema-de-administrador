@@ -5,7 +5,7 @@ import {CheckBox} from "../common";
 import {NotFound} from "../common/NotFound.tsx";
 import {CompanyApi} from "../../../infrastructure/api/CompanyApi.ts";
 import {GetCompanyGroups} from "../../../application/use-cases/GetCompanyGroups.ts";
-//import {AddUserToGroupCompany} from "../../../application/use-cases/AddUserToGroupCompany.ts";
+import {AddUserToGroupCompany} from "../../../application/use-cases/AddUserToGroupCompany.ts";
 
 
 
@@ -27,7 +27,7 @@ const getGroups = (groups:groupItem[])=>{
 
 const companyAPI = new CompanyApi();
 const getGroupCompany = new GetCompanyGroups(companyAPI);
-//const  addUserToGroupCompany = new AddUserToGroupCompany(companyAPI);
+const  addUserToGroupCompany = new AddUserToGroupCompany(companyAPI);
 const copyGroupPerPerson = new Map<string, number>();
 
 //TODO:Checking for memorization
@@ -89,15 +89,22 @@ export const CheckBoxGroup = ({filterValue}:Props)=>{
                     groups:[...groups,{name:value.target.value}]}
             );
 
+            const newUserGroups = [...userGroup, value.target.value];
+
             //Actualizamos los grupos del usuario
-            setUserGroup( (prevState) => [...prevState,value.target.value]);
+            setUserGroup( newUserGroups);
             updateAmountPerGroups(value.target.value, 1);
-            //const {email} = selectedRow as SelectedProps
-            /*addUserToGroupCompany.execute(email, userGroup).then(()=>{
-                console.log(`Users groups ${userGroup}`)
+
+            //Realizamos la peticion al backend para que actualize los grupos
+            const {email} = selectedRow as SelectedProps
+            addUserToGroupCompany.execute(
+                email,
+                newUserGroups.map((item) =>item.toUpperCase())
+            ).then(()=>{
+                console.log(`new users groups ${newUserGroups}`);
             }).catch((reason) =>{
-                console.log(reason);
-            });*/
+                console.log(`We have problems because of ${reason}`);
+            });
         }
         else{
             const numero = [...groups].findIndex((item:groupItem)=> item.name.toLowerCase() === value.target.value.toLowerCase());
@@ -118,7 +125,7 @@ export const CheckBoxGroup = ({filterValue}:Props)=>{
         filterCompanyGroups();
     }, [filterValue]);
 
-    //Aqui modificamos la cantidad de miembros pro grupos
+    //Actualizar la lista de grupos del usuario si cambiamos a otro usuario
     useEffect(() => {
         setUserGroup(getGroups(groups));
     }, [groups]);
