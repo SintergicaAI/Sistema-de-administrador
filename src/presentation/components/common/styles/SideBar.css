@@ -14,6 +14,13 @@
     padding: var(--sm-space);
     border-radius: var(--sm-radius);
 
+    &:has(input[type="checkbox"]:disabled){
+        opacity: 0.5;
+        .checkbok__tag {
+            background-color: var(--c_slate_500);
+        }
+    }
+
     .checkbok__tag{
         font-size: var(--avatar-size);
         text-align: center;

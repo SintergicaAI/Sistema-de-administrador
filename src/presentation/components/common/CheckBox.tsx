@@ -9,6 +9,7 @@ type Props ={
     checkedValue:string[],
     handleChange:(event:ChangeEvent<HTMLInputElement>) => void,
     groupSize:number |  undefined,
+    isDisabled?:boolean,
 }
 
 
@@ -16,7 +17,8 @@ export const CheckBox = ({
                              grupo,
                              checkedValue,
                              groupSize,
-                             handleChange}:Props)=>{
+                             handleChange,
+                         isDisabled}:Props)=>{
     return (
         <label className='checkbox-container'>
             <Flex justify='space-between' align='center'>
@@ -30,6 +32,7 @@ export const CheckBox = ({
                         type="checkbox"
                         onChange={handleChange}
                         checked={checkedValue.includes(grupo)}
+                        disabled={isDisabled}
                            />
                     <SquareCheckBig/>
                 </div>

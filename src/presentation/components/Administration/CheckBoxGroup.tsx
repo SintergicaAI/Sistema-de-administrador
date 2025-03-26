@@ -6,6 +6,7 @@ import {NotFound} from "../common/NotFound.tsx";
 import {CompanyApi} from "../../../infrastructure/api/CompanyApi.ts";
 import {GetCompanyGroups} from "../../../application/use-cases/GetCompanyGroups.ts";
 import {AddUserToGroupCompany} from "../../../application/use-cases/AddUserToGroupCompany.ts";
+import {UserRole} from "../../../domain/enums/UserRole.ts";
 
 
 
@@ -20,6 +21,7 @@ type groupItem = {
 type SelectedProps ={
     groups:groupItem[];
     email:string;
+    role:string
 }
 const getGroups = (groups:groupItem[])=>{
     return groups.map(item=> item.name.toLowerCase());
@@ -33,7 +35,7 @@ const copyGroupPerPerson = new Map<string, number>();
 //TODO:Checking for memorization
 export const CheckBoxGroup = ({filterValue}:Props)=>{
     const {selectedRow,changeSelectedRow,dataTable} = useContext(AdministrationContext);
-    const {groups} = selectedRow as SelectedProps ;
+    const {groups,role} = selectedRow as SelectedProps ;
 
     const [companyGroups, setCompanyGroups] = useState<string[]>([]);
     const [companyFilter, setCompanyFilter] = useState<string[]>([]);
@@ -58,8 +60,10 @@ export const CheckBoxGroup = ({filterValue}:Props)=>{
     const getAmountofGroups = (companyGroups:string[]) =>{
         companyGroups.forEach((groups)=> {
            let numberOfGroups = dataTable.filter(row =>{
-               return getGroups(row.groups).includes(groups.toLowerCase());
-           } ).length;
+               if(typeof row.groups !== 'undefined'){
+                   return getGroups(row.groups).includes(groups.toLowerCase());
+                }
+               } ).length;
            copyGroupPerPerson.set(groups,numberOfGroups);
         })
         setGroupsPerPerson(new Map(copyGroupPerPerson));
@@ -130,6 +134,8 @@ export const CheckBoxGroup = ({filterValue}:Props)=>{
         setUserGroup(getGroups(groups));
     }, [groups]);
 
+
+    const isDisable = (role === UserRole.OWNER ) || (role === UserRole.ADMIN )
     return (<>
         <Flex gap={5} flex="1" vertical>
             {!loading?
@@ -140,6 +146,7 @@ export const CheckBoxGroup = ({filterValue}:Props)=>{
                         handleChange={handleCheckBoxGroup}
                         checkedValue={userGroup}
                         groupSize={groupsPerPerson.get(groupFromCompany)}
+                        isDisabled={isDisable}
                          />
                 )): <Spin/>}
             {!loading && companyFilter.length == 0 ? <NotFound message={'No se encontraron los grupos'}/>:''}
