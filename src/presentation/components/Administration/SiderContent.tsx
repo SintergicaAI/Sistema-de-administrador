@@ -1,13 +1,8 @@
 import './styles/administration.css';
 import {InputSearch} from "../common";
-import {RadioGroup} from "../common/RadioGroup.tsx";
 import {CheckBoxGroup} from "./CheckBoxGroup.tsx";
 import {useState} from "react";
-
-const radioGroup = {
-    options:["Administrador","Usuario"],
-    nameGroup:"role"
-}
+import {RadioGroupRoles} from "./RadioGroupRoles.tsx";
 
 export const SiderContent = () =>{
 
@@ -15,7 +10,7 @@ export const SiderContent = () =>{
     return (
         <div>
             <p className="label">Rol</p>
-            <RadioGroup radioObjet={radioGroup}/>
+           <RadioGroupRoles/>
 
             <p className="label">Grupos al que pertenece </p>
             <InputSearch
