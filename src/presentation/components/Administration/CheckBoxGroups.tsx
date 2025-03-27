@@ -9,6 +9,7 @@ import {AddUserToGroupCompany} from "../../../application/use-cases/AddUserToGro
 import {UserRole} from "../../../domain/enums/UserRole.ts";
 import {getGroupsNames} from "../../utilities/getGroupsName.ts";
 import {GroupType} from "../../../domain/types/CompanyTypes.ts";
+import {GroupCheckboxContainer} from "./GroupCheckboxContainer.tsx";
 
 
 
@@ -27,9 +28,10 @@ const getGroupCompany = new GetCompanyGroups(companyAPI);
 const  addUserToGroupCompany = new AddUserToGroupCompany(companyAPI);
 const copyGroupPerPerson = new Map<string, number>();
 let companyGroups:GroupType[] = [];
+const promises:Promise<boolean>[] = []
 
 //TODO:Checking for memorization and Refactoring
-export const CheckBoxGroup = ({filterValue}:Props)=>{
+export const CheckBoxGroups = ({filterValue}:Props)=>{
     const {selectedRow,changeSelectedRow,dataTable} = useContext(AdministrationContext);
     const {groups,role} = selectedRow as SelectedProps ;
 
@@ -102,26 +104,28 @@ export const CheckBoxGroup = ({filterValue}:Props)=>{
     }
 
     const handleCheckBoxGroup = (value:ChangeEvent<HTMLInputElement>) => {
-        const promises:Promise<boolean>[] = []
+        let newUserGroups:string[] = [];
 
         if(value.target.checked)
         {
-            //Envolverlo en
-            changeSelectedRow(
-                {...selectedRow,
-                    groups:[...groups,{name:value.target.value}]}
-            );
+            //Envolverlo en una promesa
+            promises.push(new Promise<boolean>((resolve,reject)=>{
 
-            const newUserGroups = [...userGroup, value.target.value];
+                changeSelectedRow(
+                    {...selectedRow,
+                        groups:[...groups,{name:value.target.value}]}
+                );
 
-            //Actualizamos los grupos del usuario
-            setUserGroup( newUserGroups);
-            updateAmountPerGroups(value.target.value, 1);
+                newUserGroups = [...userGroup, value.target.value];
 
-
+                //Actualizamos los grupos del usuario
+                setUserGroup( newUserGroups);
+                updateAmountPerGroups(value.target.value, 1);
+                setTimeout(resolve,1000)
+            }))
             //Obtenemos los dataAttributos de los grupos seleccionados
-            const data = getDataAttributesFromCheckbox(newUserGroups);
             //console.log(data);
+
 
             //Realizamos la peticion al backend para que actualize los grupos
 
@@ -136,6 +140,11 @@ export const CheckBoxGroup = ({filterValue}:Props)=>{
             setUserGroup( (prevState) => prevState.filter(item => item.toLowerCase() !== value.target.value.toLowerCase()));
             updateAmountPerGroups(value.target.value, -1);
         }
+        Promise.all(promises).then(()=>{
+            const data = getDataAttributesFromCheckbox(newUserGroups);
+            console.log(data);
+            //sendNewGroups(data);
+        })
     }
 
     useEffect(() => {
@@ -157,9 +166,9 @@ export const CheckBoxGroup = ({filterValue}:Props)=>{
         <Flex gap={5} flex="1" vertical>
             {!loading?
                 companyFilter.map((groupFromCompany,index) =>(
-                    <CheckBox
+                    <GroupCheckboxContainer
                         key={index}
-                        grupo={groupFromCompany.name}
+                        value={groupFromCompany.name}
                         handleChange={handleCheckBoxGroup}
                         checkedValue={userGroup}
                         groupSize={groupsPerPerson.get(groupFromCompany.name)}

@@ -1,6 +1,6 @@
 import './styles/administration.css';
 import {InputSearch} from "../common";
-import {CheckBoxGroup} from "./CheckBoxGroup.tsx";
+import {CheckBoxGroups} from "./CheckBoxGroups.tsx";
 import {useState} from "react";
 import {RadioGroupRoles} from "./RadioGroupRoles.tsx";
 
@@ -18,7 +18,7 @@ export const SiderContent = () =>{
                 styles={{marginBottom:8}}
                 searchMethod={setFilterValue}/>
 
-            <CheckBoxGroup filterValue={filterValue}/>
+            <CheckBoxGroups filterValue={filterValue}/>
         </div>
     )
 }
