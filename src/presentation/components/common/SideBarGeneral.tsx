@@ -6,6 +6,7 @@ import {Dispatch, ReactNode, SetStateAction} from 'react';
 
 const siderStyle: React.CSSProperties = {
     overflow: 'auto',
+    backgroundColor:'var(--c_slate_50)',
     borderInlineStart:  '1px solid var(--c_slate_300)',
     height: '100vh',
     position: 'sticky',

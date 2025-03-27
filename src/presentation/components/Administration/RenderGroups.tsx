@@ -8,6 +8,7 @@ type Props = {
     record:DataType,
 }
 
+
 export const RenderGroups = ({groups,record}:Props)=>{
     const [sizeGroup, setSizeGroup] = useState(groups.length);
     const [id, setId] = useState<string>(record.key);

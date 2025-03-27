@@ -7,6 +7,8 @@ import {CompanyApi} from "../../../infrastructure/api/CompanyApi.ts";
 import {GetCompanyGroups} from "../../../application/use-cases/GetCompanyGroups.ts";
 import {AddUserToGroupCompany} from "../../../application/use-cases/AddUserToGroupCompany.ts";
 import {UserRole} from "../../../domain/enums/UserRole.ts";
+import {getGroupsNames} from "../../utilities/getGroupsName.ts";
+import {GroupType} from "../../../domain/types/CompanyTypes.ts";
 
 
 
@@ -14,32 +16,26 @@ type Props = {
     filterValue:string;
 }
 
-type groupItem = {
-    id: string;
-    name: string;
-}
 type SelectedProps ={
-    groups:groupItem[];
+    groups:GroupType[];
     email:string;
     role:string
-}
-const getGroups = (groups:groupItem[])=>{
-    return groups.map(item=> item.name.toLowerCase());
 }
 
 const companyAPI = new CompanyApi();
 const getGroupCompany = new GetCompanyGroups(companyAPI);
 const  addUserToGroupCompany = new AddUserToGroupCompany(companyAPI);
 const copyGroupPerPerson = new Map<string, number>();
+let companyGroups:GroupType[] = [];
 
-//TODO:Checking for memorization
+//TODO:Checking for memorization and Refactoring
 export const CheckBoxGroup = ({filterValue}:Props)=>{
     const {selectedRow,changeSelectedRow,dataTable} = useContext(AdministrationContext);
     const {groups,role} = selectedRow as SelectedProps ;
 
-    const [companyGroups, setCompanyGroups] = useState<string[]>([]);
-    const [companyFilter, setCompanyFilter] = useState<string[]>([]);
-    const [userGroup, setUserGroup] = useState<string[]>(getGroups(groups));
+    /*const [companyGroups, setCompanyGroups] = useState<GroupType[]>([]);*/
+    const [companyFilter, setCompanyFilter] = useState<GroupType[]>([]);
+    const [userGroup, setUserGroup] = useState<string[]>(getGroupsNames(groups));
     const [groupsPerPerson,setGroupsPerPerson] = useState<Map<string,number>>(copyGroupPerPerson);
     const [loading,setLoading]=useState(true);
 
@@ -48,29 +44,28 @@ export const CheckBoxGroup = ({filterValue}:Props)=>{
         getGroupCompany.execute()
             .then((data)=>{
                 setLoading(false);
-                setCompanyGroups(data);
+                companyGroups = [...data]
                 setCompanyFilter(data);
                 getAmountofGroups(data);
             }).catch(()=>{
-            setCompanyGroups([]);
+            setCompanyFilter([]);
         })
     }
 
     //Create a Map<group,userPerGroup>
-    const getAmountofGroups = (companyGroups:string[]) =>{
+    const getAmountofGroups = (companyGroups:GroupType[]) =>{
         companyGroups.forEach((groups)=> {
            let numberOfGroups = dataTable.filter(row =>{
                if(typeof row.groups !== 'undefined'){
-                   return getGroups(row.groups).includes(groups.toLowerCase());
+                   return getGroupsNames(row.groups).includes(groups.name.toLowerCase());
                 }
                } ).length;
-           copyGroupPerPerson.set(groups,numberOfGroups);
+           copyGroupPerPerson.set(groups.name,numberOfGroups);
         })
         setGroupsPerPerson(new Map(copyGroupPerPerson));
     }
 
     const updateAmountPerGroups = (key:string, newValue:number) =>{
-
         const previousValue = copyGroupPerPerson.get(key) as number;
         copyGroupPerPerson.set(key,previousValue + newValue);
         setGroupsPerPerson(new Map(copyGroupPerPerson));
@@ -78,16 +73,40 @@ export const CheckBoxGroup = ({filterValue}:Props)=>{
 
     const filterCompanyGroups = () =>{
         if(filterValue.length != 0){
-            setCompanyFilter(companyFilter.filter((item) => item.toLowerCase().includes(filterValue.toLowerCase())))
+            setCompanyFilter(companyFilter.filter((item) => item.name.toLowerCase().includes(filterValue.toLowerCase())))
         }
         else{
             setCompanyFilter([...companyGroups]);
         }
     }
 
+    const getDataAttributesFromCheckbox = (groupsUser:string[]) =>{
+         const dataAttributesGroups:string[] = []
+        groupsUser.forEach(item =>{
+            const value = document.querySelector(`[data-value="${item}"]`);
+            if(value) dataAttributesGroups.push(value.getAttribute("data-value") as string);
+        })
+        return dataAttributesGroups;
+    }
+
+    const sendNewGroups = (newUserGroups:string[]) =>{
+        const {email} = selectedRow as SelectedProps
+        addUserToGroupCompany.execute(
+            email,
+            newUserGroups.map((item) =>item)
+        ).then(()=>{
+            console.log(`new users groups ${newUserGroups}`);
+        }).catch((reason) =>{
+            console.log(`We have problems because of ${reason}`);
+        });
+    }
+
     const handleCheckBoxGroup = (value:ChangeEvent<HTMLInputElement>) => {
+        const promises:Promise<boolean>[] = []
+
         if(value.target.checked)
         {
+            //Envolverlo en
             changeSelectedRow(
                 {...selectedRow,
                     groups:[...groups,{name:value.target.value}]}
@@ -99,19 +118,17 @@ export const CheckBoxGroup = ({filterValue}:Props)=>{
             setUserGroup( newUserGroups);
             updateAmountPerGroups(value.target.value, 1);
 
+
+            //Obtenemos los dataAttributos de los grupos seleccionados
+            const data = getDataAttributesFromCheckbox(newUserGroups);
+            //console.log(data);
+
             //Realizamos la peticion al backend para que actualize los grupos
-            const {email} = selectedRow as SelectedProps
-            addUserToGroupCompany.execute(
-                email,
-                newUserGroups.map((item) =>item.toUpperCase())
-            ).then(()=>{
-                console.log(`new users groups ${newUserGroups}`);
-            }).catch((reason) =>{
-                console.log(`We have problems because of ${reason}`);
-            });
+
+            //sendNewGroups(newUserGroups);
         }
         else{
-            const numero = [...groups].findIndex((item:groupItem)=> item.name.toLowerCase() === value.target.value.toLowerCase());
+            const numero = [...groups].findIndex((item:GroupType)=> item.name.toLowerCase() === value.target.value.toLowerCase());
             changeSelectedRow(
                 {...selectedRow,
                     groups:[...groups.filter((_, index) => index !== numero)]}
@@ -131,7 +148,7 @@ export const CheckBoxGroup = ({filterValue}:Props)=>{
 
     //Actualizar la lista de grupos del usuario si cambiamos a otro usuario
     useEffect(() => {
-        setUserGroup(getGroups(groups));
+        setUserGroup(getGroupsNames(groups));
     }, [groups]);
 
 
@@ -142,10 +159,10 @@ export const CheckBoxGroup = ({filterValue}:Props)=>{
                 companyFilter.map((groupFromCompany,index) =>(
                     <CheckBox
                         key={index}
-                        grupo={groupFromCompany}
+                        grupo={groupFromCompany.name}
                         handleChange={handleCheckBoxGroup}
                         checkedValue={userGroup}
-                        groupSize={groupsPerPerson.get(groupFromCompany)}
+                        groupSize={groupsPerPerson.get(groupFromCompany.name)}
                         isDisabled={isDisable}
                          />
                 )): <Spin/>}

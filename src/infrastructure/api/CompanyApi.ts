@@ -1,24 +1,16 @@
 import {CompanyRepository, UserList, UserSearchParams} from "../../domain/repositories/CompanyRepository.ts";
 import {AuthApi} from "./AuthApi.ts";
-import {UserDeleted} from "../../domain/types/UserDTO.ts";
+import {UserDeleted} from "../../domain/types/CompanyTypes.ts";
 import { User } from "../../domain/entities/User";
 import {PaginableResponse} from "./types/PaginableResponse.ts";
 import {UserRole} from "../../domain/enums/UserRole.ts";
+import {GroupType, RoleItem} from "../../domain/types/CompanyTypes.ts";
 
-type GroupItem = {
-    index:string;
-    name: string;
-}
-
-type RoleItem = {
-    id:string;
-    name: string;
-}
 
 export class CompanyApi implements CompanyRepository {
     private readonly baseUrl = `http://localhost`;
     private authApi: AuthApi;
-    private cacheGroups: GroupItem[] = [];
+    private cacheGroups: GroupType[] = [];
 
     constructor() {
         this.authApi = new AuthApi();
@@ -61,18 +53,18 @@ export class CompanyApi implements CompanyRepository {
         }
         let  queryParams:URLSearchParams = new URLSearchParams();
 
-        if(Object.keys(searchParams).length > 0){
-             queryParams = new URLSearchParams({
+        if ("page" in searchParams) {
+            queryParams = new URLSearchParams({
                 page: searchParams.page?.toString() || '',
                 size: searchParams.size?.toString() || '',
-                groups:searchParams.groups || '',
+                groups: searchParams.groups || '',
                 fullname: searchParams.query
             });
-            //Comprobar si es necesario el query y groups
             if((queryParams.get("fullname") as string).length === 0) queryParams.delete("fullname");
             if((queryParams.get("groups") as string).length === 0) queryParams.delete("groups");
         }
-        let response:Response;
+
+        let response = new Response();
         try{
              response = await fetch(
                 `${this.baseUrl}/company/users?${queryParams}`,
@@ -105,7 +97,7 @@ export class CompanyApi implements CompanyRepository {
 
 
 
-    async getCompanyGroups(): Promise<string[]> {
+    async getCompanyGroups(): Promise<GroupType[]> {
         const token = this.authApi.getToken();
         if (!token) {
             throw new Error('No autorizado');
@@ -124,11 +116,11 @@ export class CompanyApi implements CompanyRepository {
             if(response.status === 403) {
                 await this.refreshToke()
             }
-            const data = await response.json();
+            const data:GroupType[] = await response.json();
             this.cacheGroups = [...data];
-            return data.map((element:GroupItem) => element?.name.toLowerCase());
+            return data;
         }
-        return this.cacheGroups.map((element:GroupItem) => element?.name.toLowerCase());
+        return this.cacheGroups;
     }
 
     async addNewUserToCompany(email:string): Promise<boolean> {

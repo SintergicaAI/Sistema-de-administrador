@@ -1,13 +1,11 @@
-interface groupDTO {
-    id:number;
-    name:string;
-}
+import {GroupType} from "../../../domain/types/CompanyTypes.ts";
+
 
 export interface UserDTO{
     id:string;
     name:string;
     lastName:string;
     email:string;
-    groupsDTO:groupDTO[];
+    groups:GroupType[];
 
 }

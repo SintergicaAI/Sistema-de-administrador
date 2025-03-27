@@ -12,17 +12,18 @@ type Props ={
     isDisabled?:boolean,
 }
 
-
+//TODO:Refactoring Component
 export const CheckBox = ({
                              grupo,
                              checkedValue,
                              groupSize,
                              handleChange,
-                         isDisabled}:Props)=>{
+                            isDisabled,
+                         }:Props)=>{
     return (
-        <label className='checkbox-container'>
+        <label className='checkbox-container' data-value={grupo}>
             <Flex justify='space-between' align='center'>
-                <p className="checkbok__tag">{upperCaseOneWord(grupo)}</p>
+                <p className="checkbok__tag">{upperCaseOneWord(grupo.toLowerCase())}</p>
 
                 <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', gap:'8px'}}>
                     <p style={{color:'var(--c_slate_400)'}}>{groupSize} miembros</p>

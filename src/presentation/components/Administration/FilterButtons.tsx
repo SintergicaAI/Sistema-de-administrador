@@ -4,6 +4,7 @@ import {Dispatch, useContext, useEffect, useRef, useState} from "react";
 import {CompanyApi} from "../../../infrastructure/api/CompanyApi.ts";
 import {upperCaseOneWord} from "../../utilities";
 import {AdministrationContext, valueAdministrationContext} from "../../context/Administration";
+import {getGroupsNames} from "../../utilities/getGroupsName.ts";
 
 
 const companyAPI = new CompanyApi();
@@ -16,7 +17,7 @@ type Props = {
 }
 
 export const ButtonFilter = ({name,filters,setFilter}:Props) =>{
-    const buttonRef = useRef(null!);
+    const buttonRef = useRef<HTMLButtonElement>(null);
 
     return (
         <button
@@ -24,6 +25,7 @@ export const ButtonFilter = ({name,filters,setFilter}:Props) =>{
             data-filter={name}
             ref={buttonRef}
             onClick={() => {
+                if (!buttonRef.current) return;
                 buttonRef.current.classList.toggle('button-filter--active');
                 const typeFilter = buttonRef.current.dataset.filter;
 
@@ -46,7 +48,9 @@ export const FilterButtons = () => {
     const getGroupsFromCompany =  () =>{
         getGroupCompany.execute()
             .then((data)=>{
-                setCompanyGroups(data);
+
+                const groups = getGroupsNames(data);
+                setCompanyGroups(groups);
             }).catch(()=>{
             setCompanyGroups([]);
         })
@@ -63,7 +67,7 @@ export const FilterButtons = () => {
             <Flex justify='flex-start' gap={8} wrap='wrap'>
                 {companyGroups.length !== 0 ? companyGroups.map((company,index) => (
                     <ButtonFilter
-                        name={company}
+                        name={company.toLowerCase()}
                         key={index}
                         setFilter={setFilters}
                         filters={filters}

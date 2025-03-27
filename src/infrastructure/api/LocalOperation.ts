@@ -1,7 +1,7 @@
 /*http://localhost:3000/users?_page=1&_per_page=5*/
 
 import {CompanyRepository, UserList, UserSearchParams} from "../../domain/repositories/CompanyRepository.ts";
-import {UserDeleted} from "../../domain/types/UserDTO.ts";
+import {UserDeleted} from "../../domain/types/CompanyTypes.ts";
 import { User } from "../../domain/entities/User";
 import {AuthApi} from "./AuthApi.ts";
 
