@@ -17,6 +17,6 @@ const items: TabsProps['items'] = [
 ];
 export const Tables = () =>{
     return (<>
-        <Tabs defaultActiveKey="1" items={items} />;
+        <Tabs defaultActiveKey="1" items={items} />
     </>)
 }

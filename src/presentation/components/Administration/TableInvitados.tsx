@@ -54,7 +54,7 @@ const data: DataType[] = [
         email:"juan@gmail.com",
         grupos:"pendiente"
     },
-];
+]
 
 
 export const TableInvitados = () => {

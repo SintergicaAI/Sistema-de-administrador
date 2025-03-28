@@ -9,7 +9,6 @@ type Props ={
     isDisabled?:boolean,
 }
 
-//TODO:Refactoring Component
 export const CheckBox = ({
                              value,
                              checkedValue,
