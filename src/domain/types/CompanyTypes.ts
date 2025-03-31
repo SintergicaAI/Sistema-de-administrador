@@ -3,8 +3,7 @@ export interface UserDeleted {
 }
 
 export type GroupType = {
-    id:string;
-    compositionKey:string;
+    group_id:string;
     name:string;
 }
 export type RoleItem = {

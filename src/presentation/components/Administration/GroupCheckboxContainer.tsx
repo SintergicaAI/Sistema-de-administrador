@@ -20,7 +20,7 @@ export const GroupCheckboxContainer = ({
                                            isDisabled,
                                        }:Props) =>{
 
-    return (<label className='checkbox-container' data-value={value.compositionKey}>
+    return (<label className='checkbox-container' data-value={value.group_id}>
         <Flex justify='space-between' align='center'>
             <p className="checkbok__tag">{upperCaseOneWord(value.name)}</p>
 
@@ -29,7 +29,7 @@ export const GroupCheckboxContainer = ({
                 <CheckBox
                     handleChange={handleChange}
                     checkedValue={checkedValue}
-                    value={value.name}
+                    value={value.group_id}
                     isDisabled={isDisabled}
                 />
             </div>

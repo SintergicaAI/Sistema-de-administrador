@@ -6,7 +6,7 @@ import {CompanyApi} from "../../../infrastructure/api/CompanyApi.ts";
 import {GetCompanyGroups} from "../../../application/use-cases/GetCompanyGroups.ts";
 import {AddUserToGroupCompany} from "../../../application/use-cases/AddUserToGroupCompany.ts";
 import {UserRole} from "../../../domain/enums/UserRole.ts";
-import {getGroupsNames} from "../../utilities";
+import {getGroupNameInLowerCase, getGroupsNames} from "../../utilities";
 import {GroupType} from "../../../domain/types/CompanyTypes.ts";
 import {GroupCheckboxContainer} from "./GroupCheckboxContainer.tsx";
 
@@ -53,6 +53,7 @@ export const CheckBoxGroups = ({filterValue}:Props)=>{
             .then((data)=>{
                 setLoading(false);
                 companyGroups = [...data]
+                console.log(companyGroups);
                 setCompanyFilter(data);
                 getAmountForGroups(data);
             }).catch(()=>{
@@ -66,11 +67,12 @@ export const CheckBoxGroups = ({filterValue}:Props)=>{
         companyGroups.forEach((groups)=> {
            let numberOfGroups = dataTable.filter(row =>{
                if(typeof row.groups !== 'undefined'){
-                   return getGroupsNames(row.groups).includes(groups.name.toLowerCase());
+                   return getGroupNameInLowerCase(row.groups).includes(groups.name.toLowerCase());
                 }
                } ).length;
-           copyGroupPerPerson.set(groups.name,numberOfGroups);
+           copyGroupPerPerson.set(groups.group_id,numberOfGroups);
         })
+        console.log(copyGroupPerPerson);
         setGroupsPerPerson(new Map(copyGroupPerPerson));
     }
 
@@ -156,7 +158,7 @@ export const CheckBoxGroups = ({filterValue}:Props)=>{
                         value={groupFromCompany}
                         handleChange={handleCheckBoxGroup}
                         checkedValue={userGroup}
-                        groupSize={groupsPerPerson.get(groupFromCompany.name)}
+                        groupSize={groupsPerPerson.get(groupFromCompany.group_id)}
                         isDisabled={isDisable}
                          />
                 )): <Spin/>}

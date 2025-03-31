@@ -4,7 +4,7 @@ import {Dispatch, useContext, useEffect, useRef, useState} from "react";
 import {CompanyApi} from "../../../infrastructure/api/CompanyApi.ts";
 import {upperCaseOneWord} from "../../utilities";
 import {AdministrationContext, valueAdministrationContext} from "../../context/Administration";
-import {getGroupsNames} from "../../utilities/getGroupsName.ts";
+import {getGroupsNames} from "../../utilities";
 
 
 const companyAPI = new CompanyApi();

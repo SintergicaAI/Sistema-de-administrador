@@ -1,7 +1,7 @@
 import './styles/administration.css';
 import {InputSearch} from "../common";
 import {CheckBoxGroups} from "./CheckBoxGroups.tsx";
-import {useContext, useEffect, useState} from "react";
+import {useContext, useState} from "react";
 import {RadioGroupRoles} from "./RadioGroupRoles.tsx";
 import {Button, Flex} from "antd";
 import { Download } from 'lucide-react';
