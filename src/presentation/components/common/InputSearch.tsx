@@ -1,6 +1,6 @@
 import { Search } from 'lucide-react';
 import {Input} from 'antd';
-import {CSSProperties, useRef, useState} from "react";
+import {CSSProperties, useState} from "react";
 
 type Props = {
     placeholder:string,

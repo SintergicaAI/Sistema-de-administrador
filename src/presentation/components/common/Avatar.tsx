@@ -1,18 +1,18 @@
 import {Avatar as ComponentAvatar} from 'antd';
 import {CSSProperties} from "react";
+import {getInitialLettersFromName} from "../../utilities";
 
-const getInitial = (fullname:string)=>{
-    const firstSecondName = fullname.split(' ').slice(0,2);
-    const initials = firstSecondName.map((name)=>{
-        return name.charAt(0).toUpperCase();
-    })
-    return initials.join('');
+type Props = {
+    name: string,
+    style?:CSSProperties
+    type?: "active" | "invitate"
 }
+export const Avatar = ({name,style,type}:Props)=>{
 
-export const Avatar = ({name,style}:
-                       {name:string,style?:CSSProperties})=>{
-
+    const avatarName = (type === "active") ? getInitialLettersFromName(name) : "Inv";
     return (
-        <ComponentAvatar shape='circle' style={style}>{getInitial(name)}</ComponentAvatar>
+        <ComponentAvatar shape='circle' style={style}>{
+            avatarName
+        }</ComponentAvatar>
     );
 }

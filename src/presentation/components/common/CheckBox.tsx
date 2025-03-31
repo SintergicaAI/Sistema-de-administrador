@@ -1,36 +1,30 @@
 import './styles/SideBar.css';
-import {Flex} from "antd";
-import {upperCaseOneWord} from "../../utilities";
 import { SquareCheckBig } from 'lucide-react';
 import {ChangeEvent} from "react";
 
 type Props ={
-    id:string,
-    grupo:string,
+    value:string,
     checkedValue:string[],
     handleChange:(event:ChangeEvent<HTMLInputElement>) => void,
+    isDisabled?:boolean,
 }
 
-
-export const CheckBox = ({id,grupo,checkedValue,handleChange}:Props)=>{
-
+export const CheckBox = ({
+                             value,
+                             checkedValue,
+                             handleChange,
+                            isDisabled,}:Props)=>{
     return (
-        <label className='checkbox-container'>
-            <Flex justify='space-between' align='center'>
-                <p className="checkbok__tag">{upperCaseOneWord(grupo)}</p>
-
-                <div>
-                    <input
-                        id={id}
-                        name={'grupo'}
-                        value={grupo}
-                        type="checkbox"
-                        onChange={handleChange}
-                        checked={checkedValue.includes(grupo)}
-                           />
-                    <SquareCheckBig/>
-                </div>
-            </Flex>
-        </label>
+        <>
+            <input
+                name={'grupo'}
+                value={value}
+                type="checkbox"
+                onChange={handleChange}
+                checked={checkedValue.includes(value)}
+                disabled={isDisabled}
+                   />
+            <SquareCheckBig/>
+        </>
     )
 }

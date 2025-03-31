@@ -1,5 +1,5 @@
 import {CompanyRepository} from "../../domain/repositories/CompanyRepository.ts";
-import {UserDeleted} from "../../domain/types/UserDTO.ts";
+import {UserDeleted} from "../../domain/types/CompanyTypes.ts";
 
 export class DeleteUser {
     constructor(private user:CompanyRepository) {}

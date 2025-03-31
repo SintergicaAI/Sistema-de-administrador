@@ -4,6 +4,18 @@ const {Sider,Header,Content} = Layout
 import { X } from 'lucide-react';
 import {Dispatch, ReactNode, SetStateAction} from 'react';
 
+const siderStyle: React.CSSProperties = {
+    overflow: 'auto',
+    backgroundColor:'var(--c_slate_50)',
+    borderInlineStart:  '1px solid var(--c_slate_300)',
+    height: '100vh',
+    position: 'sticky',
+    insetInlineEnd: 0,
+    top: 0,
+    bottom: 0,
+    scrollbarWidth: 'thin',
+    scrollbarGutter: 'stable',
+};
 
 export const SideBarGeneral = ({childrenHeader, contentChildren, hasSelected}:
                                      {childrenHeader:ReactNode,contentChildren:ReactNode,
@@ -16,8 +28,8 @@ export const SideBarGeneral = ({childrenHeader, contentChildren, hasSelected}:
     }
 
     return (
-        <Sider className="sidebar-configuration" width="30%">
-            <Layout style={{backgroundColor:"inherit"}}>
+        <Sider width="30%" style={siderStyle}>
+            <Layout style={{backgroundColor:'var(--c_slate_50)',paddingInline:'var(--lg-space)', paddingBlock:'var(--xl-space)'}}>
                 <Header style={{
                     display:'flex',
                     justifyContent:'space-between',

@@ -1,35 +1,37 @@
 import {RadioButton} from './RadioButton';
-import {ChangeEvent, useContext, useState} from "react";
+import {ChangeEvent, useContext, useEffect, useState} from "react";
 import {AdministrationContext} from "../../context/Administration";
 import type {DataType} from "../Administration/types/TableAdministrationTypes.ts";
 
-type RadioGroup = {
+export type RadioGroupType = {
     options:string[];
     nameGroup:string;
 }
 
 type Props = {
-    radioObjet :RadioGroup,
+    radioObjet :RadioGroupType,
 }
 
 export const RadioGroup = ({radioObjet}:Props) =>{
 
     //console.log(radioObjet.options);
-    const [radioButtons] = useState<string[]>(radioObjet.options);
+    const [radioButtons, setRadioButtons] = useState<string[]>(radioObjet.options);
     const {selectedRow,changeSelectedRow} = useContext(AdministrationContext);
     const {role} = selectedRow as DataType;
 
 
+    useEffect(() => {
+        setRadioButtons(radioObjet.options);
+    }, [radioObjet]);
+
     //Actualizar el dato role de selectedRow
     const handleRadioChange = (value:ChangeEvent<HTMLInputElement>)=>{
        changeSelectedRow({...selectedRow,role:value.target.value});
-        /*console.log(value.target.value);
-        console.log(selectedRow);*/
     }
 
     return (
         <div
-            style={{display: "flex", flexDirection: "column", gap:3}}
+            style={{display: "grid", gridTemplateColumns:"repeat(2,1fr)"}}
         >
             {radioButtons.map((option,index) =>(
                 <RadioButton rol={`${option}`}
