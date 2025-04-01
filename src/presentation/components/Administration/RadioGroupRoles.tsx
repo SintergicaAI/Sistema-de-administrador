@@ -1,7 +1,7 @@
 import {RadioGroup} from "../common/RadioGroup.tsx";
 import {RadioGroupType} from "../common/RadioGroup.tsx";
-import {useContext, useEffect, useState} from "react";
-import {AdministrationContext} from "../../context/Administration";
+import {useEffect, useState} from "react";
+import {useAdministration} from "../../context/Administration";
 import type {DataType} from "./types/TableAdministrationTypes.ts";
 import {UserRole} from "../../../domain/enums/UserRole.ts";
 
@@ -12,7 +12,7 @@ const initialRadioGroup = {
 
 export const RadioGroupRoles = () => {
     const [radioGroups, setRadioGroups] = useState<RadioGroupType>(initialRadioGroup)
-    const {selectedRow} = useContext(AdministrationContext);
+    const {selectedRow} = useAdministration();
     const {role} = selectedRow as DataType;
 
     useEffect(()=>{

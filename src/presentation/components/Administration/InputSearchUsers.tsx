@@ -1,10 +1,9 @@
-import {AdministrationContext, valueAdministrationContext} from "../../context/Administration";
-import {useContext} from "react";
+import {useAdministration, valueAdministrationContext} from "../../context/Administration";
 import {InputSearch} from "../common";
 
 export const InputSearchUsers = () => {
     const {changeSearchText,
-    }:valueAdministrationContext = useContext(AdministrationContext);
+    }:valueAdministrationContext = useAdministration();
 
     return (
         <>

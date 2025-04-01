@@ -17,7 +17,8 @@
     .checkbok__tag{
         font-size: var(--avatar-size);
         text-align: center;
-        min-width: 80px;
+        min-width: 50px;
+        max-width: 170px;
         margin-block: 0;
         font-weight: 600;
         color: var(--c_brand_50);

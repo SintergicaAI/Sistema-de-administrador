@@ -1,20 +1,39 @@
 import {Table, TableProps, Flex} from "antd";
 import {Avatar} from "../common";
-import {useEffect, useState, useContext} from "react";
+import {useEffect, useState} from "react";
 import {GetAllUserCompanyData} from "../../../application/use-cases/GetAllUserCompanyData.ts";
 import {DataType} from "./types/TableAdministrationTypes.ts";
-import {AdministrationContext, valueAdministrationContext} from "../../context/Administration";
+import {useAdministration, valueAdministrationContext} from "../../context/Administration";
 import {UserSearchParams} from "../../../domain/repositories/CompanyRepository.ts";
 import {CompanyApi} from "../../../infrastructure/api/CompanyApi.ts";
-import {v4 as uuid} from "uuid";
 import {RenderGroups} from "./RenderGroups.tsx";
-import {User} from "../../../domain/entities/User.ts";
-import { formatData } from "../../utilities/formatData.ts";
+import { formatData } from "../../utilities";
 
 const DEFAULT_PAGE_SIZE = 5; // Introduced constant for better clarity
 
 const operationTable = new CompanyApi();
 const getAllUser = new GetAllUserCompanyData(operationTable);
+
+//Filtering Methods
+const filterByQuery = (query: string, data: DataType[]) =>
+    query.length > 0
+        ? data.filter((dataItem) =>
+            dataItem.fullName.toLowerCase().includes(query.toLowerCase())
+        )
+        : data;
+
+const filterByGroups = (activeFilters: string[], data: DataType[]) =>
+    activeFilters.length > 0
+        ? data.filter((dataItem) => {
+            if (dataItem.groups && dataItem.groups.length !== 0) {
+                const userGroups = dataItem.groups.map((group) =>
+                    group.name.toLowerCase()
+                );
+                return userGroups.some((group) => activeFilters.includes(group));
+            }
+            return false;
+        })
+        : data;
 
 export const TableAdministration = () => {
     const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([]);
@@ -28,12 +47,12 @@ export const TableAdministration = () => {
         setTotalItemsTable,
         totalItemsTable,
         searchText,
-        dataTable, //Datatable deberia ser un estado?
+        dataTable,
         changeDataTabla,
         setLoadingTable,
         filters,
         loadingTable,
-    }: valueAdministrationContext = useContext(AdministrationContext);
+    }: valueAdministrationContext = useAdministration();
 
     const [searchParams, setSearchParams] = useState<UserSearchParams>({
         query: "",
@@ -73,30 +92,6 @@ export const TableAdministration = () => {
         setTotalItemsTable(dataAfterFilters.length);
     };
 
-    const filterByQuery = (query: string, data: DataType[]) =>
-        query.length > 0
-            ? data.filter((dataItem) =>
-                dataItem.fullName.toLowerCase().includes(query.toLowerCase())
-            )
-            : data;
-
-    const filterByGroups = (activeFilters: string[], data: DataType[]) =>
-        activeFilters.length > 0
-            ? data.filter((dataItem) => {
-                if (dataItem.groups && dataItem.groups.length !== 0) {
-                    const userGroups = dataItem.groups.map((group) =>
-                        group.name.toLowerCase()
-                    );
-                    return userGroups.some((group) => activeFilters.includes(group));
-                }
-                return false;
-            })
-            : data;
-
-    /*const changeRow = (selectedRow: RecordType) => {
-        changeSelectedRow(selectedRow);
-        console.log(selectedRow);
-    };*/
 
     const changeDataRow = () =>{
         const newDataRow = {...(selectedRow as DataType) };

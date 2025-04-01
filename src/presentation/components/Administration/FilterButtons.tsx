@@ -1,9 +1,9 @@
 import {Flex} from 'antd';
 import {GetCompanyGroups} from "../../../application/use-cases/GetCompanyGroups.ts";
-import {Dispatch, useContext, useEffect, useRef, useState} from "react";
+import {Dispatch, useEffect, useRef, useState} from "react";
 import {CompanyApi} from "../../../infrastructure/api/CompanyApi.ts";
 import {upperCaseOneWord} from "../../utilities";
-import {AdministrationContext, valueAdministrationContext} from "../../context/Administration";
+import {useAdministration, valueAdministrationContext} from "../../context/Administration";
 import {getGroupsNames} from "../../utilities";
 
 
@@ -43,7 +43,7 @@ export const ButtonFilter = ({name,filters,setFilter}:Props) =>{
 
 export const FilterButtons = () => {
     const [companyGroups, setCompanyGroups] = useState<string[]>([]);
-    const {filters,setFilters}:valueAdministrationContext = useContext(AdministrationContext);
+    const {filters,setFilters}:valueAdministrationContext = useAdministration();
 
     const getGroupsFromCompany =  () =>{
         getGroupCompany.execute()

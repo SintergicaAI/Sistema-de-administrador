@@ -1,11 +1,11 @@
 import './styles/administration.css';
 import {InputSearch} from "../common";
 import {CheckBoxGroups} from "./CheckBoxGroups.tsx";
-import {useContext, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {RadioGroupRoles} from "./RadioGroupRoles.tsx";
 import {Button, Flex, message} from "antd";
 import { Download } from 'lucide-react';
-import {AdministrationContext} from "../../context/Administration";
+import {useAdministration} from "../../context/Administration";
 import {GroupType} from "../../../domain/types/CompanyTypes.ts";
 import {CompanyApi} from "../../../infrastructure/api/CompanyApi.ts";
 import {AddUserToGroupCompany} from "../../../application/use-cases/AddUserToGroupCompany.ts";
@@ -39,10 +39,11 @@ const castRole = (role: string) =>{
     }
 }
 
+
 export const SiderContent = () =>{
 
     const [filterValue,setFilterValue] = useState("");
-    const {selectedRow} = useContext(AdministrationContext);
+    const {selectedRow} = useAdministration();
     const {groups,role,firstName} = selectedRow as SelectedProps;
     const [messageApi, contextHolder] = message.useMessage();
     const [notDisabled, setNotDisabled] = useState(false);
@@ -56,8 +57,10 @@ export const SiderContent = () =>{
             duration:0,
         })
 
-        const promiseGroup = (hasChangedGroup) ? sendNewGroups(): Promise.resolve(true);
-        const promiseRole = (hasChangedRole) ? sendNewRole(): Promise.resolve(true);
+        const {email} = selectedRow as SelectedProps;
+
+        const promiseGroup = (hasChangedGroup) ? sendNewGroups(email): Promise.resolve(true);
+        const promiseRole = (hasChangedRole) ? sendNewRole(email): Promise.resolve(true);
 
         Promise.all([promiseGroup, promiseRole]).then(()=>{
             messageApi.destroy();
@@ -82,8 +85,8 @@ export const SiderContent = () =>{
         })
     }
 
-    const sendNewGroups = () =>{
-        const {email} = selectedRow as SelectedProps
+
+    const sendNewGroups = (email:string) =>{
         console.log('Se enviarion cambios en groups')
         return addUserToGroupCompany.execute(
             email,
@@ -91,9 +94,7 @@ export const SiderContent = () =>{
         )
     }
 
-
-    const sendNewRole = () =>{
-        const {email} = selectedRow as SelectedProps;
+    const sendNewRole = (email:string) =>{
         console.log('Se enviaron cambios en rol')
         return changeUserRoleFromCompany.execute(email,castRole(role));
     }

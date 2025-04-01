@@ -1,10 +1,9 @@
-import {ChangeEvent, useContext, useEffect, useState} from "react";
-import {AdministrationContext} from "../../context/Administration";
+import {ChangeEvent, useEffect, useState} from "react";
+import {useAdministration} from "../../context/Administration";
 import {Flex,Spin} from "antd";
 import {NotFound} from "../common/NotFound.tsx";
 import {CompanyApi} from "../../../infrastructure/api/CompanyApi.ts";
 import {GetCompanyGroups} from "../../../application/use-cases/GetCompanyGroups.ts";
-import {AddUserToGroupCompany} from "../../../application/use-cases/AddUserToGroupCompany.ts";
 import {UserRole} from "../../../domain/enums/UserRole.ts";
 import {getGroupId, getGroupNameFromId, getGroupNameInLowerCase, getGroupsNames} from "../../utilities";
 import {GroupType} from "../../../domain/types/CompanyTypes.ts";
@@ -29,7 +28,7 @@ let companyGroups:GroupType[] = [];
 
 //TODO:Verify possible error in companyFilter
 export const CheckBoxGroups = ({filterValue}:Props)=>{
-    const {selectedRow,changeSelectedRow,dataTable} = useContext(AdministrationContext);
+    const {selectedRow,changeSelectedRow,dataTable} = useAdministration();
     const {groups,role} = selectedRow as SelectedProps ;
 
     const [companyFilter, setCompanyFilter] = useState<GroupType[]>([]);
@@ -42,8 +41,7 @@ export const CheckBoxGroups = ({filterValue}:Props)=>{
         getGroupCompany.execute()
             .then((data)=>{
                 setLoading(false);
-                companyGroups = [...data]
-                console.log(companyGroups);
+                companyGroups = [...data];
                 setCompanyFilter(companyGroups);
                 getAmountForGroups(data);
             }).catch(()=>{
@@ -62,7 +60,6 @@ export const CheckBoxGroups = ({filterValue}:Props)=>{
                } ).length;
            copyGroupPerPerson.set(groups.group_id,numberOfGroups);
         })
-        console.log(copyGroupPerPerson);
         setGroupsPerPerson(new Map(copyGroupPerPerson));
     }
 
