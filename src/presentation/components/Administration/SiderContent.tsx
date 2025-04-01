@@ -1,9 +1,9 @@
 import './styles/administration.css';
-import {AlertMessages, InputSearch} from "../common";
+import {InputSearch} from "../common";
 import {CheckBoxGroups} from "./CheckBoxGroups.tsx";
-import {CSSProperties, useContext, useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {RadioGroupRoles} from "./RadioGroupRoles.tsx";
-import {Button, Flex} from "antd";
+import {Button, Flex, message} from "antd";
 import { Download } from 'lucide-react';
 import {AdministrationContext} from "../../context/Administration";
 import {GroupType} from "../../../domain/types/CompanyTypes.ts";
@@ -15,18 +15,6 @@ type SelectedProps = {
     groups: GroupType[];
     role:string;
     email:string;
-}
-
-type AlertProps = {
-    message: string;
-    type: "warning" | "error"|"success";
-}
-
-const styles:CSSProperties = {
-    position: 'absolute',
-    top:0,
-    right:"50px",
-    zIndex:1,
 }
 
 const companyAPI = new CompanyApi();
@@ -55,27 +43,40 @@ export const SiderContent = () =>{
     const [filterValue,setFilterValue] = useState("");
     const {selectedRow} = useContext(AdministrationContext);
     const {groups,role} = selectedRow as SelectedProps;
-    const [propAlert, setPropAlert] = useState<AlertProps>({message:"", type:"error"});
-    const [renderAlert,setRenderAlert] = useState(false);
-
-    const handleAlert = () =>{
-        setRenderAlert(false);
-    }
+    const [messageApi, contextHolder] = message.useMessage();
 
     const onClick = () =>{
+
+        messageApi.open({
+            type:'loading',
+            content:'Enviando cambios',
+            duration:0,
+        })
+
         const promiseGroup = (hasChangedGroup) ? sendNewGroups(): Promise.resolve(true);
         const promiseRole = (hasChangedRole) ? sendNewRole(): Promise.resolve(true);
 
         Promise.all([promiseGroup, promiseRole]).then(()=>{
             console.log(`Cambios enviados:  grupos: ${groups.length} \n roles por enviar ${role}`);
-            setPropAlert({message:"Cambios realizados", type:"success"});
-            setRenderAlert(true);
+            messageApi.destroy();
+            messageApi.open({
+                type:'success',
+                content:'Datos enviados',
+                duration:0,
+            })
         }).catch(()=>{
-            setPropAlert({message:"No se realizaron", type:"error"});
-            setRenderAlert(true);
+            messageApi.destroy();
+            messageApi.open({
+                type:'error',
+                content:'Error del servidor, inténtelo más tarde',
+                duration:0,
+            })
         }).finally(()=>{
             hasChangedRole = false;
             hasChangedGroup = false;
+            setTimeout(()=>{
+                messageApi.destroy();
+            },1000)
         })
     }
 
@@ -105,13 +106,7 @@ export const SiderContent = () =>{
 
     return (
         <div>
-            {renderAlert && <AlertMessages
-                type={propAlert.type}
-                message={propAlert.message}
-                onClose={handleAlert}
-                style={styles}
-            />}
-
+            {contextHolder}
             <p className="label">Rol</p>
            <RadioGroupRoles/>
 
