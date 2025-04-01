@@ -5,3 +5,4 @@ export * from './getInitialLettersFromName.ts'
 export * from "./getGroupsId.ts";
 export * from "./getGroupNameFromId.ts";
 export * from "./formatData.ts";
+export * from "./getDataAttributesFromCheckbox.ts";

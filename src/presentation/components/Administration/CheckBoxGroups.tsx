@@ -27,16 +27,7 @@ const getGroupCompany = new GetCompanyGroups(companyAPI);
 const copyGroupPerPerson = new Map<string, number>();
 let companyGroups:GroupType[] = [];
 
-const getDataAttributesFromCheckbox = (groupsUser:string[]) =>{
-    const dataAttributesGroups:string[] = []
-    groupsUser.forEach(item =>{
-        const value = document.querySelector(`[data-value="${item}"]`);
-        if(value) dataAttributesGroups.push(value.getAttribute("data-value") as string);
-    })
-    return dataAttributesGroups;
-}
-
-//TODO:Refactoring
+//TODO:Verify possible error in companyFilter
 export const CheckBoxGroups = ({filterValue}:Props)=>{
     const {selectedRow,changeSelectedRow,dataTable} = useContext(AdministrationContext);
     const {groups,role} = selectedRow as SelectedProps ;
@@ -56,7 +47,7 @@ export const CheckBoxGroups = ({filterValue}:Props)=>{
                 setCompanyFilter(companyGroups);
                 getAmountForGroups(data);
             }).catch(()=>{
-            setCompanyFilter([]);
+            setCompanyFilter(companyGroups);
         })
     }
 
@@ -139,7 +130,7 @@ export const CheckBoxGroups = ({filterValue}:Props)=>{
     const isDisable = (role === UserRole.OWNER ) || (role === UserRole.ADMIN )
     return (<>
         <Flex gap={5} flex="1" vertical>
-            {!loading?
+            {!loading ?
                 companyFilter.map((groupFromCompany,index) =>(
                     <GroupCheckboxContainer
                         key={index}

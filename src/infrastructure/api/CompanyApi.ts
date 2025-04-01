@@ -120,7 +120,7 @@ export class CompanyApi implements CompanyRepository {
                 await this.getCompanyGroups();
             }
             const data:GroupType[] = await response.json();
-            this.cacheGroups = [...data];
+            this.cacheGroups = data;
             return data;
         }
         return this.cacheGroups;

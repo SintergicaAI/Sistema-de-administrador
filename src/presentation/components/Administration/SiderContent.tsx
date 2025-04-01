@@ -1,7 +1,7 @@
 import './styles/administration.css';
 import {AlertMessages, InputSearch} from "../common";
 import {CheckBoxGroups} from "./CheckBoxGroups.tsx";
-import {CSSProperties, useContext, useState} from "react";
+import {CSSProperties, useContext, useEffect, useState} from "react";
 import {RadioGroupRoles} from "./RadioGroupRoles.tsx";
 import {Button, Flex} from "antd";
 import { Download } from 'lucide-react';
@@ -33,6 +33,23 @@ const companyAPI = new CompanyApi();
 const  addUserToGroupCompany = new AddUserToGroupCompany(companyAPI);
 const changeUserRoleFromCompany = new ChangeUserRoleFromCompany(companyAPI);
 
+//Variables to detected changes in role and groups
+let hasChangedRole = false;
+let hasChangedGroup = false;
+
+const castRole = (role: string) =>{
+    if (!role) return "Usuario";
+
+    switch (role) {
+        case 'Dueño':
+            return "OWNER";
+        case 'Administrador':
+            return "ADMIN";
+        default:
+            return 'USER';
+    }
+}
+
 export const SiderContent = () =>{
 
     const [filterValue,setFilterValue] = useState("");
@@ -46,8 +63,8 @@ export const SiderContent = () =>{
     }
 
     const onClick = () =>{
-        const promiseGroup = sendNewGroups();
-        const promiseRole = sendNewRole();
+        const promiseGroup = (hasChangedGroup) ? sendNewGroups(): Promise.resolve(true);
+        const promiseRole = (hasChangedRole) ? sendNewRole(): Promise.resolve(true);
 
         Promise.all([promiseGroup, promiseRole]).then(()=>{
             console.log(`Cambios enviados:  grupos: ${groups.length} \n roles por enviar ${role}`);
@@ -56,6 +73,9 @@ export const SiderContent = () =>{
         }).catch(()=>{
             setPropAlert({message:"No se realizaron", type:"error"});
             setRenderAlert(true);
+        }).finally(()=>{
+            hasChangedRole = false;
+            hasChangedGroup = false;
         })
     }
 
@@ -68,18 +88,6 @@ export const SiderContent = () =>{
         )
     }
 
-    const castRole = (role: string) =>{
-        if (!role) return "Usuario";
-
-        switch (role) {
-            case 'Dueño':
-                return "OWNER";
-            case 'Administrador':
-                return "ADMIN";
-            default:
-                return 'USER';
-        }
-    }
 
     const sendNewRole = () =>{
         const {email} = selectedRow as SelectedProps;
@@ -87,6 +95,13 @@ export const SiderContent = () =>{
         return changeUserRoleFromCompany.execute(email,castRole(role));
     }
 
+    useEffect(() => {
+        hasChangedGroup = true;
+    }, [groups]);
+
+    useEffect(() => {
+        hasChangedRole = true;
+    }, [role]);
 
     return (
         <div>
