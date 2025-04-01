@@ -6,7 +6,7 @@ export type GroupType = {
     group_id:string;
     name:string;
 }
-export type RoleItem = {
+export type RoleType = {
     id:string;
     name: string;
 }

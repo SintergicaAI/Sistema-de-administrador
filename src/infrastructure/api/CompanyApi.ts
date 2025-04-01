@@ -1,10 +1,9 @@
 import {CompanyRepository, UserList, UserSearchParams} from "../../domain/repositories/CompanyRepository.ts";
 import {AuthApi} from "./AuthApi.ts";
-import {UserDeleted} from "../../domain/types/CompanyTypes.ts";
 import { User } from "../../domain/entities/User";
 import {PaginableResponse} from "./types/PaginableResponse.ts";
 import {UserRole} from "../../domain/enums/UserRole.ts";
-import {GroupType, RoleItem} from "../../domain/types/CompanyTypes.ts";
+import {GroupType, RoleType, UserDeleted} from "../../domain/types/CompanyTypes.ts";
 
 
 export class CompanyApi implements CompanyRepository {
@@ -19,14 +18,16 @@ export class CompanyApi implements CompanyRepository {
         return this.authApi.getNewToken(this.authApi.getRefreshToken() as string)
     }
 
-    private getRole(role:RoleItem) {
-        switch (role.name) {
+    private getRole(role:RoleType):string {
+        if (!role) return "Usuario";
+
+        switch (role["name"]) {
+            case 'OWNER':
+                return UserRole.OWNER;
             case 'ADMIN':
                 return UserRole.ADMIN;
-            case 'USER':
-                return UserRole.USER;
             default:
-                return 'Dueño';
+                return 'Usuario';
         }
     }
 
@@ -78,13 +79,14 @@ export class CompanyApi implements CompanyRepository {
             );
         }catch(e){
             await this.refreshToke();
-            await this.findUsersInCompany({});
+            await this.findUsersInCompany(searchParams);
         }
         const {data,totalElements}:PaginableResponse = await response.json();
-        return {users:data.map((userData: any) => new User(
+        console.log(data);
+        return {users:data.map((userData) => new User(
                 "",
                 userData.email,
-                this.getRole(userData.role),
+                this.getRole( userData.role),
                 userData.name,
                 userData.lastName,
                 undefined,
@@ -114,7 +116,8 @@ export class CompanyApi implements CompanyRepository {
 
             //Refrescar el token
             if(response.status === 403) {
-                await this.refreshToke()
+                await this.refreshToke();
+                await this.getCompanyGroups();
             }
             const data:GroupType[] = await response.json();
             this.cacheGroups = [...data];
@@ -148,12 +151,6 @@ export class CompanyApi implements CompanyRepository {
         }
     }
 
-    deleterUserFromCompany(group: string, email: string): Promise<boolean> {
-
-
-        return Promise.resolve(false);
-    }
-
     async addUserToGroupCompany(email: string, group: string[]): Promise<boolean> {
         const token = this.authApi.getToken();
         if (!token) {
@@ -172,6 +169,34 @@ export class CompanyApi implements CompanyRepository {
             if(response.status === 403) {
                 await this.refreshToke()
                 await this.addUserToGroupCompany(email, group);
+            }
+
+            return Promise.resolve(true);
+        }catch (e) {
+            console.log(e)
+            return Promise.resolve(false);
+        }
+    }
+
+    async changeUserRoleFromCompany(email: string, role: string): Promise<boolean> {
+
+        const token = this.authApi.getToken();
+        if (!token) {
+            throw new Error('No autorizado');
+        }
+        try{
+            const response = await fetch(`${this.baseUrl}/users/${email}/rol`,{
+                method: 'PATCH',
+                headers:{
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({name:role}),
+            })
+            //Refrescar el token
+            if(response.status === 403) {
+                await this.refreshToke()
+                //await this.changeUserRoleFromCompany(email,role);
             }
 
             return Promise.resolve(true);

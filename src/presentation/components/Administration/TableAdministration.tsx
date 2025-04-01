@@ -9,6 +9,7 @@ import {CompanyApi} from "../../../infrastructure/api/CompanyApi.ts";
 import {v4 as uuid} from "uuid";
 import {RenderGroups} from "./RenderGroups.tsx";
 import {User} from "../../../domain/entities/User.ts";
+import { formatData } from "../../utilities/formatData.ts";
 
 const DEFAULT_PAGE_SIZE = 5; // Introduced constant for better clarity
 
@@ -52,13 +53,6 @@ export const TableAdministration = () => {
     useEffect(() => {
         changeDataRow();
     }, [selectedRow]);
-
-    const formatData = (data: User[]) =>
-        data.map((user) => ({
-            ...user,
-            fullName: `${user.fullName}`,
-            key: uuid(),
-        }));
 
     const prepareData = () => {
         setLoadingTable(true);
