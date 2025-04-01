@@ -15,6 +15,7 @@ type SelectedProps = {
     groups: GroupType[];
     role:string;
     email:string;
+    firstName:string;
 }
 
 const companyAPI = new CompanyApi();
@@ -42,14 +43,16 @@ export const SiderContent = () =>{
 
     const [filterValue,setFilterValue] = useState("");
     const {selectedRow} = useContext(AdministrationContext);
-    const {groups,role} = selectedRow as SelectedProps;
+    const {groups,role,firstName} = selectedRow as SelectedProps;
     const [messageApi, contextHolder] = message.useMessage();
+    const [notDisabled, setNotDisabled] = useState(false);
 
     const onClick = () =>{
 
         messageApi.open({
             type:'loading',
             content:'Enviando cambios',
+
             duration:0,
         })
 
@@ -57,7 +60,6 @@ export const SiderContent = () =>{
         const promiseRole = (hasChangedRole) ? sendNewRole(): Promise.resolve(true);
 
         Promise.all([promiseGroup, promiseRole]).then(()=>{
-            console.log(`Cambios enviados:  grupos: ${groups.length} \n roles por enviar ${role}`);
             messageApi.destroy();
             messageApi.open({
                 type:'success',
@@ -82,7 +84,7 @@ export const SiderContent = () =>{
 
     const sendNewGroups = () =>{
         const {email} = selectedRow as SelectedProps
-        console.log("envio de grupos");
+        console.log('Se enviarion cambios en groups')
         return addUserToGroupCompany.execute(
             email,
             groups.map(item => item.group_id)
@@ -92,17 +94,24 @@ export const SiderContent = () =>{
 
     const sendNewRole = () =>{
         const {email} = selectedRow as SelectedProps;
-        console.log("Envio de roles");
+        console.log('Se enviaron cambios en rol')
         return changeUserRoleFromCompany.execute(email,castRole(role));
     }
 
     useEffect(() => {
         hasChangedGroup = true;
+        setNotDisabled(true);
     }, [groups]);
 
     useEffect(() => {
         hasChangedRole = true;
+        setNotDisabled(true);
     }, [role]);
+
+    //To enable or disabled button depending on if firstName is different
+    useEffect(() => {
+        setNotDisabled(false);
+    }, [firstName]);
 
     return (
         <div>
@@ -120,9 +129,11 @@ export const SiderContent = () =>{
             <Flex justify={'center'} style={{marginTop:12}}>
                 <Button type='primary'
                         icon={<Download/>}
-                        onClick={onClick}>
+                        onClick={onClick}
+                        disabled={!notDisabled}
+                >
                 Guardar cambios
-            </Button>
+                </Button>
             </Flex>
         </div>
     )
