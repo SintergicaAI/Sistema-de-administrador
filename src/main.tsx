@@ -14,6 +14,7 @@ import {validateEnv} from "../configValidator.ts";
 import {Register} from "./presentation/pages/Register.tsx";
 import {Administration} from './presentation/pages/Administration.tsx'
 import "./styles/main.css";
+import {PublicRoute} from "./presentation/routes/PublicRoute.tsx";
 
 try {
     validateEnv()
@@ -89,14 +90,21 @@ createRoot(document.getElementById('root')!).render(
                 }}>
 
                 <Routes>
-                    <Route element={<AuthLayout/>}>
+
+                    <Route element={
+                        <PublicRoute>
+                            <AuthLayout/>
+                        </PublicRoute>
+                    }>
                         <Route path="login" element={<Login/>}/>
                         <Route path="register" element={<Register/>}/>
                     </Route>
+
                     <Route element={<PrivateRoute><Home/></PrivateRoute>}>
                         <Route index element={<UserProfile userId={"1"}/>}/>
                         <Route path="profile" element={<UserProfile userId={"1"}/>}/>
                     </Route>
+
                     <Route path="workspace" element={
                         <PrivateRoute>
                             <Home/>
@@ -111,6 +119,7 @@ createRoot(document.getElementById('root')!).render(
                         </Route>
                         <Route path={"knowledge"} element={<KnowledgeOverview/>}/>
                     </Route>
+
                     <Route path='administration'
                            element={
                         <PrivateRoute>
