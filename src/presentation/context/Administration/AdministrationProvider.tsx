@@ -1,4 +1,4 @@
-import {AdministrationContext} from './AdministrationContext'
+import {AdministrationContext, RowSelectedType} from './AdministrationContext'
 import {ReactNode, useState} from "react";
 import {User} from "../../../domain/entities/User.ts";
 import {formatData} from "../../utilities";
@@ -6,7 +6,7 @@ import {formatData} from "../../utilities";
 
 
 export const AdministrationContextProvider = ({children}:{children:ReactNode}) =>{
-    const [selectedRow,setSelectedRow]=useState({});
+    const [selectedRow,setSelectedRow]=useState<RowSelectedType >({} as RowSelectedType);
     const [hasSelected,setHasSelected ]=useState<boolean>(false);
     const [dataTable,setDataTabla] = useState<any[]>([]);
     const [searchText, setSearchText] = useState('');
@@ -14,7 +14,7 @@ export const AdministrationContextProvider = ({children}:{children:ReactNode}) =
     const [loadingTable, setLoadingTable] = useState(false);
     const [filters, setFilters] = useState<string[]>([]);
 
-    const changeSelectedRow = (newRowSelected:{}) => {
+    const changeSelectedRow = (newRowSelected:RowSelectedType) => {
         setSelectedRow(newRowSelected);
     }
 

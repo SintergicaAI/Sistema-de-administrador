@@ -32,7 +32,7 @@ createRoot(document.getElementById('root')!).render(
                         borderRadius: 8,
                         colorSplit:'var(--c_slate_300)',
                         fontSizeHeading1:20,
-                        fontFamily:'var(--base-font)'
+                        fontFamily:'var(--base-font)',
                     },
                     // algorithm: theme.darkAlgorithm,
                     components: {

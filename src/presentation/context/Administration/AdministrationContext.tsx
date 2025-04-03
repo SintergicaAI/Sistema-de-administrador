@@ -3,7 +3,7 @@ import {DataType} from "../../components/Administration/types/TableAdministratio
 import {User} from "../../../domain/entities/User.ts";
 import {GroupType} from "../../../domain/types/CompanyTypes.ts";
 
-type RowSelectedType = {
+export type RowSelectedType = {
     email:string,
     firstName:string,
     lastName:string,
@@ -16,7 +16,7 @@ type RowSelectedType = {
 }
 
 export type valueAdministrationContext = {
-    changeSelectedRow:(newRowSelected:{})=>void,
+    changeSelectedRow:(newRowSelected:RowSelectedType)=>void,
     changeHasSelected:(newHasSelected:boolean)=>void,
     selectedRow:RowSelectedType,
     hasSelected:boolean,
@@ -31,23 +31,6 @@ export type valueAdministrationContext = {
     filters:string[],
     setFilters:(filters:string[]) => void,
 }
-
-/*export const AdministrationContext = createContext<valueAdministrationContext>({
-    changeSelectedRow:()=>{},
-    changeHasSelected:()=>{},
-    selectedRow:{},
-    hasSelected:false,
-    dataTable:[],
-    totalItemsTable:0,
-    setTotalItemsTable:() => {},
-    changeDataTabla:() =>{},
-    searchText:'',
-    changeSearchText:() => {},
-    loadingTable:false,
-    setLoadingTable:() => {},
-    filters:[],
-    setFilters:() => {},
-})*/
 
 export const AdministrationContext = createContext<valueAdministrationContext | null>(null);
 

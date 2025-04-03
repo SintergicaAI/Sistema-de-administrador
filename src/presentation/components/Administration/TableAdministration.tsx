@@ -3,7 +3,7 @@ import {Avatar} from "../common";
 import {useEffect, useState} from "react";
 import {GetAllUserCompanyData} from "../../../application/use-cases/GetAllUserCompanyData.ts";
 import {DataType} from "./types/TableAdministrationTypes.ts";
-import {useAdministration, valueAdministrationContext} from "../../context/Administration";
+import {RowSelectedType, useAdministration, valueAdministrationContext} from "../../context/Administration";
 import {UserSearchParams} from "../../../domain/repositories/CompanyRepository.ts";
 import {CompanyApi} from "../../../infrastructure/api/CompanyApi.ts";
 import {RenderGroups} from "./RenderGroups.tsx";
@@ -116,7 +116,7 @@ export const TableAdministration = () => {
         onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
             setSelectedRowKeys(selectedRowKeys as string[]);
             const [selectedRow] = selectedRows;
-            changeSelectedRow(selectedRow);
+            changeSelectedRow(selectedRow as RowSelectedType);
         },
         // Disable and visually hide radio buttons
         getCheckboxProps: () => ({
@@ -168,7 +168,7 @@ export const TableAdministration = () => {
                         ?.classList.remove("ant-table-row-selected");
                     const target = event.target as HTMLTableElement;
                     target.closest("tr")?.classList.toggle("ant-table-row-selected");
-                    changeSelectedRow(record);
+                    changeSelectedRow(record as RowSelectedType);
                     changeHasSelected(true);
                 },
             })}
