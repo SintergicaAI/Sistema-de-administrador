@@ -67,3 +67,10 @@ Content-Type: application/json
 Authorization: Bearer {{auth_token}}
 
 {"group_ids":["Prueba"]}
+
+###
+PATCH {{TURING_API_URL}}/users/mercedes@gmail.com/rol
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{"name":"USER"}

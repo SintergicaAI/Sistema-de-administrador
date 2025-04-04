@@ -1,12 +1,24 @@
 import {createContext} from "react";
 import {DataType} from "../../components/Administration/types/TableAdministrationTypes.ts";
 import {User} from "../../../domain/entities/User.ts";
+import {GroupType} from "../../../domain/types/CompanyTypes.ts";
 
+export type RowSelectedType = {
+    email:string,
+    firstName:string,
+    lastName:string,
+    fullName:string,
+    key:string,
+    id:string,
+    role:"Usuario"| "Administrador"| "Dueño",
+    groups:GroupType[],
+
+}
 
 export type valueAdministrationContext = {
-    changeSelectedRow:(newRowSelected:{})=>void,
+    changeSelectedRow:(newRowSelected:RowSelectedType)=>void,
     changeHasSelected:(newHasSelected:boolean)=>void,
-    selectedRow:{},
+    selectedRow:RowSelectedType,
     hasSelected:boolean,
     dataTable:DataType[],
     changeDataTabla:(newDataTabla:User[]) => void,
@@ -20,19 +32,5 @@ export type valueAdministrationContext = {
     setFilters:(filters:string[]) => void,
 }
 
-export const AdministrationContext = createContext<valueAdministrationContext>({
-    changeSelectedRow:()=>{},
-    changeHasSelected:()=>{},
-    selectedRow:{},
-    hasSelected:false,
-    dataTable:[],
-    totalItemsTable:0,
-    setTotalItemsTable:() => {},
-    changeDataTabla:() =>{},
-    searchText:'',
-    changeSearchText:() => {},
-    loadingTable:false,
-    setLoadingTable:() => {},
-    filters:[],
-    setFilters:() => {},
-})
+export const AdministrationContext = createContext<valueAdministrationContext | null>(null);
+

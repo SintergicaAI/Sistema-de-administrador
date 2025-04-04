@@ -1,19 +1,39 @@
 import {Table, TableProps, Flex} from "antd";
 import {Avatar} from "../common";
-import {useEffect, useState, useContext} from "react";
+import {useEffect, useState} from "react";
 import {GetAllUserCompanyData} from "../../../application/use-cases/GetAllUserCompanyData.ts";
 import {DataType} from "./types/TableAdministrationTypes.ts";
-import {AdministrationContext, valueAdministrationContext} from "../../context/Administration";
+import {RowSelectedType, useAdministration, valueAdministrationContext} from "../../context/Administration";
 import {UserSearchParams} from "../../../domain/repositories/CompanyRepository.ts";
 import {CompanyApi} from "../../../infrastructure/api/CompanyApi.ts";
-import {v4 as uuid} from "uuid";
 import {RenderGroups} from "./RenderGroups.tsx";
-import {User} from "../../../domain/entities/User.ts";
+import { formatData } from "../../utilities";
 
 const DEFAULT_PAGE_SIZE = 5; // Introduced constant for better clarity
 
 const operationTable = new CompanyApi();
 const getAllUser = new GetAllUserCompanyData(operationTable);
+
+//Filtering Methods
+const filterByQuery = (query: string, data: DataType[]) =>
+    query.length > 0
+        ? data.filter((dataItem) =>
+            dataItem.fullName.toLowerCase().includes(query.toLowerCase())
+        )
+        : data;
+
+const filterByGroups = (activeFilters: string[], data: DataType[]) =>
+    activeFilters.length > 0
+        ? data.filter((dataItem) => {
+            if (dataItem.groups && dataItem.groups.length !== 0) {
+                const userGroups = dataItem.groups.map((group) =>
+                    group.name.toLowerCase()
+                );
+                return userGroups.some((group) => activeFilters.includes(group));
+            }
+            return false;
+        })
+        : data;
 
 export const TableAdministration = () => {
     const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([]);
@@ -27,12 +47,12 @@ export const TableAdministration = () => {
         setTotalItemsTable,
         totalItemsTable,
         searchText,
-        dataTable, //Datatable deberia ser un estado?
+        dataTable,
         changeDataTabla,
         setLoadingTable,
         filters,
         loadingTable,
-    }: valueAdministrationContext = useContext(AdministrationContext);
+    }: valueAdministrationContext = useAdministration();
 
     const [searchParams, setSearchParams] = useState<UserSearchParams>({
         query: "",
@@ -53,13 +73,6 @@ export const TableAdministration = () => {
         changeDataRow();
     }, [selectedRow]);
 
-    const formatData = (data: User[]) =>
-        data.map((user) => ({
-            ...user,
-            fullName: `${user.fullName}`,
-            key: uuid(),
-        }));
-
     const prepareData = () => {
         setLoadingTable(true);
         getAllUser.execute({}).then((result) => {
@@ -79,30 +92,6 @@ export const TableAdministration = () => {
         setTotalItemsTable(dataAfterFilters.length);
     };
 
-    const filterByQuery = (query: string, data: DataType[]) =>
-        query.length > 0
-            ? data.filter((dataItem) =>
-                dataItem.fullName.toLowerCase().includes(query.toLowerCase())
-            )
-            : data;
-
-    const filterByGroups = (activeFilters: string[], data: DataType[]) =>
-        activeFilters.length > 0
-            ? data.filter((dataItem) => {
-                if (dataItem.groups && dataItem.groups.length !== 0) {
-                    const userGroups = dataItem.groups.map((group) =>
-                        group.name.toLowerCase()
-                    );
-                    return userGroups.some((group) => activeFilters.includes(group));
-                }
-                return false;
-            })
-            : data;
-
-    /*const changeRow = (selectedRow: RecordType) => {
-        changeSelectedRow(selectedRow);
-        console.log(selectedRow);
-    };*/
 
     const changeDataRow = () =>{
         const newDataRow = {...(selectedRow as DataType) };
@@ -127,7 +116,7 @@ export const TableAdministration = () => {
         onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
             setSelectedRowKeys(selectedRowKeys as string[]);
             const [selectedRow] = selectedRows;
-            changeSelectedRow(selectedRow);
+            changeSelectedRow(selectedRow as RowSelectedType);
         },
         // Disable and visually hide radio buttons
         getCheckboxProps: () => ({
@@ -179,7 +168,7 @@ export const TableAdministration = () => {
                         ?.classList.remove("ant-table-row-selected");
                     const target = event.target as HTMLTableElement;
                     target.closest("tr")?.classList.toggle("ant-table-row-selected");
-                    changeSelectedRow(record);
+                    changeSelectedRow(record as RowSelectedType);
                     changeHasSelected(true);
                 },
             })}

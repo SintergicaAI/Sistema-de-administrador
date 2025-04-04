@@ -1,7 +1,7 @@
 import {Flex} from "antd";
-import {useContext, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {DataType} from "./types/TableAdministrationTypes.ts";
-import {AdministrationContext} from "../../context/Administration";
+import {useAdministration} from "../../context/Administration";
 
 type Props = {
     groups:string[],
@@ -11,9 +11,9 @@ type Props = {
 
 export const RenderGroups = ({groups,record}:Props)=>{
     const [sizeGroup, setSizeGroup] = useState(groups.length);
-    const [id, setId] = useState<string>(record.key);
+    const [id] = useState<string>(record.key);
 
-    const {selectedRow } = useContext(AdministrationContext);
+    const {selectedRow } = useAdministration();
 
     useEffect(() => {
         if(selectedRow.key === id){

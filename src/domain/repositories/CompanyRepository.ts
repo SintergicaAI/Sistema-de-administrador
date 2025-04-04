@@ -6,8 +6,8 @@ export interface CompanyRepository {
     findUsersInCompany(searchParams: UserSearchParams | {}): Promise<UserList>;
     getCompanyGroups():Promise<GroupType[]>;
     addNewUserToCompany(email:string):Promise<boolean>;
-    deleterUserFromCompany(group:string,email:string):Promise<boolean>;
     addUserToGroupCompany(email:string, group:string[]):Promise<boolean>;
+    changeUserRoleFromCompany(email:string, role:string):Promise<boolean>;
 }
 
 export interface UserSearchParams {

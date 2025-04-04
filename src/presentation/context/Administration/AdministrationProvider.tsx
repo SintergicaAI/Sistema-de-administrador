@@ -1,21 +1,20 @@
-import {AdministrationContext} from './AdministrationContext'
+import {AdministrationContext, RowSelectedType} from './AdministrationContext'
 import {ReactNode, useState} from "react";
-import {DataType} from "../../components/Administration/types/TableAdministrationTypes.ts";
-import {v4 as uuid} from "uuid";
 import {User} from "../../../domain/entities/User.ts";
+import {formatData} from "../../utilities";
 
 
 
 export const AdministrationContextProvider = ({children}:{children:ReactNode}) =>{
-    const [selectedRow,setSelectedRow]=useState({});
+    const [selectedRow,setSelectedRow]=useState<RowSelectedType >({} as RowSelectedType);
     const [hasSelected,setHasSelected ]=useState<boolean>(false);
     const [dataTable,setDataTabla] = useState<any[]>([]);
     const [searchText, setSearchText] = useState('');
-    const [totalItemsTable,setTotalItemsTable]=useState(0);
+    const [totalItemsTable,setTotalItemsTable]=useState(0); //TODO:Intentar implementar el valor calculado
     const [loadingTable, setLoadingTable] = useState(false);
     const [filters, setFilters] = useState<string[]>([]);
 
-    const changeSelectedRow = (newRowSelected:{}) => {
+    const changeSelectedRow = (newRowSelected:RowSelectedType) => {
         setSelectedRow(newRowSelected);
     }
 
@@ -27,21 +26,8 @@ export const AdministrationContextProvider = ({children}:{children:ReactNode}) =
         setSearchText(newSearchText);
     }
 
-    const formatDataTable = (data: User[]):DataType[] => {
-
-        return [...data.map(
-            (user:any) =>
-                (
-                    //
-                    {...user,
-                        fullName:`${user.fullName}`,
-                        key: uuid() as string,
-                    }
-                )
-        )]
-    }
     const changeDataTabla = (newDataTabla:User[]) => {
-        setDataTabla(formatDataTable(newDataTabla));
+        setDataTabla(formatData(newDataTabla));
     }
 
 

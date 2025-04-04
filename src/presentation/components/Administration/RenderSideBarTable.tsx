@@ -1,9 +1,8 @@
-import {useContext} from "react";
-import {AdministrationContext} from "../../context/Administration/AdministrationContext.tsx";
+import {useAdministration} from "../../context/Administration";
 import {SidebarTableAdministration} from "./SidebarTableAdministration.tsx";
 
 export const RenderSideBarTable = ()=>{
-    const {hasSelected} = useContext(AdministrationContext);
+    const {hasSelected} = useAdministration();
 
     return (<>
         {

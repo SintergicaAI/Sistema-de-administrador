@@ -1,10 +1,10 @@
-import {Flex} from 'antd';
+import {Flex, Spin} from 'antd';
 import {GetCompanyGroups} from "../../../application/use-cases/GetCompanyGroups.ts";
-import {Dispatch, useContext, useEffect, useRef, useState} from "react";
+import {Dispatch, useEffect, useRef, useState} from "react";
 import {CompanyApi} from "../../../infrastructure/api/CompanyApi.ts";
 import {upperCaseOneWord} from "../../utilities";
-import {AdministrationContext, valueAdministrationContext} from "../../context/Administration";
-import {getGroupsNames} from "../../utilities/getGroupsName.ts";
+import {useAdministration, valueAdministrationContext} from "../../context/Administration";
+import {getGroupsNames} from "../../utilities";
 
 
 const companyAPI = new CompanyApi();
@@ -43,14 +43,16 @@ export const ButtonFilter = ({name,filters,setFilter}:Props) =>{
 
 export const FilterButtons = () => {
     const [companyGroups, setCompanyGroups] = useState<string[]>([]);
-    const {filters,setFilters}:valueAdministrationContext = useContext(AdministrationContext);
+    const {filters,setFilters}:valueAdministrationContext = useAdministration();
+    const [isLoading,setIsLoading] = useState(true);
 
     const getGroupsFromCompany =  () =>{
         getGroupCompany.execute()
-            .then((data)=>{
 
+            .then((data)=>{
                 const groups = getGroupsNames(data);
                 setCompanyGroups(groups);
+                setIsLoading(false);
             }).catch(()=>{
             setCompanyGroups([]);
         })
@@ -65,14 +67,15 @@ export const FilterButtons = () => {
                 <p>Filtrar por grupos</p>
             </div>
             <Flex justify='flex-start' gap={8} wrap='wrap'>
-                {companyGroups.length !== 0 ? companyGroups.map((company,index) => (
+                {!isLoading ? companyGroups.map((company,index) => (
                     <ButtonFilter
                         name={company.toLowerCase()}
                         key={index}
                         setFilter={setFilters}
                         filters={filters}
                     />
-                )):""}
+                )): <Spin size='small' tip='Cargando filtros'></Spin>
+                }
             </Flex>
             </>
     )

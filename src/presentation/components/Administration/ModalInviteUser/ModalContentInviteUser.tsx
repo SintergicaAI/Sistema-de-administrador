@@ -1,14 +1,13 @@
 import {Form, FormProps, Input, message, ConfigProvider, Select, Flex} from "antd";
-import {SubmitButton} from "../../common/SubmitButton.tsx";
+import {SubmitButton} from "../../common";
 import {Dispatch, SetStateAction, useState} from "react";
-import {AlertMessages} from "../../common/AlertMessages.tsx";
+import {AlertMessages} from "../../common";
 import { Send } from 'lucide-react';
 import {CompanyApi} from "../../../../infrastructure/api/CompanyApi.ts";
 import {AddNewUserToCompany} from "../../../../application/use-cases/AddNewUserToCompany.ts";
 
 type FieldType = {
     email: string,
-    username: string,
     TextArea:string,
 };
 type Props = {
@@ -78,16 +77,6 @@ export const ModalContentInviteUser = ({setIsModalOpen,setInvitationSend}:Props)
                         {type:'email', message: 'Este email no es valido',}]}
                 >
                     <Input type="email" placeholder="ejemplo@mail.com"/>
-                </Form.Item>
-
-                <Form.Item<FieldType>
-                    label="Nombre del usuario"
-                    name="username"
-                    rules={[
-                        { required: true, message: 'Por favor ingresar un email valido' }
-                    ]}
-                >
-                    <Input type="text" placeholder="Juan..."/>
                 </Form.Item>
 
                 <Form.Item label='Rol'>
