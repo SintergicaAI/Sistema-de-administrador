@@ -6,8 +6,7 @@ export const RenderSideBarTable = ()=>{
 
     return (<>
         {
-            hasSelected &&
-            (<SidebarTableAdministration/>)
+            hasSelected && <SidebarTableAdministration/>
         }
     </>)
 }
