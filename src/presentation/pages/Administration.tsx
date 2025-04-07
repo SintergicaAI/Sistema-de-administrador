@@ -24,7 +24,7 @@ export const Administration = ({texto}:{texto:string}) =>{
     return (
         <Layout style={{minHeight:'100vh'}}>
             <HeaderPages text={texto}/>
-            <Layout>
+            <Layout style={{display:"flex",flexDirection:"row"}}>
                 <AdministrationContextProvider>
 
                     <Content style={ContentStyle}>
