@@ -101,9 +101,9 @@ describe('Admin Section Test On The Home Page', () => {
         cy.contains('th', 'Correo')
         cy.contains('th', 'Grupos')
         // Muestra la data
-        cy.contains('td', 'bob ford')
-        cy.contains('td', 'Dueño')
-        cy.contains('td', 'bob@gmail.com')
+        cy.contains('td', 'jhon Smith')
+        cy.contains('td', 'Administrador')
+        cy.contains('td', 'jhon@gmail.com')
         cy.contains('td', '0 grupo')
     })
 
@@ -400,5 +400,411 @@ describe('Admin Section Test On The Home Page', () => {
         cy.url().should('include', '/administration')
         cy.wait(3000)
         cy.get('.ant-tabs-tab-btn').contains('Invitados').click()
+    })
+
+    describe('drop-down menu', function () {
+        it('user should see the dropdown menu of each member when clicking on it', function () {
+            cy.visit('http://localhost:5173/login')
+
+            cy.intercept('POST', '/users/refreshToken', {
+                statusCode: 200,
+                body: { token: 'fakeToken', refreshToken: 'fakeRefreshToken' }
+            }).as('initialRefreshToken')
+
+            cy.intercept('GET', '/users/1', (req) => {
+                cy.window().then((win) => {
+                    const user = JSON.parse(win.localStorage.getItem('user'))
+                    if (user?.token) req.headers['Authorization'] = `Bearer ${user.token}`
+                })
+                req.reply({ statusCode: 200, body: { id: 1, name: 'bob' } })
+            }).as('getUser')
+
+            cy.url().should('include', '/login')
+            cy.get('[placeholder="juan@gmail.com"]').type('bob@gmail.com')
+            cy.get('[placeholder="******"]').type('123456')
+            cy.contains('Enviar').click()
+            cy.wait(2000)
+
+            cy.window().then((win) => {
+                const user = JSON.parse(win.localStorage.getItem('user'))
+                expect(user?.token).to.not.be.null
+                expect(user?.refreshToken).to.not.be.null
+            })
+
+            cy.window().then((win) => {
+                const user = JSON.parse(win.localStorage.getItem('user'))
+                cy.intercept('POST', '/users/refreshToken', {
+                    statusCode: 200,
+                    body: { token: user?.token, refreshToken: user?.refreshToken }
+                }).as('realRefreshToken')
+            })
+
+            cy.wait('@realRefreshToken')
+
+            cy.contains('li', 'Admin').click()
+            cy.url().should('include', '/administration')
+            cy.wait(3000)
+            cy.contains('td','Michael Brown').click()
+            cy.get('.ant-layout-sider').should('be.visible')
+            cy.get('.ant-layout-sider').contains('Michael Brown').should('be.visible')
+            cy.get('.ant-layout-sider').contains('Rol').should('be.visible')
+            cy.get('.ant-layout-sider').get('[placeholder="Buscar"]').should('be.visible')
+            cy.get('.ant-layout-sider').contains('Grupos al que pertenece').should('be.visible')
+            cy.get('.ant-layout-sider').contains('button', 'Guardar cambios').should('be.visible')
+        })
+
+
+        it('user should can to close drop-down menu ', function () {
+            cy.visit('http://localhost:5173/login')
+
+            cy.intercept('POST', '/users/refreshToken', {
+                statusCode: 200,
+                body: { token: 'fakeToken', refreshToken: 'fakeRefreshToken' }
+            }).as('initialRefreshToken')
+
+            cy.intercept('GET', '/users/1', (req) => {
+                cy.window().then((win) => {
+                    const user = JSON.parse(win.localStorage.getItem('user'))
+                    if (user?.token) req.headers['Authorization'] = `Bearer ${user.token}`
+                })
+                req.reply({ statusCode: 200, body: { id: 1, name: 'bob' } })
+            }).as('getUser')
+
+            cy.url().should('include', '/login')
+            cy.get('[placeholder="juan@gmail.com"]').type('bob@gmail.com')
+            cy.get('[placeholder="******"]').type('123456')
+            cy.contains('Enviar').click()
+            cy.wait(2000)
+
+            cy.window().then((win) => {
+                const user = JSON.parse(win.localStorage.getItem('user'))
+                expect(user?.token).to.not.be.null
+                expect(user?.refreshToken).to.not.be.null
+            })
+
+            cy.window().then((win) => {
+                const user = JSON.parse(win.localStorage.getItem('user'))
+                cy.intercept('POST', '/users/refreshToken', {
+                    statusCode: 200,
+                    body: { token: user?.token, refreshToken: user?.refreshToken }
+                }).as('realRefreshToken')
+            })
+
+            cy.wait('@realRefreshToken')
+
+            cy.contains('li', 'Admin').click()
+            cy.url().should('include', '/administration')
+            cy.wait(3000)
+            cy.contains('td','Michael Brown').click()
+            cy.get('.ant-layout-sider').should('be.visible')
+            cy.get('.ant-layout-sider').get('.lucide.lucide-x').click()
+        })
+
+        it('user should see the groups that match their search', function () {
+            cy.visit('http://localhost:5173/login')
+
+            cy.intercept('POST', '/users/refreshToken', {
+                statusCode: 200,
+                body: { token: 'fakeToken', refreshToken: 'fakeRefreshToken' }
+            }).as('initialRefreshToken')
+
+            cy.intercept('GET', '/users/1', (req) => {
+                cy.window().then((win) => {
+                    const user = JSON.parse(win.localStorage.getItem('user'))
+                    if (user?.token) req.headers['Authorization'] = `Bearer ${user.token}`
+                })
+                req.reply({ statusCode: 200, body: { id: 1, name: 'bob' } })
+            }).as('getUser')
+
+            cy.url().should('include', '/login')
+            cy.get('[placeholder="juan@gmail.com"]').type('bob@gmail.com')
+            cy.get('[placeholder="******"]').type('123456')
+            cy.contains('Enviar').click()
+            cy.wait(2000)
+
+            cy.window().then((win) => {
+                const user = JSON.parse(win.localStorage.getItem('user'))
+                expect(user?.token).to.not.be.null
+                expect(user?.refreshToken).to.not.be.null
+            })
+
+            cy.window().then((win) => {
+                const user = JSON.parse(win.localStorage.getItem('user'))
+                cy.intercept('POST', '/users/refreshToken', {
+                    statusCode: 200,
+                    body: { token: user?.token, refreshToken: user?.refreshToken }
+                }).as('realRefreshToken')
+            })
+
+            cy.wait('@realRefreshToken')
+
+            cy.contains('li', 'Admin').click()
+            cy.url().should('include', '/administration')
+            cy.wait(3000)
+            cy.contains('td','Michael Brown').click()
+            cy.get('.ant-layout-sider').should('be.visible')
+            cy.wait(3000)
+            cy.get('.ant-layout-sider').get('[placeholder="Buscar"]').type('ventas')
+            cy.get('.checkbok__tag').each(($e) => {
+                cy.wrap($e)
+                    .invoke('text')
+                    .then((text) => {
+                        expect(text.toLowerCase()).to.include('ventas')
+                    })
+            })
+        })
+
+        it('the system should show the user a message when a group is not found', function () {
+            cy.visit('http://localhost:5173/login')
+
+            cy.intercept('POST', '/users/refreshToken', {
+                statusCode: 200,
+                body: { token: 'fakeToken', refreshToken: 'fakeRefreshToken' }
+            }).as('initialRefreshToken')
+
+            cy.intercept('GET', '/users/1', (req) => {
+                cy.window().then((win) => {
+                    const user = JSON.parse(win.localStorage.getItem('user'))
+                    if (user?.token) req.headers['Authorization'] = `Bearer ${user.token}`
+                })
+                req.reply({ statusCode: 200, body: { id: 1, name: 'bob' } })
+            }).as('getUser')
+
+            cy.url().should('include', '/login')
+            cy.get('[placeholder="juan@gmail.com"]').type('bob@gmail.com')
+            cy.get('[placeholder="******"]').type('123456')
+            cy.contains('Enviar').click()
+            cy.wait(2000)
+
+            cy.window().then((win) => {
+                const user = JSON.parse(win.localStorage.getItem('user'))
+                expect(user?.token).to.not.be.null
+                expect(user?.refreshToken).to.not.be.null
+            })
+
+            cy.window().then((win) => {
+                const user = JSON.parse(win.localStorage.getItem('user'))
+                cy.intercept('POST', '/users/refreshToken', {
+                    statusCode: 200,
+                    body: { token: user?.token, refreshToken: user?.refreshToken }
+                }).as('realRefreshToken')
+            })
+
+            cy.wait('@realRefreshToken')
+
+            cy.contains('li', 'Admin').click()
+            cy.url().should('include', '/administration')
+            cy.wait(3000)
+            cy.contains('td','Michael Brown').click()
+            cy.get('.ant-layout-sider').should('be.visible')
+            cy.wait(3000)
+            cy.get('.ant-layout-sider').get('[placeholder="Buscar"]').type('juegos')
+            cy.get('.label').contains('No se encontraron los grupos').should('be.visible')
+        })
+
+        it('user should can to add the members of their team to a new group', function () {
+            cy.visit('http://localhost:5173/login')
+
+            cy.intercept('POST', '/users/refreshToken', {
+                statusCode: 200,
+                body: { token: 'fakeToken', refreshToken: 'fakeRefreshToken' }
+            }).as('initialRefreshToken')
+
+            cy.intercept('GET', '/users/1', (req) => {
+                cy.window().then((win) => {
+                    const user = JSON.parse(win.localStorage.getItem('user'))
+                    if (user?.token) req.headers['Authorization'] = `Bearer ${user.token}`
+                })
+                req.reply({ statusCode: 200, body: { id: 1, name: 'bob' } })
+            }).as('getUser')
+
+            cy.url().should('include', '/login')
+            cy.get('[placeholder="juan@gmail.com"]').type('bob@gmail.com')
+            cy.get('[placeholder="******"]').type('123456')
+            cy.contains('Enviar').click()
+            cy.wait(2000)
+
+            cy.window().then((win) => {
+                const user = JSON.parse(win.localStorage.getItem('user'))
+                expect(user?.token).to.not.be.null
+                expect(user?.refreshToken).to.not.be.null
+            })
+
+            cy.window().then((win) => {
+                const user = JSON.parse(win.localStorage.getItem('user'))
+                cy.intercept('POST', '/users/refreshToken', {
+                    statusCode: 200,
+                    body: { token: user?.token, refreshToken: user?.refreshToken }
+                }).as('realRefreshToken')
+            })
+
+            cy.wait('@realRefreshToken')
+
+            cy.contains('li', 'Admin').click()
+            cy.url().should('include', '/administration')
+            cy.wait(3000)
+            cy.contains('td','Michael Brown').click()
+            cy.get('.ant-layout-sider').should('be.visible')
+            cy.get('.checkbox-container')
+                .contains('Vendedores') // busca el contenedor que contiene el texto
+                .parents('.checkbox-container') // sube al contenedor padre si es necesario
+                .find('[name="grupo"]') // encuentra el checkbox dentro de ese contenedor
+                .click()
+            cy.get('.ant-layout-sider').contains('button', 'Guardar cambios').click()
+            cy.get('.ant-message-notice-content').contains('Enviando cambios').should('be.visible')
+            cy.contains('Datos enviados').should('be.visible')
+        })
+
+        it('user should can to remove their team members from a group', function () {
+            cy.visit('http://localhost:5173/login')
+
+            cy.intercept('POST', '/users/refreshToken', {
+                statusCode: 200,
+                body: { token: 'fakeToken', refreshToken: 'fakeRefreshToken' }
+            }).as('initialRefreshToken')
+
+            cy.intercept('GET', '/users/1', (req) => {
+                cy.window().then((win) => {
+                    const user = JSON.parse(win.localStorage.getItem('user'))
+                    if (user?.token) req.headers['Authorization'] = `Bearer ${user.token}`
+                })
+                req.reply({ statusCode: 200, body: { id: 1, name: 'bob' } })
+            }).as('getUser')
+
+            cy.url().should('include', '/login')
+            cy.get('[placeholder="juan@gmail.com"]').type('bob@gmail.com')
+            cy.get('[placeholder="******"]').type('123456')
+            cy.contains('Enviar').click()
+            cy.wait(2000)
+
+            cy.window().then((win) => {
+                const user = JSON.parse(win.localStorage.getItem('user'))
+                expect(user?.token).to.not.be.null
+                expect(user?.refreshToken).to.not.be.null
+            })
+
+            cy.window().then((win) => {
+                const user = JSON.parse(win.localStorage.getItem('user'))
+                cy.intercept('POST', '/users/refreshToken', {
+                    statusCode: 200,
+                    body: { token: user?.token, refreshToken: user?.refreshToken }
+                }).as('realRefreshToken')
+            })
+
+            cy.wait('@realRefreshToken')
+
+            cy.contains('li', 'Admin').click()
+            cy.url().should('include', '/administration')
+            cy.wait(3000)
+            cy.contains('td','Michael Brown').click()
+            cy.get('.ant-layout-sider').should('be.visible')
+            cy.get('.checkbox-container')
+                .contains('Vendedores') // busca el contenedor que contiene el texto
+                .parents('.checkbox-container') // sube al contenedor padre si es necesario
+                .find('.lucide.lucide-square-check-big') // encuentra el checkbox dentro de ese contenedor
+                .click()
+            cy.get('.ant-layout-sider').contains('button', 'Guardar cambios').click()
+            cy.get('.ant-message-notice-content').contains('Enviando cambios').should('be.visible')
+            cy.contains('Datos enviados').should('be.visible')
+        })
+
+        it('user should can to change the role of their team members', function () {
+            cy.visit('http://localhost:5173/login')
+
+            cy.intercept('POST', '/users/refreshToken', {
+                statusCode: 200,
+                body: { token: 'fakeToken', refreshToken: 'fakeRefreshToken' }
+            }).as('initialRefreshToken')
+
+            cy.intercept('GET', '/users/1', (req) => {
+                cy.window().then((win) => {
+                    const user = JSON.parse(win.localStorage.getItem('user'))
+                    if (user?.token) req.headers['Authorization'] = `Bearer ${user.token}`
+                })
+                req.reply({ statusCode: 200, body: { id: 1, name: 'bob' } })
+            }).as('getUser')
+
+            cy.url().should('include', '/login')
+            cy.get('[placeholder="juan@gmail.com"]').type('bob@gmail.com')
+            cy.get('[placeholder="******"]').type('123456')
+            cy.contains('Enviar').click()
+            cy.wait(2000)
+
+            cy.window().then((win) => {
+                const user = JSON.parse(win.localStorage.getItem('user'))
+                expect(user?.token).to.not.be.null
+                expect(user?.refreshToken).to.not.be.null
+            })
+
+            cy.window().then((win) => {
+                const user = JSON.parse(win.localStorage.getItem('user'))
+                cy.intercept('POST', '/users/refreshToken', {
+                    statusCode: 200,
+                    body: { token: user?.token, refreshToken: user?.refreshToken }
+                }).as('realRefreshToken')
+            })
+
+            cy.wait('@realRefreshToken')
+
+            cy.contains('li', 'Admin').click()
+            cy.url().should('include', '/administration')
+            cy.wait(3000)
+            cy.contains('td','Michael Brown').click()
+            cy.get('.ant-layout-sider').should('be.visible')
+            cy.get('.radio-button').contains('Administrador').click()
+            cy.get('.ant-layout-sider').contains('button', 'Guardar cambios').click()
+            cy.get('.ant-message-notice-content').contains('Enviando cambios').should('be.visible')
+            cy.contains('Datos enviados').should('be.visible')
+        })
+
+        it('user should can to change the role of the team members back to what they originally had', function () {
+            // Este test es más que nada para dejar el rol del integrante del equipo en el original
+            cy.visit('http://localhost:5173/login')
+
+            cy.intercept('POST', '/users/refreshToken', {
+                statusCode: 200,
+                body: { token: 'fakeToken', refreshToken: 'fakeRefreshToken' }
+            }).as('initialRefreshToken')
+
+            cy.intercept('GET', '/users/1', (req) => {
+                cy.window().then((win) => {
+                    const user = JSON.parse(win.localStorage.getItem('user'))
+                    if (user?.token) req.headers['Authorization'] = `Bearer ${user.token}`
+                })
+                req.reply({ statusCode: 200, body: { id: 1, name: 'bob' } })
+            }).as('getUser')
+
+            cy.url().should('include', '/login')
+            cy.get('[placeholder="juan@gmail.com"]').type('bob@gmail.com')
+            cy.get('[placeholder="******"]').type('123456')
+            cy.contains('Enviar').click()
+            cy.wait(2000)
+
+            cy.window().then((win) => {
+                const user = JSON.parse(win.localStorage.getItem('user'))
+                expect(user?.token).to.not.be.null
+                expect(user?.refreshToken).to.not.be.null
+            })
+
+            cy.window().then((win) => {
+                const user = JSON.parse(win.localStorage.getItem('user'))
+                cy.intercept('POST', '/users/refreshToken', {
+                    statusCode: 200,
+                    body: { token: user?.token, refreshToken: user?.refreshToken }
+                }).as('realRefreshToken')
+            })
+
+            cy.wait('@realRefreshToken')
+
+            cy.contains('li', 'Admin').click()
+            cy.url().should('include', '/administration')
+            cy.wait(3000)
+            cy.contains('td','Michael Brown').click()
+            cy.get('.ant-layout-sider').should('be.visible')
+            cy.get('.radio-button').contains('Usuario').click()
+            cy.get('.ant-layout-sider').contains('button', 'Guardar cambios').click()
+            cy.get('.ant-message-notice-content').contains('Enviando cambios').should('be.visible')
+            cy.contains('Datos enviados').should('be.visible')
+        })
     })
 })
