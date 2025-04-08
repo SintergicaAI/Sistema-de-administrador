@@ -1,15 +1,24 @@
-import {Col,Row} from "antd";
 import {Outlet} from "react-router-dom";
 import "../pages/styles/login.css";
+import {ConfigProvider} from "antd";
 
 export const AuthLayout = () =>{
     return (
-        <Row justify="center" align="middle" style={{
-            minHeight: "100vh"
-        }}>
-            <Col >
+        <div
+             style={{
+                 backgroundColor: "var(--c_slate_200)",
+                 minHeight: "100vh",
+                padding: "0.5rem",}}>
+            <ConfigProvider theme={{
+                "components": {
+                    "Form": {
+                        "labelColor": "rgb(100,116,139)"
+                    }
+                }
+            }}>
+
                 <Outlet/>
-            </Col>
-        </Row>
+            </ConfigProvider>
+        </div>
     );
 }

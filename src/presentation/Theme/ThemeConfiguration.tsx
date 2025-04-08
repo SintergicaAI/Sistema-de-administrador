@@ -63,6 +63,14 @@ export const ThemeConfiguration = ({children}:Props) => {
                     colorTextPlaceholder:'var(--c_brand_100)',
                     containerSize:32,
                     fontSize:12,
+                },
+                Input:{
+                    activeBorderColor:"var(--c_brand_300)",
+                    colorTextDescription:"var(--c_slate_500)",
+                    colorText: "var(--c_brand_950)",
+                    borderRadius:8,
+                    controlHeight:40,
+
                 }
 
             },
