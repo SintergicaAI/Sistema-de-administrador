@@ -2,10 +2,10 @@ import {FormProps} from 'antd';
 import {Flex, Form, Input, message, Typography} from 'antd';
 import {useState} from "react";
 import {MailOutlined,LockOutlined } from "@ant-design/icons"
-import {SubmitButton} from "../components/common/SubmitButton.tsx";
+import {SubmitButton} from "../../components/common/SubmitButton.tsx";
 import {useNavigate} from "react-router";
-import {LogIn} from "../../application/use-cases/LogIn.ts";
-import {AuthApi} from "../../infrastructure/api/AuthApi.ts";
+import {LogIn} from "../../../application/use-cases/LogIn.ts";
+import {AuthApi} from "../../../infrastructure/api/AuthApi.ts";
 
 type FieldType = {
     email: string;

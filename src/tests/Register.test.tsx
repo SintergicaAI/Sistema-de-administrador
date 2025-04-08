@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import { beforeEach, describe, expect, it } from 'vitest'
 import userEvent from '@testing-library/user-event'
-import { Register } from '../presentation/pages/Register.tsx'
+import { Register } from '../presentation/pages/auth/Register.tsx'
 import { MemoryRouter } from 'react-router-dom'
 
 beforeEach(() => {
