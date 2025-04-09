@@ -17,14 +17,14 @@ export const RegisterLayout = ({children}:Props) => {
                 minHeight: "100vh",
             }}
         >
-            <Col span={10}>
+            <Col xs={24} lg={10}>
                 <div className="form__container register-form">
                     <TuringTitle position="left"/>
                     <Title level={2} style={{marginTop:20,marginBottom:50 ,fontSize:20}}>Registra tu cuenta</Title>
                     {children}
                 </div>
             </Col>
-            <Col span={14}>
+            <Col xs={24} lg={14}>
                 <ContainerImages />
             </Col>
         </Row>

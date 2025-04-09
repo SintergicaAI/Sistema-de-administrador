@@ -7,6 +7,8 @@ import {AuthApi} from "../../../infrastructure/api/AuthApi.ts";
 import {SignIn} from "../../../application/use-cases/SignIn.ts";
 import {Link, useNavigate} from "react-router"
 import {RadioButton} from "../../components/common/RadioButton.tsx";
+import useBreakpoint from "antd/es/grid/hooks/useBreakpoint";
+
 type FieldType = {
     email: string;
     firstName: string;
@@ -26,6 +28,7 @@ const Label = ( ) =>{
     return (<p style={{marginBlock:0, color:"rgb(100,116,139)"}}>Aceptar <Link to="auth/login" style={{textDecoration:'underline'}}>términos y condiciones</Link></p>)
 }
 
+
 export const Register = () =>{
     //TODO:Try to do another approach for state management
     const [email, setEmail] = useState('');
@@ -37,6 +40,9 @@ export const Register = () =>{
     const navigation = useNavigate();
 
     const [form] = Form.useForm();
+
+    const screen = useBreakpoint();
+
 
     const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
 
@@ -191,9 +197,13 @@ export const Register = () =>{
 
                 <Form.Item label={null} labelCol={{span: 0}}>
                     {contextHolder}
-                    <Flex justify='left'>
-                        <SubmitButton form={form} style={{width:200}}>Registrarse</SubmitButton>
+
+                    <Flex justify={`${screen.lg ? 'left':'center'}`}>
+                        <SubmitButton form={form}
+                                      style={{width: screen.lg ? '200px':'350px'}}
+                        >Registrarse</SubmitButton>
                     </Flex>
+
                 </Form.Item>
 
             </Form>

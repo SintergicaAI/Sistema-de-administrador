@@ -7,7 +7,11 @@
     background-color: inherit;
 }
 .login-form {
-    max-width: 280px;
+    max-width: 550px;
+
+    @media (min-width: 1000px){
+        max-width: 280px;
+    }
 
     .login-input__wrapper > div:first-child {
         margin-bottom: 0;

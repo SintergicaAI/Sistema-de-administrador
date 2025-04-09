@@ -14,13 +14,13 @@ export const LoginLayout = ({children}:Props) => {
                 padding: "0.5rem",
                 minHeight: "100vh",
             }}>
-                <Col span={8}
+                <Col xs={24} lg={8}
 
                 >
                     <TuringTitle position={"center"}/>
                     {children}
                 </Col>
-                <Col span={16} >
+                <Col xs={24} lg={16} >
                     <ContainerImages/>
                 </Col>
             </Row>
