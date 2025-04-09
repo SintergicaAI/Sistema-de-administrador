@@ -9,14 +9,20 @@ type Props = {
 
 export const LoginLayout = ({children}:Props) => {
     return (
-        <Row>
-            <Col span={8}>
-                <TuringTitle position={"center"}/>
-                {children}
-            </Col>
-            <Col span={16} >
-                <ContainerImages/>
-            </Col>
-        </Row>
-    )
+            <Row style={{
+                backgroundColor: "var(--c_slate_200)",
+                padding: "0.5rem",
+                minHeight: "100vh",
+            }}>
+                <Col span={8}
+
+                >
+                    <TuringTitle position={"center"}/>
+                    {children}
+                </Col>
+                <Col span={16} >
+                    <ContainerImages/>
+                </Col>
+            </Row>
+    );
 }

@@ -6,7 +6,9 @@ import {LoginLayout} from "../../Layout/LoginLayout.tsx";
 import {RegisterLayout} from "../../Layout/RegisterLayout.tsx";
 
 export const AuthRoutes = () =>{
-    return (<Routes >
+    return (
+
+        <Routes >
                 <Route element={<AuthLayout/>}>
                     <Route path="login" element={
                         <LoginLayout children={<Login/>}/>
@@ -17,7 +19,6 @@ export const AuthRoutes = () =>{
                         </RegisterLayout>
                     }/>
                     <Route path="invitation/:token"/>
-
                 </Route>
             </Routes>)
 }

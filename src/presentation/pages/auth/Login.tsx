@@ -68,43 +68,50 @@ function Login() {
                 className="form__container login-form"
                 initialValues={{remember: true}}
                 onFinish={onFinish}
+                requiredMark={false}
                 onFinishFailed={onFinishFailed}
                 autoComplete="on"
                 form={form}
             >
-                <Title level={2} style={{marginTop:120, fontSize:20}}>¡Bienvenido de nuevo!</Title>
-                <p style={{marginBottom:40}}>Inicia sesión con tus credenciales para continuar</p>
+                <Flex gap={40} vertical>
 
-                <Flex vertical={true} gap={10}>
+                    <div className='login-text__wrapper'>
+                        <Title level={2} style={{fontSize:20}}>¡Bienvenido de nuevo!</Title>
+                        <p>Inicia sesión con tus credenciales para continuar</p>
+                    </div>
 
-                <Form.Item<FieldType>
-                    label="Correo electronico"
-                    name="email"
-                    rules={[{ required: true,type:"email",message: 'Favor de ingresar un email valido', pattern:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/}]}
-                >
-                    <Input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="juan@gmail.com"/>
-                </Form.Item>
+                    <div className='login-input__wrapper'>
+                        <Form.Item<FieldType>
+                            label="Correo electronico"
+                            name="email"
+                            rules={[{ required: true,type:"email",message: 'Favor de ingresar un email valido', pattern:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/}]}
+                        >
+                            <Input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="juan@gmail.com"/>
+                        </Form.Item>
 
-                <Form.Item<FieldType>
-                    label="Contraseña"
-                    name="password"
-                    rules={[{ required: true, message: 'Favor de ingresar una contraseña valida', min:6}]}
-                >
-                    <Input.Password  value={password} onChange={e => setPassword(e.target.value)} placeholder="******"/>
-                </Form.Item>
+                        <Form.Item<FieldType>
+                            label="Contraseña"
+                            name="password"
+                            rules={[{ required: true, message: 'Favor de ingresar una contraseña valida', min:6}]}
+                        >
+                            <Input.Password  value={password} onChange={e => setPassword(e.target.value)} placeholder="******"/>
+                        </Form.Item>
+                    </div>
 
-                    <Link to="/register">
-                        <p>Olvidaste tu contraseña?</p>
-                    </Link>
+                    <div className='login-buttons__wrapper'>
+                        <Link to="/register">
+                            <p>Olvidaste tu contraseña?</p>
+                        </Link>
 
-                    <Form.Item label={null} labelCol={{span: 0}}>
-                        {contextHolder}
-                        <Flex justify="center">
-                            <SubmitButton form={form} style={{width:"100%"}}>Iniciar Sesión</SubmitButton>
-                        </Flex>
-                    </Form.Item>
-
+                        <Form.Item label={null} labelCol={{span: 0}}>
+                            {contextHolder}
+                            <Flex justify="center">
+                                <SubmitButton form={form} style={{width:"100%"}}>Iniciar sesión</SubmitButton>
+                            </Flex>
+                        </Form.Item>
+                    </div>
                 </Flex>
+
             </Form>
     );
 }
