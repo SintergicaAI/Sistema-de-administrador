@@ -10,11 +10,17 @@ const {Title} = Typography;
 
 export const RegisterLayout = ({children}:Props) => {
     return (
-        <Row >
+        <Row
+            style={{
+                backgroundColor: "var(--c_slate_200)",
+                padding: "0.5rem",
+                minHeight: "100vh",
+            }}
+        >
             <Col span={10}>
                 <div className="form__container register-form">
                     <TuringTitle position="left"/>
-                    <Title level={2} style={{marginTop:20, fontSize:20}}>Registra tu cuenta</Title>
+                    <Title level={2} style={{marginTop:20,marginBottom:50 ,fontSize:20}}>Registra tu cuenta</Title>
                     {children}
                 </div>
             </Col>

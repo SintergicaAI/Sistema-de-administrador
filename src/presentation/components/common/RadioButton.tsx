@@ -15,12 +15,13 @@ export const RadioButton = ({value,name,isChecked,handleChange}:Props) =>{
         <>
         <label className="radio-button">
             {value}
+
             <input type="radio"
                    key={name}
                 value={value}
                 name={name}
-               checked={isChecked === value}
-               onChange= {handleChange}
+                checked={isChecked === value}
+                onChange= {handleChange}
             />
             <CircleCheckBig/>
         </label>

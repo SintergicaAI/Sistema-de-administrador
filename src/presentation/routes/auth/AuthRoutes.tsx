@@ -10,7 +10,7 @@ export const AuthRoutes = () =>{
 
         <Routes >
                 <Route element={<AuthLayout/>}>
-                    <Route path="login" element={
+                    <Route index element={
                         <LoginLayout children={<Login/>}/>
                     }/>
                     <Route path="register" element={

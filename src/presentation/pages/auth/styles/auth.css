@@ -23,6 +23,19 @@
 .register-form{
     max-width: 500px;
     width: 90%;
+
+    .equal-space{
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        margin-bottom: 40px;
+    }
+
+    .register__label-wrapper{
+         & > * {
+             margin-bottom:0;
+         }
+    }
 }
 .ant-form-item{
     flex-grow: 1;

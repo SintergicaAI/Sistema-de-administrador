@@ -33,14 +33,21 @@ function Login() {
 
 
     const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
+        messageApi.open({
+            type:'loading',
+            content:'Enviando datos...',
+            duration:2
+        })
+
         logIn.execute(values.email, values.password).then(() => {
                 messageApi.open({
                     type: 'loading',
                     content: 'Iniciando sesion...',
-                    duration: 3,
+                    duration: 2,
                 }).then(() => navigate("/"))
             }
         ).catch((error:Response) => {
+            messageApi.destroy();
             let message = error.status ===
             LoginStatusResponse.WRONG_PASSWORD ? 'Contraseña incorrecta' : 'No tiene acceso'
 
