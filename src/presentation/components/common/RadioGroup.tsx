@@ -1,6 +1,6 @@
 import {RadioButton} from './RadioButton';
-import {ChangeEvent, useContext, useEffect, useState} from "react";
-import {AdministrationContext} from "../../context/Administration";
+import {ChangeEvent, useEffect, useState} from "react";
+import {useAdministration} from "../../context/Administration";
 import type {DataType} from "../Administration/types/TableAdministrationTypes.ts";
 
 export type RadioGroupType = {
@@ -16,7 +16,7 @@ export const RadioGroup = ({radioObjet}:Props) =>{
 
     //console.log(radioObjet.options);
     const [radioButtons, setRadioButtons] = useState<string[]>(radioObjet.options);
-    const {selectedRow,changeSelectedRow} = useContext(AdministrationContext);
+    const {selectedRow,changeSelectedRow} = useAdministration();
     const {role} = selectedRow as DataType;
 
 
@@ -34,7 +34,7 @@ export const RadioGroup = ({radioObjet}:Props) =>{
             style={{display: "grid", gridTemplateColumns:"repeat(2,1fr)"}}
         >
             {radioButtons.map((option,index) =>(
-                <RadioButton rol={`${option}`}
+                <RadioButton value={`${option}`}
                              name={radioObjet.nameGroup}
                              handleChange={handleRadioChange}
                              key={index}

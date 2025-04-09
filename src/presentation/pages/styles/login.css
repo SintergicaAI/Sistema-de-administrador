@@ -3,16 +3,20 @@
     --c-primary:#006FFB;
 }
 .form__container{
-    max-width: 300px;
-    padding: 1rem;
     margin-inline: auto;
     background-color: inherit;
-    border-radius: 15px;
-    /*box-shadow: rgba(184, 184, 184, 0.19) 0px 10px 20px, rgba(184, 184, 184, 0.23) 0px 6px 6px;*/
 }
-.form__container :is(h1,h2,p){
-    margin-top: 0px;
+.login-form{
+    max-width: 300px;
 }
+.register-form{
+    max-width: 500px;
+    width: 90%;
+}
+.ant-form-item{
+    flex-grow: 1;
+}
+
 .ant-form-item-required::before {
     content: "*";
     color: var(--c-primary) !important;

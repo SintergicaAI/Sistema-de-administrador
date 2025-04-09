@@ -9,9 +9,9 @@ type Props = {
 
 export const LoginLayout = ({children}:Props) => {
     return (
-        <Row style={{minHeight:'100vh'}}>
+        <Row>
             <Col span={8}>
-                <TuringTitle />
+                <TuringTitle position={"center"}/>
                 {children}
             </Col>
             <Col span={16} >

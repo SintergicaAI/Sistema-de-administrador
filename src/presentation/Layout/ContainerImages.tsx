@@ -1,6 +1,6 @@
 const styleImage = {
     width: '100%',
-    minWidth: '600px',
+    minWidth: '60px',
     minHeight: '100%',
     backgroundColor:"var(--c_brand-500)",
     display:"grid",

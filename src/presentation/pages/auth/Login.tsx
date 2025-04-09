@@ -65,15 +65,15 @@ function Login() {
                 layout="vertical"
                 labelCol={{span: 16}}
                 wrapperCol={{span: 30}}
-                className="form__container"
+                className="form__container login-form"
                 initialValues={{remember: true}}
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
                 autoComplete="on"
                 form={form}
             >
-                <Title level={2} style={{marginTop:80, textAlign:"center"}}>¡Bienvenido de nuevo!</Title>
-                <p style={{textAlign:"center"}}>Inicia sesión con tus credenciales para continuar</p>
+                <Title level={2} style={{marginTop:120, fontSize:20}}>¡Bienvenido de nuevo!</Title>
+                <p style={{marginBottom:40}}>Inicia sesión con tus credenciales para continuar</p>
 
                 <Flex vertical={true} gap={10}>
 

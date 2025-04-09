@@ -1,4 +1,4 @@
-import { Row,Col } from "antd"
+import {Row, Col, Typography} from "antd"
 import {ReactNode} from "react";
 import {ContainerImages} from "./ContainerImages.tsx";
 import {TuringTitle} from "./TuringTitle.tsx";
@@ -6,13 +6,17 @@ import {TuringTitle} from "./TuringTitle.tsx";
 type Props = {
     children: ReactNode;
 }
+const {Title} = Typography;
 
 export const RegisterLayout = ({children}:Props) => {
     return (
-        <Row style={{minHeight:'100vh'}}>
+        <Row >
             <Col span={10}>
-                <TuringTitle />
-                {children}
+                <div className="form__container register-form">
+                    <TuringTitle position="left"/>
+                    <Title level={2} style={{marginTop:20, fontSize:20}}>Registra tu cuenta</Title>
+                    {children}
+                </div>
             </Col>
             <Col span={14}>
                 <ContainerImages />

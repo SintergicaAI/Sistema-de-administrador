@@ -7,7 +7,7 @@ export const AuthLayout = () =>{
         <div
              style={{
                  backgroundColor: "var(--c_slate_200)",
-                 minHeight: "100vh",
+                 minHeight:"100vh",
                 padding: "0.5rem",}}>
             <ConfigProvider theme={{
                 "components": {
@@ -16,7 +16,6 @@ export const AuthLayout = () =>{
                     }
                 }
             }}>
-
                 <Outlet/>
             </ConfigProvider>
         </div>
