@@ -10,7 +10,7 @@ export const HomeRoutes = () =>{
         <Routes>
             <Route element={<Home/>}>
                 <Route index element={<UserProfile userId={"1"}/>}/>
-                <Route path="administration" element={<Administration texto="Mi equipo"/>} />
+                <Route path="administration" element={<Administration texto="Usuarios"/>} />
                 <Route path="workspace" element={<WorkspaceRoutes/>}/>
             </Route>
         </Routes>

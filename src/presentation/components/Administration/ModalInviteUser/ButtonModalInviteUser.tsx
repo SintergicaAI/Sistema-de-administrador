@@ -1,6 +1,6 @@
 import {Button, Alert, ConfigProvider} from "antd";
 import {useState} from "react";
-import {ModalGeneral} from "../../common/ModalGeneral.tsx";
+import {ModalGeneral} from "../../common";
 import {ModalContentInviteUser} from "./ModalContentInviteUser.tsx";
 import { SquarePlus } from 'lucide-react';
 import { CircleCheck } from 'lucide-react';

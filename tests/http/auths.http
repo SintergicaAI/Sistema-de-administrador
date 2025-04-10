@@ -74,3 +74,19 @@ Content-Type: application/json
 Authorization: Bearer {{auth_token}}
 
 {"name":"USER"}
+
+###
+POST {{TURING_API_URL}}/invitation/send
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "fromEmail":"javier.palacios@sintergica.ai",
+  "subject":"test",
+  "body":"Body test",
+  "recipients":"javier.palacios@sintergica.ai"
+}
+###
+GET {{TURING_API_URL}}/invitation
+Accept: application/json
+Authorization: Bearer {{auth_token}}
