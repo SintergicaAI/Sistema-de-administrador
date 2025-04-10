@@ -8,6 +8,7 @@ import {SignIn} from "../../../application/use-cases/SignIn.ts";
 import {Link, useNavigate} from "react-router"
 import {RadioButton} from "../../components/common/RadioButton.tsx";
 import useBreakpoint from "antd/es/grid/hooks/useBreakpoint";
+import {useForm} from "../../../hooks";
 
 type FieldType = {
     email: string;
@@ -28,13 +29,19 @@ const Label = ( ) =>{
     return (<p style={{marginBlock:0, color:"rgb(100,116,139)"}}>Aceptar <Link to="auth/login" style={{textDecoration:'underline'}}>términos y condiciones</Link></p>)
 }
 
+type InputValues= Omit<FieldType,"conditions">
 
 export const Register = () =>{
-    //TODO:Try to do another approach for state management
-    const [email, setEmail] = useState('');
+
+    /*const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [firstName, setFirstName] = useState('');
-    const [secondName, setSecondName] = useState('');
+    const [secondName, setSecondName] = useState('');*/
+
+    const {onInputChange,
+        email,firstName,lastName,password} =
+        useForm<InputValues>({email:'',firstName:'',lastName:'',password:''});
+
     const [termsAccepted, setTermAccepted] = useState<radioOptions>('no');
     const [messageApi,contextHolder] = message.useMessage()
     const navigation = useNavigate();
@@ -45,11 +52,9 @@ export const Register = () =>{
 
 
     const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
-
         messageApi.open({
             type:'loading',
             content:'Enviando datos...',
-            duration:2
         })
         signIn.execute(values.firstName,values.lastName,values.email,values.password).then(() =>{
             messageApi.destroy();
@@ -62,24 +67,22 @@ export const Register = () =>{
                 navigation('/');
             })
 
-        }).catch((error) => {
+        }).catch(() => {
             messageApi.destroy();
-            console.log(error);
             messageApi.open({
                 type:'error',
                 content:'Tus datos no se enviaron correctamente',
                 duration:5,
             })
         })
-
     };
-
     const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
         console.log('Failed:', errorInfo);
         messageApi.open({
             type:'error',
             content:'Ingresa los campos de manera correcta'
         });
+
     };
 
     const handleRadioChange = (event:ChangeEvent<HTMLInputElement>) => {
@@ -118,7 +121,7 @@ export const Register = () =>{
                             name="firstName"
                             rules={[{ required: true, message: 'Ingresa el campo correcto!'}, {pattern: /^[A-Za-zÁÉÍÓÚáéíóúñÑ' -]{1,40}$/, message: "No se permiten caracteres especiales y numeros"}]}
                         >
-                            <Input value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder="Nombre(s)"/>
+                            <Input value={firstName} onChange={onInputChange} placeholder="Nombre(s)"/>
                         </Form.Item>
 
                         <Form.Item<FieldType>
@@ -126,7 +129,7 @@ export const Register = () =>{
                             name="lastName"
                             rules={[{ required: true, message: 'Ingresa el campo correcto' }, {pattern: /^[A-Za-zÁÉÍÓÚáéíóúñÑ' -]{1,40}$/, message: "No se permiten caracteres especiales y numeros"}] }
                         >
-                            <Input value={secondName} onChange={(e) => setSecondName(e.target.value)} placeholder="Apellidos"/>
+                            <Input value={lastName} onChange={onInputChange} placeholder="Apellidos"/>
                         </Form.Item>
                     </Flex>
 
@@ -138,7 +141,7 @@ export const Register = () =>{
                         >
                             <Input.Password placeholder='Min 6 caracteres'
                                             value={password}
-                                            onChange={e => setPassword(e.target.value)}
+                                            onChange={onInputChange}
                                             data-testid="password-input"/>
                         </Form.Item>
 
@@ -169,7 +172,7 @@ export const Register = () =>{
                             name="email"
                             rules={[{ required: true,type:"email",message: 'Favor de ingresar un email valido', pattern:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/}]}
                         >
-                            <Input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="juan@gmail.com"/>
+                            <Input type="email" value={email} onChange={onInputChange} placeholder="juan@gmail.com"/>
                         </Form.Item>
                     </div>
 

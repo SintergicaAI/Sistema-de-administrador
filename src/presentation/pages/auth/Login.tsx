@@ -1,10 +1,10 @@
 import {FormProps,Typography} from 'antd';
 import {Flex, Form, Input, message} from 'antd';
-import {useState} from "react";
 import {SubmitButton} from "../../components/common";
 import {Link, useNavigate} from "react-router";
 import {LogIn} from "../../../application/use-cases/LogIn.ts";
 import {AuthApi} from "../../../infrastructure/api/AuthApi.ts";
+import {useForm} from "../../../hooks";
 
 type FieldType = {
     email: string;
@@ -12,7 +12,9 @@ type FieldType = {
     remember?: string;
 };
 
-//Aqui se hace la conexion entre los metodos implementados de AuthAPI y LogIn
+type InputValues= Omit<FieldType, "remember">
+
+//Aqui se hace la connexion entre los metodos implementados de AuthAPI y LogIn
 const authApi = new AuthApi();
 const logIn = new LogIn(authApi);
 
@@ -23,23 +25,33 @@ enum LoginStatusResponse {
 
 const {Title} = Typography
 function Login() {
-    //Hooks
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const {password,
+        email,
+        onInputChange,
+    } = useForm<InputValues>({email:'',password:'',});
     const navigate = useNavigate();
     const [form] = Form.useForm();
 
     const [messageApi, contextHolder] = message.useMessage();
 
+    const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
+        console.log('Failed:', errorInfo);
+        messageApi.open({
+            type:'error',
+            content:'Ingresa los campos de manera correcta'
+        });
+
+    };
 
     const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
         messageApi.open({
             type:'loading',
             content:'Enviando datos...',
-            duration:2
         })
 
         logIn.execute(values.email, values.password).then(() => {
+
+                messageApi.destroy();
                 messageApi.open({
                     type: 'loading',
                     content: 'Iniciando sesion...',
@@ -57,14 +69,6 @@ function Login() {
             });
         });
     }
-
-    const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
-        messageApi.open({
-            type: 'error',
-            content: 'Ingresa los campos de manera correcta'
-        });
-        console.log(errorInfo);
-    };
 
     return (
             <Form
@@ -93,7 +97,7 @@ function Login() {
                             name="email"
                             rules={[{ required: true,type:"email",message: 'Favor de ingresar un email valido', pattern:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/}]}
                         >
-                            <Input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="juan@gmail.com"/>
+                            <Input type="email" value={email} onChange={onInputChange} placeholder="juan@gmail.com"/>
                         </Form.Item>
 
                         <Form.Item<FieldType>
@@ -101,7 +105,7 @@ function Login() {
                             name="password"
                             rules={[{ required: true, message: 'Favor de ingresar una contraseña valida', min:6}]}
                         >
-                            <Input.Password  value={password} onChange={e => setPassword(e.target.value)} placeholder="******"/>
+                            <Input.Password  value={password} onChange={onInputChange} placeholder="******"/>
                         </Form.Item>
                     </div>
 

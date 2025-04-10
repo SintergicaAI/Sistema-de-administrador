@@ -12,7 +12,7 @@ export const AppRoutes = () =>{
                         <AuthRoutes/>
                     </PublicRoute>
                 }/>
-        <Route path="/" element={
+        <Route path="/*" element={
             <PrivateRoute>
                 <HomeRoutes/>
             </PrivateRoute>}/>

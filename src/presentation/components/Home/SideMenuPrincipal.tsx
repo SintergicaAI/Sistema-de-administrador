@@ -40,7 +40,7 @@ export const SideMenuPrincipal = () =>{
                 type: 'loading',
                 content: 'Cerrando sesión',
                 duration: 3,
-            }).then(()=> navigate("/login"))
+            }).then(()=> navigate("/auth"))
         }).catch(error => {
             message.open({
                 type: 'error',
