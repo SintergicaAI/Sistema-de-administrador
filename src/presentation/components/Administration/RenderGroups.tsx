@@ -16,8 +16,7 @@ type Props = {
 export const RenderGroups = ({groups,record}:Props)=>{
     const [sizeGroup, setSizeGroup] = useState(groups.length);
     const [id] = useState<string>(record.key);
-    const [groupUser,setGroupUser] = useState<GroupType[]>(groups);
-    const [isHovered, setHovered] = useState<boolean>(false);
+    const [groupUser] = useState<GroupType[]>(groups);
     const {selectedRow } = useAdministration();
 
     //Update when is a change on selectedRow and also is the same as id.
@@ -27,18 +26,8 @@ export const RenderGroups = ({groups,record}:Props)=>{
         }
     }, [selectedRow]);
 
-    const handleMouseEnter = () => {
-        setHovered(true);
-    };
-
-    const handleMouseLeave = () => {
-        setHovered(false);
-    };
-
     return (
-        <div className='modal-container'
-             onMouseLeave={handleMouseLeave}
-             onMouseEnter={handleMouseEnter}>
+        <div className='modal-container'>
             <Flex align="center"
                   gap={12}
                   datatype={id}>

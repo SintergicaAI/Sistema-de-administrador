@@ -2,7 +2,6 @@
 
 
     position: relative;
-
     .modal-groups{
         --space-y:50px;
         --width-modal:clamp(250px, 50%,320px);
@@ -11,6 +10,9 @@
         padding: var(--lg-space);
         border-radius: var(--lg-radius);
         width: var(--width-modal);
+        height: 100px;
+        overflow-y: auto;
+        scrollbar-width: thin;
         position: absolute;
         top:var(--space-y);
         left: calc( var(--space-y) - var(--width-modal) );
