@@ -1,0 +1,40 @@
+.modal-container{
+
+
+    position: relative;
+
+    .modal-groups{
+        --space-y:50px;
+        --width-modal:clamp(250px, 50%,320px);
+
+        background-color: #fff;
+        padding: var(--lg-space);
+        border-radius: var(--lg-radius);
+        width: var(--width-modal);
+        position: absolute;
+        top:var(--space-y);
+        left: calc( var(--space-y) - var(--width-modal) );
+        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
+        z-index: 9;
+        opacity: 0;
+
+        transition: all 200ms ease-in-out;
+
+        .modal-groups__text{
+            color: var(--c_slate_500);
+            font-size: 14px;
+            margin: 0 0 0.5rem;
+        }
+
+        .modal-container:hover & {
+            opacity: 1;
+        }
+    }
+
+   /* &:hover .modal-groups{
+        display: block;
+    }*/
+
+
+}
+
