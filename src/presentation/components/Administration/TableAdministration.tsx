@@ -3,7 +3,7 @@ import {Avatar} from "../common";
 import {DataType} from "./types/TableAdministrationTypes.ts";
 import {RowSelectedType} from "../../context/Administration";
 import {RenderGroups} from "./RenderGroups.tsx";
-import {useTableAdministration} from "../../../hooks/useTableAdministration.ts";
+import {useTableAdministration} from "../../../hooks";
 
 export const TableAdministration = () => {
 
