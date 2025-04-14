@@ -12,6 +12,8 @@ export const HomeRoutes = () =>{
                 <Route index element={<UserProfile userId={"1"}/>}/>
                 <Route path="administration" element={<Administration texto="Usuarios"/>} />
                 <Route path="workspace" element={<WorkspaceRoutes/>}/>
+
+                <Route path={'/'} element={<p>Pagina no encontrada</p>} />
             </Route>
         </Routes>
     )

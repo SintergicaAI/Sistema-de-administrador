@@ -18,7 +18,6 @@ export const AuthRoutes = () =>{
                             <Register/>
                         </RegisterLayout>
                     }/>
-                    <Route path="invitation/:token"/>
                 </Route>
             </Routes>)
 }
