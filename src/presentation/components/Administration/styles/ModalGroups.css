@@ -6,19 +6,20 @@
         --space-y:50px;
         --width-modal:clamp(250px, 50%,320px);
 
-        background-color: #fff;
-        padding: var(--lg-space);
-        border-radius: var(--lg-radius);
+
         width: var(--width-modal);
-        height: 100px;
-        overflow-y: auto;
-        scrollbar-width: thin;
+        padding: var(--lg-space);
+        max-height: 100px;
+        overflow-y: hidden;
+        border-radius: var(--lg-radius);
+        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
+
         position: absolute;
         top:var(--space-y);
         left: calc( var(--space-y) - var(--width-modal) );
-        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
         z-index: 9;
         opacity: 0;
+        background-color: #fff;
 
         transition: all 200ms ease-in-out;
 
