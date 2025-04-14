@@ -2,7 +2,7 @@ import { Flex } from "antd"
 import './styles/ModalGroups.css';
 import '../common/styles/SideBar.css';
 import {GroupType} from "../../../domain/types/CompanyTypes.ts";
-import {useEffect, useLayoutEffect, useRef, useState} from "react";
+import {useLayoutEffect, useRef} from "react";
 type Props = {
     groupsUser:GroupType[],
 }

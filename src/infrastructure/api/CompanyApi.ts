@@ -76,6 +76,8 @@ export class CompanyApi implements CompanyRepository {
                     }
                 }
             );
+
+
         }catch(e){
             await this.refreshToke();
             await this.findUsersInCompany(searchParams);
@@ -131,8 +133,9 @@ export class CompanyApi implements CompanyRepository {
             throw new Error('No autorizado');
         }
         try{
-            const response = await fetch(`${this.baseUrl}/company/users/${email}`,{
+            const response = await fetch(`${this.baseUrl}/invitation/send`,{
                 method: 'POST',
+                body: JSON.stringify({recipients: email,body:'',subject:""}),
                 headers:{
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',

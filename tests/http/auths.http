@@ -83,7 +83,7 @@ Content-Type: application/json
 {
   "subject":"test",
   "body":"Body test",
-  "recipients":"javier.palacios@sintergica.ai"
+  "recipients":"gonzalo.anuar13@outlook.com"
 }
 ###
 GET {{TURING_API_URL}}/invitation
