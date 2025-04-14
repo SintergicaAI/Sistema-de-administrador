@@ -1,13 +1,16 @@
 import {Flex, Table} from "antd";
 import type { TableProps } from 'antd';
 import {Avatar} from "../common";
+import {useEffect, useState} from "react";
+import {CompanyApi} from "../../../infrastructure/api/CompanyApi.ts";
+import {GetInvitedUsers} from "../../../application/use-cases/GetInvitedUsers.ts";
 
 interface DataType {
     key: string;
     usuario:string;
-    rol: string;
     email: string;
-    grupos: string;
+    grupos: null;
+    active:boolean;
 }
 
 const columns: TableProps<DataType>['columns'] = [
@@ -18,14 +21,8 @@ const columns: TableProps<DataType>['columns'] = [
         render: (name) => (
             <Flex align="center" gap="var(--sm-space)">
                 <Avatar name={name} type={"invitate"}/>
-                {name}
             </Flex>
         )
-    },
-    {
-        title: 'Rol',
-        dataIndex: 'rol',
-        key: 'rol',
     },
     {
         title: 'Email',
@@ -37,9 +34,17 @@ const columns: TableProps<DataType>['columns'] = [
         dataIndex: 'grupos',
         key: 'grupos',
     },
+    {
+        title: 'Active',
+        dataIndex: 'active',
+        key: 'active',
+        render:(active:boolean) => (
+            active ? <p>Activa</p>: <p>Inactivo</p>
+        )
+    },
 ]
 
-const data: DataType[] = [
+/*const data: DataType[] = [
     {
         key: '1',
         usuario:"Pendiente",
@@ -54,9 +59,23 @@ const data: DataType[] = [
         email:"juan@gmail.com",
         grupos:"pendiente"
     },
-]
+]*/
 
+const companyApi = new CompanyApi();
+const getInvitedUsers = new GetInvitedUsers(companyApi);
 
 export const TableInvitados = () => {
+    const [data, setData] = useState<DataType[]>([]);
+
+    const prepareData = () =>{
+        getInvitedUsers.execute().then(res => {
+
+        })
+    }
+
+    useEffect(() => {
+        prepareData();
+    }, []);
+
     return (<Table columns={columns} dataSource={data}/>)
 }

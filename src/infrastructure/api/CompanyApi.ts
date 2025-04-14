@@ -3,7 +3,7 @@ import {AuthApi} from "./AuthApi.ts";
 import { User } from "../../domain/entities/User";
 import {PaginableResponse} from "./types/PaginableResponse.ts";
 import {UserRole} from "../../domain/enums/UserRole.ts";
-import {GroupType, RoleType, UserDeleted} from "../../domain/types/CompanyTypes.ts";
+import {GroupType, InvitateUserDTO, RoleType, UserDeleted} from "../../domain/types/CompanyTypes.ts";
 
 export class CompanyApi implements CompanyRepository {
     private readonly baseUrl = `http://localhost`;
@@ -202,6 +202,28 @@ export class CompanyApi implements CompanyRepository {
         }catch (e) {
             console.log(e)
             return Promise.resolve(false);
+        }
+    }
+
+    async getInvitedUsers(): Promise<InvitateUserDTO[]> {
+        const token = this.authApi.getToken();
+
+        try{
+            const response = await fetch(`${this.baseUrl}/invitation`, {
+                method:'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                }
+            })
+            if(response.status === 403){
+                await this.refreshToke();
+                await this.getInvitedUsers();
+            }
+            return await response.json();
+
+        }catch(err){
+            return Promise.reject([])
         }
     }
 
