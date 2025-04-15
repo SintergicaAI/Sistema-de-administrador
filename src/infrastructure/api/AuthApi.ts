@@ -109,4 +109,24 @@ export class AuthApi implements AuthRepository {
         const {refreshToken} = this.getUserFromStorage();
         return refreshToken;
     }
+
+    async verifySigInToken(email: string, token: string): Promise<boolean> {
+        try{
+            const response = await fetch("",{
+                method: 'POST',
+                body:JSON.stringify({email:email, token:token}),
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+
+            if (!response.ok) {
+               return Promise.reject(response);
+            }
+
+        return true;
+        }catch (e) {
+            return Promise.reject(false);
+        }
+    }
 }
