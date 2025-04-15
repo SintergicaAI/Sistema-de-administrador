@@ -5,7 +5,7 @@ import {ChangeEvent, useState} from "react";
 import {SubmitButton} from "../../components/common";
 import {AuthApi} from "../../../infrastructure/api/AuthApi.ts";
 import {SignIn} from "../../../application/use-cases/SignIn.ts";
-import {Link, useNavigate} from "react-router"
+import {Link, useNavigate, useSearchParams} from "react-router"
 import {RadioButton} from "../../components/common/RadioButton.tsx";
 import useBreakpoint from "antd/es/grid/hooks/useBreakpoint";
 import {useForm} from "../../../hooks";
@@ -33,11 +33,6 @@ type InputValues= Omit<FieldType,"conditions">
 
 export const Register = () =>{
 
-    /*const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [firstName, setFirstName] = useState('');
-    const [secondName, setSecondName] = useState('');*/
-
     const {onInputChange,
         email,firstName,lastName,password} =
         useForm<InputValues>({email:'',firstName:'',lastName:'',password:''});
@@ -49,6 +44,8 @@ export const Register = () =>{
     const [form] = Form.useForm();
 
     const screen = useBreakpoint();
+
+    let [searchParams] = useSearchParams();
 
 
     const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
@@ -108,7 +105,6 @@ export const Register = () =>{
                 requiredMark={false}
                 labelAlign={'left'}
                 form={form}
-
             >
 
                 <div className='equal-space'>
@@ -195,16 +191,15 @@ export const Register = () =>{
 
                 </div>
 
-
-
-
                 <Form.Item label={null} labelCol={{span: 0}}>
                     {contextHolder}
 
-                    <Flex justify={`${screen.lg ? 'left':'center'}`}>
+                    <Flex
+                        style={{marginTop:`${searchParams.size ? '':'40px'}`}}
+                        justify={`${screen.lg ? 'left':'center'}`}>
                         <SubmitButton form={form}
                                       style={{width: screen.lg ? '200px':'350px'}}
-                        >Registrarse</SubmitButton>
+                        >{searchParams.size ? "Terminar configuración" : "Registrarse" }</SubmitButton>
                     </Flex>
 
                 </Form.Item>
