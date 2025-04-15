@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {Button, Form, type FormInstance} from "antd";
+import {Button, ConfigProvider, Form, type FormInstance} from "antd";
 
 
 export interface SubmitButtonProps {
@@ -23,6 +23,13 @@ export const SubmitButton:React.FC<React.PropsWithChildren<SubmitButtonProps>> =
     }, [form,values]);
 
     return (
+        <ConfigProvider theme={{
+            components:{
+                Button: {
+                    colorBgContainerDisabled:'hsla(210, 93%, 58%, 0.5)'
+                },
+            }
+        }}>
             <Button
                 type="primary"
                 disabled={!submittable}
@@ -32,5 +39,6 @@ export const SubmitButton:React.FC<React.PropsWithChildren<SubmitButtonProps>> =
             >
                 {children }
             </Button>
-    )
+
+        </ConfigProvider>)
 }

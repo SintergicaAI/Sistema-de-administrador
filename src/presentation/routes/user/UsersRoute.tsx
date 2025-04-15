@@ -4,8 +4,9 @@ import {RegisterLayout} from "../../Layout/RegisterLayout.tsx";
 import {ConfigProvider} from "antd";
 
 export const UsersRoute = ()=>{
-    return (<Routes>
+    //TODO: Rederigir a Login si
 
+    return (<Routes>
         <Route path='register' element={
                 <RegisterLayout>
                     <ConfigProvider theme={{

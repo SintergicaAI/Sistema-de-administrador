@@ -48,15 +48,13 @@ function Login() {
             type:'loading',
             content:'Enviando datos...',
         })
-
         logIn.execute(values.email, values.password).then(() => {
-
                 messageApi.destroy();
                 messageApi.open({
                     type: 'loading',
                     content: 'Iniciando sesion...',
-                    duration: 2,
-                }).then(() => navigate("/"))
+                })
+                    .then(() => navigate("/"))
             }
         ).catch((error:Response) => {
             messageApi.destroy();
@@ -67,7 +65,10 @@ function Login() {
                 type: 'error',
                 content: message,
             });
-        });
+        }).finally(() => {
+            messageApi.destroy();
+        })
+        ;
     }
 
     return (
@@ -117,7 +118,9 @@ function Login() {
                         <Form.Item label={null} labelCol={{span: 0}}>
                             {contextHolder}
                             <Flex justify="center">
-                                <SubmitButton form={form} style={{width:"100%"}}>Iniciar sesión</SubmitButton>
+                                <SubmitButton
+                                    form={form}
+                                    style={{width:"100%", color:'#fff'}}>Iniciar sesión</SubmitButton>
                             </Flex>
                         </Form.Item>
                     </div>

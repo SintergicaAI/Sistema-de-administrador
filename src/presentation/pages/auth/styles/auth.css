@@ -48,3 +48,7 @@
     content: "*";
     color: var(--c-primary) !important;
 }
+.text-decoration{
+    font-weight: 300;
+    color: var(--c_slate_950);
+}
