@@ -1,6 +1,6 @@
 import {Col, Row} from "antd";
-import {ContainerImages} from "./ContainerImages.tsx";
-import {TuringTitle} from "./TuringTitle.tsx";
+import {ContainerImages} from "./components/ContainerImages.tsx";
+import {TuringTitle} from "./components/TuringTitle.tsx";
 import {ReactNode} from "react";
 
 type Props = {

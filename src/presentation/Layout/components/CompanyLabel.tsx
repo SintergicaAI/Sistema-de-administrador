@@ -1,5 +1,5 @@
 import {Typography} from "antd";
-import "./CompanyLabel.css";
+import "../styles/CompanyLabel.css";
 
 const {Title} = Typography;
 export const CompanyLabel = ()=>{

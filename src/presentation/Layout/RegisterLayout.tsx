@@ -1,9 +1,9 @@
 import {Row, Col, Typography} from "antd"
 import {ReactNode} from "react";
-import {ContainerImages} from "./ContainerImages.tsx";
-import {TuringTitle} from "./TuringTitle.tsx";
+import {ContainerImages} from "./components/ContainerImages.tsx";
+import {TuringTitle} from "./components/TuringTitle.tsx";
 import {useSearchParams} from "react-router";
-import {CompanyLabel} from "./CompanyLabel.tsx";
+import {CompanyLabel} from "./components/CompanyLabel.tsx";
 
 type Props = {
     children: ReactNode;
