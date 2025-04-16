@@ -17,22 +17,32 @@ export const ForgotPassword = ()=>{
     const [form] = Form.useForm();
     const [messageApi, contextHolder] = message.useMessage();
 
+
     const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
-        const {email} = values;
         messageApi.open({
            type:'loading',
            content:'Enviando correo',
-            duration:1
-       }).then(() =>{
-            forgotPassword.execute(email).then( () => {
-                messageApi.open({
-                    type:'success',
-                    content:'Verifique su correo',
-                    duration:5
-                })
+            duration:0
+       })
+        const {email} = values;
+        forgotPassword.execute(email).then(()=>{
+            messageApi.destroy();
+            messageApi.open({
+                type:'success',
+                content:'Verifica tu correo',
+                duration:5
+            })
+
+        }).catch(() =>{
+            messageApi.destroy();
+            messageApi.open({
+                type:'error',
+                content:'El email no esta asociado a una cuenta',
+                duration:5
+            })
         })
 
-        })
+
 
     };
 

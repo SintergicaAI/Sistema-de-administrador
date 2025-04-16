@@ -27,15 +27,23 @@ export const ChangePassword = () => {
             type:'loading',
             content:'Enviando correo',
             duration:1
-        }).then(() =>{
-            changePassword.execute(password,token).then(() => {
-                    messageApi.open({
-                        type:'success',
-                        content:"Contraseña cambiada con éxito",
-                        duration:2
-                    }).then(()=> navigate('/auth') )
-                })
+        })
+        changePassword.execute(password,token)
+            .then(() => {
+            messageApi.destroy();
+            messageApi.open({
+                type:'success',
+                content:"Contraseña cambiada con éxito",
+                duration:2
+            }).then(()=> navigate('/auth') )
+        }).catch(()=>{
+            messageApi.destroy();
+            messageApi.open({
+                type:'error',
+                content:"Error al enviar la contraseña, intente más tarde",
+                duration:2
             })
+        })
 
     };
 
