@@ -4,7 +4,7 @@ export class ChangePassword {
     constructor(private authRepository: AuthRepository ) {
     }
 
-    execute(newPassword: string): Promise<boolean> {
-        return this.authRepository.changePassword(newPassword);
+    execute(newPassword: string, token:string): Promise<boolean> {
+        return this.authRepository.changePassword(newPassword, token);
     }
 }

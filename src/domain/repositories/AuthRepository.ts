@@ -14,5 +14,5 @@ export interface AuthRepository {
     register(firstname:string, lastname:string, email:string , password:string ): Promise<UserToken>;
     verifySigInToken(email:string, token:string): Promise<boolean>;
     forgotPassword(email:string):Promise<boolean>;
-    changePassword(password:string):Promise<boolean>;
+    changePassword(password:string, token:string):Promise<boolean>;
 }

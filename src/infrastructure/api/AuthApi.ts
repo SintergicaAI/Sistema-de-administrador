@@ -130,11 +130,44 @@ export class AuthApi implements AuthRepository {
         }
     }
 
-    forgotPassword(email: string): Promise<boolean> {
-        return Promise.resolve(true);
+    async forgotPassword(email: string): Promise<boolean> {
+        try{
+            const response = await fetch(`${this.baseUrl}/users/forgot-password`,{
+                method: 'POST',
+                body:JSON.stringify({email:email}),
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+
+            if (!response.ok) {
+                return Promise.reject(response);
+            }
+
+            return Promise.resolve(true);
+        }catch (e) {
+            return Promise.reject(false);
+        }
     }
 
-    changePassword(password: string): Promise<boolean> {
-        return Promise.resolve(true);
+    async changePassword(password: string, token:string): Promise<boolean> {
+        try{
+            const response = await fetch(`${this.baseUrl}/users/change-password`,{
+                method: 'PATCH',
+                body:JSON.stringify({password:password, token:token}),
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+
+            if (!response.ok) {
+                return Promise.reject(response);
+            }
+
+            return Promise.resolve(true);
+        }catch (e) {
+            return Promise.reject(false);
+        }
+
     }
 }

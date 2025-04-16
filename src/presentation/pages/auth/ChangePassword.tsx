@@ -3,7 +3,7 @@ import {Flex, Form, FormProps, Input, message} from "antd";
 import {SubmitButton} from "../../components/common";
 import {AuthApi} from "../../../infrastructure/api/AuthApi.ts";
 import {ChangePassword as Change} from "../../../application/use-cases/ChangePassword.ts";
-import {useNavigate} from "react-router";
+import {useNavigate, useSearchParams} from "react-router";
 type FieldType = {
     password: string;
     repeatPassword?: string;
@@ -18,15 +18,17 @@ export const ChangePassword = () => {
     const [form] = Form.useForm();
     const [messageApi, contextHolder] = message.useMessage();
     const navigate = useNavigate();
+    let [searchParams] = useSearchParams();
 
     const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
         const {password} = values;
+        const token = searchParams.get("token") ?? '';
         messageApi.open({
             type:'loading',
             content:'Enviando correo',
             duration:1
         }).then(() =>{
-            changePassword.execute(password).then(() => {
+            changePassword.execute(password,token).then(() => {
                     messageApi.open({
                         type:'success',
                         content:"Contraseña cambiada con éxito",
