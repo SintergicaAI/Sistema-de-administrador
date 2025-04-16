@@ -4,6 +4,8 @@ import {Register} from "../../pages/auth/Register.tsx";
 import {AuthLayout} from "../../Layout/AuthLayout.tsx";
 import {LoginLayout} from "../../Layout/LoginLayout.tsx";
 import {RegisterLayout} from "../../Layout/RegisterLayout.tsx";
+import {ChangePasswordLayout} from "../../Layout/ChangePasswordLayout.tsx";
+import {ForgotPassword} from "../../pages/auth/ForgotPassword.tsx";
 
 export const AuthRoutes = () =>{
     return (
@@ -18,6 +20,12 @@ export const AuthRoutes = () =>{
                             <Register/>
                         </RegisterLayout>
                     }/>
+
+                    <Route path="forgot-password" element={
+                        <ChangePasswordLayout>
+                            <ForgotPassword/>
+                        </ChangePasswordLayout>} />
+
                 </Route>
             </Routes>)
 }

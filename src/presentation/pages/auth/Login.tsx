@@ -109,7 +109,7 @@ function Login() {
                     </div>
 
                     <div className='login-buttons__wrapper'>
-                        <Link to="/register">
+                        <Link to="forgot-password">
                             <p>Olvidaste tu contraseña?</p>
                         </Link>
 

@@ -129,4 +129,8 @@ export class AuthApi implements AuthRepository {
             return Promise.reject(false);
         }
     }
+
+    forgotPassword(email: string): Promise<boolean> {
+        return Promise.resolve(true);
+    }
 }
