@@ -6,17 +6,18 @@ import {AuthApi} from "../../../infrastructure/api/AuthApi.ts";
 import {VerifySigInToken} from "../../../application/use-cases/VerifySigInToken.ts";
 import {useEffect, useState} from "react";
 import {Navigate} from "react-router-dom";
+import LoadingSpinner from "../../components/common/LoadingSpinner.tsx";
 
 const authApi = new AuthApi();
 const verifyToken = new VerifySigInToken(authApi);
 export const UsersRoute = ()=>{
 
-    const [isValidToken, setIsValidToken] = useState(false);
+    const [isValidToken, setIsValidToken] = useState<boolean | null>(null);
     const [params] = useSearchParams();
 
      const checkAuthStatus = ()=>{
         const token = params.get("signInToken") ?? "";
-         verifyToken.execute("",token).then( ()=>{
+         verifyToken.execute("gonzalo.anuar13@outlook.com",token).then( ()=>{
                 setIsValidToken(true)
             }
         )
@@ -26,7 +27,12 @@ export const UsersRoute = ()=>{
         checkAuthStatus();
     }, []);
 
-    return isValidToken ? (<Routes>
+    if (isValidToken === null) {
+        return <LoadingSpinner />;
+    }
+
+    return isValidToken ? (
+        <Routes>
         <Route path='register' element={
                 <RegisterLayout>
                     <ConfigProvider theme={{
@@ -39,6 +45,7 @@ export const UsersRoute = ()=>{
                         <Register/>
                     </ConfigProvider>
                 </RegisterLayout>
-        } />
-    </Routes>) : <Navigate to='auth'/>;
+            } />
+        </Routes>
+    ): <Navigate to={'/auth'}/>
 };

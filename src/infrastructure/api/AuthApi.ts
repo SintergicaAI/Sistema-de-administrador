@@ -110,9 +110,10 @@ export class AuthApi implements AuthRepository {
         return refreshToken;
     }
 
+    //TODO:CHANGE BODY OF THE JSON
     async verifySigInToken(email: string, token: string): Promise<boolean> {
         try{
-            const response = await fetch("",{
+            const response = await fetch(`${this.baseUrl}/invitation/validate`,{
                 method: 'POST',
                 body:JSON.stringify({email:email, token:token}),
                 headers: {
