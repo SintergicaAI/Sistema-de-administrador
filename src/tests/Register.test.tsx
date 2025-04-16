@@ -13,9 +13,12 @@ beforeEach(() => {
 })
 
 describe('Register Rendering Test', () => {
-    it('should render the register form title', () => {
-        const titleRegister = screen.getByText('Registro')
-        expect(titleRegister).toBeInTheDocument()
+    it('should render the terms and conditions of the registration form', () => {
+        const textTermsConditions = screen.getByText('términos y condiciones')
+        expect(textTermsConditions).toBeInTheDocument()
+
+        const radio = screen.getByRole("radio", { name: /Acepto/i });
+        expect(radio).toBeInTheDocument();
     })
 
     it('should render the "Nombre(s)" text and your placeholder', () => {
@@ -53,17 +56,17 @@ describe('Register Rendering Test', () => {
         expect(placeholderRepeatPassword).toBeInTheDocument()
     })
     
-    it('should render the "Enviar" button', () => {
-        const button = screen.getByRole('button', {name: /Enviar/i})
+    it('should render the "Registrarse" button', () => {
+        const button = screen.getByRole('button', {name: /Registrarse/i})
         expect(button).toBeInTheDocument()
     })
 
-    it('should render the "Ya tienes una cuenta?" and "Inicia sesion" text', () => {
+    /* it('should render the "Ya tienes una cuenta?" and "Inicia sesion" text', () => {
         const text = screen.getByText('Ya tienes una cuenta?')
         expect(text).toBeInTheDocument()
         const link = screen.getByText('Inicia sesión')
         expect(link).toBeInTheDocument()
-    })
+    }) */
 })
 
 

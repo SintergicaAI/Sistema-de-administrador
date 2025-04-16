@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import { beforeEach, describe, expect, it } from 'vitest'
 import userEvent from '@testing-library/user-event'
-import Login from '../presentation/pages/Login.tsx'
+import Login from '../presentation/pages/auth/Login.tsx'
 import { MemoryRouter } from 'react-router-dom'
 
 beforeEach(() => {
@@ -14,7 +14,7 @@ beforeEach(() => {
 
 describe('Login Rendering Test', () => {
     it('should render the login form title', () => {
-        const titleLogin = screen.getByText('Login')
+        const titleLogin = screen.getByText('¡Bienvenido de nuevo!')
         expect(titleLogin).toBeInTheDocument()
     })
 
@@ -29,7 +29,7 @@ describe('Login Rendering Test', () => {
     })
 
     it('should render the submit button', () => {
-        const button = screen.getByRole('button', {name: /Enviar/i})
+        const button = screen.getByRole('button', {name: /Iniciar sesión/i})
         expect(button).toBeInTheDocument()
     })
 })
