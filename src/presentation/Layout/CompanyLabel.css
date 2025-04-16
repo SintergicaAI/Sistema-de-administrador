@@ -1,0 +1,31 @@
+.company-label{
+
+    margin-bottom: 40px;
+    .company-label__text{
+        margin-bottom: 8px;
+    }
+
+    .company{
+        border-radius: var(--base-radius);
+        padding: var(--sm-space);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #F8FAFC;
+
+    }
+
+    .company__img-container{
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .company__name{
+        font-weight: 600;
+        font-size: 16px;
+    }
+    .company__members{
+        font-weight: 300;
+        color: var(--c_slate_500);
+    }
+}

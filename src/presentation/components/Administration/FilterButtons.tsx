@@ -74,7 +74,7 @@ export const FilterButtons = () => {
                         setFilter={setFilters}
                         filters={filters}
                     />
-                )): <Spin size='small' tip='Cargando filtros'></Spin>
+                )): <Spin size='small'></Spin>
                 }
             </Flex>
             </>

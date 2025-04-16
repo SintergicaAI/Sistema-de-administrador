@@ -1,12 +1,12 @@
 import {Flex, Layout} from "antd";
-import {HeaderPages} from "../components/common";
+import {HeaderPages} from "../../components/common";
 const {Content} = Layout
-import {ButtonModalInviteUser} from "../components/Administration/ModalInviteUser/ButtonModalInviteUser.tsx";
-import {AdministrationContextProvider} from "../context/Administration";
-import {RenderSideBarTable} from "../components/Administration/RenderSideBarTable.tsx";
-import {ConfigurationIcons} from "../components/Administration/ConfigurationIcons.tsx";
-import {FilterButtons} from "../components/Administration/FilterButtons.tsx";
-import {Tables} from "../components/Administration/Tables.tsx";
+import {ButtonModalInviteUser} from "../../components/Administration/ModalInviteUser/ButtonModalInviteUser.tsx";
+import {AdministrationContextProvider} from "../../context/Administration";
+import {RenderSideBarTable} from "../../components/Administration/RenderSideBarTable.tsx";
+import {ConfigurationIcons} from "../../components/Administration/ConfigurationIcons.tsx";
+import {FilterButtons} from "../../components/Administration/FilterButtons.tsx";
+import {Tables} from "../../components/Administration/Tables.tsx";
 
 const ContentStyle:React.CSSProperties = {
     width: '90%',

@@ -1,13 +1,17 @@
+import type {TableProps} from 'antd';
 import {Flex, Table} from "antd";
-import type { TableProps } from 'antd';
 import {Avatar} from "../common";
+import {useEffect, useState} from "react";
+import {CompanyApi} from "../../../infrastructure/api/CompanyApi.ts";
+import {GetInvitedUsers} from "../../../application/use-cases/GetInvitedUsers.ts";
+import {InvitateUserDTO} from "../../../domain/types/CompanyTypes.ts";
 
-interface DataType {
+type DataType = {
     key: string;
     usuario:string;
-    rol: string;
     email: string;
-    grupos: string;
+    grupos: null;
+    active:boolean;
 }
 
 const columns: TableProps<DataType>['columns'] = [
@@ -18,14 +22,8 @@ const columns: TableProps<DataType>['columns'] = [
         render: (name) => (
             <Flex align="center" gap="var(--sm-space)">
                 <Avatar name={name} type={"invitate"}/>
-                {name}
             </Flex>
         )
-    },
-    {
-        title: 'Rol',
-        dataIndex: 'rol',
-        key: 'rol',
     },
     {
         title: 'Email',
@@ -36,27 +34,54 @@ const columns: TableProps<DataType>['columns'] = [
         title: 'Grupos',
         dataIndex: 'grupos',
         key: 'grupos',
+        render: (groups) => (
+            (groups === null ) ? <p>Sin grupos</p>:<p>{groups}</p>
+        )
+    },
+    {
+        title: 'Estado invitación',
+        dataIndex: 'active',
+        key: 'active',
+        render:(active:boolean) => (
+            active ? <p>Activa</p>: <p>Inactivo</p>
+        )
     },
 ]
 
-const data: DataType[] = [
-    {
-        key: '1',
-        usuario:"Pendiente",
-        rol: 'Usuario',
-        email:"gonzalo@gmail.com",
-        grupos:"pendiente"
-    },
-    {
-        key: '2',
-        usuario:"Pendiente",
-        rol: 'Usuario',
-        email:"juan@gmail.com",
-        grupos:"pendiente"
-    },
-]
+const companyApi = new CompanyApi();
+const getInvitedUsers = new GetInvitedUsers(companyApi);
 
+const formatingData = (data:InvitateUserDTO[]) =>{
+    const newData = data.map((userInvited, index) => {
+        return {
+            key: String(index),
+            usuario: 'Invitado',
+            email: userInvited.email,
+            grupos: userInvited.group,
+            active: userInvited.active,
+        }
+    });
+    return newData;
+}
 
 export const TableInvitados = () => {
-    return (<Table columns={columns} dataSource={data}/>)
+    const [data, setData] = useState<DataType[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    const prepareData = () =>{
+        getInvitedUsers.execute().then(res => {
+            const formattedData= formatingData(res);
+            setData(formattedData);
+            setIsLoading(false);
+        })
+    }
+
+    useEffect(() => {
+        prepareData();
+    }, []);
+
+    return (<Table
+        columns={columns}
+        loading={isLoading}
+        dataSource={data}/>)
 }

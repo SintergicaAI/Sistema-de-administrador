@@ -4,8 +4,8 @@ export class LogIn {
     constructor(private authRepository: AuthRepository) {
     }
 
-    async execute(username: string, password: string): Promise<UserToken> {
-        const response = await this.authRepository.logIn(username, password);
+    async execute(email: string, password: string): Promise<UserToken> {
+        const response = await this.authRepository.logIn(email, password);
         if(response) {
             this.authRepository.saveToken(response);
         }

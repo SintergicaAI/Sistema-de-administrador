@@ -3,24 +3,25 @@ import { CircleCheckBig } from 'lucide-react';
 import {ChangeEvent} from "react";
 
 type Props = {
-    rol:string,
+    value:string,
     name:string,
     isChecked?:string,
     handleChange:(event:ChangeEvent<HTMLInputElement>) => void,
 }
 
-export const RadioButton = ({rol,name,isChecked,handleChange}:Props) =>{
+export const RadioButton = ({value,name,isChecked,handleChange}:Props) =>{
 
     return (
         <>
         <label className="radio-button">
-            {rol}
+            {value}
+
             <input type="radio"
                    key={name}
-                value={rol}
+                value={value}
                 name={name}
-               checked={isChecked === rol}
-               onChange= {handleChange}
+                checked={isChecked === value}
+                onChange= {handleChange}
             />
             <CircleCheckBig/>
         </label>

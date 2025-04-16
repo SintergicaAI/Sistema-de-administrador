@@ -1,5 +1,4 @@
 import {AuthRepository, UserToken} from '../../domain/repositories/AuthRepository';
-import {User} from "../../domain/entities/User.ts";
 import {AuthenticateApiResponse, LoginApiResponse} from "./types/AuthApiResponse.ts";
 
 /*const BASE_URL = import.meta.env.VITE_API_URL;*/
@@ -70,7 +69,7 @@ export class AuthApi implements AuthRepository {
         localStorage.setItem('user', JSON.stringify(token));
     }
 
-    async register(firstname: string, lastname: string, email: string, password: string): Promise<User> {
+    async register(firstname: string, lastname: string, email: string, password: string): Promise<UserToken> {
         const response = await fetch(`${this.baseUrl}/users/register`, {
             method: 'POST',
             headers: {
@@ -84,8 +83,8 @@ export class AuthApi implements AuthRepository {
         }
 
 
-        const data: AuthenticateApiResponse = await response.json();
-        return new User(data.id, data.email, data.role, undefined, undefined, undefined, undefined,data.token);
+        const {token,refreshToken}: AuthenticateApiResponse = await response.json();
+        return {token,refreshToken};
     }
 
     async getNewToken(userRefreshToken: string){

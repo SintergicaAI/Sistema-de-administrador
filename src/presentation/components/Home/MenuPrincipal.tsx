@@ -2,7 +2,7 @@ import React, {CSSProperties} from "react";
 import {Menu, MenuProps} from "antd";
 import {To, useNavigate} from "react-router";
 import {UserPen, SquareTerminal, MessageCircle,} from 'lucide-react';
-import {Avatar } from '../common/Avatar.tsx';
+import {Avatar } from '../common';
 
 type MenuItem = Required<MenuProps>['items'][number];
 

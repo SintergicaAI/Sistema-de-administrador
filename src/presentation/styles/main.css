@@ -2,9 +2,13 @@
 @font-face {
     font-family: 'Archivo';
     src:
-    url('../assets/Fonts/Archivo-Variable.ttf') format('truetype') tech('variations'),
-    url('../assets/Fonts/Archivo-Variable.ttf') format('truetype-variations');
+    url('../../assets/Fonts/Archivo-Variable.ttf') format('truetype') tech('variations'),
+    url('../../assets/Fonts/Archivo-Variable.ttf') format('truetype-variations');
     font-weight: 100 900;
+}
+
+*{
+    box-sizing: border-box;
 }
 
 :root{
@@ -26,10 +30,12 @@
     --c_brand_50:#DDF2FB;
     --c_brand_100:#B4E0F7;
     --c_brand_200:#89CAF5;
+    --c_brand_300:#5DB0F5;
     --c_brand_400:#3092F7;
     --c_brand-500:#006EFA;
     --c_brand_600:#005ACD;
     --c_brand_900:#001F46;
+    --c_brand_950:#000B19;
 
     --c_danger_400:#F87171;
     --c_danger_600:#DC2626;

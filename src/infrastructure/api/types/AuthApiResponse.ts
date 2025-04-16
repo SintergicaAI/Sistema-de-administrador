@@ -11,6 +11,7 @@ export interface AuthenticateApiResponse {
     email: string;
     role: UserRole;
     token: string;
+    refreshToken: string;
     name: string;
 }
 
