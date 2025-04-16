@@ -69,7 +69,7 @@ export const Register = () =>{
             messageApi.open({
                 type:'error',
                 content:'Tus datos no se enviaron correctamente',
-                duration:5,
+                duration:3,
             })
         })
     };

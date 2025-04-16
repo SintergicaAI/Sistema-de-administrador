@@ -53,6 +53,7 @@ function Login() {
                 messageApi.open({
                     type: 'loading',
                     content: 'Iniciando sesion...',
+                    duration:1,
                 })
                     .then(() => navigate("/"))
             }
@@ -65,10 +66,7 @@ function Login() {
                 type: 'error',
                 content: message,
             });
-        }).finally(() => {
-            messageApi.destroy();
         })
-        ;
     }
 
     return (
