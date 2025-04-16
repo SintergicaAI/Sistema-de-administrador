@@ -12,12 +12,12 @@ describe('Home Page Sidebar Test', () => {
 
     describe('When The User Login...', () => {
         beforeEach(() => {
-            cy.url().should('include', '/login')
-            cy.contains('Login')
+            cy.url().should('include', '/auth')
+            cy.contains('¡Bienvenido de nuevo!')
             cy.intercept('GET', '/users/1', { statusCode: 200, body: { id: 1, name: 'bob' } })// Se simula la respuesta de la API
             cy.get('[placeholder="juan@gmail.com"]').type('bob@gmail.com')
             cy.get('[placeholder="******"]').type('123456')
-            cy.contains('Enviar').click()
+            cy.contains('Iniciar sesión').click()
             cy.wait(2000)// Esto evita que los test fallen por los loaders de la aplicaión
         })
 
@@ -31,13 +31,18 @@ describe('Home Page Sidebar Test', () => {
             cy.url().should('include', '/profile')
         })
 
-        it('user should can to see the workspace section', () => {
-            cy.contains('li', 'Workspace').click()
-            cy.get('.ant-menu-submenu-popup').should('be.visible').contains('li', 'Knowledge').click()
-            cy.url().should('include', '/workspace/knowledge')
-            cy.contains('li', 'Workspace').click()
-            cy.get('.ant-menu-submenu-popup').should('be.visible').contains('li', 'Models').click()
-            cy.url().should('include', '/workspace/models')
+        describe('user should can to see the workspace section', () => {
+            it('user should can to see the workspace section', () => {
+                cy.contains('li', 'Workspace').click()
+                cy.get('.ant-menu-submenu-popup').should('be.visible').contains('li', 'Knowledge').click()
+                cy.url().should('include', '/workspace/knowledge')
+            })
+
+            it('user should can to see the workspace section', () => {
+                cy.contains('li', 'Workspace').click()
+                cy.get('.ant-menu-submenu-popup').should('be.visible').contains('li', 'Models').click()
+                cy.url().should('include', '/workspace/models')
+            })
         })
 
         it('user should can to see the knowledge section', () => {
@@ -54,7 +59,7 @@ describe('Home Page Sidebar Test', () => {
             cy.intercept('POST', '/users/logout', { statusCode: 200 })// Se simula la respuesat de la API
             cy.get('.button-logout').click()
             cy.contains('Cerrando sesión')
-            cy.url().should('include', '/login')
+            cy.url().should('include', '/auth')
         })
 
         it('user should can navigate to sintergica.ai on click', () => {

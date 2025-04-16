@@ -11,14 +11,14 @@ describe('Login Test', () => {
     })
   
     it('should can to visit the login page', () => {
-        cy.url().should('include', '/login')
-        cy.contains('Login')
+        cy.url().should('include', '/auth')
+        cy.contains('¡Bienvenido de nuevo!')
     })
   
     it('user should can to login', () => {
         cy.get('[placeholder="juan@gmail.com"]').type('bob@gmail.com')
         cy.get('[placeholder="******"]').type('123456')
-        cy.contains('Enviar').click()
+        cy.contains('Iniciar sesión').click()
         cy.contains('Iniciando sesion...')
     })
 })

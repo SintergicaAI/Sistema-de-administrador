@@ -11,14 +11,14 @@ describe('Register Test', () => {
     })
   
     it('should can to visit the login page', () => {
-        cy.contains('Login')
+        cy.contains('¡Bienvenido de nuevo!')
     })
   
     // Si el usuario no está registrado, este mismo se puede registrar
     it('should can to visit the register page', () => {
         cy.contains('Registrate').click()
-        cy.url().should('include', '/register')
-        cy.contains('Registro')
+        cy.url().should('include', 'auth/register')
+        cy.contains('Registra tu cuenta')
     })
 
     it('user should can to register', () => {
