@@ -28,6 +28,7 @@ export const ForgotPassword = ()=>{
                 messageApi.open({
                     type:'success',
                     content:'Verifique su correo',
+                    duration:5
                 })
         })
 

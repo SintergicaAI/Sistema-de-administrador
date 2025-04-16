@@ -133,4 +133,8 @@ export class AuthApi implements AuthRepository {
     forgotPassword(email: string): Promise<boolean> {
         return Promise.resolve(true);
     }
+
+    changePassword(password: string): Promise<boolean> {
+        return Promise.resolve(true);
+    }
 }
