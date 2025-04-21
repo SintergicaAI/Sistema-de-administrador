@@ -15,6 +15,11 @@ export interface AuthenticateApiResponse {
     name: string;
 }
 
+export interface  ErrorApiResponse {
+    error: string;
+    data: string;
+}
+
 //Pending refactoring :
 export interface RegisterApiResponse {
     id:string,
