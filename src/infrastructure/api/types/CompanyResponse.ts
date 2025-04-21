@@ -8,5 +8,4 @@ export interface UserDTO{
     email:string;
     groups:GroupType[];
     role:RoleType;
-
 }
