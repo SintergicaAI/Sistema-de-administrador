@@ -23,9 +23,8 @@ export const GroupsListView = () => {
             </div>
         </Header>
         <Content style={{flexGrow:1, paddingBlock:40 }}>
-            <div style={{display:'grid', placeContent:'center'}}>
                 <NotFoundGroups/>
-            </div>
+
         </Content>
     </Layout>)
 }

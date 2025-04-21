@@ -8,7 +8,7 @@ const style:CSSProperties = {
 
 export const NotFoundGroups = () => {
     return (
-        <div style={{textAlign:'center'}}>
+        <div style={{textAlign:'center',display:'grid', placeContent:'center'}}>
             <div style={{width:120, height:120, marginInline:'auto'}}>
                 <img
                 style={{
