@@ -4,6 +4,8 @@ import {PrivateRoute} from "./PrivateRoute.tsx";
 import {AuthRoutes} from "./auth/AuthRoutes.tsx";
 import { HomeRoutes } from "./Home/HomeRoutes.tsx";
 import {UsersRoute} from "./user/UsersRoute.tsx";
+import {ChangePasswordLayout} from "../Layout/ChangePasswordLayout.tsx";
+import {ChangePassword} from "../pages/auth/ChangePassword.tsx";
 
 
 export const AppRoutes = () =>{
@@ -18,6 +20,11 @@ export const AppRoutes = () =>{
             <PublicRoute>
                 <UsersRoute/>
             </PublicRoute>}/>
+
+        <Route path="change-password" element={
+            <ChangePasswordLayout>
+                <ChangePassword/>
+            </ChangePasswordLayout>} />
 
         <Route path="/*" element={
             <PrivateRoute>

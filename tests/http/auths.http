@@ -89,3 +89,27 @@ Content-Type: application/json
 GET {{TURING_API_URL}}/invitation
 Accept: application/json
 Authorization: Bearer {{auth_token}}
+
+###
+POST {{TURING_API_URL}}/invitation/validate
+Content-Type: application/json
+
+{
+  "token": "9d02f79b-03e2-43c9-8298-46d8195df199",
+  "email": "gonzalo.anuar13@outlook.com"
+}
+###
+POST {{TURING_API_URL}}/users/forgot-password
+Content-Type: application/json
+
+{
+  "email": "gonzalo.perez@sintergica.ai"
+}
+###
+PATCH {{TURING_API_URL}}/users/change-password
+Content-Type: application/json
+
+{
+    "token": "3d6401fd-1acb-4345-92a6-ee77a2773f14",
+    "password": "123456"
+}

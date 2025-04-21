@@ -48,15 +48,14 @@ function Login() {
             type:'loading',
             content:'Enviando datos...',
         })
-
         logIn.execute(values.email, values.password).then(() => {
-
                 messageApi.destroy();
                 messageApi.open({
                     type: 'loading',
                     content: 'Iniciando sesion...',
-                    duration: 2,
-                }).then(() => navigate("/"))
+                    duration:1,
+                })
+                    .then(() => navigate("/"))
             }
         ).catch((error:Response) => {
             messageApi.destroy();
@@ -67,7 +66,7 @@ function Login() {
                 type: 'error',
                 content: message,
             });
-        });
+        })
     }
 
     return (
@@ -110,14 +109,16 @@ function Login() {
                     </div>
 
                     <div className='login-buttons__wrapper'>
-                        <Link to="/register">
+                        <Link to="forgot-password">
                             <p>Olvidaste tu contraseña?</p>
                         </Link>
 
                         <Form.Item label={null} labelCol={{span: 0}}>
                             {contextHolder}
                             <Flex justify="center">
-                                <SubmitButton form={form} style={{width:"100%"}}>Iniciar sesión</SubmitButton>
+                                <SubmitButton
+                                    form={form}
+                                    style={{width:"100%", color:'#fff'}}>Iniciar sesión</SubmitButton>
                             </Flex>
                         </Form.Item>
                     </div>

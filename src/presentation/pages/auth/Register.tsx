@@ -26,7 +26,7 @@ const gapBetweenInput = 8;
 type radioOptions =  'Acepto'| 'no';
 
 const Label = ( ) =>{
-    return (<p style={{marginBlock:0, color:"rgb(100,116,139)"}}>Aceptar <Link to="auth/login" style={{textDecoration:'underline'}}>términos y condiciones</Link></p>)
+    return (<p style={{marginBlock:0, color:"rgb(100,116,139)"}}>Aceptar <Link to="auth/login" style={{textDecoration:'underline', color:'#006EFA'}}>términos y condiciones</Link></p>)
 }
 
 type InputValues= Omit<FieldType,"conditions">
@@ -69,7 +69,7 @@ export const Register = () =>{
             messageApi.open({
                 type:'error',
                 content:'Tus datos no se enviaron correctamente',
-                duration:5,
+                duration:3,
             })
         })
     };
@@ -109,7 +109,8 @@ export const Register = () =>{
 
                 <div className='equal-space'>
 
-                    <p style={{marginBlock:0}}>Ingresa los datos para terminar tu registro</p>
+                    <p className='text-decoration' style={{
+                        marginBlock:0,}}>Ingresa los datos para terminar tu registro</p>
 
                     <Flex gap={gapBetweenInput} style={{width:'100%'}} className='register__label-wrapper'>
                         <Form.Item<FieldType>
@@ -198,7 +199,7 @@ export const Register = () =>{
                         style={{marginTop:`${searchParams.size ? '':'40px'}`}}
                         justify={`${screen.lg ? 'left':'center'}`}>
                         <SubmitButton form={form}
-                                      style={{width: screen.lg ? '200px':'350px'}}
+                                      style={{width: screen.lg ? '200px':'350px', color:'#fff'}}
                         >{searchParams.size ? "Terminar configuración" : "Registrarse" }</SubmitButton>
                     </Flex>
 

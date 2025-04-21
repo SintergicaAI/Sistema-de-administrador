@@ -1,7 +1,8 @@
 import {Col, Row} from "antd";
-import {ContainerImages} from "./ContainerImages.tsx";
-import {TuringTitle} from "./TuringTitle.tsx";
+import {ContainerImages} from "./components/ContainerImages.tsx";
+import {TuringTitle} from "./components/TuringTitle.tsx";
 import {ReactNode} from "react";
+import {authLayoutStyle} from "./styles/authLayoutStyle.ts";
 
 type Props = {
     children: ReactNode;
@@ -9,11 +10,7 @@ type Props = {
 
 export const LoginLayout = ({children}:Props) => {
     return (
-            <Row style={{
-                backgroundColor: "var(--c_slate_200)",
-                padding: "0.5rem",
-                minHeight: "100vh",
-            }}>
+            <Row style={authLayoutStyle}>
                 <Col xs={24} lg={8}
 
                 >

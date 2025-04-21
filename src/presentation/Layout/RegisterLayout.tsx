@@ -1,9 +1,10 @@
 import {Row, Col, Typography} from "antd"
 import {ReactNode} from "react";
-import {ContainerImages} from "./ContainerImages.tsx";
-import {TuringTitle} from "./TuringTitle.tsx";
+import {ContainerImages} from "./components/ContainerImages.tsx";
+import {TuringTitle} from "./components/TuringTitle.tsx";
 import {useSearchParams} from "react-router";
-import {CompanyLabel} from "./CompanyLabel.tsx";
+import {CompanyLabel} from "./components/CompanyLabel.tsx";
+import {authLayoutStyle} from "./styles/authLayoutStyle.ts";
 
 type Props = {
     children: ReactNode;
@@ -16,12 +17,7 @@ export const RegisterLayout = ({children}:Props) => {
 
     return (
         <Row
-            style={{
-                backgroundColor: "var(--c_slate_200)",
-                padding: "0.5rem",
-                minHeight: "100vh",
-                fontSize:14,
-            }}
+            style={authLayoutStyle}
         >
             <Col xs={24} lg={10}>
                 <div className="form__container register-form">
