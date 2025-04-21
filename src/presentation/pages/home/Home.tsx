@@ -1,6 +1,6 @@
 import {Layout} from "antd";
 import {Outlet} from "react-router-dom";
-import {SideMenuPrincipal} from "../../components/Home/SideMenuPrincipal.tsx";
+import {SideMenuPrincipal} from "../../components/common/SideMenuPrincipal.tsx";
 
 export const Home = () => {
 
