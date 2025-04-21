@@ -3,7 +3,7 @@ import {Home} from "../../pages/home/Home.tsx";
 import UserProfile from "../../pages/UserProfile.tsx";
 import {Administration} from "../../pages/home/Administration.tsx";
 import {WorkspaceRoutes} from "./workspace/WorkspaceRoutes.tsx";
-import {Groups} from "../../pages/home/Groups.tsx";
+import {GroupsRoutes} from "./groups/GroupsRoutes.tsx";
 
 
 export const HomeRoutes = () =>{
@@ -13,7 +13,7 @@ export const HomeRoutes = () =>{
                 <Route index element={<UserProfile userId={"1"}/>}/>
                 <Route path="administration" element={<Administration texto="Usuarios"/>} />
                 <Route path="workspace" element={<WorkspaceRoutes/>}/>
-                <Route path="groups" element={<Groups/>}/>
+                <Route path="groups" element={<GroupsRoutes/>}/>
                 <Route path={'/'} element={<p>Pagina no encontrada</p>} />
             </Route>
         </Routes>
