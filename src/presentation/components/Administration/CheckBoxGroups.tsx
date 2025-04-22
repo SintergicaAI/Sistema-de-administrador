@@ -26,7 +26,6 @@ const getGroupCompany = new GetCompanyGroups(companyAPI);
 const copyGroupPerPerson = new Map<string, number>();
 let companyGroups:GroupType[] = [];
 
-//TODO:Verify possible error in companyFilter
 export const CheckBoxGroups = ({filterValue}:Props)=>{
     const {selectedRow,changeSelectedRow,dataTable} = useAdministration();
     const {groups,role} = selectedRow as SelectedProps ;

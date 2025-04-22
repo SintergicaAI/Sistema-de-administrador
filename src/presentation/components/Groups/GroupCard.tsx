@@ -1,6 +1,6 @@
 
 export const GroupCard = () =>{
-    return (<div>
+    return (<div className='group-card'>
 
     </div>)
 }

@@ -1,5 +1,4 @@
 import {Layout} from 'antd'
-import './styles/SideBar.css'
 const {Sider,Header,Content} = Layout
 import { X } from 'lucide-react';
 import {Dispatch, ReactNode, SetStateAction} from 'react';

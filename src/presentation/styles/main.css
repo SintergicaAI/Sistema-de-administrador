@@ -26,6 +26,7 @@
     --c_slate_200:#E2E8F0;
     --c_slate_400:#94A3B8;
     --c_slate_500:#64748B;
+    --c_slate_600:#475569;
     --c_slate_950:#020617;
 
     --c_brand_50:#DDF2FB;
@@ -87,4 +88,22 @@ body{
     width: 20px;
     height: 20px;
 }
+/*COMPONENTS*/
+.groups__tag{
+    min-width: 30px;
+    max-width: 170px;
+    margin-block: 0;
+    padding: var(--sm-space) var(--base-space);
+    border-radius: var(--2xl-space);
 
+    font-size: var(--avatar-size);
+    text-align: center;
+    font-weight: 600;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+
+    color: var(--c_brand_50);
+    background-color: var(--c_brand-500);
+}

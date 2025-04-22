@@ -1,6 +1,4 @@
 .modal-container{
-
-
     position: relative;
     .modal-groups{
         --space-y:50px;
@@ -33,11 +31,6 @@
             opacity: 1;
         }
     }
-
-   /* &:hover .modal-groups{
-        display: block;
-    }*/
-
 
 }
 

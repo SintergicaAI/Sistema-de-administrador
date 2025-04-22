@@ -26,7 +26,8 @@ export const RadioGroup = ({radioObjet}:Props) =>{
 
     //Actualizar el dato role de selectedRow
     const handleRadioChange = (value:ChangeEvent<HTMLInputElement>)=>{
-       changeSelectedRow({...selectedRow,role:value.target.value});
+       // @ts-ignore
+        changeSelectedRow({...selectedRow,role:value.target.value});
     }
 
     return (

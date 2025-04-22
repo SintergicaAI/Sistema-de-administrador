@@ -23,7 +23,7 @@ export const GroupCheckboxContainer = ({
     return (<label className='checkbox-container' data-value={value.group_id}>
         <Flex justify='space-between' align='center'>
             <Tooltip title={upperCaseOneWord(value.name)}>
-                <p className="checkbok__tag">{upperCaseOneWord(value.name)}</p>
+                <p className="groups__tag">{upperCaseOneWord(value.name)}</p>
             </Tooltip>
 
             <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', gap:'8px'}}>

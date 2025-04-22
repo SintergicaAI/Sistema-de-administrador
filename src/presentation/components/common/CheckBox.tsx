@@ -1,4 +1,4 @@
-import './styles/SideBar.css';
+import './styles/CheckBox.css';
 import { SquareCheckBig } from 'lucide-react';
 import {ChangeEvent} from "react";
 
