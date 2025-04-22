@@ -1,7 +1,7 @@
 import {Button, Layout} from "antd";
 import {SquarePlus} from "lucide-react";
 import {InputSearch} from "../../components/common";
-import {NotFoundGroups} from "../../components/Groups/NotFoundGroups.tsx";
+import {GroupsList} from "../../components/Groups/GroupsList.tsx";
 
 const {Header, Content} = Layout;
 
@@ -23,8 +23,7 @@ export const GroupsListView = () => {
             </div>
         </Header>
         <Content style={{flexGrow:1, paddingBlock:40 }}>
-                <NotFoundGroups/>
-
+              <GroupsList/>
         </Content>
     </Layout>)
 }

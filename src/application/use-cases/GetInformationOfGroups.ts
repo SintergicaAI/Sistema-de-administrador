@@ -5,7 +5,7 @@ export class GetInformationOfGroups{
     constructor(private groupRepository: GroupRepository) {
     }
 
-    async execute(): Promise<GetGroupDTO> {
+    async execute(): Promise<GetGroupDTO[]> {
         return await this.groupRepository.getGroups();
     }
 }
