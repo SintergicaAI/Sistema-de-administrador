@@ -36,12 +36,13 @@ export const ChangePassword = () => {
                 content:"Contraseña cambiada con éxito",
                 duration:2
             }).then(()=> navigate('/auth') )
-        }).catch(()=>{
+        }).catch((reason)=>{
+            let message = reason.error ?? "El email no esta asociado a una cuenta"
             messageApi.destroy();
             messageApi.open({
                 type:'error',
-                content:"Error al enviar la contraseña, intente más tarde",
-                duration:2
+                content:`${message}`,
+                duration:5
             })
         })
 

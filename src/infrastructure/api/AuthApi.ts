@@ -1,5 +1,5 @@
 import {AuthRepository, UserToken} from '../../domain/repositories/AuthRepository';
-import {AuthenticateApiResponse, LoginApiResponse} from "./types/AuthApiResponse.ts";
+import {AuthenticateApiResponse, ErrorApiResponse, LoginApiResponse} from "./types/AuthApiResponse.ts";
 
 /*const BASE_URL = import.meta.env.VITE_API_URL;*/
 
@@ -142,7 +142,8 @@ export class AuthApi implements AuthRepository {
             })
 
             if (!response.ok) {
-                return Promise.reject(response);
+                const info:ErrorApiResponse = await response.json();
+                return Promise.reject(info);
             }
 
             return Promise.resolve(true);
@@ -162,7 +163,8 @@ export class AuthApi implements AuthRepository {
             })
 
             if (!response.ok) {
-                return Promise.reject(response);
+                const info:ErrorApiResponse = await response.json();
+                return Promise.reject(info);
             }
 
             return Promise.resolve(true);
