@@ -1,15 +1,14 @@
-import {AuthRepository} from "../../domain/repositories/AuthRepository.ts";
-import {User} from "../../domain/entities/User.ts";
+import {AuthRepository, UserToken} from "../../domain/repositories/AuthRepository.ts";
 
 export class LogIn {
     constructor(private authRepository: AuthRepository) {
     }
 
-    async execute(username: string, password: string): Promise<User> {
-        const user = await this.authRepository.logIn(username, password);
-        if(user) {
-            this.authRepository.saveToken(user);
+    async execute(email: string, password: string): Promise<UserToken> {
+        const response = await this.authRepository.logIn(email, password);
+        if(response) {
+            this.authRepository.saveToken(response);
         }
-        return user;
+        return response;
     }
 }

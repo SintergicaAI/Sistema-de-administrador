@@ -2,10 +2,8 @@ import {UserRole} from "../../../domain/enums/UserRole.ts";
 
 //Archivo que contiene las diferentes respuestas
 export interface LoginApiResponse {
-    id: string;
-    email: string;
-    role: UserRole;
     token: string;
+    refreshToken:string;
 }
 
 export interface AuthenticateApiResponse {
@@ -13,7 +11,13 @@ export interface AuthenticateApiResponse {
     email: string;
     role: UserRole;
     token: string;
+    refreshToken: string;
     name: string;
+}
+
+export interface  ErrorApiResponse {
+    error: string;
+    data: string;
 }
 
 //Pending refactoring :

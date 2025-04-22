@@ -1,28 +1,21 @@
 import {useState} from "react";
 
-type ErrorType = {
-    code: number;
-    message: string
-} | null;
+type FetchValues= {
+    data: any;
+    isLoading: boolean;
+    error: any;
+    hasError: boolean;
+}
 
 const useFetch = (endpoint:string, typeMethond = "GET",values = {}, token:string = "") => {
     const BASE_URL = import.meta.env.VITE_API_URL;
 
-    const [states, setStates] = useState<{
-        data: any;
-        isLoading: boolean;
-        error: ErrorType;
-        hasError: boolean;
-    }>({
+    const [states, setStates] = useState<FetchValues>({
         data:null,
         isLoading: true,
         error: null,
         hasError: false,
     })
-
-    /*useEffect(()=>{
-        getData();
-    },[endpoint])*/
 
     const setLoadingState = ()=>{
         setStates({
@@ -59,6 +52,7 @@ const useFetch = (endpoint:string, typeMethond = "GET",values = {}, token:string
         }
 
 
+
         try{
             const res = await fetch(`${BASE_URL}${endpoint}`,{...objectConfiguration});
 
@@ -68,7 +62,7 @@ const useFetch = (endpoint:string, typeMethond = "GET",values = {}, token:string
                 setStates({
                     data:null,
                     isLoading: false,
-                    hasError: false,
+                    hasError: true,
                     error:{
                         code: res.status,
                         message: res.statusText,
@@ -83,12 +77,12 @@ const useFetch = (endpoint:string, typeMethond = "GET",values = {}, token:string
                 error: null,
                 hasError: false,
             });
-
-        }catch(error:any){
+            // @ts-ignore
+        }catch({message}){
             setStates({
                 data:null,
                 isLoading: false,
-                error: error?.toString(),
+                error: message,
                 hasError: true,
             })
         }

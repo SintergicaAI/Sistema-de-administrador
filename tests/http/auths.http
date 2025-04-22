@@ -1,20 +1,32 @@
 # @no-cookie-jar
 ### GET request to example server
-POST {{TURING_API_URL}}/auths/signin
+POST {{TURING_API_URL}}/users/login
 Content-Type: application/json
 
 {
-  "email": "alexis.alvarez@sintergica.ai",
-  "password": "test123"
+  "email": "bob@gmail.com",
+  "password": "123456"
 }
 
-> {% client.global.set("auth_token", response.body.token); %}
+> {%
+    client.global.set("auth_token", response.body.token);
+    client.global.set("refresh_token", response.body.refreshToken);
+    client.global.set("email", response.body.email);
+%}
 ###
 
 # @no-cookie-jar
-GET {{TURING_API_URL}}/auths/signout
+POST {{TURING_API_URL}}/users/logout
+Content-Type: application/json
+Authorization: Bearer {{refresh_token}}
 
-# @no-cookie-jar
+
+###
+POST {{TURING_API_URL}}/users/refreshToken
+Content-Type: application/json
+Authorization: Bearer {{refresh_token}}
+
+
 ###
 GET {{TURING_API_URL}}/auths/admin/details
 
@@ -23,3 +35,81 @@ GET {{TURING_API_URL}}/auths/admin/details
 GET {{TURING_API_URL}}/auths/
 Accept: application/json
 Authorization: Bearer {{auth_token}}
+
+###
+GET {{TURING_API_URL}}/company/users
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
+###
+GET {{TURING_API_URL}}/company/users?page=0&size=14&groups=vendedores%2ccontadores
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
+###
+GET {{TURING_API_URL}}/company/groups
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
+###
+DELETE {{TURING_API_URL}}/company/users/Robert@gmail.com
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
+###
+POST {{TURING_API_URL}}/company/users/gonza@gmail.com
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
+###
+PATCH {{TURING_API_URL}}/company/users/jhon@gmail.com/groups
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{"group_ids":["Prueba"]}
+
+###
+PATCH {{TURING_API_URL}}/users/mercedes@gmail.com/rol
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{"name":"USER"}
+
+###
+POST {{TURING_API_URL}}/invitation/send
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "subject":"test",
+  "body":"Body test",
+  "recipients":"gonzalo.anuar13@outlook.com"
+}
+###
+GET {{TURING_API_URL}}/invitation
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
+###
+POST {{TURING_API_URL}}/invitation/validate
+Content-Type: application/json
+
+{
+  "token": "9d02f79b-03e2-43c9-8298-46d8195df199",
+  "email": "gonzalo.anuar13@outlook.com"
+}
+###
+POST {{TURING_API_URL}}/users/forgot-password
+Content-Type: application/json
+
+{
+  "email": "gonzalo.perez@sintergica.ai"
+}
+###
+PATCH {{TURING_API_URL}}/users/change-password
+Content-Type: application/json
+
+{
+    "token": "3d6401fd-1acb-4345-92a6-ee77a2773f14",
+    "password": "123456"
+}

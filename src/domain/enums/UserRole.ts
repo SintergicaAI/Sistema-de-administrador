@@ -1,4 +1,6 @@
 export enum UserRole {
-  ADMIN = 'admin',
-  USER = 'user',
+  ADMIN = 'Administrador',
+  USER = 'Usuario',
+  OWNER = 'Dueño',
 }
+export const Roles = [UserRole.ADMIN, UserRole.USER, UserRole.OWNER];

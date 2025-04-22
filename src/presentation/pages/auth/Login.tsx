@@ -1,0 +1,131 @@
+import {FormProps,Typography} from 'antd';
+import {Flex, Form, Input, message} from 'antd';
+import {SubmitButton} from "../../components/common";
+import {Link, useNavigate} from "react-router";
+import {LogIn} from "../../../application/use-cases/LogIn.ts";
+import {AuthApi} from "../../../infrastructure/api/AuthApi.ts";
+import {useForm} from "../../../hooks";
+
+type FieldType = {
+    email: string;
+    password: string;
+    remember?: string;
+};
+
+type InputValues= Omit<FieldType, "remember">
+
+//Aqui se hace la connexion entre los metodos implementados de AuthAPI y LogIn
+const authApi = new AuthApi();
+const logIn = new LogIn(authApi);
+
+enum LoginStatusResponse {
+    WRONG_PASSWORD = 401,
+    DENIEND_ACCES = 404
+}
+
+const {Title} = Typography
+function Login() {
+    const {password,
+        email,
+        onInputChange,
+    } = useForm<InputValues>({email:'',password:'',});
+    const navigate = useNavigate();
+    const [form] = Form.useForm();
+
+    const [messageApi, contextHolder] = message.useMessage();
+
+    const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
+        console.log('Failed:', errorInfo);
+        messageApi.open({
+            type:'error',
+            content:'Ingresa los campos de manera correcta'
+        });
+
+    };
+
+    const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
+        messageApi.open({
+            type:'loading',
+            content:'Enviando datos...',
+        })
+        logIn.execute(values.email, values.password).then(() => {
+                messageApi.destroy();
+                messageApi.open({
+                    type: 'loading',
+                    content: 'Iniciando sesion...',
+                    duration:1,
+                })
+                    .then(() => navigate("/"))
+            }
+        ).catch((error:Response) => {
+            messageApi.destroy();
+            let message = error.status ===
+            LoginStatusResponse.WRONG_PASSWORD ? 'Contraseña incorrecta' : 'No tiene acceso'
+
+            messageApi.open({
+                type: 'error',
+                content: message,
+            });
+        })
+    }
+
+    return (
+            <Form
+                name="basic"
+                layout="vertical"
+                labelCol={{span: 16}}
+                wrapperCol={{span: 30}}
+                className="form__container login-form"
+                initialValues={{remember: true}}
+                onFinish={onFinish}
+                requiredMark={false}
+                onFinishFailed={onFinishFailed}
+                autoComplete="on"
+                form={form}
+            >
+                <Flex gap={40} vertical>
+
+                    <div className='login-text__wrapper'>
+                        <Title level={2} style={{fontSize:20}}>¡Bienvenido de nuevo!</Title>
+                        <p>Inicia sesión con tus credenciales para continuar</p>
+                    </div>
+
+                    <div className='login-input__wrapper'>
+                        <Form.Item<FieldType>
+                            label="Correo electronico"
+                            name="email"
+                            rules={[{ required: true,type:"email",message: 'Favor de ingresar un email valido', pattern:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/}]}
+                        >
+                            <Input type="email" value={email} onChange={onInputChange} placeholder="juan@gmail.com"/>
+                        </Form.Item>
+
+                        <Form.Item<FieldType>
+                            label="Contraseña"
+                            name="password"
+                            rules={[{ required: true, message: 'Favor de ingresar una contraseña valida', min:6}]}
+                        >
+                            <Input.Password  value={password} onChange={onInputChange} placeholder="******"/>
+                        </Form.Item>
+                    </div>
+
+                    <div className='login-buttons__wrapper'>
+                        <Link to="forgot-password">
+                            <p>Olvidaste tu contraseña?</p>
+                        </Link>
+
+                        <Form.Item label={null} labelCol={{span: 0}}>
+                            {contextHolder}
+                            <Flex justify="center">
+                                <SubmitButton
+                                    form={form}
+                                    style={{width:"100%", color:'#fff'}}>Iniciar sesión</SubmitButton>
+                            </Flex>
+                        </Form.Item>
+                    </div>
+                </Flex>
+
+            </Form>
+    );
+}
+
+export default Login;

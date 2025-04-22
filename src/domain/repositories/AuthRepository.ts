@@ -1,10 +1,18 @@
-import {User} from "../entities/User.ts";
+export type UserToken = {
+    token:string;
+    refreshToken:string
+}
 
 export interface AuthRepository {
     isAuthenticated(): Promise<boolean>;
-    logIn(username: string, password: string): Promise<User>;
+    getNewToken(refreshToken:string): Promise<boolean>;
+    getRefreshToken():string;
+    logIn(username: string, password: string): Promise<UserToken>;
     logOut(): Promise<boolean>;
-    saveToken(user: User): void;
+    saveToken(token: UserToken): void;
     getToken(): string | null;
-    register(firstname:string, lastname:string, email:string , password:string ): Promise<User>;
+    register(firstname:string, lastname:string, email:string , password:string ): Promise<UserToken>;
+    verifySigInToken(email:string, token:string): Promise<boolean>;
+    forgotPassword(email:string):Promise<boolean>;
+    changePassword(password:string, token:string):Promise<boolean>;
 }

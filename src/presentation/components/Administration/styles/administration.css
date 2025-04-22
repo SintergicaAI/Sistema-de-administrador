@@ -1,0 +1,54 @@
+.dropdown-menu{
+    width: 300px;
+    position:absolute;
+    background-color: var(--c_white);
+    padding: var(--sm-space);
+    z-index: 1;
+    border-radius: var(--sm-radius);
+
+    opacity: 0;
+    transform: translate(-50vw, -200px);
+
+    transition: all 300ms ease-in;
+}
+
+.label{
+    font-weight: 300;
+    font-size: var(--label-size);
+    color: var(--c_slate_500);
+}
+.js-visible-dropdown-menu{
+    opacity: 1;
+    transform: translate(-50vw, -80px);
+}
+.alert-message-invitacion{
+    opacity: 0;
+    height: 0;
+    transition: all 300ms ease-in;
+}
+.ant-radio-button-wrapper::before{
+    width: 0 !important;
+}
+
+
+.button-filter{
+    background-color: var(--c_slate_200);
+    min-width: 80px;
+    font-size: var(--label-size);
+    font-weight: 500;
+    padding: var(--sm-space);
+    border-radius: var(--sm-radius);
+    color: var(--c_slate_500);
+    border: 1px solid var(--c_slate_200);
+
+    &:hover{
+        color: var(--c_brand-500);
+        border-color: var(--c_brand-500);
+    }
+    &.button-filter--active{
+        background-color: var(--c_brand_100);
+        color: var(--c_brand-500);
+        padding: var(--sm-space);
+    }
+}
+

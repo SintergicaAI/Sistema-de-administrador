@@ -1,0 +1,18 @@
+.button-logout {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.icon-hover-logout{
+    color: #64748B;
+    &:hover{
+        color:#006EFA;
+    }
+    &:focus{
+        background-color: #006EFA;
+    }
+}
+.ant-menu-item:nth-child(1) {
+    padding-inline: 2px;
+}
