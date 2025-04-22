@@ -94,7 +94,7 @@ body{
     max-width: 170px;
     margin-block: 0;
     padding: var(--sm-space) var(--base-space);
-    border-radius: var(--2xl-space);
+    border-radius: var(--base-space);
 
     font-size: var(--avatar-size);
     text-align: center;

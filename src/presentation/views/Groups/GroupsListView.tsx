@@ -22,7 +22,7 @@ export const GroupsListView = () => {
                 <InputSearch placeholder={"Buscar grupos"} searchMethod={()=>{}}/>
             </div>
         </Header>
-        <Content style={{flexGrow:1, paddingBlock:40 }}>
+        <Content style={{flexGrow:1, paddingBlock:40, paddingInline:50 }}>
               <GroupsList/>
         </Content>
     </Layout>)
