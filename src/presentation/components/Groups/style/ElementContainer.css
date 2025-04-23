@@ -1,0 +1,28 @@
+p{
+    margin-block:0;
+}
+
+.element-section{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.flex-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.element-label{
+    font-weight: 300;
+    font-size: 14px;
+    color: var(--c_slate_400);
+    margin-bottom: 0;
+}
+.element-container{
+    background-color: var(--c_slate_200);
+    border-radius: var(--base-radius);
+    padding-block:var(--2xl-space);
+    font-size: 1rem;
+    text-align: center;
+    color: var(--c_slate_900);
+}

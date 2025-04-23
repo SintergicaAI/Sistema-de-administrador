@@ -1,4 +1,6 @@
-p{
+.group-card__size,
+.group-card__owner,
+.group-card__members{
     margin-block: 0;
     color:var(--c_slate_400);
     font-weight: 300;
