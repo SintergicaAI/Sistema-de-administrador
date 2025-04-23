@@ -29,7 +29,7 @@ export const GroupsListView = () => {
                 </div>
             </div>
         </Header>
-        <Content style={{flexGrow:1, paddingBlock:40, paddingInline:50 }}>
+        <Content style={{flexGrow:1, marginTop:24}}>
               <GroupsList/>
         </Content>
     </Layout>)

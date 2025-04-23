@@ -16,7 +16,7 @@ const items: TabsProps['items'] = [
     },
 ];
 export const Tables = () =>{
-    return (<>
+    return (<div style={{marginBottom:24}}>
         <Tabs defaultActiveKey="1" items={items} />
-    </>)
+    </div>)
 }

@@ -7,16 +7,9 @@ import {RenderSideBarTable} from "../../components/Administration/RenderSideBarT
 import {ConfigurationIcons} from "../../components/Administration/ConfigurationIcons.tsx";
 import {FilterButtons} from "../../components/Administration/FilterButtons.tsx";
 import {Tables} from "../../components/Administration/Tables.tsx";
+import './styles/ContentStyle.css';
 
-const ContentStyle:React.CSSProperties = {
-    width: '90%',
-    minWidth:'450px',
-    maxWidth: '1024px',
-    marginInline: 'auto',
-    marginBlockEnd:'24px',
-    paddingTop:12,
-    paddingInline:10
-}
+const space = 24;
 
 export const Administration = ({texto}:{texto:string}) =>{
 
@@ -27,9 +20,10 @@ export const Administration = ({texto}:{texto:string}) =>{
             <Layout style={{display:"flex",flexDirection:"row"}}>
                 <AdministrationContextProvider>
 
-                    <Content style={ContentStyle}>
-                        <section>
+                    <Content className='container-content'>
+                        <section style={{marginBottom:space}}>
                             <Flex
+                                style={{marginBottom:space}}
                                 justify='space-between'
                                 align={"center"}>
                                     <ButtonModalInviteUser/>
