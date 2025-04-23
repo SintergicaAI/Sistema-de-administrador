@@ -36,7 +36,7 @@ export const SideBarGeneral = ({childrenHeader, contentChildren, hasSelected}:
                     alignItems:'center',paddingInline:0}}
                 >
                     {childrenHeader}
-                    <X onClick={closeSideBar}/>
+                    <X style={{cursor:'pointer'}} onClick={closeSideBar}/>
                 </Header>
                 <Content> {contentChildren}</Content>
             </Layout>

@@ -10,7 +10,7 @@ export const Groups = () => {
         <GroupContextProvider>
             <Layout style={{minHeight: '100vh'}}>
                 <HeaderPages text={"Grupos"}/>
-                <Content className='container-content'>
+                <Content>
                     <Outlet/>
                 </Content>
             </Layout>

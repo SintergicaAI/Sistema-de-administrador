@@ -10,7 +10,7 @@ export const GroupsListView = () => {
 
     const {totalGroups} = useGroupContext()
 
-    return (<Layout style={{display:'flex', flexDirection:'column'}}>
+    return (<Layout className='container-content' style={{display:'flex', flexDirection:'column'}}>
         <Header
             style={{display: 'flex',
                 alignItems: 'center',

@@ -5,6 +5,8 @@ import {ElementContainer} from "../../components/Groups/ElementContainer.tsx";
 import {CSSProperties} from "react";
 import {LibraryBig, Users} from 'lucide-react';
 import './styles/GroupInfoView.css';
+import {SiderGroup} from "../../components/Groups/SiderGroup.tsx";
+import {useGroupContext} from "../../context/Group/useGroupContext.ts";
 
 const {Content} = Layout;
 const {Title} = Typography;
@@ -16,9 +18,10 @@ const styleIcon:CSSProperties = {
 
 export const GroupInfoVIew = ()=>{
     let {nameGroup} = useParams();
+    const {hasSelected} = useGroupContext();
 
-    return (<Layout>
-        <Content style={{display:'flex', flexDirection:'column', gap:24}}>
+    return (<Layout style={{display:"flex"}}>
+        <Content className='container-content' style={{display:'flex', flexDirection:'column', gap:24}}>
             <section className="section">
                 <p className='section__label'>Nombre</p>
                 <Title level={2} style={{marginBlock:0, fontSize:20}}>{nameGroup} </Title>
@@ -47,7 +50,7 @@ export const GroupInfoVIew = ()=>{
             </section>
             <section className='section'>
                 <ElementContainer
-                    labelText={'Miembros de est grupo'}
+                    labelText={'Miembros del grupo'}
                     buttonText={'Administrar miembros'}
                     iconButton={<Users style={styleIcon}/>}
                     containerText=
@@ -55,5 +58,6 @@ export const GroupInfoVIew = ()=>{
                 ></ElementContainer>
             </section>
         </Content>
+        {hasSelected && <SiderGroup/>}
     </Layout>);
 }
