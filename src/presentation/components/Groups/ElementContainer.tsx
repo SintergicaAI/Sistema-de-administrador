@@ -2,10 +2,12 @@ import {Button} from 'antd';
 import {ReactNode} from "react";
 import './style/ElementContainer.css';
 import {useGroupContext} from "../../context/Group/useGroupContext.ts";
+import {SideContentType} from "../../context/Group/GroupContext.tsx";
 
 type Props = {
     labelText: string,
     buttonText:string,
+    id: SideContentType,
     containerText:ReactNode,
     iconButton:JSX.Element,
 }
@@ -14,12 +16,16 @@ export const ElementContainer =
     ({  labelText,
          buttonText,
          iconButton,
+            id,
          containerText}:Props)=>{
 
-    const {setHasSelected,setSideHeaderText} = useGroupContext();
+    const {setHasSelected,
+        setSideContent,
+        setSideHeaderText} = useGroupContext();
 
     const openSidebar = () => {
         setHasSelected(true);
+        setSideContent(id);
         setSideHeaderText(labelText);
     }
 

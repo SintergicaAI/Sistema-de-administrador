@@ -28,6 +28,7 @@ export const GroupInfoVIew = ()=>{
             </section>
             <section className='section'>
                 <ElementContainer
+                    id={'conocimiento'}
                     labelText={'Base de conocimientos'}
                     buttonText={'Administrar bases'}
                     iconButton={<LibraryBig style={styleIcon}/>}
@@ -37,6 +38,7 @@ export const GroupInfoVIew = ()=>{
             </section>
             <section className='section'>
                 <ElementContainer
+                    id='asistentes'
                     labelText={'Asistentes'}
                     buttonText={'Administrar asistentes'}
                     iconButton={<img
@@ -50,6 +52,7 @@ export const GroupInfoVIew = ()=>{
             </section>
             <section className='section'>
                 <ElementContainer
+                    id={'usuarios'}
                     labelText={'Miembros del grupo'}
                     buttonText={'Administrar miembros'}
                     iconButton={<Users style={styleIcon}/>}
