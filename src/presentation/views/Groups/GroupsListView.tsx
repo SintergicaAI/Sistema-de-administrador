@@ -1,8 +1,8 @@
 import {Button, Layout} from "antd";
 import {SquarePlus} from "lucide-react";
-import {InputSearch} from "../../components/common";
 import {GroupsList} from "../../components/Groups/GroupsList.tsx";
 import {useGroupContext} from "../../context/Group/useGroupContext.ts";
+import {InputSearchGroups} from "../../components/Groups/InputSearchGroups.tsx";
 
 const {Header, Content} = Layout;
 
@@ -25,7 +25,7 @@ export const GroupsListView = () => {
             <div style={{display: 'flex',gap:8}}>
                 <p style={{marginBlock:0}}>{totalGroups} {`${totalGroups !=1 ? 'grupos': 'grupo'}`}</p>
                 <div style={{minWidth:250}}>
-                    <InputSearch placeholder={"Buscar grupos"} searchMethod={()=>{}}/>
+                   <InputSearchGroups/>
                 </div>
             </div>
         </Header>

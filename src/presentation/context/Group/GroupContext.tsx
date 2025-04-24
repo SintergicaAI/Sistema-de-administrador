@@ -11,6 +11,8 @@ interface GroupContextType {
     setSideHeaderText:(newSideHeaderText: string) => void,
     sideContent:SideContentType,
     setSideContent:(newSiderContent: SideContentType) => void,
+    filterValue:string,
+    setFilterValue:(newFilterGroups: string) => void,
 }
 
 export const GroupContext = createContext<GroupContextType|null>(null)

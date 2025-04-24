@@ -6,6 +6,7 @@ export const GroupContextProvider = ({children}:{children:ReactNode}) =>{
     const [hasSelected, setHasSelected] = useState(false);
     const [sideHeaderText, setSideHeaderText] = useState("");
     const [sideContent, setSideContent] = useState<SideContentType>("");
+    const [filterValue,setFilterValue] = useState("");
 
     return (<GroupContext.Provider value={
         {
@@ -17,6 +18,8 @@ export const GroupContextProvider = ({children}:{children:ReactNode}) =>{
             sideHeaderText:sideHeaderText,
             setSideContent,
             sideContent:sideContent,
+            filterValue,
+            setFilterValue
         }
     }>
         {children}

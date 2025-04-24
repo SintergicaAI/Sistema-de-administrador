@@ -11,6 +11,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 
 const groupApi = new GroupApi();
 const getInformationFromGroups = new GetInformationOfGroups(groupApi);
+let inmutableData:CardData[] | [] = [];
 
 const getData = async ()=>{
     return await getInformationFromGroups.execute();
@@ -26,33 +27,39 @@ const cleanData = (data:GetGroupDTO[])=>{
     })
 }
 
-const ContainerGroup = ({listGroups}:{listGroups:CardData[]})=>{
-    return (
-        <section style={{display:'grid', gridTemplateColumns:'repeat(2,1fr)', gap:'8px'}}>
-            {
-                listGroups?.length ? listGroups.map((item, index)=>(
-                        <GroupCard key={index} {...item}/>
-                    )) :
-                    '' }
-        </section>
-    )
-}
 
 export const GroupsList = ()=>{
-    const [listGroups, setListGroups] = useState<CardData[]|null>(null);
 
-    const {setTotalGroups} = useGroupContext();
+    const {setTotalGroups,filterValue} = useGroupContext();
+    const [groups,setGroups] = useState<CardData[]|null>(null);
+
+    const filteringData = ()=>{
+        if(filterValue.length != 0){
+            const filtered
+                = groups?.filter(item => item.nameGroup.toLowerCase().includes(filterValue.toLowerCase())) ?? []
+            setGroups(filtered);
+        }
+        else{
+            setGroups([...inmutableData])
+        }
+    }
+
     useEffect(()=>{
         getData().then((res)=>{
             const formattedData = cleanData(res);
-            setListGroups(formattedData)
+            inmutableData=formattedData;
+            setGroups(formattedData);
             setTotalGroups(formattedData.length);
         }).catch(()=>{
-            setListGroups([])
+            setGroups([])
         })
     },[])
 
-    if(listGroups === null){
+    useEffect(() => {
+        filteringData();
+    }, [filterValue]);
+
+    if(groups === null){
         return (
             <div style={{display:'grid', placeContent:'center'}}>
                 <Spin indicator={<LoadingOutlined spin />} size="large" />
@@ -62,7 +69,17 @@ export const GroupsList = ()=>{
 
     return (<>
         {
-        (listGroups.length > 1) ?  <ContainerGroup listGroups={listGroups}/>: <NotFoundGroups />
+        (groups.length > 1) ?
+            (
+            <section style={{display:'grid', gridTemplateColumns:'repeat(2,1fr)', gap:'8px'}}>
+            {
+                groups?.length ? groups.map((item, index)=>(
+                        <GroupCard key={index} {...item}/>
+                    )) : ''
+            }
+            </section>
+            )
+            : <NotFoundGroups />
         }
     </>
 

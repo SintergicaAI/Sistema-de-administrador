@@ -5,7 +5,7 @@ import {CSSProperties, useState} from "react";
 type Props = {
     placeholder:string,
     styles?:CSSProperties,
-    searchMethod:(value:string)=>void,
+    searchMethod:(value:any)=>void,
 }
 
 export const InputSearch = ({placeholder,styles,searchMethod}:Props) =>{
