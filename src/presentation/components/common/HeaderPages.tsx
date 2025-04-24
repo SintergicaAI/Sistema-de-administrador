@@ -1,8 +1,14 @@
-import {Layout,Typography} from "antd";
+import {Layout} from "antd";
 
 const {Header}  = Layout;
-const {Title} = Typography;
-export const HeaderPages = ({text}:{text:string}) =>{
+
+type Props = {
+    children:JSX.Element
+}
+
+export const HeaderPages = ({children}:Props) =>{
+
+
     return (
         <Header
             style={
@@ -10,7 +16,7 @@ export const HeaderPages = ({text}:{text:string}) =>{
                 paddingInline:12,
                 marginBottom:'0',
                 backgroundColor:"var(--c_slate_100)"}}>
-            <Title style={{fontWeight:'bold'}}>{text}</Title>
+            {children}
         </Header>
     )
 }

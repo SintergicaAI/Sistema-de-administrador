@@ -8,15 +8,18 @@ import {ConfigurationIcons} from "../../components/Administration/ConfigurationI
 import {FilterButtons} from "../../components/Administration/FilterButtons.tsx";
 import {Tables} from "../../components/Administration/Tables.tsx";
 import './styles/ContentStyle.css';
+import {Typography} from "antd";
 
 const space = 24;
-
+const {Title} = Typography;
 export const Administration = ({texto}:{texto:string}) =>{
 
 
     return (
         <Layout style={{minHeight:'100vh'}}>
-            <HeaderPages text={texto}/>
+            <HeaderPages>
+                <Title style={{fontWeight:'bold'}}>{texto}</Title>
+            </HeaderPages>
             <Layout style={{display:"flex",flexDirection:"row"}}>
                 <AdministrationContextProvider>
 
