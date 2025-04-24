@@ -7,7 +7,7 @@ import {GetCompanyGroups} from "../../../application/use-cases/GetCompanyGroups.
 import {UserRole} from "../../../domain/enums/UserRole.ts";
 import {getGroupId, getGroupNameFromId, getGroupNameInLowerCase, getGroupsNames} from "../../utilities";
 import {GroupType} from "../../../domain/types/CompanyTypes.ts";
-import {GroupCheckboxContainer} from "./GroupCheckboxContainer.tsx";
+import {CheckboxContainer} from "../common/CheckboxContainer.tsx";
 
 
 
@@ -128,7 +128,7 @@ export const CheckBoxGroups = ({filterValue}:Props)=>{
         <Flex gap={5} flex="1" vertical>
             {!loading ?
                 companyFilter.map((groupFromCompany,index) =>(
-                    <GroupCheckboxContainer
+                    <CheckboxContainer
                         key={index}
                         value={groupFromCompany}
                         handleChange={handleCheckBoxGroup}

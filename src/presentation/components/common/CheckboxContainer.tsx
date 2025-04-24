@@ -1,6 +1,6 @@
 import {ChangeEvent} from "react";
 import {Flex, Tooltip} from "antd";
-import {CheckBox} from '../common'
+import {CheckBox} from './index.ts'
 import {upperCaseOneWord} from "../../utilities";
 import {GroupType} from "../../../domain/types/CompanyTypes.ts";
 
@@ -12,7 +12,7 @@ type Props ={
     isDisabled?:boolean,
 }
 
-export const GroupCheckboxContainer = ({
+export const CheckboxContainer = ({
                                            value,
                                            checkedValue,
                                            groupSize,
