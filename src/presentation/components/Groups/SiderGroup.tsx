@@ -37,7 +37,11 @@ export const SiderGroup = ()=>{
 
     return (
             <SideBarGeneral
-                childrenHeader={<Title level={3} style={{fontSize:16}}>{sideHeaderText}</Title>}
+                childrenHeader={<Title level={3}
+                                       style={{
+                                           marginBlock:0,
+                                           fontSize:16
+                }}>{sideHeaderText}</Title>}
                 contentChildren={SideContentRender}
                 hasSelected={setHasSelected}/>
         )

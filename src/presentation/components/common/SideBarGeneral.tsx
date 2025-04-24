@@ -30,10 +30,12 @@ export const SideBarGeneral = ({childrenHeader, contentChildren, hasSelected}:
         <Sider width="30%" style={siderStyle}>
             <Layout style={{backgroundColor:'var(--c_slate_50)',paddingInline:'var(--lg-space)', paddingBlock:'var(--xl-space)'}}>
                 <Header style={{
+                    marginBottom:'1rem',
                     display:'flex',
                     justifyContent:'space-between',
                     gap:10,
                     alignItems:'center',paddingInline:0}}
+
                 >
                     {childrenHeader}
                     <X style={{cursor:'pointer'}} onClick={closeSideBar}/>
