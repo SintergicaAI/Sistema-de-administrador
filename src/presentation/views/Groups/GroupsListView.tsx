@@ -10,6 +10,8 @@ export const GroupsListView = () => {
 
     const {totalGroups} = useGroupContext()
 
+    //todo: Add an useEffect when there is a change in groups
+
     return (<Layout className='container-content' style={{display:'flex', flexDirection:'column'}}>
         <Header
             style={{display: 'flex',
