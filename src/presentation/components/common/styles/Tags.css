@@ -1,0 +1,32 @@
+.tag{
+    --color-text:#475569;
+    --back-color:#E2E8F0;
+
+    font-size:14px;
+    border-radius: var(--base-radius);
+
+    color: var(--color-text);
+    border: 1px solid var(--color-text);
+    background-color: var(--back-color);
+
+    padding-block: var(--sm-space);
+    padding-inline: var(--base-space);
+
+    .tag__text{
+        margin-block: 0;
+    }
+
+    /*Differents Tags*/
+    &[data-color="red"]{
+        --back-color: #FEE2E2;
+        --color-text: #DC2626;
+    }
+    &[data-color="blue"]{
+        --back-color: #BFDBFE;
+        --color-text: #2563EB;
+    }
+    &[data-color="green"]{
+        --back-color: #DCFCE7;
+        --color-text: #16A34A;
+    }
+}
