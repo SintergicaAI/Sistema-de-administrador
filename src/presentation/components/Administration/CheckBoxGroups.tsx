@@ -8,6 +8,7 @@ import {UserRole} from "../../../domain/enums/UserRole.ts";
 import {getGroupId, getGroupNameFromId, getGroupNameInLowerCase, getGroupsNames} from "../../utilities";
 import {GroupType} from "../../../domain/types/CompanyTypes.ts";
 import {CheckboxContainer} from "../common/CheckboxContainer.tsx";
+import {LabelComponent} from "./LabelComponent.tsx";
 
 
 
@@ -130,10 +131,11 @@ export const CheckBoxGroups = ({filterValue}:Props)=>{
                 companyFilter.map((groupFromCompany,index) =>(
                     <CheckboxContainer
                         key={index}
-                        value={groupFromCompany}
+                        labelComponent={<LabelComponent name={groupFromCompany.name} />}
+                        objectValue={{name:groupFromCompany.name,value:groupFromCompany.group_id}}
                         handleChange={handleCheckBoxGroup}
                         checkedValue={userGroup}
-                        groupSize={groupsPerPerson.get(groupFromCompany.group_id)}
+                        extraInfo={`${groupsPerPerson.get(groupFromCompany.group_id)} miembros`}
                         isDisabled={isDisable}
                          />
                 )): <Spin/>}

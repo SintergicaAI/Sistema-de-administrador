@@ -3,6 +3,11 @@
     padding: var(--sm-space);
     border-radius: var(--sm-radius);
 
+    .extra-info{
+        color:var(--c_slate_400);
+        font-weight: 300;
+    }
+
     &:has(input[type="checkbox"]:disabled){
         opacity: 0.5;
         .groups__tag {
@@ -41,8 +46,13 @@
             color: var(--c_brand-500);
         }
     }
+
     &:has( input:checked ){
         background-color: var(--c_brand_100);
         color: var(--c_brand-500);
+
+        .extra-info{
+            color: var(--c_brand-500);
+        }
     }
 }
