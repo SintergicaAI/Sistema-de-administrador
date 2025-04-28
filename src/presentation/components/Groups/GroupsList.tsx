@@ -8,6 +8,7 @@ import {NotFoundGroups} from "./NotFoundGroups.tsx";
 import {useGroupContext} from "../../context/Group/useGroupContext.ts";
 import {Spin} from "antd";
 import { LoadingOutlined } from '@ant-design/icons';
+import {filteringData} from "../../utilities/filteringData.ts";
 
 const groupApi = new GroupApi();
 const getInformationFromGroups = new GetInformationOfGroups(groupApi);
@@ -22,7 +23,8 @@ const cleanData = (data:GetGroupDTO[])=>{
             nameGroup: item.name,
             userCreatorName: `${ item.userCreator.name} ${item.userCreator.lastName}`,
             members: item.users.length,
-            size:32.2
+            size:32.2,
+            filterValue:item.name
         }
     })
 }
@@ -32,17 +34,6 @@ export const GroupsList = ()=>{
 
     const {setTotalGroups,filterValue} = useGroupContext();
     const [groups,setGroups] = useState<CardData[]|null>(null);
-
-    const filteringData = ()=>{
-        if(filterValue.length != 0){
-            const filtered
-                = groups?.filter(item => item.nameGroup.toLowerCase().includes(filterValue.toLowerCase())) ?? []
-            setGroups(filtered);
-        }
-        else{
-            setGroups([...inmutableData])
-        }
-    }
 
     useEffect(()=>{
         getData().then((res)=>{
@@ -56,7 +47,8 @@ export const GroupsList = ()=>{
     },[])
 
     useEffect(() => {
-        filteringData();
+        const filter = filteringData<CardData>(filterValue,groups,inmutableData);
+        setGroups(filter);
     }, [filterValue]);
 
     if(groups === null){
