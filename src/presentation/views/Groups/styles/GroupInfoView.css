@@ -1,0 +1,17 @@
+.section{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #CBD5E1;
+}
+
+.section__label{
+    font-weight: 300;
+    font-size: 14px;
+    color: var(--c_slate_400);
+}
+.highlight-text{
+    font-weight: 700;
+    color: var(--c_brand-500);
+}

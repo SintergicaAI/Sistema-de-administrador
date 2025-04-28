@@ -1,6 +1,5 @@
 import { Flex } from "antd"
 import './styles/ModalGroups.css';
-import '../common/styles/SideBar.css';
 import {GroupType} from "../../../domain/types/CompanyTypes.ts";
 import {useLayoutEffect, useRef} from "react";
 type Props = {
@@ -30,7 +29,7 @@ export const ModalGroups = ({groupsUser}:Props)=>{
             <Flex wrap gap={4}>
                 {
                     groupExist.length ?
-                    groupsUser.map((group) =>( <p className='checkbok__tag' key={group.name}>{group.name}</p>))
+                    groupsUser.map((group) =>( <p className='groups__tag' key={group.name}>{group.name}</p>))
                         : <p className='modal-groups__text' >No hay grupos</p>
                 }
 

@@ -7,7 +7,8 @@ import {GetCompanyGroups} from "../../../application/use-cases/GetCompanyGroups.
 import {UserRole} from "../../../domain/enums/UserRole.ts";
 import {getGroupId, getGroupNameFromId, getGroupNameInLowerCase, getGroupsNames} from "../../utilities";
 import {GroupType} from "../../../domain/types/CompanyTypes.ts";
-import {GroupCheckboxContainer} from "./GroupCheckboxContainer.tsx";
+import {CheckboxContainer} from "../common/CheckboxContainer.tsx";
+import {LabelComponent} from "./LabelComponent.tsx";
 
 
 
@@ -26,7 +27,6 @@ const getGroupCompany = new GetCompanyGroups(companyAPI);
 const copyGroupPerPerson = new Map<string, number>();
 let companyGroups:GroupType[] = [];
 
-//TODO:Verify possible error in companyFilter
 export const CheckBoxGroups = ({filterValue}:Props)=>{
     const {selectedRow,changeSelectedRow,dataTable} = useAdministration();
     const {groups,role} = selectedRow as SelectedProps ;
@@ -129,12 +129,13 @@ export const CheckBoxGroups = ({filterValue}:Props)=>{
         <Flex gap={5} flex="1" vertical>
             {!loading ?
                 companyFilter.map((groupFromCompany,index) =>(
-                    <GroupCheckboxContainer
+                    <CheckboxContainer
                         key={index}
-                        value={groupFromCompany}
+                        labelComponent={<LabelComponent name={groupFromCompany.name} />}
+                        objectValue={{name:groupFromCompany.name,value:groupFromCompany.group_id}}
                         handleChange={handleCheckBoxGroup}
                         checkedValue={userGroup}
-                        groupSize={groupsPerPerson.get(groupFromCompany.group_id)}
+                        extraInfo={`${groupsPerPerson.get(groupFromCompany.group_id)} miembros`}
                         isDisabled={isDisable}
                          />
                 )): <Spin/>}

@@ -113,3 +113,7 @@ Content-Type: application/json
     "token": "3d6401fd-1acb-4345-92a6-ee77a2773f14",
     "password": "123456"
 }
+###
+GET {{TURING_API_URL}}/company/groups
+Accept: application/json
+Authorization: Bearer {{auth_token}}

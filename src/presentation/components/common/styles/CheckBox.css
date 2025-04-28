@@ -3,25 +3,16 @@
     padding: var(--sm-space);
     border-radius: var(--sm-radius);
 
-    &:has(input[type="checkbox"]:disabled){
-        opacity: 0.5;
-        .checkbok__tag {
-            background-color: var(--c_slate_500);
-        }
+    .extra-info{
+        color:var(--c_slate_400);
+        font-weight: 300;
     }
 
-
-    .checkbok__tag{
-        font-size: var(--avatar-size);
-        text-align: center;
-        min-width: 50px;
-        max-width: 170px;
-        margin-block: 0;
-        font-weight: 600;
-        color: var(--c_brand_50);
-        padding: var(--sm-space) var(--base-space);
-        background-color: var(--c_brand-500);
-        border-radius: var(--2xl-space);
+    &:has(input[type="checkbox"]:disabled){
+        opacity: 0.5;
+        .groups__tag {
+            background-color: var(--c_slate_500);
+        }
     }
     .lucide{
         display: none;
@@ -55,8 +46,13 @@
             color: var(--c_brand-500);
         }
     }
+
     &:has( input:checked ){
         background-color: var(--c_brand_100);
         color: var(--c_brand-500);
+
+        .extra-info{
+            color: var(--c_brand-500);
+        }
     }
 }

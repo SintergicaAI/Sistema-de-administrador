@@ -7,29 +7,26 @@ import {RenderSideBarTable} from "../../components/Administration/RenderSideBarT
 import {ConfigurationIcons} from "../../components/Administration/ConfigurationIcons.tsx";
 import {FilterButtons} from "../../components/Administration/FilterButtons.tsx";
 import {Tables} from "../../components/Administration/Tables.tsx";
+import './styles/ContentStyle.css';
+import {Typography} from "antd";
 
-const ContentStyle:React.CSSProperties = {
-    width: '90%',
-    minWidth:'450px',
-    maxWidth: '1024px',
-    marginInline: 'auto',
-    marginBlockEnd:'24px',
-    paddingTop:12,
-    paddingInline:10
-}
-
+const space = 24;
+const {Title} = Typography;
 export const Administration = ({texto}:{texto:string}) =>{
 
 
     return (
         <Layout style={{minHeight:'100vh'}}>
-            <HeaderPages text={texto}/>
+            <HeaderPages>
+                <Title style={{fontWeight:'bold'}}>{texto}</Title>
+            </HeaderPages>
             <Layout style={{display:"flex",flexDirection:"row"}}>
                 <AdministrationContextProvider>
 
-                    <Content style={ContentStyle}>
-                        <section>
+                    <Content className='container-content'>
+                        <section style={{marginBottom:space}}>
                             <Flex
+                                style={{marginBottom:space}}
                                 justify='space-between'
                                 align={"center"}>
                                     <ButtonModalInviteUser/>

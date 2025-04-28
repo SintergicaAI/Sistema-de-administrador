@@ -1,8 +1,8 @@
 import React, {CSSProperties} from "react";
 import {Menu, MenuProps} from "antd";
 import {To, useNavigate} from "react-router";
-import {UserPen, SquareTerminal, MessageCircle,} from 'lucide-react';
-import {Avatar } from '../common';
+import {UserPen, SquareTerminal, MessageCircle, Users} from 'lucide-react';
+import {Avatar } from './index.ts';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -47,6 +47,8 @@ const items: MenuItem[] = [
         ]),
     getItem('Knowledge', '/knowledge', <MessageCircle style={iconSize}/>),
     getItem('Admin','/administration', <UserPen style={iconSize}/>),
+    getItem('Groups','/groups', <Users style={iconSize}/>)
+    ,
 ];
 
 export const MenuPrincipal = ()=>{

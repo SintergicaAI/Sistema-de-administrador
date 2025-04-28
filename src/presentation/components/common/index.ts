@@ -1,4 +1,4 @@
-
+export * from './CheckboxContainer.tsx';
 export  * from "./CheckBox.tsx";
 export  * from "./InputSearch.tsx";
 export * from "./SubmitButton.tsx";

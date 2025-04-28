@@ -19,6 +19,7 @@ export const ThemeConfiguration = ({children}:Props) => {
                     bodyBg:'var(--c_slate_100)',
                     headerBg:"inherit",
                     headerHeight:50,
+                    headerPadding:0,
                     siderBg: 'var(--c_slate_200)',
                     colorText:'var(--c_slate_500)',
                     algorithm: true

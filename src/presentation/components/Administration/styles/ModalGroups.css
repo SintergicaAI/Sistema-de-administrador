@@ -1,9 +1,7 @@
 .modal-container{
-
-
     position: relative;
     .modal-groups{
-        --space-y:50px;
+        --space-y:10px;
         --width-modal:clamp(250px, 50%,320px);
 
 
@@ -16,7 +14,7 @@
 
         position: absolute;
         top:var(--space-y);
-        left: calc( var(--space-y) - var(--width-modal) );
+        left: calc( var(--space-y) - var(--width-modal) - 20px );
         z-index: 9;
         opacity: 0;
         background-color: #fff;
@@ -33,11 +31,6 @@
             opacity: 1;
         }
     }
-
-   /* &:hover .modal-groups{
-        display: block;
-    }*/
-
 
 }
 

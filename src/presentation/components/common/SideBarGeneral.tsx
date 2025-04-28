@@ -1,5 +1,4 @@
 import {Layout} from 'antd'
-import './styles/SideBar.css'
 const {Sider,Header,Content} = Layout
 import { X } from 'lucide-react';
 import {Dispatch, ReactNode, SetStateAction} from 'react';
@@ -31,13 +30,15 @@ export const SideBarGeneral = ({childrenHeader, contentChildren, hasSelected}:
         <Sider width="30%" style={siderStyle}>
             <Layout style={{backgroundColor:'var(--c_slate_50)',paddingInline:'var(--lg-space)', paddingBlock:'var(--xl-space)'}}>
                 <Header style={{
+                    marginBottom:'1rem',
                     display:'flex',
                     justifyContent:'space-between',
                     gap:10,
                     alignItems:'center',paddingInline:0}}
+
                 >
                     {childrenHeader}
-                    <X onClick={closeSideBar}/>
+                    <X style={{cursor:'pointer'}} onClick={closeSideBar}/>
                 </Header>
                 <Content> {contentChildren}</Content>
             </Layout>
