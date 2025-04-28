@@ -12,7 +12,6 @@ try {
     console.error(e)
 }
 
-//TODO: Separar mis rutas de los estilos
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
         <BrowserRouter>

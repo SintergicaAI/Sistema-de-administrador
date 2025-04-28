@@ -10,7 +10,7 @@ export const AdministrationContextProvider = ({children}:{children:ReactNode}) =
     const [hasSelected,setHasSelected ]=useState<boolean>(false);
     const [dataTable,setDataTabla] = useState<any[]>([]);
     const [searchText, setSearchText] = useState('');
-    const [totalItemsTable,setTotalItemsTable]=useState(0); //TODO:Intentar implementar el valor calculado
+    const [totalItemsTable,setTotalItemsTable]=useState(0);
     const [loadingTable, setLoadingTable] = useState(false);
     const [filters, setFilters] = useState<string[]>([]);
 

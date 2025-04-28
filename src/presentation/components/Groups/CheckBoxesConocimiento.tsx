@@ -1,7 +1,7 @@
 import {Flex} from "antd";
 import {CheckboxContainer} from "../common";
 import {Tag} from "../common/Tag.tsx";
-import {ChangeEvent} from "react";
+import {ChangeEvent, useState} from "react";
 
 const tags = [{
     color:'green',
@@ -18,13 +18,22 @@ const tags = [{
 },{
     color:'',
     text:'General  2',
-    value:'general'
+    value:'general2'
 }]
 
 export const CheckBoxesConocimiento = ()=>{
 
-    const handleCheckBoxGroup = (value:ChangeEvent<HTMLInputElement>) =>{
-
+    //todo:This value is going to be fetched from the groupAPI
+    const [groupsSelected, setGroupsSelected] = useState<string[]>(["general","finanzas"]);
+    const handleCheckBoxGroup = ({target}:ChangeEvent<HTMLInputElement>) =>{
+        if(target.checked){
+            const checkedValue = target.value;
+            setGroupsSelected([...groupsSelected,checkedValue]);
+        }else{
+            const withoutCheckedValue =
+                groupsSelected.filter((item)=>item.toLowerCase() !== target.value.toLowerCase());
+            setGroupsSelected([...withoutCheckedValue]);
+        }
     }
 
     return (
@@ -34,7 +43,7 @@ export const CheckBoxesConocimiento = ()=>{
                     <CheckboxContainer
                         labelComponent={<Tag text={item.text} color={item.color}/>}
                         objectValue={{value:item.value,name:item.value}}
-                        checkedValue={["ventas","finanzas"]}
+                        checkedValue={groupsSelected}
                         extraInfo={"12 archivos"}
                         handleChange={handleCheckBoxGroup}/>
                 ))
