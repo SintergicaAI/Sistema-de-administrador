@@ -68,20 +68,20 @@ export const GroupsList = ()=>{
     }
 
     return (<>
+
         {
         (groups.length > 1) ?
             (
             <section style={{display:'grid', gridTemplateColumns:'repeat(2,1fr)', gap:'8px'}}>
             {
-                groups?.length ? groups.map((item, index)=>(
+                groups.map((item, index)=>(
                         <GroupCard key={index} {...item}/>
-                    )) : ''
+                    ))
             }
             </section>
             )
             : <NotFoundGroups />
         }
     </>
-
     )
 }
