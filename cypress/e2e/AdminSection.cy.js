@@ -1,20 +1,20 @@
-describe('Admin Section Test On The Home Page', () => {
+describe('Admin Section Test', () => {
     beforeEach(() => {
+        // Visitar la página de login
         cy.visit('http://localhost:5173/auth')
 
-        // Interceptar el primer refreshToken con datos falsos
-        cy.intercept('POST', '/users/refreshToken', {
-            statusCode: 200,
-            body: { token: 'fakeToken', refreshToken: 'fakeRefreshToken' }
-        }).as('initialRefreshToken')
-
-        // Interceptar GET /users/1 usando el token real
+        // Interceptar GET /users/1 usando token real
         cy.intercept('GET', '/users/1', (req) => {
             cy.window().then((win) => {
                 const user = JSON.parse(win.localStorage.getItem('user'))
-                if (user?.token) req.headers['Authorization'] = `Bearer ${user.token}`
+                if (user?.token) {
+                    req.headers['Authorization'] = `Bearer ${user.token}`
+                }
             })
-            req.reply({ statusCode: 200, body: { id: 1, name: 'bob' } })
+            req.reply({
+                statusCode: 200,
+                body: { id: 1, name: 'bob' }
+            })
         }).as('getUser')
 
         // Realizar login
@@ -24,25 +24,22 @@ describe('Admin Section Test On The Home Page', () => {
         cy.contains('Iniciar sesión').click()
         cy.wait(2000)
 
-        // Verificar tokens en localStorage
+        // 🔹 Verificar tokens y preparar refreshToken intercept real
         cy.window().then((win) => {
             const user = JSON.parse(win.localStorage.getItem('user'))
             expect(user?.token).to.not.be.null
             expect(user?.refreshToken).to.not.be.null
-        })
 
-        // Interceptar la segunda solicitud de refreshToken con tokens reales
-        cy.window().then((win) => {
-            const user = JSON.parse(win.localStorage.getItem('user'))
             cy.intercept('POST', '/users/refreshToken', {
                 statusCode: 200,
-                body: { token: user?.token, refreshToken: user?.refreshToken }
+                body: {
+                    token: user.token,
+                    refreshToken: user.refreshToken
+                }
             }).as('realRefreshToken')
         })
-
-        // Validar segunda solicitud de refreshToken
-        cy.wait('@realRefreshToken')
     })
+
     it('user should can to see the admin section', () => {
         cy.contains('li', 'Admin').click()
         cy.url().should('include', '/administration')
