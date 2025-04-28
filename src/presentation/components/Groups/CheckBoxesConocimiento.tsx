@@ -1,30 +1,35 @@
 import {Flex} from "antd";
 import {CheckboxContainer} from "../common";
 import {Tag} from "../common/Tag.tsx";
-import {ChangeEvent, useState} from "react";
+import {ChangeEvent, useEffect, useState} from "react";
 import {useGroupContext} from "../../context/Group/useGroupContext.ts";
+import {filteringData} from "../../utilities/filteringData.ts";
+import {Tags} from "./GroupsTypes.ts";
 
 const tags = [{
     color:'green',
     text:'General',
-    value:'general'
+    value:'general',
+    filterValue:'general'
     },{
     color:'red',
     text:'Finanzas',
     value:'finanzas',
+    filterValue:'finanzas'
 },{
     color:'blue',
     text:'Ventas',
-    value:'ventas'
+    value:'ventas',
+    filterValue:'ventas'
 },{
     color:'',
     text:'General  2',
-    value:'general2'
+    value:'general2',
+    filterValue:'general2'
 }]
 
 const getColor = (value:ChangeEvent<HTMLInputElement>) =>{
     const {target} = value;
-    console.log(target);
     const parent = target.closest("div")?.parentElement;
     if(!parent) return '';
     return parent.querySelector('.tag')?.getAttribute('data-color') ?? '';
@@ -36,6 +41,8 @@ export const CheckBoxesConocimiento = ()=>{
     //todo:This value is going to be fetched from the groupAPI
     const {setConocimientoTagsSelected, conocimientoTagsSelected} = useGroupContext();
     const [groupsSelected, setGroupsSelected] = useState<string[]>(conocimientoTagsSelected.map(item => item.value));
+    const [tagsGroups,setTagsGroups] = useState<Tags[]>([...tags]);
+    const {filterValue} = useGroupContext();
 
     const handleCheckBoxGroup = (value:ChangeEvent<HTMLInputElement>) =>{
         const {target} = value;
@@ -43,8 +50,11 @@ export const CheckBoxesConocimiento = ()=>{
             const checkedValue = target.value;
             setGroupsSelected([...groupsSelected,checkedValue]);
             const color = getColor(value);
-            console.log("Color del tag:"+ color);
-            setConocimientoTagsSelected([...conocimientoTagsSelected,{color:color,value:target.value,text:target.value}]);
+            setConocimientoTagsSelected([...conocimientoTagsSelected,
+                {color:color,
+                filterValue:target.value,
+                value:target.value,
+                text:target.value}]);
         }else{
             const removedValue = target.value;
             const withoutCheckedValue =
@@ -59,10 +69,16 @@ export const CheckBoxesConocimiento = ()=>{
     }
 
 
+    useEffect(() => {
+        const filter = filteringData<Tags>(filterValue,tagsGroups,tags);
+        setTagsGroups(filter);
+    }, [filterValue]);
+
     return (
         <Flex vertical gap={16}>
             {
-                tags.map((item) =>(
+                tagsGroups.length > 0 ?
+                tagsGroups.map((item) =>(
                     <CheckboxContainer
                         key={item.value}
                         labelComponent={<Tag text={item.text} color={item.color}/>}
@@ -70,7 +86,7 @@ export const CheckBoxesConocimiento = ()=>{
                         checkedValue={groupsSelected}
                         extraInfo={"12 archivos"}
                         handleChange={handleCheckBoxGroup}/>
-                ))
+                )) : 'Sin grupos de conocimiento'
             }
         </Flex>
     )

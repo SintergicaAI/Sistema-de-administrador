@@ -1,4 +1,5 @@
-import {GroupContext, SideContentType, tags} from "./GroupContext"
+import { SideContentType, Tags } from "../../components/Groups/GroupsTypes";
+import {GroupContext} from "./GroupContext"
 import {ReactNode, useState} from "react";
 
 export const GroupContextProvider = ({children}:{children:ReactNode}) =>{
@@ -7,7 +8,7 @@ export const GroupContextProvider = ({children}:{children:ReactNode}) =>{
     const [sideHeaderText, setSideHeaderText] = useState("");
     const [sideContent, setSideContent] = useState<SideContentType>("");
     const [filterValue,setFilterValue] = useState("");
-    const [conocimientoTagsSelected, setConocimientoTagsSelected] = useState<tags[]>([]);
+    const [conocimientoTagsSelected, setConocimientoTagsSelected] = useState<Tags[]>([]);
 
     return (<GroupContext.Provider value={
         {

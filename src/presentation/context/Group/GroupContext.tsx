@@ -1,11 +1,7 @@
 import {createContext} from "react";
+import {SideContentType, Tags} from "../../components/Groups/GroupsTypes";
 
-export type SideContentType = 'conocimiento' | 'asistentes' | 'usuarios' | '';
-export interface tags  {
-    text:string,
-    value:string,
-    color:string,
-}
+
 
 interface GroupContextType {
     totalGroups: number,
@@ -18,8 +14,8 @@ interface GroupContextType {
     setSideContent:(newSiderContent: SideContentType) => void,
     filterValue:string,
     setFilterValue:(newFilterGroups: string) => void,
-    conocimientoTagsSelected:tags[],
-    setConocimientoTagsSelected:(newConocimientoTags: tags[]) => void,
+    conocimientoTagsSelected:Tags[],
+    setConocimientoTagsSelected:(newConocimientoTags: Tags[]) => void,
 
 }
 

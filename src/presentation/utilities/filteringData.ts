@@ -1,14 +1,16 @@
+import {FilteredValue} from "../components/common/CommonTypes.ts";
 
-export function filteringData<Type>(filteringValue:string,
+export function filteringData<Type extends FilteredValue>(filteringValue:string,
                                     collection:Type[] | null,
-                                    inmutableData:Type[],
-                                    callback:(value:React.SetStateAction<Type[]|null>) => void){
+                                    inmutableData:Type[]){
     if(filteringValue.length != 0){
-        const filtered
-            = collection?.filter(item => item.name.toLowerCase().includes(filteringValue.toLowerCase())) ?? []
-        callback(filtered);
+
+        return collection?.filter(item => {
+                return item.filterValue.toLowerCase().includes(filteringValue.toLowerCase())
+            })
+            ?? [];
     }
     else{
-        callback([...inmutableData])
+        return inmutableData;
     }
 }
