@@ -7,6 +7,7 @@ import {LibraryBig, Users} from 'lucide-react';
 import './styles/GroupInfoView.css';
 import {SiderGroup} from "../../components/Groups/SiderGroup.tsx";
 import {useGroupContext} from "../../context/Group/useGroupContext.ts";
+import {ContainerChildConocimiento} from "../../components/Groups/ContainerChildConocimiento.tsx";
 
 const {Content} = Layout;
 const {Title} = Typography;
@@ -32,8 +33,8 @@ export const GroupInfoVIew = ()=>{
                     labelText={'Base de conocimientos'}
                     buttonText={'Administrar bases'}
                     iconButton={<LibraryBig style={styleIcon}/>}
-                    containerText=
-                        {<p>Sin bases de conocimiento asociadas, da click en <span className='highlight-text'>Añadir  bases de conocimiento</span> , vincularlas</p>}
+                    containerChild =
+                        {<ContainerChildConocimiento/>}
                 ></ElementContainer>
             </section>
             <section className='section'>
@@ -46,7 +47,7 @@ export const GroupInfoVIew = ()=>{
                         alt='logo de la empresa'
                         style={{display:'block'}}
                         width='20' height='20'/>}
-                    containerText=
+                    containerChild =
                         {<p>No hay modelos asociados, da click en <span className='highlight-text'>Administrar modelos</span>, para cambiar agregar modelos</p>}
                 ></ElementContainer>
             </section>
@@ -56,7 +57,7 @@ export const GroupInfoVIew = ()=>{
                     labelText={'Miembros del grupo'}
                     buttonText={'Administrar miembros'}
                     iconButton={<Users style={styleIcon}/>}
-                    containerText=
+                    containerChild =
                         {<p>No hay modelos asociados, da click en <span className='highlight-text'>Administrar miembros</span>, para cambiar agregar miembros</p>}
                 ></ElementContainer>
             </section>

@@ -21,8 +21,11 @@ p{
 .element-container{
     background-color: var(--c_slate_200);
     border-radius: var(--base-radius);
-    padding-block:var(--2xl-space);
+    padding:var(--xl-space);
     font-size: 1rem;
     text-align: center;
     color: var(--c_slate_900);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
 }

@@ -55,7 +55,6 @@ export class AuthApi implements AuthRepository {
         }));
     }
 
-    //TODO FINISH IMPLEMENTATION
     logOut(): Promise<boolean> {
         return Promise.resolve(false);
     }
