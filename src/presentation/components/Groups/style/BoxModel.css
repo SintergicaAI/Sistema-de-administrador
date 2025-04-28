@@ -1,0 +1,21 @@
+.model{
+
+    display: grid;
+    gap: 1rem;
+    padding: var(--sm-space);
+    .model__header{
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+        align-items: center;
+    }
+    .model__body{
+
+        p{
+            text-overflow: ellipsis;
+            text-wrap: nowrap;
+            max-width: 30ch;
+            overflow: hidden;
+        }
+    }
+}
