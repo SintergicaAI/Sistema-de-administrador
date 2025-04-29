@@ -48,4 +48,31 @@ describe('Group Section Test', () => {
         cy.get('[placeholder="Buscar grupos"]').should('be.visible')
         cy.get('section').should('be.visible')
     })
+
+    describe('Search User', () => {
+        it('the user should see the groups they created with the name they searched for', () => {
+            cy.contains('li', 'Groups').click()
+            cy.url().should('include', '/groups')
+            cy.wait(3000)
+            cy.get('[placeholder="Buscar grupos"]').should('be.visible').type('ventas')
+
+            cy.get('.groups__tag:visible').each(($e) => {
+                cy.wrap($e)
+                    .invoke('text')
+                    .then((text) => {
+                        expect(text.toLowerCase()).to.include('ventas')
+                    })
+            })
+        })
+
+        it('the system should display a message when the user does not have groups created with the name they are looking for', () => {
+            cy.contains('li', 'Groups').click()
+            cy.url().should('include', '/groups')
+            cy.wait(3000)
+            cy.get('[placeholder="Buscar grupos"]').should('be.visible').type('juegos')
+            cy.get('.ant-input-suffix').should('be.visible').click()
+            // Se verifica que exista el mensaje del sistema
+            cy.contains('Aun no tienes grupos creados')
+        })
+    })
 })
