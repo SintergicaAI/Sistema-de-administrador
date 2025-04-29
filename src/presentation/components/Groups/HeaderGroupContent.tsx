@@ -38,8 +38,11 @@ export const HeaderGroupContent = () => {
                     )
                 }
             </Flex>
+            {
+                nameGroup && <Trash2 color='var(--c_danger_400)' style={iconStyle}/>
+            }
 
-            <Trash2 color='var(--c_danger_400)' style={iconStyle}/>
+
         </Flex>
     )
 }
