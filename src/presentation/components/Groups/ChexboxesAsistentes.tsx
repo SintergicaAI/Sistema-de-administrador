@@ -42,10 +42,16 @@ export const ChexboxesAsistentes = ()=>{
         if(target.checked){
             const checkedValue = target.value;
             setModelsChecked([...modelsChecked, checkedValue]);
+
+            //Applying find in an inmutable array of Models
+            setAsistentesSelected([...asistentesSelected,
+                {...(models.find(item => item.value === checkedValue) as Model)}]);
         }else{
             const unCheckedValue = target.value;
-            const withoutCheckedValue = modelsChecked.filter((item)=>item.toLowerCase() !== unCheckedValue.toLowerCase());
+            const withoutCheckedValue =
+                modelsChecked.filter((item)=>item.toLowerCase() !== unCheckedValue.toLowerCase());
             setModelsChecked([...withoutCheckedValue]);
+            setAsistentesSelected([...asistentesSelected.filter(item => item.value.toLowerCase() !== unCheckedValue.toLowerCase() )])
         }
     }
 
