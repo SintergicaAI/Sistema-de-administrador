@@ -8,18 +8,24 @@ export const ContainerChildAsistentes = () =>{
 
     useEffect(() => {
         setAsistentesSelected([{id:"1",
-            iconUrl:'img.png',
+            colorIcon:'',
             title:'Otro',
             value:'otro',
             text:'Un asistente creado para el departamento de marketing',
-            filterValue:"otro"}])
+            filterValue:"otro"
+        }
+        ])
     }, []);
 
     return (<>
         {
             asistentesSelected.length == 0 ? <p>No hay modelos asociados, da click en <span className='highlight-text'>Administrar modelos</span>, para cambiar agregar modelos</p>
                 : <div className="container-child-asistentes">
-                    {asistentesSelected.map((model)=>(<BoxModel title={model.title} key={model.id} text={model.text} />))}
+                    {asistentesSelected.map((model)=>(<BoxModel
+                        title={model.title}
+                        key={model.id}
+                        color={model.colorIcon}
+                        text={model.text} />))}
                 </div>
         }
 

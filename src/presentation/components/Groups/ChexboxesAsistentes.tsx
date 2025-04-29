@@ -7,7 +7,7 @@ import {filteringData} from "../../utilities/filteringData.ts";
 
 const models:Model[] = [{
     id:"1",
-    iconUrl:'img.png',
+    colorIcon:'orange',
     title:'Otro',
     value:'otro',
     text:'Un asistente creado para el departamento de marketing',
@@ -15,7 +15,7 @@ const models:Model[] = [{
 },
     {
         id:"2",
-        iconUrl:'img.png',
+        colorIcon:'',
         title:'Flow',
         value:'flow',
         text:'Un asistente creado para el departamento de marketing',
@@ -23,7 +23,7 @@ const models:Model[] = [{
     },
     {
         id:"3",
-        iconUrl:'img.png',
+        colorIcon:'purple',
         title:'Desarrollo',
         value: 'desarrollo',
         text:'Un asistente creado para el departamento de marketing',
@@ -68,7 +68,10 @@ export const ChexboxesAsistentes = ()=>{
                     checkedValue={modelsChecked}
                     objectValue={{value:model.value, name:''}}
                     handleChange={handleCheckBoxGroup}
-                    labelComponent={<BoxModel text={model.text} title={model.title} />}
+                    labelComponent={<BoxModel
+                        text={model.text}
+                        color={model.colorIcon}
+                        title={model.title} />}
 
                 />
             ))}

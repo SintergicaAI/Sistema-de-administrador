@@ -1,0 +1,16 @@
+.iconModel{
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background-color: var(--c_brand_400);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &[data-color="orange"]{
+        background-color: var(--c_orange_400);
+    }
+    &[data-color="purple"]{
+        background-color: var(--c_purple_400);
+    }
+
+}
