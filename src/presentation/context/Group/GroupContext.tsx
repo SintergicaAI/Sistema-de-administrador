@@ -1,5 +1,5 @@
 import {createContext} from "react";
-import {SideContentType, Tags} from "../../components/Groups/GroupsTypes";
+import {Model, SideContentType, Tags} from "../../components/Groups/GroupsTypes";
 
 
 
@@ -16,6 +16,8 @@ interface GroupContextType {
     setFilterValue:(newFilterGroups: string) => void,
     conocimientoTagsSelected:Tags[],
     setConocimientoTagsSelected:(newConocimientoTags: Tags[]) => void,
+    asistentesSelected:Model[],
+    setAsistentesSelected:(newAsistentesSelected: Model[]) => void,
 
 }
 

@@ -5,6 +5,8 @@ import {PaginableResponse} from "./types/PaginableResponse.ts";
 import {UserRole} from "../../domain/enums/UserRole.ts";
 import {GroupType, InvitateUserDTO, RoleType, UserDeleted} from "../../domain/types/CompanyTypes.ts";
 
+
+//TODO:Refactorizar CompanyAPI y separarlo en otros modulos
 export class CompanyApi implements CompanyRepository {
     private readonly baseUrl = `http://localhost`;
     private authApi: AuthApi;

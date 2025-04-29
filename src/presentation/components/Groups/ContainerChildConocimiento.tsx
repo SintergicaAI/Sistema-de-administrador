@@ -9,13 +9,13 @@ export const ContainerChildConocimiento = ()=>{
 
     //Get Tags Knowledge from de groupAPI
     useEffect(() => {
-        setConocimientoTagsSelected([{color:'blue',text:'Ventas',value:'ventas'}])
+        setConocimientoTagsSelected([{color:'blue',text:'Ventas',value:'ventas', filterValue:""}])
     }, []);
 
-    return (<>
+    return (<div className="container-child-conocimiento">
         {
             conocimientoTagsSelected.length == 0 ? <p>Sin bases de conocimiento asociadas, da click en <span className='highlight-text'>Añadir  bases de conocimiento</span> , vincularlas</p>
                 : conocimientoTagsSelected.map((tag)=>(<Tag key={tag.text} color={tag.color} text={tag.text}/>))
         }
-        </>);
+        </div>);
 }

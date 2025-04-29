@@ -13,3 +13,10 @@ export interface Tags extends FilteredValue {
     value:string,
     color:string,
 }
+export interface Model extends FilteredValue {
+    id:string,
+    title:string,
+    iconUrl:string,
+    text:string,
+    value:string
+}

@@ -25,7 +25,25 @@ p{
     font-size: 1rem;
     text-align: center;
     color: var(--c_slate_900);
+}
+.container-child-conocimiento {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
+}
+.container-child-asistentes{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+
+    .model{
+        background-color: var(--c_slate_50);
+        border-radius: 12px;
+
+        .model__body{
+            text-align: left;
+            p{
+                max-width: 40ch;
+            }
+        }
+    }
 }

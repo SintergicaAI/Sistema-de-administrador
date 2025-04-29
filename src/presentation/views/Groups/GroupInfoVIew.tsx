@@ -8,6 +8,7 @@ import './styles/GroupInfoView.css';
 import {SiderGroup} from "../../components/Groups/SiderGroup.tsx";
 import {useGroupContext} from "../../context/Group/useGroupContext.ts";
 import {ContainerChildConocimiento} from "../../components/Groups/ContainerChildConocimiento.tsx";
+import {ContainerChildAsistentes} from "../../components/Groups/ContainerChildAsistentes.tsx";
 
 const {Content} = Layout;
 const {Title} = Typography;
@@ -48,7 +49,7 @@ export const GroupInfoVIew = ()=>{
                         style={{display:'block'}}
                         width='20' height='20'/>}
                     containerChild =
-                        {<p>No hay modelos asociados, da click en <span className='highlight-text'>Administrar modelos</span>, para cambiar agregar modelos</p>}
+                        {<ContainerChildAsistentes/>}
                 ></ElementContainer>
             </section>
             <section className='section'>
