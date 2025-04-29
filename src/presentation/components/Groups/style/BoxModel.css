@@ -10,11 +10,13 @@
         align-items: center;
     }
     .model__body{
-
+        display: flex;
         p{
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1;
+            align-self: stretch;
             text-overflow: ellipsis;
-            text-wrap: nowrap;
-            max-width: 30ch;
             overflow: hidden;
         }
     }

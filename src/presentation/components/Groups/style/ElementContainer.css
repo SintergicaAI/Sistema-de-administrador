@@ -33,7 +33,9 @@ p{
 }
 .container-child-asistentes{
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(250px, 600px));
+    justify-content: center;
+    gap: 1rem;
 
     .model{
         background-color: var(--c_slate_50);
@@ -41,9 +43,6 @@ p{
 
         .model__body{
             text-align: left;
-            p{
-                max-width: 40ch;
-            }
         }
     }
 }
