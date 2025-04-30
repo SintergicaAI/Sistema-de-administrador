@@ -33,7 +33,8 @@ const cleanData = (data:GetGroupDTO[])=>{
 export const GroupsList = ()=>{
 
     const {setTotalGroups,filterValue} = useGroupContext();
-    const [groups,setGroups] = useState<CardData[]|null>(null);
+    const [groups,setGroups] = useState<CardData[]>([]);
+    const [loading,setLoading] = useState(true);
 
     useEffect(()=>{
         getData().then((res)=>{
@@ -43,6 +44,8 @@ export const GroupsList = ()=>{
             setTotalGroups(formattedData.length);
         }).catch(()=>{
             setGroups([])
+        }).finally(()=>{
+            setLoading(false);
         })
     },[])
 
@@ -51,9 +54,9 @@ export const GroupsList = ()=>{
         setGroups(filter);
     }, [filterValue]);
 
-    if(groups === null){
+    if(loading){
         return (
-            <div style={{display:'grid', placeContent:'center'}}>
+            <div style={{display:'grid', placeContent:'center', minHeight:'100%'}}>
                 <Spin indicator={<LoadingOutlined spin />} size="large" />
             </div>
         )
