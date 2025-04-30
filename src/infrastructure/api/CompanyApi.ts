@@ -2,8 +2,8 @@ import {CompanyRepository, UserList, UserSearchParams} from "../../domain/reposi
 import {AuthApi} from "./AuthApi.ts";
 import { User } from "../../domain/entities/User";
 import {PaginableResponse} from "./types/PaginableResponse.ts";
-import {UserRole} from "../../domain/enums/UserRole.ts";
-import {GroupType, InvitateUserDTO, RoleType, UserDeleted} from "../../domain/types/CompanyTypes.ts";
+import {GroupType, InvitateUserDTO, UserDeleted} from "../../domain/types/CompanyTypes.ts";
+import {getRole} from "../../presentation/utilities/getRole.ts";
 
 
 //TODO:Refactorizar CompanyAPI y separarlo en otros modulos
@@ -17,19 +17,6 @@ export class CompanyApi implements CompanyRepository {
     }
     private async refreshToke() {
         return this.authApi.getNewToken(this.authApi.getRefreshToken() as string)
-    }
-
-    private getRole(role:RoleType):string {
-        if (!role) return "Usuario";
-
-        switch (role["name"]) {
-            case 'OWNER':
-                return UserRole.OWNER;
-            case 'ADMIN':
-                return UserRole.ADMIN;
-            default:
-                return 'Usuario';
-        }
     }
 
     async deleteUser(email: string): Promise<UserDeleted> {
@@ -89,7 +76,7 @@ export class CompanyApi implements CompanyRepository {
         return {users:data.map((userData) => new User(
                 "",
                 userData.email,
-                this.getRole( userData.role),
+                getRole( userData.role.name),
                 userData.name,
                 userData.lastName,
                 undefined,
