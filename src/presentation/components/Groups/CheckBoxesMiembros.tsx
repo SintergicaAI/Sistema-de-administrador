@@ -10,7 +10,7 @@ import {AvatarWithName} from "../common/AvatarWithName.tsx";
 import {CompanyApi} from "../../../infrastructure/api/CompanyApi.ts";
 import {GetAllUserCompanyData} from "../../../application/use-cases/GetAllUserCompanyData.ts";
 import {useGroupContext} from "../../context/Group/useGroupContext.ts";
-
+import { Spin } from 'antd';
 
 
 const groupApi = new GroupApi();
@@ -24,6 +24,7 @@ export const CheckBoxesMiembros = () =>{
     const {nameGroup} = useParams();
     const {setMembersGroup,membersGroup} = useGroupContext();
     const [checkedValues, setCheckedValues] = useState<string[]>([]);
+    const [loading, setLoading] = useState(true);
 
     const handleCheckBoxGroup = (value:ChangeEvent<HTMLInputElement>) =>{
         const {target} = value;
@@ -68,13 +69,19 @@ export const CheckBoxesMiembros = () =>{
     useEffect(() => {
 
         Promise.all([getGroups(),getUsers()])
-            .then(()=>{
-                console.log(allUsersFromCompany);
-            })
             .catch(()=>{
                 setMembersGroup([]);
             })
+            .finally(()=>{
+                setLoading(false);
+            })
     }, []);
+
+    if(loading){
+        return (<>
+            <Spin spinning={loading}></Spin>
+            </>)
+    }
 
     return (
         <Flex vertical gap={8}>
