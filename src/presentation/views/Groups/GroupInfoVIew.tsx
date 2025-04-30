@@ -1,8 +1,7 @@
-import {useParams} from "react-router";
-import {Layout} from "antd";
-import {Typography} from "antd";
+import {useLocation, useNavigate, useParams} from "react-router";
+import {Input, Layout} from "antd";
 import {ElementContainer} from "../../components/Groups/ElementContainer.tsx";
-import {CSSProperties} from "react";
+import {ChangeEvent, CSSProperties, useState} from "react";
 import {LibraryBig, Users} from 'lucide-react';
 import './styles/GroupInfoView.css';
 import {SiderGroup} from "../../components/Groups/SiderGroup.tsx";
@@ -12,7 +11,6 @@ import {ContainerChildAsistentes} from "../../components/Groups/ContainerChildAs
 import {ContainerChildMiembros} from "../../components/Groups/ContainerChildMiembros.tsx";
 
 const {Content} = Layout;
-const {Title} = Typography;
 
 const styleIcon:CSSProperties = {
     width:20,
@@ -22,12 +20,37 @@ const styleIcon:CSSProperties = {
 export const GroupInfoVIew = ()=>{
     let {nameGroup} = useParams();
     const {hasSelected} = useGroupContext();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const [inputValue,setInputValue] = useState(nameGroup);
+
+    const handleChange = (value:ChangeEvent<HTMLInputElement>)=>{
+
+        const {target} = value;
+        const newValue = target.value.length > 0 ? target.value : ' ';
+
+        setInputValue(newValue);
+        shallowPush(`${newValue}`);
+
+    }
+
+    const shallowPush = (url:string) => {
+        window.history.pushState({}, '', url);
+        // Manually update the location state to trigger component re-render if necessary
+        navigate(`/groups/${url}`,{replace:true,state: { ...location.state }})
+    };
 
     return (<Layout style={{display:"flex"}}>
         <Content className='container-content' style={{display:'flex', flexDirection:'column', gap:24}}>
             <section className="section">
                 <p className='section__label'>Nombre</p>
-                <Title level={2} style={{marginBlock:0, fontSize:20}}>{nameGroup} </Title>
+                <Input
+                    value={inputValue}
+                    placeholder="Ingresa nombre del grupo"
+                    defaultValue={nameGroup}
+                    onChange={(e)=> handleChange(e)}
+                    style={{fontSize:20,fontWeight:700 ,paddingInline:0}}
+                    variant="borderless" />
             </section>
             <section className='section'>
                 <ElementContainer
