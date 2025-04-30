@@ -3,13 +3,14 @@ import {SquarePlus} from "lucide-react";
 import {GroupsList} from "../../components/Groups/GroupsList.tsx";
 import {useGroupContext} from "../../context/Group/useGroupContext.ts";
 import {InputSearchGroups} from "../../components/Groups/InputSearchGroups.tsx";
+import { useNavigate } from "react-router";
 
 const {Header, Content} = Layout;
 
 export const GroupsListView = () => {
 
     const {totalGroups} = useGroupContext()
-
+    const navigate = useNavigate();
     //todo: Add an useEffect when there is a change in groups
 
     return (<Layout className='container-content' style={{display:'flex', flexDirection:'column'}}>
@@ -20,6 +21,9 @@ export const GroupsListView = () => {
         >
             {/*TODO:Agregar funcionalidad*/}
             <Button type="primary"
+                    onClick={()=>{
+                        navigate('nuevo-grupo')
+                    }}
                     icon={<SquarePlus style={{width:20, height:20}}/>}>
                 Nuevo grupo
             </Button>
