@@ -10,7 +10,7 @@ export type RoleType = {
     id:string;
     name: string;
 }
-type UserFromGroup = {
+export type UserFromGroup = {
     "email": string,
     "name": string,
     "lastName": string,

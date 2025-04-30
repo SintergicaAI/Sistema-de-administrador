@@ -12,6 +12,7 @@
     .model__body{
         display: flex;
         p{
+            color: var(--c_slate_950);
             display: -webkit-box;
             -webkit-box-orient: vertical;
             -webkit-line-clamp: 1;

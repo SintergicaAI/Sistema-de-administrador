@@ -49,7 +49,7 @@
     }
 
     &:has( input:checked ){
-        background-color: var(--c_brand_100);
+        background-color: var(--c_brand_50);
         color: var(--c_brand-500);
 
         .extra-info{
