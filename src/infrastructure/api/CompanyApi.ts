@@ -6,7 +6,7 @@ import {UserRole} from "../../domain/enums/UserRole.ts";
 import {GroupType, InvitateUserDTO, RoleType, UserDeleted} from "../../domain/types/CompanyTypes.ts";
 
 export class CompanyApi implements CompanyRepository {
-    private readonly baseUrl = `http://localhost`;
+    private readonly baseUrl = `http://localhost:80`;
     private authApi: AuthApi;
     private cacheGroups: GroupType[] = [];
 

@@ -55,4 +55,32 @@ export class InvitationApi implements InvitationRepository {
         }
 
     }
+
+    async regenerateInvitation(email: string): Promise<void> {
+        const response = await fetch('/invitation/regenerate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email }),
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to regenerate invitation');
+        }
+    }
+
+    async deleteInvitation(email: string): Promise<void> {
+        const response = await fetch('/invitation/delete', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email }),
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to delete invitation');
+        }
+    }
 }

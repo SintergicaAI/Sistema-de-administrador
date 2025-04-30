@@ -1,10 +1,13 @@
-import type {TableProps} from 'antd';
+import {message, Space, TableProps} from 'antd';
 import {Flex, Table} from "antd";
 import {Avatar} from "../common";
 import {useEffect, useState} from "react";
 import {CompanyApi} from "../../../infrastructure/api/CompanyApi.ts";
 import {GetInvitedUsers} from "../../../application/use-cases/GetInvitedUsers.ts";
 import {InvitateUserDTO} from "../../../domain/types/CompanyTypes.ts";
+import {ButtonResendInvitation} from "./ModalInviteUser/ButtonResendInvitation.tsx";
+import {ButtonDeleteInvitation} from "./ModalInviteUser/ButtonDeleteInvitation.tsx";
+
 
 type DataType = {
     key: string;
@@ -46,6 +49,32 @@ const columns: TableProps<DataType>['columns'] = [
             active ? <p>Activa</p>: <p>Inactivo</p>
         )
     },
+    {
+        title: 'Acciones',
+        key: 'actions',
+        render: (_, record) => (
+            <Space size="middle">
+                <ButtonResendInvitation email={record.email}
+                                        onSuccess={() =>
+                                            message.success('Invitación reenviada exitosamente')
+
+                }
+                                        onError={(error) =>
+                                            message.error(`Error al reenviar la invitación: ${error.message}`)
+                                        }/>
+                <ButtonDeleteInvitation  email={record.email}
+                                         onSuccess={() =>
+                                             message.success('Invitación cancelada exitosamente')
+                                         }
+                                         onError={() =>
+                                             message.error('Error al cancelar la invitación.')
+                                         }
+                />
+
+            </Space>
+        ),
+    },
+
 ]
 
 const companyApi = new CompanyApi();

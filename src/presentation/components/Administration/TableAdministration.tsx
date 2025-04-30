@@ -2,9 +2,11 @@ import {Table, TableProps, Flex} from "antd";
 import {Avatar} from "../common";
 import {DataType} from "./types/TableAdministrationTypes.ts";
 import {RowSelectedType} from "../../context/Administration";
-import {RenderGroups} from "./RenderGroups.tsx";
+//import {RenderGroups} from "./RenderGroups.tsx";
 import {useTableAdministration} from "../../../hooks";
 import {GroupType} from "../../../domain/types/CompanyTypes.ts";
+import {RenderGroups} from "./RenderGroups.tsx";
+//import {GroupType} from "../../../domain/types/CompanyTypes.ts";
 
 export const TableAdministration = () => {
 
