@@ -8,6 +8,12 @@ export interface CardData extends FilteredValue{
 }
 export type SideContentType = 'conocimiento' | 'asistentes' | 'usuarios' | '';
 
+export interface AvatarUserInfo extends FilteredValue {
+    email:string,
+    lastName:string,
+    firstName:string,
+    role:string,
+}
 export interface Tags extends FilteredValue {
     text:string,
     value:string,
