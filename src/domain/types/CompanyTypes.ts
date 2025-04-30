@@ -1,3 +1,5 @@
+import {User} from "../entities/User.ts";
+
 export interface UserDeleted {
     email:string;
 }
@@ -19,6 +21,7 @@ export type UserFromGroup = {
         "name": string
     }
 }
+export type AvatarUserInfo = Pick<User,"email"|"lastName"|"firstName" >
 
 export interface GetGroupDTO{
     "group_id": string,

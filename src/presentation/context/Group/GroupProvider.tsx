@@ -1,6 +1,7 @@
 import {Model, SideContentType, Tags} from "../../components/Groups/GroupsTypes";
 import {GroupContext} from "./GroupContext"
 import {ReactNode, useState} from "react";
+import {AvatarUserInfo} from "../../../domain/types/CompanyTypes.ts";
 
 export const GroupContextProvider = ({children}:{children:ReactNode}) =>{
     const [totalGroups, setTotalGroups] = useState(0);
@@ -10,6 +11,7 @@ export const GroupContextProvider = ({children}:{children:ReactNode}) =>{
     const [filterValue,setFilterValue] = useState("");
     const [conocimientoTagsSelected, setConocimientoTagsSelected] = useState<Tags[]>([]);
     const [asistentesSelected,setAsistentesSelected] = useState<Model[]>([]);
+    const [membersGroup,setMembersGroup] = useState<AvatarUserInfo[]>([]);
 
     return (<GroupContext.Provider value={
         {
@@ -26,7 +28,9 @@ export const GroupContextProvider = ({children}:{children:ReactNode}) =>{
             conocimientoTagsSelected,
             setConocimientoTagsSelected,
             asistentesSelected,
-            setAsistentesSelected
+            setAsistentesSelected,
+            membersGroup,
+            setMembersGroup,
         }
     }>
         {children}

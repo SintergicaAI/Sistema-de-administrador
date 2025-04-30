@@ -4,27 +4,42 @@ import {GetInformationOfGroups} from "../../../application/use-cases/GetInformat
 import {Flex} from "antd";
 import {ChangeEvent, useEffect, useState} from "react";
 import {useParams} from "react-router";
-import {UserFromGroup} from "../../../domain/types/CompanyTypes.ts";
+import {AvatarUserInfo} from "../../../domain/types/CompanyTypes.ts";
 import {CheckboxContainer} from "../common";
 import {AvatarWithName} from "../common/AvatarWithName.tsx";
+import {CompanyApi} from "../../../infrastructure/api/CompanyApi.ts";
+import {GetAllUserCompanyData} from "../../../application/use-cases/GetAllUserCompanyData.ts";
+import {useGroupContext} from "../../context/Group/useGroupContext.ts";
 
 
-const companyApi = new GroupApi();
-const getInformationofGroups = new GetInformationOfGroups(companyApi);
 
+const groupApi = new GroupApi();
+const companyApi = new CompanyApi();
+const getInformationOfGroups = new GetInformationOfGroups(groupApi);
+const geAllUserCompany = new GetAllUserCompanyData(companyApi);
+let allUsersFromCompany:AvatarUserInfo[] = [];
 
 export const CheckBoxesMiembros = () =>{
 
     const {nameGroup} = useParams();
-    const [membersGroup,setMembersGroup] = useState<UserFromGroup[]>([]);
+    const {setMembersGroup,membersGroup} = useGroupContext();
     const [checkedValues, setCheckedValues] = useState<string[]>([]);
 
     const handleCheckBoxGroup = (value:ChangeEvent<HTMLInputElement>) =>{
-
+        const {target} = value;
+        if(target.checked){
+            setMembersGroup([...membersGroup,
+                (allUsersFromCompany.find(item => item.email === target.value) as AvatarUserInfo)]);
+            setCheckedValues([...checkedValues,target.value]);
+        }else{
+            const uncheckedValue = target.value;
+           setMembersGroup([...membersGroup.filter(member => member.email !== uncheckedValue)]);
+           setCheckedValues([...checkedValues.filter(value => value !== uncheckedValue)]);
+        }
     }
 
-    useEffect(() => {
-        getInformationofGroups.execute()
+    const getGroups = async ()=>{
+        await getInformationOfGroups.execute()
             .then((res) =>{
                 const groupDTO =
                     res.find(group => group.name.toLowerCase() === nameGroup?.toLowerCase()) ;
@@ -33,19 +48,41 @@ export const CheckBoxesMiembros = () =>{
                 setMembersGroup(groupDTO.users);
                 setCheckedValues([...groupDTO.users.map((item => item.email))])
             })
-            .catch(error => {
-                console.log(error);
+    }
+
+    const getUsers = async ()=>{
+        await geAllUserCompany.execute({})
+        .then((res) =>{
+            const {users} = res;
+            allUsersFromCompany = users.map(user =>{
+                return{
+                    email: user.email,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                }
+            })
+
+        })
+    }
+
+    useEffect(() => {
+
+        Promise.all([getGroups(),getUsers()])
+            .then(()=>{
+                console.log(allUsersFromCompany);
+            })
+            .catch(()=>{
                 setMembersGroup([]);
-            });
+            })
     }, []);
 
     return (
         <Flex vertical gap={8}>
             {
-                membersGroup.length > 0 ?
-                    membersGroup.map((member) => (
+                allUsersFromCompany.length > 0 ?
+                    allUsersFromCompany.map((member) => (
                         <CheckboxContainer
-                            labelComponent={<AvatarWithName fullName={`${member.name} ${member.lastName}`}/>}
+                            labelComponent={<AvatarWithName fullName={`${member.firstName} ${member.lastName}`}/>}
                             objectValue={{value: member.email, name:""}}
                             checkedValue={checkedValues}
                             handleChange={handleCheckBoxGroup}/>

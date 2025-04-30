@@ -1,5 +1,6 @@
 import {createContext} from "react";
 import {Model, SideContentType, Tags} from "../../components/Groups/GroupsTypes";
+import {AvatarUserInfo} from "../../../domain/types/CompanyTypes.ts";
 
 
 
@@ -18,6 +19,8 @@ interface GroupContextType {
     setConocimientoTagsSelected:(newConocimientoTags: Tags[]) => void,
     asistentesSelected:Model[],
     setAsistentesSelected:(newAsistentesSelected: Model[]) => void,
+    membersGroup:AvatarUserInfo[],
+    setMembersGroup:(newMembersGroup: AvatarUserInfo[]) => void,
 
 }
 
