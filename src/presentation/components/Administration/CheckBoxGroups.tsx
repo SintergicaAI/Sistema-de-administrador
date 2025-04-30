@@ -7,7 +7,7 @@ import {GetCompanyGroups} from "../../../application/use-cases/GetCompanyGroups.
 import {UserRole} from "../../../domain/enums/UserRole.ts";
 import {getGroupId, getGroupNameFromId, getGroupNameInLowerCase, getGroupsNames} from "../../utilities";
 import {GroupType} from "../../../domain/types/CompanyTypes.ts";
-import {CheckboxContainer} from "../common/CheckboxContainer.tsx";
+import {CheckboxContainer} from "../common";
 import {LabelComponent} from "./LabelComponent.tsx";
 
 

@@ -117,14 +117,19 @@ export const SiderContent = () =>{
     return (
         <div>
             {contextHolder}
-            <p className="label">Rol</p>
-           <RadioGroupRoles/>
+            <Flex vertical gap={8} style={{marginBottom:16}}>
 
+                <p className="label">Rol</p>
+               <RadioGroupRoles/>
+            </Flex>
+
+            <Flex vertical gap={8}>
             <p className="label">Grupos al que pertenece </p>
             <InputSearch
                 placeholder={"Buscar"}
                 styles={{marginBottom:8}}
                 searchMethod={setFilterValue}/>
+            </Flex>
 
             <CheckBoxGroups filterValue={filterValue}/>
             <Flex justify={'center'} style={{marginTop:12}}>

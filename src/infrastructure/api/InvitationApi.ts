@@ -53,6 +53,6 @@ export class InvitationApi implements InvitationRepository {
         }catch(err){
             return Promise.reject([])
         }
-
     }
+
 }
