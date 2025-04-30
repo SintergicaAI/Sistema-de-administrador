@@ -9,6 +9,7 @@ import {SiderGroup} from "../../components/Groups/SiderGroup.tsx";
 import {useGroupContext} from "../../context/Group/useGroupContext.ts";
 import {ContainerChildConocimiento} from "../../components/Groups/ContainerChildConocimiento.tsx";
 import {ContainerChildAsistentes} from "../../components/Groups/ContainerChildAsistentes.tsx";
+import {ContainerChildMiembros} from "../../components/Groups/ContainerChildMiembros.tsx";
 
 const {Content} = Layout;
 const {Title} = Typography;
@@ -59,7 +60,7 @@ export const GroupInfoVIew = ()=>{
                     buttonText={'Administrar miembros'}
                     iconButton={<Users style={styleIcon}/>}
                     containerChild =
-                        {<p>No hay modelos asociados, da click en <span className='highlight-text'>Administrar miembros</span>, para cambiar agregar miembros</p>}
+                        {<ContainerChildMiembros/>}
                 ></ElementContainer>
             </section>
         </Content>

@@ -21,7 +21,7 @@ export type UserFromGroup = {
         "name": string
     }
 }
-export type AvatarUserInfo = Pick<User,"email"|"lastName"|"firstName" >
+export type AvatarUserInfo = Pick<User,"email"|"lastName"|"firstName"|"role" >
 
 export interface GetGroupDTO{
     "group_id": string,
