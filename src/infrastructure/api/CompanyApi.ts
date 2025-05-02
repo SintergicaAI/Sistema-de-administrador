@@ -85,32 +85,6 @@ export class CompanyApi implements CompanyRepository {
 
     }
 
-    async addNewUserToCompany(email:string): Promise<boolean> {
-        const token = this.authApi.getToken();
-        if (!token) {
-            throw new Error('No autorizado');
-        }
-        try{
-            const response = await fetch(`${this.baseUrl}/invitation/send`,{
-                method: 'POST',
-                body: JSON.stringify({recipients: email,body:'',subject:""}),
-                headers:{
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json',
-                }
-            })
-            //Refrescar el token
-            if(response.status === 403) {
-                await this.refreshToke()
-            }
-
-            return true;
-        }catch (e) {
-            console.log(e)
-            return false
-        }
-    }
-
     async addUserToGroupCompany(email: string, group: string[]): Promise<boolean> {
         const token = this.authApi.getToken();
         if (!token) {
@@ -165,9 +139,4 @@ export class CompanyApi implements CompanyRepository {
             return Promise.resolve(false);
         }
     }
-
-
-
-
-
 }

@@ -15,7 +15,7 @@ export class InvitationApi implements InvitationRepository {
         const token = this.authApi.getToken();
 
         try{
-            const response = await  fetch(`${LOCAL_TEST}/invitaton/send`,{
+            const response = await  fetch(`${LOCAL_TEST}/invitation/send`,{
                 method: "POST",
                 body: JSON.stringify({recipients: email,body:'',subject:""}),
                 headers: {
@@ -23,6 +23,12 @@ export class InvitationApi implements InvitationRepository {
                     'Authorization': `Bearer ${token}`
                 },
             })
+            //Refrescar el token
+            if(response.status === 403) {
+                await this.refreshToke();
+                await this.sendInvitationEmail(email);
+            }
+
             const data:string = await response.json();
             return Promise.resolve(data.length > 0);
         }catch (error){
