@@ -1,6 +1,5 @@
 import {UserDeleted} from "../types/CompanyTypes.ts";
 import {User} from "../entities/User.ts";
-import {InvitateUserDTO} from "../types/CompanyTypes.ts";
 
 export interface CompanyRepository {
     deleteUser(email:string):Promise<UserDeleted>;
@@ -8,7 +7,6 @@ export interface CompanyRepository {
     addNewUserToCompany(email:string):Promise<boolean>;
     addUserToGroupCompany(email:string, group:string[]):Promise<boolean>;
     changeUserRoleFromCompany(email:string, role:string):Promise<boolean>;
-    getInvitedUsers():Promise<InvitateUserDTO[]>;
 }
 
 export interface UserSearchParams {

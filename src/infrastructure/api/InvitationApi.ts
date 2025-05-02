@@ -46,7 +46,8 @@ export class InvitationApi implements InvitationRepository {
                 }
             })
             if(response.status === 403){
-                await this.refreshToke()
+                await this.refreshToke();
+                await this.getInvitedUsers();
             }
             return await response.json();
 

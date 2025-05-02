@@ -2,7 +2,7 @@ import {CompanyRepository, UserList, UserSearchParams} from "../../domain/reposi
 import {AuthApi} from "./AuthApi.ts";
 import { User } from "../../domain/entities/User";
 import {PaginableResponse} from "./types/PaginableResponse.ts";
-import {InvitateUserDTO, UserDeleted} from "../../domain/types/CompanyTypes.ts";
+import {UserDeleted} from "../../domain/types/CompanyTypes.ts";
 import {getRole} from "../../presentation/utilities/getRole.ts";
 
 
@@ -166,27 +166,7 @@ export class CompanyApi implements CompanyRepository {
         }
     }
 
-    async getInvitedUsers(): Promise<InvitateUserDTO[]> {
-        const token = this.authApi.getToken();
 
-        try{
-            const response = await fetch(`${this.baseUrl}/invitation`, {
-                method:'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json',
-                }
-            })
-            if(response.status === 403){
-                await this.refreshToke();
-                await this.getInvitedUsers();
-            }
-            return await response.json();
-
-        }catch(err){
-            return Promise.reject([])
-        }
-    }
 
 
 
