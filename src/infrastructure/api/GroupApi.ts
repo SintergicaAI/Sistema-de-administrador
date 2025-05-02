@@ -1,7 +1,6 @@
 import {GroupRepository} from "../../domain/repositories/GroupRepository.ts";
-import {GetGroupDTO} from "../../domain/types/CompanyTypes.ts";
+import {GetGroupDTO, GroupBasicInfo} from "../../domain/types/CompanyTypes.ts";
 import {Common} from "./Common.ts";
-
 
 export class GroupApi extends Common implements GroupRepository{
 
@@ -39,6 +38,31 @@ export class GroupApi extends Common implements GroupRepository{
         else{
 
             return Promise.resolve( this.groups ) ;
+        }
+    }
+
+    async deleteGroup(groupId: string): Promise<GroupBasicInfo> {
+        const token = this.authApi.getToken();
+
+        if(!token){
+            throw Error(`Token not found`);
+        }
+        try{
+            const response = await fetch(`${this.baseUrl}/group/${groupId}`, {
+                method: "DELETE",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    ContentType: "application/json"
+                }
+            });
+            if(!response.ok){
+                await this.refreshToke();
+                await this.deleteGroup(groupId);
+            }
+            const data:GroupBasicInfo = await response.json();
+            return Promise.resolve(data);
+        }catch (e){
+            return Promise.reject({});
         }
     }
 

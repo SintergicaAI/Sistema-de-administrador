@@ -2,8 +2,9 @@ import {Flex, Typography} from "antd";
 import {useNavigate, useParams} from "react-router";
 import {upperCaseOneWord} from "../../utilities";
 const {Title} = Typography;
-import {Trash2, Undo2} from 'lucide-react';
+import { Undo2} from 'lucide-react';
 import {CSSProperties} from "react";
+import {DeleteGroupButton} from "./ModalDeleteGroup/DeleteGroupButton.tsx";
 
 const iconStyle:CSSProperties = {
     width: 20,
@@ -39,7 +40,7 @@ export const HeaderGroupContent = () => {
                 }
             </Flex>
             {
-                nameGroup && <Trash2 color='var(--c_danger_400)' style={iconStyle}/>
+                nameGroup && <DeleteGroupButton/>
             }
 
 
