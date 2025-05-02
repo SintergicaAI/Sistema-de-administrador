@@ -1,21 +1,15 @@
 import {InvitationRepository} from "../../domain/repositories/InvitationRepository.ts";
 import {InvitateUserDTO} from "../../domain/types/InvitationTypes.ts";
-import {AuthApi} from "./AuthApi.ts";
+import {Common} from "./Common.ts";
 
-const LOCAL_TEST= 'http://localhost';
+export class InvitationApi extends Common implements InvitationRepository {
 
-export class InvitationApi implements InvitationRepository {
-    private authApi;
-
-    constructor(){
-        this.authApi = new AuthApi();
-    }
 
     async sendInvitationEmail(email: string): Promise<boolean> {
         const token = this.authApi.getToken();
 
         try{
-            const response = await  fetch(`${LOCAL_TEST}/invitation/send`,{
+            const response = await  fetch(`${this.baseUrl}/invitation/send`,{
                 method: "POST",
                 body: JSON.stringify({recipients: email,body:'',subject:""}),
                 headers: {
@@ -36,15 +30,11 @@ export class InvitationApi implements InvitationRepository {
         }
     }
 
-    private async refreshToke() {
-        return this.authApi.getNewToken(this.authApi.getRefreshToken() as string)
-    }
-
     async getInvitedUsers(): Promise<InvitateUserDTO[]> {
         const token = this.authApi.getToken();
 
         try{
-            const response = await fetch(`${LOCAL_TEST}/invitation`, {
+            const response = await fetch(`${this.baseUrl}/invitation`, {
                 method:'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,

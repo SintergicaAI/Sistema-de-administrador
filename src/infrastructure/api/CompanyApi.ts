@@ -1,22 +1,12 @@
 import {CompanyRepository, UserList, UserSearchParams} from "../../domain/repositories/CompanyRepository.ts";
-import {AuthApi} from "./AuthApi.ts";
 import { User } from "../../domain/entities/User";
 import {PaginableResponse} from "./types/PaginableResponse.ts";
 import {UserDeleted} from "../../domain/types/CompanyTypes.ts";
 import {getRole} from "../../presentation/utilities/getRole.ts";
+import {Common} from "./Common.ts";
 
+export class CompanyApi extends Common implements CompanyRepository {
 
-//TODO:Refactorizar CompanyAPI y separarlo en otros modulos
-export class CompanyApi implements CompanyRepository {
-    private readonly baseUrl = `http://localhost`;
-    private authApi: AuthApi;
-
-    constructor() {
-        this.authApi = new AuthApi();
-    }
-    private async refreshToke() {
-        return this.authApi.getNewToken(this.authApi.getRefreshToken() as string)
-    }
 
     async deleteUser(email: string): Promise<UserDeleted> {
         const response = await fetch(`${this.baseUrl}/company/users/${email}`,{
@@ -64,8 +54,6 @@ export class CompanyApi implements CompanyRepository {
                     }
                 }
             );
-
-
         }catch(e){
             await this.refreshToke();
             await this.findUsersInCompany(searchParams);
@@ -80,9 +68,7 @@ export class CompanyApi implements CompanyRepository {
                 undefined,
                 userData.groups,
                 undefined
-
             )), total:totalElements}
-
     }
 
     async addUserToGroupCompany(email: string, group: string[]): Promise<boolean> {
@@ -127,12 +113,11 @@ export class CompanyApi implements CompanyRepository {
                 },
                 body: JSON.stringify({name:role}),
             })
-            //Refrescar el token
+
             if(response.status === 403) {
                 await this.refreshToke()
-                //await this.changeUserRoleFromCompany(email,role);
+                await this.changeUserRoleFromCompany(email,role);
             }
-
             return Promise.resolve(true);
         }catch (e) {
             console.log(e)

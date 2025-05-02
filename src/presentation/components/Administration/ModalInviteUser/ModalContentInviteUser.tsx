@@ -16,6 +16,7 @@ type Props = {
 }
 
 const invitationApi = new InvitationApi();
+//TODO: verificar tiempo de carga de addNewUserToCompany
 const addNewUser = new AddNewUserToCompany(invitationApi);
 
 export const ModalContentInviteUser = ({setIsModalOpen,setInvitationSend}:Props)=>{

@@ -1,17 +1,12 @@
 import {GroupRepository} from "../../domain/repositories/GroupRepository.ts";
 import {GetGroupDTO} from "../../domain/types/CompanyTypes.ts";
-import {AuthApi} from "./AuthApi.ts";
+import {Common} from "./Common.ts";
 
 
-export class GroupApi implements GroupRepository{
+export class GroupApi extends Common implements GroupRepository{
 
-    private authApi:AuthApi;
-    private baseUrl = "http://localhost";
+
     private groups:GetGroupDTO[]|null = null;
-
-    constructor(){
-        this.authApi = new AuthApi();
-    }
 
     async getGroups(): Promise<GetGroupDTO[]> {
         const token = this.authApi.getToken();
@@ -30,7 +25,8 @@ export class GroupApi implements GroupRepository{
                 });
 
                 if(!response.ok){
-                    return Promise.reject(response);
+                    await this.refreshToke();
+                    await this.getGroups();
                 }
                 const data:GetGroupDTO[] = await response.json();
                 this.groups = data;
