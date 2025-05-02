@@ -1,4 +1,4 @@
-import {GroupType} from "../types/CompanyTypes.ts";
+import {GroupBasicInfo} from "../types/CompanyTypes.ts";
 
 export class User {
     constructor(
@@ -8,7 +8,7 @@ export class User {
         public readonly firstName?: string,
         public readonly lastName?: string,
         public readonly password?: string,
-        public readonly groups?: GroupType[],
+        public readonly groups?: GroupBasicInfo[],
         public token?: string,
     ) {
     }

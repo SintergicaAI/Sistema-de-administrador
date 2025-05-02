@@ -1,10 +1,10 @@
-import {GroupType} from "../../domain/types/CompanyTypes.ts";
+import {GroupBasicInfo} from "../../domain/types/CompanyTypes.ts";
 
 
-export const getGroupsNames = (groups:GroupType[])=>{
+export const getGroupsNames = (groups:GroupBasicInfo[])=>{
     return groups.map(item=> item.name);
 }
 
-export const getGroupNameInLowerCase = (groups:GroupType[])=>{
+export const getGroupNameInLowerCase = (groups:GroupBasicInfo[])=>{
     return groups.map(item=>item.name.toLowerCase());
 }

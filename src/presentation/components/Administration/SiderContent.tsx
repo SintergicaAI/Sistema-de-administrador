@@ -6,13 +6,13 @@ import {RadioGroupRoles} from "./RadioGroupRoles.tsx";
 import {Button, Flex, message} from "antd";
 import { Download } from 'lucide-react';
 import {useAdministration} from "../../context/Administration";
-import {GroupType} from "../../../domain/types/CompanyTypes.ts";
+import {GroupBasicInfo} from "../../../domain/types/CompanyTypes.ts";
 import {CompanyApi} from "../../../infrastructure/api/CompanyApi.ts";
 import {AddUserToGroupCompany} from "../../../application/use-cases/AddUserToGroupCompany.ts";
 import {ChangeUserRoleFromCompany} from "../../../application/use-cases/ChangeUserRoleFromCompany.ts";
 
 type SelectedProps = {
-    groups: GroupType[];
+    groups: GroupBasicInfo[];
     role:string;
     email:string;
     firstName:string;

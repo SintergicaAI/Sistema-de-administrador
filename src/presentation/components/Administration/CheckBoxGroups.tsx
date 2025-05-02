@@ -2,13 +2,19 @@ import {ChangeEvent, useEffect, useState} from "react";
 import {useAdministration} from "../../context/Administration";
 import {Flex,Spin} from "antd";
 import {NotFound} from "../common/NotFound.tsx";
-import {CompanyApi} from "../../../infrastructure/api/CompanyApi.ts";
 import {GetCompanyGroups} from "../../../application/use-cases/GetCompanyGroups.ts";
 import {UserRole} from "../../../domain/enums/UserRole.ts";
-import {getGroupId, getGroupNameFromId, getGroupNameInLowerCase, getGroupsNames} from "../../utilities";
-import {GroupType} from "../../../domain/types/CompanyTypes.ts";
+import {
+    getGroupBasicInfo,
+    getGroupId,
+    getGroupNameFromId,
+    getGroupNameInLowerCase,
+    getGroupsNames
+} from "../../utilities";
+import {GroupBasicInfo} from "../../../domain/types/CompanyTypes.ts";
 import {CheckboxContainer} from "../common";
 import {LabelComponent} from "./LabelComponent.tsx";
+import {GroupApi} from "../../../infrastructure/api/GroupApi.ts";
 
 
 
@@ -16,22 +22,23 @@ type Props = {
     filterValue:string;
 }
 
-type SelectedProps ={
-    groups:GroupType[];
+type SelectedPropsType ={
+    groups:GroupBasicInfo[];
     email:string;
     role:string
 }
 
-const companyAPI = new CompanyApi();
-const getGroupCompany = new GetCompanyGroups(companyAPI);
+const groupApi = new GroupApi();
+const getGroupCompany = new GetCompanyGroups(groupApi);
 const copyGroupPerPerson = new Map<string, number>();
-let companyGroups:GroupType[] = [];
+let companyGroups:GroupBasicInfo[] = [];
 
+//TODO:Refactoring
 export const CheckBoxGroups = ({filterValue}:Props)=>{
     const {selectedRow,changeSelectedRow,dataTable} = useAdministration();
-    const {groups,role} = selectedRow as SelectedProps ;
+    const {groups,role} = selectedRow as SelectedPropsType ;
 
-    const [companyFilter, setCompanyFilter] = useState<GroupType[]>([]);
+    const [companyFilter, setCompanyFilter] = useState<GroupBasicInfo[]>([]);
     const [userGroup, setUserGroup] = useState<string[]>(getGroupsNames(groups));
     const [groupsPerPerson,setGroupsPerPerson] = useState<Map<string,number>>(copyGroupPerPerson);
     const [loading,setLoading]=useState(true);
@@ -41,9 +48,9 @@ export const CheckBoxGroups = ({filterValue}:Props)=>{
         getGroupCompany.execute()
             .then((data)=>{
                 setLoading(false);
-                companyGroups = [...data];
+                companyGroups = getGroupBasicInfo(data);
                 setCompanyFilter(companyGroups);
-                getAmountForGroups(data);
+                getAmountForGroups(companyGroups);
             }).catch(()=>{
             setCompanyFilter(companyGroups);
         })
@@ -51,7 +58,7 @@ export const CheckBoxGroups = ({filterValue}:Props)=>{
 
 
     //Initialize groupsPerPerson<group,number>
-    const getAmountForGroups = (companyGroups:GroupType[]) =>{
+    const getAmountForGroups = (companyGroups:GroupBasicInfo[]) =>{
         companyGroups.forEach((groups)=> {
            let numberOfGroups = dataTable.filter(row =>{
                if(typeof row.groups !== 'undefined'){
@@ -99,7 +106,7 @@ export const CheckBoxGroups = ({filterValue}:Props)=>{
         }
         else{
             const numero =
-                [...groups].findIndex((item:GroupType)=> item.group_id.toLowerCase() === value.target.value.toLowerCase());
+                [...groups].findIndex((item:GroupBasicInfo)=> item.group_id.toLowerCase() === value.target.value.toLowerCase());
             changeSelectedRow(
                 {...selectedRow,
                     groups:[...groups.filter((_, index) => index !== numero)]}

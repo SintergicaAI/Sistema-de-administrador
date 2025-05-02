@@ -1,4 +1,4 @@
-import {GroupType, RoleType} from "../../../domain/types/CompanyTypes.ts";
+import {GroupBasicInfo, RoleType} from "../../../domain/types/CompanyTypes.ts";
 
 
 export interface UserDTO{
@@ -6,6 +6,6 @@ export interface UserDTO{
     name:string;
     lastName:string;
     email:string;
-    groups:GroupType[];
+    groups:GroupBasicInfo[];
     role:RoleType;
 }

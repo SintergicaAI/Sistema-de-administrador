@@ -1,9 +1,9 @@
 import { Flex } from "antd"
 import './styles/ModalGroups.css';
-import {GroupType} from "../../../domain/types/CompanyTypes.ts";
+import {GroupBasicInfo} from "../../../domain/types/CompanyTypes.ts";
 import {useLayoutEffect, useRef} from "react";
 type Props = {
-    groupsUser:GroupType[],
+    groupsUser:GroupBasicInfo[],
 }
 
 const checkOverFlowingHeight = (el:Element | null)=>{

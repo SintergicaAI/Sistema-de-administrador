@@ -4,7 +4,7 @@ import {DataType} from "./types/TableAdministrationTypes.ts";
 import {RowSelectedType} from "../../context/Administration";
 import {RenderGroups} from "./RenderGroups.tsx";
 import {useTableAdministration} from "../../../hooks";
-import {GroupType} from "../../../domain/types/CompanyTypes.ts";
+import {GroupBasicInfo} from "../../../domain/types/CompanyTypes.ts";
 
 export const TableAdministration = () => {
 
@@ -44,7 +44,7 @@ export const TableAdministration = () => {
             title: "Grupos",
             key: "groups",
             dataIndex: "groups",
-            render: (array: GroupType[], record) => <RenderGroups groups={array} record={record}/>,
+            render: (array: GroupBasicInfo[], record) => <RenderGroups groups={array} record={record}/>,
         },
     ];
 

@@ -1,7 +1,7 @@
 import {createContext} from "react";
 import {DataType} from "../../components/Administration/types/TableAdministrationTypes.ts";
 import {User} from "../../../domain/entities/User.ts";
-import {GroupType} from "../../../domain/types/CompanyTypes.ts";
+import {GroupBasicInfo} from "../../../domain/types/CompanyTypes.ts";
 
 export type RowSelectedType = {
     email:string,
@@ -11,7 +11,7 @@ export type RowSelectedType = {
     key:string,
     id:string,
     role:"Usuario"| "Administrador"| "Dueño",
-    groups:GroupType[],
+    groups:GroupBasicInfo[],
 
 }
 

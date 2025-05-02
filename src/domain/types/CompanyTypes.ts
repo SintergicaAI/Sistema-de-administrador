@@ -3,7 +3,7 @@ export interface UserDeleted {
     email:string;
 }
 
-export type GroupType = {
+export interface GroupBasicInfo {
     group_id:string;
     name:string;
 }

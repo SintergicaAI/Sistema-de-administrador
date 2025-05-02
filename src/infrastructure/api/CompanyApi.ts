@@ -2,7 +2,7 @@ import {CompanyRepository, UserList, UserSearchParams} from "../../domain/reposi
 import {AuthApi} from "./AuthApi.ts";
 import { User } from "../../domain/entities/User";
 import {PaginableResponse} from "./types/PaginableResponse.ts";
-import {GroupType, InvitateUserDTO, UserDeleted} from "../../domain/types/CompanyTypes.ts";
+import {InvitateUserDTO, UserDeleted} from "../../domain/types/CompanyTypes.ts";
 import {getRole} from "../../presentation/utilities/getRole.ts";
 
 
@@ -10,7 +10,6 @@ import {getRole} from "../../presentation/utilities/getRole.ts";
 export class CompanyApi implements CompanyRepository {
     private readonly baseUrl = `http://localhost`;
     private authApi: AuthApi;
-    private cacheGroups: GroupType[] = [];
 
     constructor() {
         this.authApi = new AuthApi();
@@ -72,7 +71,6 @@ export class CompanyApi implements CompanyRepository {
             await this.findUsersInCompany(searchParams);
         }
         const {data,totalElements}:PaginableResponse = await response.json();
-        console.log(data);
         return {users:data.map((userData) => new User(
                 "",
                 userData.email,
@@ -85,35 +83,6 @@ export class CompanyApi implements CompanyRepository {
 
             )), total:totalElements}
 
-    }
-
-
-
-    async getCompanyGroups(): Promise<GroupType[]> {
-        const token = this.authApi.getToken();
-        if (!token) {
-            throw new Error('No autorizado');
-        }
-
-        if(!this.cacheGroups.length){
-            const response = await fetch(`${this.baseUrl}/company/groups`,{
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json',
-                }
-            });
-
-            //Refrescar el token
-            if(response.status === 403) {
-                await this.refreshToke();
-                await this.getCompanyGroups();
-            }
-            const data:GroupType[] = await response.json();
-            this.cacheGroups = data;
-            return data;
-        }
-        return this.cacheGroups;
     }
 
     async addNewUserToCompany(email:string): Promise<boolean> {
