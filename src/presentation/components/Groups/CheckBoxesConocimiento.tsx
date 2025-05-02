@@ -35,14 +35,13 @@ const getColor = (value:ChangeEvent<HTMLInputElement>) =>{
     return parent.querySelector('.tag')?.getAttribute('data-color') ?? '';
 }
 
-export const CheckBoxesConocimiento = ()=>{
+export const CheckBoxesConocimiento = ({filterValue}:{filterValue:string})=>{
 
 
     //todo:This value is going to be fetched from the groupAPI
     const {setConocimientoTagsSelected, conocimientoTagsSelected} = useGroupContext();
     const [groupsSelected, setGroupsSelected] = useState<string[]>(conocimientoTagsSelected.map(item => item.value));
     const [tagsGroups,setTagsGroups] = useState<Tags[]>([...tags]);
-    const {filterValue} = useGroupContext();
 
     const handleCheckBoxGroup = (value:ChangeEvent<HTMLInputElement>) =>{
         const {target} = value;

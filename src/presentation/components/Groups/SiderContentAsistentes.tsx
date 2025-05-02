@@ -2,10 +2,10 @@ import './style/SiderContent.css';
 import {InputSearch} from "../common";
 import {Flex} from "antd";
 import {ChexboxesAsistentes} from "./ChexboxesAsistentes.tsx";
-import {useGroupContext} from "../../context/Group/useGroupContext.ts";
+import {useState} from "react";
 
 export const SiderContentAsistentes = ()=>{
-    const {setFilterValue} = useGroupContext();
+    const [filterValue,setFilterValue] = useState("");
 
     return (
         <div className='sider-content'>
@@ -13,7 +13,7 @@ export const SiderContentAsistentes = ()=>{
 
             <Flex vertical gap={16}>
                 <InputSearch placeholder={"buscar"} searchMethod={setFilterValue}/>
-                <ChexboxesAsistentes/>
+                <ChexboxesAsistentes filterValue={filterValue}/>
             </Flex>
         </div>
     )

@@ -31,9 +31,9 @@ const models:Model[] = [{
     },
 ]
 
-export const ChexboxesAsistentes = ()=>{
+export const ChexboxesAsistentes = ({filterValue}:{filterValue:string})=>{
 
-    const {filterValue,asistentesSelected, setAsistentesSelected} = useGroupContext();
+    const {asistentesSelected, setAsistentesSelected} = useGroupContext();
 
     const [modelsChecked,setModelsChecked] = useState([...asistentesSelected.map(item => item.value)])
     const [listAsistentes, setListAsistentes] = useState<Model[]>([...models])

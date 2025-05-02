@@ -14,9 +14,9 @@ const companyApi = new CompanyApi();
 const geAllUserCompany = new GetAllUserCompanyData(companyApi);
 let inmutableData:AvatarUserInfo[] = [];
 
-export const CheckBoxesMiembros = () =>{
+export const CheckBoxesMiembros = ({filterValue}:{filterValue:string}) =>{
 
-    const {setMembersGroup,membersGroup,filterValue} = useGroupContext();
+    const {setMembersGroup,membersGroup} = useGroupContext();
     const [checkedValues, setCheckedValues] = useState<string[]>(membersGroup.map(member => member.email));
     const [loading, setLoading] = useState(true);
     const [listUsersFromCompany, setListUsersFromCompany] = useState<AvatarUserInfo[]>([]);
