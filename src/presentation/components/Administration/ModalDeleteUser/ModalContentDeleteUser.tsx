@@ -1,5 +1,5 @@
-import {Dispatch, SetStateAction, useContext, useState} from "react";
-import {AdministrationContext} from "../../../context/Administration";
+import {Dispatch, SetStateAction, useState} from "react";
+import {useAdministration} from "../../../context/Administration";
 import {DataType} from "../types/TableAdministrationTypes.ts";
 import {DeleteUser} from "../../../../application/use-cases/DeleteUser.ts";
 import {Button, Col, Flex, Row,Spin} from 'antd';
@@ -20,7 +20,7 @@ export const ModalContentDeleteUser = ({setIsModalOpen}:Props) =>{
     const {selectedRow,
         dataTable,
         changeDataTabla,
-        changeHasSelected, setTotalItemsTable,totalItemsTable} = useContext(AdministrationContext);
+        changeHasSelected, setTotalItemsTable,totalItemsTable} = useAdministration();
     const [loading, setLoading] = useState(false);
 
     const {fullName} = selectedRow as DataType;
