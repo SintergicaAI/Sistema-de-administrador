@@ -21,7 +21,6 @@ export const InputSearch = ({placeholder,styles,searchMethod}:Props) =>{
                />}
                style={styles}
                onChange={(e) =>{
-                   searchMethod('');
                    setInputValue(e.target.value);
                    searchMethod(e.target.value)}
         }

@@ -62,7 +62,8 @@ export const ChexboxesAsistentes = ()=>{
 
     return (
         <>
-            {listAsistentes.map((model, index)=>(
+            { listAsistentes.length > 0 ?
+                listAsistentes.map((model, index)=>(
                 <CheckboxContainer
                     key={index}
                     checkedValue={modelsChecked}
@@ -74,7 +75,7 @@ export const ChexboxesAsistentes = ()=>{
                         title={model.title} />}
 
                 />
-            ))}
+            )) : "Sin asistentes" }
         </>
     )
 }

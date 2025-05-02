@@ -45,7 +45,7 @@ export const ContainerChildMiembros = () =>{
             {membersGroup.length> 0 ? <Flex vertical gap={5}>
                 {membersGroup.map(member =>
                     (
-                        <Flex justify='space-between'
+                        <Flex key={member.email} justify='space-between'
                               align='center'
                               style={{backgroundColor:"var(--c_slate_50)",
                                   borderRadius:'var(--sm-radius)',

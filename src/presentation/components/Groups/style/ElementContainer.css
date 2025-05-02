@@ -36,6 +36,7 @@ p{
     grid-template-columns: repeat(2, minmax(250px, 600px));
     justify-content: center;
     gap: 1rem;
+    overflow: hidden;
 
     .model{
         background-color: var(--c_slate_50);
