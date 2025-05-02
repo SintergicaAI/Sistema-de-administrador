@@ -1,7 +1,7 @@
-import {CompanyRepository, UserList, UserSearchParams} from "../../domain/repositories/CompanyRepository.ts";
+import {CompanyRepository} from "../../domain/repositories/CompanyRepository.ts";
 import { User } from "../../domain/entities/User";
 import {PaginableResponse} from "./types/PaginableResponse.ts";
-import {UserDeleted} from "../../domain/types/CompanyTypes.ts";
+import {UserDeleted, UserList, UserSearchParams} from "../../domain/types/CompanyTypes.ts";
 import {getRole} from "../../presentation/utilities/getRole.ts";
 import {Common} from "./Common.ts";
 

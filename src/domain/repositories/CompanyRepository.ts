@@ -1,21 +1,7 @@
-import {UserDeleted} from "../types/CompanyTypes.ts";
-import {User} from "../entities/User.ts";
-
+import {UserDeleted, UserList, UserSearchParams} from "../types/CompanyTypes.ts";
 export interface CompanyRepository {
     deleteUser(email:string):Promise<UserDeleted>;
     findUsersInCompany(searchParams: UserSearchParams | {}): Promise<UserList>;
     addUserToGroupCompany(email:string, group:string[]):Promise<boolean>;
     changeUserRoleFromCompany(email:string, role:string):Promise<boolean>;
-}
-
-export interface UserSearchParams {
-    query: string ;  // Puede ser nombre, email, etc.
-    page?: number;
-    size?: number;
-    groups?: string;
-}
-
-export interface UserList {
-    users: User[];
-    total: number;
 }

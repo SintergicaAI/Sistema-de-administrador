@@ -1,3 +1,4 @@
+import {User} from "../entities/User.ts";
 
 export interface UserDeleted {
     email:string;
@@ -10,6 +11,17 @@ export interface GroupBasicInfo {
 export type RoleType = {
     id:string;
     name: string;
+}
+export interface UserSearchParams {
+    query: string ;  // Puede ser nombre, email, etc.
+    page?: number;
+    size?: number;
+    groups?: string;
+}
+
+export interface UserList {
+    users: User[];
+    total: number;
 }
 export type UserFromGroup = {
     "email": string,
