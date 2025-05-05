@@ -16,7 +16,7 @@ const iconStyle:CSSProperties = {
 
 export const HeaderGroupContent = () => {
 
-    let {nameGroup} = useParams();
+    let {groupId} = useParams();
     const {actualGroupName} = useGroupContext();
     const navigate= useNavigate();
 
@@ -24,7 +24,7 @@ export const HeaderGroupContent = () => {
         <Flex style={{height:'100%'}} justify={'space-between'} align={'center'}>
 
             <Flex style={{lineHeight:1}} align={'center'} gap={16}>
-                {nameGroup &&
+                {groupId &&
                     <Undo2
                         onClick={()=>{navigate(-1)}}
                     style={iconStyle}/>}
@@ -32,17 +32,17 @@ export const HeaderGroupContent = () => {
                 <Title style={
                     {
                         fontWeight:'bold',
-                        color:`${ nameGroup ? '#94A3B8':'initial' }`,
+                        color:`${ groupId ? '#94A3B8':'initial' }`,
                         marginBlock:0}}
                 >Grupos</Title>
                 {
-                    nameGroup && (
+                    groupId && (
                             <p className="groups__tag">{upperCaseOneWord(actualGroupName)}</p>
                     )
                 }
             </Flex>
             {
-                nameGroup && <DeleteGroupButton/>
+                groupId && <DeleteGroupButton/>
             }
 
 

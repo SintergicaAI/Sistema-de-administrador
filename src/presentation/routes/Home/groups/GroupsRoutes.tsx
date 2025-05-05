@@ -12,7 +12,7 @@ export const GroupsRoutes = ()=>{
                         <GroupsListView/>
                         }
                     />
-                    <Route path='/:nameGroup' element={<GroupInfoVIew/>}/>
+                    <Route path='/:groupId' element={<GroupInfoVIew/>}/>
                 </Route>
         </Routes>
     )

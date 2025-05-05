@@ -9,7 +9,7 @@ const {Header, Content} = Layout;
 
 export const GroupsListView = () => {
 
-    const {totalGroups} = useGroupContext()
+    const {totalGroups,setActualGroupName} = useGroupContext()
     const navigate = useNavigate();
     //todo: Add an useEffect when there is a change in groups
 
@@ -23,6 +23,7 @@ export const GroupsListView = () => {
             <Button type="primary"
                     onClick={()=>{
                         navigate('nuevo-grupo')
+                        setActualGroupName("Nuevo grupo");
                     }}
                     icon={<SquarePlus style={{width:20, height:20}}/>}>
                 Nuevo grupo
