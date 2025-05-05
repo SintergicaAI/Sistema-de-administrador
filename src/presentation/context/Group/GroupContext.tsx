@@ -18,8 +18,8 @@ interface GroupContextType {
     setAsistentesSelected:(newAsistentesSelected: Model[]) => void,
     membersGroup:AvatarUserInfo[],
     setMembersGroup:(newMembersGroup: AvatarUserInfo[]) => void,
-    actualGroupId:string,
-    setActualGroupId:(newActualGroupId: string) => void,
+    actualGroupName:string,
+    setActualGroupName:(newActualGroupName: string) => void,
 
 }
 

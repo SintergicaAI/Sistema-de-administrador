@@ -11,7 +11,7 @@ export const GroupContextProvider = ({children}:{children:ReactNode}) =>{
     const [conocimientoTagsSelected, setConocimientoTagsSelected] = useState<Tags[]>([]);
     const [asistentesSelected,setAsistentesSelected] = useState<Model[]>([]);
     const [membersGroup,setMembersGroup] = useState<AvatarUserInfo[]>([]);
-    const [actualGroupId, setActualGroupId] = useState<string>("");
+    const [actualGroupName, setActualGroupName] = useState<string>("");
 
     return (<GroupContext.Provider value={
         {
@@ -31,8 +31,8 @@ export const GroupContextProvider = ({children}:{children:ReactNode}) =>{
             setAsistentesSelected,
             membersGroup,
             setMembersGroup,
-            actualGroupId,
-            setActualGroupId
+            actualGroupName,
+            setActualGroupName
         }
     }>
         {children}
