@@ -11,7 +11,7 @@ export const GroupCard = ({
                               members}:CardData) =>{
 
 
-    return ( <Link to={`/groups/${nameGroup}`}>
+    return ( <Link to={`/groups/${groupId}`}>
         <div className='group-card' data-id={groupId}>
             <div className='group-card__general' >
                 <Tooltip title={nameGroup}>

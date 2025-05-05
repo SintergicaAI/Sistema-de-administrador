@@ -50,3 +50,7 @@ export interface InvitateUserDTO  {
     group:null,
     active:boolean,
 }
+export interface ErrorGroup {
+    "error": string,
+    "date": string
+}

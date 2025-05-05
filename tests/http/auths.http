@@ -117,3 +117,13 @@ Content-Type: application/json
 GET {{TURING_API_URL}}/company/groups
 Accept: application/json
 Authorization: Bearer {{auth_token}}
+
+###
+GET {{TURING_API_URL}}/group
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
+###
+GET {{TURING_API_URL}}/group/Almacenes-InformaticosyVendedores
+Accept: application/json
+Authorization: Bearer {{auth_token}}
