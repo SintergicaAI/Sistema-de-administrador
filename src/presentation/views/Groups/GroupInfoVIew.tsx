@@ -1,4 +1,3 @@
-import {useLocation, useNavigate, useParams} from "react-router";
 import {Input, Layout} from "antd";
 import {ElementContainer} from "../../components/Groups/ElementContainer.tsx";
 import {ChangeEvent, CSSProperties, useState} from "react";
@@ -18,11 +17,8 @@ const styleIcon:CSSProperties = {
 }
 
 export const GroupInfoVIew = ()=>{
-    let {nameGroup} = useParams();
-    const {hasSelected} = useGroupContext();
-    const navigate = useNavigate();
-    const location = useLocation();
-    const [inputValue,setInputValue] = useState(nameGroup);
+    const {hasSelected, actualGroupName, setActualGroupName} = useGroupContext();
+    const [inputValue,setInputValue] = useState(actualGroupName);
 
     const handleChange = (value:ChangeEvent<HTMLInputElement>)=>{
 
@@ -30,15 +26,8 @@ export const GroupInfoVIew = ()=>{
         const newValue = target.value.length > 0 ? target.value : ' ';
 
         setInputValue(newValue);
-        shallowPush(`${newValue}`);
-
+        setActualGroupName(newValue);
     }
-
-    const shallowPush = (url:string) => {
-        window.history.pushState({}, '', url);
-        // Manually update the location state to trigger component re-render if necessary
-        navigate(`/groups/${url}`,{replace:true,state: { ...location.state }})
-    };
 
     return (<Layout style={{display:"flex"}}>
         <Content className='container-content' style={{display:'flex', flexDirection:'column', gap:24}}>
@@ -47,7 +36,7 @@ export const GroupInfoVIew = ()=>{
                 <Input
                     value={inputValue}
                     placeholder="Ingresa nombre del grupo"
-                    defaultValue={nameGroup}
+                    defaultValue={actualGroupName}
                     onChange={(e)=> handleChange(e)}
                     style={{fontSize:20,fontWeight:700 ,paddingInline:0}}
                     variant="borderless" />

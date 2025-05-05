@@ -5,6 +5,7 @@ const {Title} = Typography;
 import { Undo2} from 'lucide-react';
 import {CSSProperties} from "react";
 import {DeleteGroupButton} from "./ModalDeleteGroup/DeleteGroupButton.tsx";
+import {useGroupContext} from "../../context/Group/useGroupContext.ts";
 
 const iconStyle:CSSProperties = {
     width: 20,
@@ -16,6 +17,7 @@ const iconStyle:CSSProperties = {
 export const HeaderGroupContent = () => {
 
     let {nameGroup} = useParams();
+    const {actualGroupName} = useGroupContext();
     const navigate= useNavigate();
 
     return (
@@ -35,7 +37,7 @@ export const HeaderGroupContent = () => {
                 >Grupos</Title>
                 {
                     nameGroup && (
-                            <p className="groups__tag">{upperCaseOneWord(nameGroup)}</p>
+                            <p className="groups__tag">{upperCaseOneWord(actualGroupName)}</p>
                     )
                 }
             </Flex>
