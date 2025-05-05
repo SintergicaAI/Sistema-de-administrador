@@ -20,6 +20,7 @@ const getData = async ()=>{
 const cleanData = (data:GetGroupDTO[])=>{
     return data.map((item:GetGroupDTO) => {
         return {
+            groupId:item.group_id,
             nameGroup: item.name,
             userCreatorName: `${ item.userCreator.name} ${item.userCreator.lastName}`,
             members: item.users.length,

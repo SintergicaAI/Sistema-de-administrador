@@ -1,6 +1,7 @@
 import {FilteredValue} from "../common/CommonTypes.ts";
 
 export interface CardData extends FilteredValue{
+    groupId:string;
     nameGroup: string,
     userCreatorName: string,
     members: number,

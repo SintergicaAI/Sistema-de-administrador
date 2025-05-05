@@ -1,8 +1,5 @@
 import {createContext} from "react";
-import {Model, SideContentType, Tags} from "../../components/Groups/GroupsTypes";
-import {AvatarUserInfo} from "../../../domain/types/CompanyTypes.ts";
-
-
+import {AvatarUserInfo, Model, SideContentType, Tags} from "../../components/Groups/GroupsTypes";
 
 interface GroupContextType {
     totalGroups: number,
@@ -21,6 +18,8 @@ interface GroupContextType {
     setAsistentesSelected:(newAsistentesSelected: Model[]) => void,
     membersGroup:AvatarUserInfo[],
     setMembersGroup:(newMembersGroup: AvatarUserInfo[]) => void,
+    actualGroupId:string,
+    setActualGroupId:(newActualGroupId: string) => void,
 
 }
 

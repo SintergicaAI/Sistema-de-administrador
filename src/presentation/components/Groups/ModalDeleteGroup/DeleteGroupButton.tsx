@@ -1,4 +1,3 @@
-import {useParams} from "react-router";
 import {Trash2} from "lucide-react";
 import {CSSProperties, useState} from "react";
 import {ModalGeneral} from "../../common";
@@ -13,7 +12,7 @@ const iconStyle:CSSProperties = {
 
 export const DeleteGroupButton = ()=>{
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const {nameGroup} = useParams();
+
 
     const showModal = () => {
         setIsModalOpen(true);
@@ -27,7 +26,7 @@ export const DeleteGroupButton = ()=>{
                     color='var(--c_danger_400)'
                     style={iconStyle}/>
                 <ModalGeneral
-                    Title={`Eliminar el grupo ${nameGroup?.toLowerCase()} ?`}
+                    Title={`¿Eliminar grupo?`}
                     Content={<ModalDeleteGroupButton setIsModalOpen={setIsModalOpen}/>}
                     isModalOpen={isModalOpen}
                     setIsModalOpen={setIsModalOpen}

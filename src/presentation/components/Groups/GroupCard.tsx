@@ -3,11 +3,16 @@ import type {CardData} from "./GroupsTypes.ts";
 import {Tooltip} from "antd";
 import {Link} from "react-router";
 
-export const GroupCard = ({nameGroup,userCreatorName,size,members}:CardData) =>{
+export const GroupCard = ({
+                              nameGroup,
+                              userCreatorName,
+                              size,
+                                groupId,
+                              members}:CardData) =>{
 
 
     return ( <Link to={`/groups/${nameGroup}`}>
-        <div className='group-card'>
+        <div className='group-card' data-id={groupId}>
             <div className='group-card__general' >
                 <Tooltip title={nameGroup}>
                     <p className='groups__tag f-size-16'>{nameGroup}</p>
