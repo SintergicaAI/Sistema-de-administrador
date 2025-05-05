@@ -1,4 +1,5 @@
-import {CompanyRepository, UserList, UserSearchParams} from "../../domain/repositories/CompanyRepository.ts";
+import {CompanyRepository} from "../../domain/repositories/CompanyRepository.ts";
+import {UserList, UserSearchParams} from "../../domain/types/CompanyTypes.ts";
 
 export class GetAllUserCompanyData {
 

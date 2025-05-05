@@ -2,14 +2,15 @@ import {Button} from 'antd';
 import {ReactNode} from "react";
 import './style/ElementContainer.css';
 import {useGroupContext} from "../../context/Group/useGroupContext.ts";
-import {SideContentType} from "../../context/Group/GroupContext.tsx";
+import {SideContentType} from "./GroupsTypes.ts";
 
 type Props = {
     labelText: string,
     buttonText:string,
     id: SideContentType,
-    containerText:ReactNode,
+    containerChild:ReactNode,
     iconButton:JSX.Element,
+
 }
 
 export const ElementContainer =
@@ -17,7 +18,7 @@ export const ElementContainer =
          buttonText,
          iconButton,
             id,
-         containerText}:Props)=>{
+         containerChild}:Props)=>{
 
     const {setHasSelected,
         setSideContent,
@@ -39,7 +40,7 @@ export const ElementContainer =
                     icon={iconButton}>{buttonText}</Button>
             </div>
             <div className='element-container'>
-                {containerText}
+                {containerChild}
             </div>
         </section>)
 }

@@ -3,8 +3,8 @@ import {SubmitButton} from "../../common";
 import {Dispatch, SetStateAction, useState} from "react";
 import {AlertMessages} from "../../common";
 import { Send } from 'lucide-react';
-import {CompanyApi} from "../../../../infrastructure/api/CompanyApi.ts";
 import {AddNewUserToCompany} from "../../../../application/use-cases/AddNewUserToCompany.ts";
+import {InvitationApi} from "../../../../infrastructure/api/InvitationApi.ts";
 
 type FieldType = {
     email: string,
@@ -15,8 +15,9 @@ type Props = {
     setInvitationSend:Dispatch<SetStateAction<any>>;
 }
 
-const companyApi = new CompanyApi();
-const addNewUser = new AddNewUserToCompany(companyApi);
+const invitationApi = new InvitationApi();
+//TODO: verificar tiempo de carga de addNewUserToCompany
+const addNewUser = new AddNewUserToCompany(invitationApi);
 
 export const ModalContentInviteUser = ({setIsModalOpen,setInvitationSend}:Props)=>{
     const [form] = Form.useForm();

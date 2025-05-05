@@ -2,12 +2,19 @@ import './style/GroupCard.css';
 import type {CardData} from "./GroupsTypes.ts";
 import {Tooltip} from "antd";
 import {Link} from "react-router";
+import {useGroupContext} from "../../context/Group/useGroupContext.ts";
 
-export const GroupCard = ({nameGroup,userCreatorName,size,members}:CardData) =>{
+export const GroupCard = ({
+                              nameGroup,
+                              userCreatorName,
+                              size,
+                                groupId,
+                              members}:CardData) =>{
 
+    const {setActualGroupName} = useGroupContext();
 
-    return ( <Link to={`/groups/${nameGroup}`}>
-        <div className='group-card'>
+    return ( <Link to={`/groups/${groupId}`} onClick={()=>setActualGroupName(nameGroup) }>
+        <div className='group-card' data-id={groupId}>
             <div className='group-card__general' >
                 <Tooltip title={nameGroup}>
                     <p className='groups__tag f-size-16'>{nameGroup}</p>

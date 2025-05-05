@@ -1,0 +1,24 @@
+.model{
+
+    display: grid;
+    gap: 1rem;
+    padding: var(--sm-space);
+    .model__header{
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+        align-items: center;
+    }
+    .model__body{
+        display: flex;
+        p{
+            color: var(--c_slate_950);
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1;
+            align-self: stretch;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+    }
+}

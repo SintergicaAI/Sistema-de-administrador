@@ -1,9 +1,9 @@
-import {CompanyRepository} from "../../domain/repositories/CompanyRepository.ts";
+import {InvitationRepository} from "../../domain/repositories/InvitationRepository.ts";
 
 export class AddNewUserToCompany {
-    constructor(private companyApi: CompanyRepository) {}
+    constructor(private invitationApi: InvitationRepository) {}
 
      async  execute(email:string):Promise<boolean> {
-        return this.companyApi.addNewUserToCompany(email);
+        return this.invitationApi.sendInvitationEmail(email);
     }
 }

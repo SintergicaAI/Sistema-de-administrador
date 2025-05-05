@@ -8,6 +8,7 @@ import {NotFoundGroups} from "./NotFoundGroups.tsx";
 import {useGroupContext} from "../../context/Group/useGroupContext.ts";
 import {Spin} from "antd";
 import { LoadingOutlined } from '@ant-design/icons';
+import {filteringData} from "../../utilities/filteringData.ts";
 
 const groupApi = new GroupApi();
 const getInformationFromGroups = new GetInformationOfGroups(groupApi);
@@ -19,10 +20,12 @@ const getData = async ()=>{
 const cleanData = (data:GetGroupDTO[])=>{
     return data.map((item:GetGroupDTO) => {
         return {
+            groupId:item.group_id,
             nameGroup: item.name,
             userCreatorName: `${ item.userCreator.name} ${item.userCreator.lastName}`,
             members: item.users.length,
-            size:32.2
+            size:32.2,
+            filterValue:item.name
         }
     })
 }
@@ -31,18 +34,8 @@ const cleanData = (data:GetGroupDTO[])=>{
 export const GroupsList = ()=>{
 
     const {setTotalGroups,filterValue} = useGroupContext();
-    const [groups,setGroups] = useState<CardData[]|null>(null);
-
-    const filteringData = ()=>{
-        if(filterValue.length != 0){
-            const filtered
-                = groups?.filter(item => item.nameGroup.toLowerCase().includes(filterValue.toLowerCase())) ?? []
-            setGroups(filtered);
-        }
-        else{
-            setGroups([...inmutableData])
-        }
-    }
+    const [groups,setGroups] = useState<CardData[]>([]);
+    const [loading,setLoading] = useState(true);
 
     useEffect(()=>{
         getData().then((res)=>{
@@ -52,36 +45,39 @@ export const GroupsList = ()=>{
             setTotalGroups(formattedData.length);
         }).catch(()=>{
             setGroups([])
+        }).finally(()=>{
+            setLoading(false);
         })
     },[])
 
     useEffect(() => {
-        filteringData();
+        const filter = filteringData<CardData>(filterValue,groups,inmutableData);
+        setGroups(filter);
     }, [filterValue]);
 
-    if(groups === null){
+    if(loading){
         return (
-            <div style={{display:'grid', placeContent:'center'}}>
+            <div style={{display:'grid', placeContent:'center', minHeight:'100%'}}>
                 <Spin indicator={<LoadingOutlined spin />} size="large" />
             </div>
         )
     }
 
     return (<>
+
         {
         (groups.length > 1) ?
             (
             <section style={{display:'grid', gridTemplateColumns:'repeat(2,1fr)', gap:'8px'}}>
             {
-                groups?.length ? groups.map((item, index)=>(
+                groups.map((item, index)=>(
                         <GroupCard key={index} {...item}/>
-                    )) : ''
+                    ))
             }
             </section>
             )
             : <NotFoundGroups />
         }
     </>
-
     )
 }

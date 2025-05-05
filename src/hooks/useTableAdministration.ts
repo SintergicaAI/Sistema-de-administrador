@@ -59,7 +59,6 @@ export const useTableAdministration = () => {
 
     const changeDataRow = () =>{
         const newDataRow = {...(selectedRow as DataType) };
-        console.log(newDataRow);
 
         const newData =  filterData.map((dataItem) => {
             if(dataItem.key === newDataRow.key) {

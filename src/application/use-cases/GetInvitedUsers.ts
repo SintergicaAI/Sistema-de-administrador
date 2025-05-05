@@ -1,11 +1,12 @@
-import {CompanyRepository} from "../../domain/repositories/CompanyRepository.ts";
+
 import {InvitateUserDTO} from "../../domain/types/CompanyTypes.ts";
+import {InvitationRepository} from "../../domain/repositories/InvitationRepository.ts";
 
 
 export class GetInvitedUsers {
-    constructor(private companyApi: CompanyRepository) {}
+    constructor(private invitationApi: InvitationRepository) {}
 
     async execute():Promise<InvitateUserDTO[]>{
-        return await this.companyApi.getInvitedUsers();
+        return await this.invitationApi.getInvitedUsers();
     }
 }

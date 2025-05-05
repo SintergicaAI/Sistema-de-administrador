@@ -1,6 +1,5 @@
 import {createContext} from "react";
-
-export type SideContentType = 'conocimiento' | 'asistentes' | 'usuarios' | '';
+import {AvatarUserInfo, Model, SideContentType, Tags} from "../../components/Groups/GroupsTypes";
 
 interface GroupContextType {
     totalGroups: number,
@@ -13,6 +12,15 @@ interface GroupContextType {
     setSideContent:(newSiderContent: SideContentType) => void,
     filterValue:string,
     setFilterValue:(newFilterGroups: string) => void,
+    conocimientoTagsSelected:Tags[],
+    setConocimientoTagsSelected:(newConocimientoTags: Tags[]) => void,
+    asistentesSelected:Model[],
+    setAsistentesSelected:(newAsistentesSelected: Model[]) => void,
+    membersGroup:AvatarUserInfo[],
+    setMembersGroup:(newMembersGroup: AvatarUserInfo[]) => void,
+    actualGroupName:string,
+    setActualGroupName:(newActualGroupName: string) => void,
+
 }
 
 export const GroupContext = createContext<GroupContextType|null>(null)

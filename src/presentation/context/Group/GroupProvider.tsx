@@ -1,4 +1,5 @@
-import {GroupContext, SideContentType} from "./GroupContext"
+import {AvatarUserInfo, Model, SideContentType, Tags} from "../../components/Groups/GroupsTypes";
+import {GroupContext} from "./GroupContext"
 import {ReactNode, useState} from "react";
 
 export const GroupContextProvider = ({children}:{children:ReactNode}) =>{
@@ -7,6 +8,10 @@ export const GroupContextProvider = ({children}:{children:ReactNode}) =>{
     const [sideHeaderText, setSideHeaderText] = useState("");
     const [sideContent, setSideContent] = useState<SideContentType>("");
     const [filterValue,setFilterValue] = useState("");
+    const [conocimientoTagsSelected, setConocimientoTagsSelected] = useState<Tags[]>([]);
+    const [asistentesSelected,setAsistentesSelected] = useState<Model[]>([]);
+    const [membersGroup,setMembersGroup] = useState<AvatarUserInfo[]>([]);
+    const [actualGroupName, setActualGroupName] = useState<string>("");
 
     return (<GroupContext.Provider value={
         {
@@ -19,7 +24,15 @@ export const GroupContextProvider = ({children}:{children:ReactNode}) =>{
             setSideContent,
             sideContent:sideContent,
             filterValue,
-            setFilterValue
+            setFilterValue,
+            conocimientoTagsSelected,
+            setConocimientoTagsSelected,
+            asistentesSelected,
+            setAsistentesSelected,
+            membersGroup,
+            setMembersGroup,
+            actualGroupName,
+            setActualGroupName
         }
     }>
         {children}

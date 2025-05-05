@@ -1,6 +1,6 @@
 import { Trash2 } from 'lucide-react';
 import {useState} from "react";
-import {ModalGeneral} from "../../common/ModalGeneral.tsx";
+import {ModalGeneral} from "../../common";
 import {ModalContentDeleteUser} from "./ModalContentDeleteUser.tsx";
 
 

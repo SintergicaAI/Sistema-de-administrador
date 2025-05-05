@@ -2,9 +2,9 @@ import type {TableProps} from 'antd';
 import {Flex, Table} from "antd";
 import {Avatar} from "../common";
 import {useEffect, useState} from "react";
-import {CompanyApi} from "../../../infrastructure/api/CompanyApi.ts";
 import {GetInvitedUsers} from "../../../application/use-cases/GetInvitedUsers.ts";
 import {InvitateUserDTO} from "../../../domain/types/CompanyTypes.ts";
+import {InvitationApi} from "../../../infrastructure/api/InvitationApi.ts";
 
 type DataType = {
     key: string;
@@ -48,11 +48,11 @@ const columns: TableProps<DataType>['columns'] = [
     },
 ]
 
-const companyApi = new CompanyApi();
-const getInvitedUsers = new GetInvitedUsers(companyApi);
+const invitationApi = new InvitationApi();
+const getInvitedUsers = new GetInvitedUsers(invitationApi);
 
 const formatingData = (data:InvitateUserDTO[]) =>{
-    const newData = data.map((userInvited, index) => {
+    return data.map((userInvited, index) => {
         return {
             key: String(index),
             usuario: 'Invitado',
@@ -61,7 +61,6 @@ const formatingData = (data:InvitateUserDTO[]) =>{
             active: userInvited.active,
         }
     });
-    return newData;
 }
 
 export const TableInvitados = () => {
