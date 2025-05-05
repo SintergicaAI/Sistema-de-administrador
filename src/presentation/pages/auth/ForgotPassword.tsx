@@ -33,11 +33,12 @@ export const ForgotPassword = ()=>{
                 duration:5
             })
 
-        }).catch(() =>{
+        }).catch((reason) =>{
+            let message = reason.error ?? "El email no esta asociado a una cuenta"
             messageApi.destroy();
             messageApi.open({
                 type:'error',
-                content:'El email no esta asociado a una cuenta',
+                content:`${message}`,
                 duration:5
             })
         })

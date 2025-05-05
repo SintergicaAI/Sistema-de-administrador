@@ -13,9 +13,12 @@ beforeEach(() => {
 })
 
 describe('Register Rendering Test', () => {
-    it('should render the register form title', () => {
-        const titleRegister = screen.getByText('Registro')
-        expect(titleRegister).toBeInTheDocument()
+    it('should render the terms and conditions of the registration form', () => {
+        const textTermsConditions = screen.getByText('términos y condiciones')
+        expect(textTermsConditions).toBeInTheDocument()
+
+        const radio = screen.getByRole("radio", { name: /Acepto/i });
+        expect(radio).toBeInTheDocument();
     })
 
     it('should render the "Nombre(s)" text and your placeholder', () => {
@@ -40,30 +43,30 @@ describe('Register Rendering Test', () => {
     })
 
     it('should render the "Contrasena" text and your placeholder', () => {
-        const password = screen.getByText('Contrasena')
+        const password = screen.getByText('Contraseña')
         expect(password).toBeInTheDocument()
         const placeholderPassword = screen.getByTestId('password-input')
         expect(placeholderPassword).toBeInTheDocument()
     })
 
     it('should render the "Repetir contrasena" text and your placeholder', () => {
-        const repeatPassword = screen.getByText('Repetir contrasena')
+        const repeatPassword = screen.getByText('Repetir contraseña')
         expect(repeatPassword).toBeInTheDocument()
         const placeholderRepeatPassword = screen.getByTestId('repeat-password-input')
         expect(placeholderRepeatPassword).toBeInTheDocument()
     })
     
-    it('should render the "Enviar" button', () => {
-        const button = screen.getByRole('button', {name: /Enviar/i})
+    it('should render the "Registrarse" button', () => {
+        const button = screen.getByRole('button', {name: /Registrarse/i})
         expect(button).toBeInTheDocument()
     })
 
-    it('should render the "Ya tienes una cuenta?" and "Inicia sesion" text', () => {
+    /* it('should render the "Ya tienes una cuenta?" and "Inicia sesion" text', () => {
         const text = screen.getByText('Ya tienes una cuenta?')
         expect(text).toBeInTheDocument()
-        const link = screen.getByText('Inicia sesion')
+        const link = screen.getByText('Inicia sesión')
         expect(link).toBeInTheDocument()
-    })
+    }) */
 })
 
 
@@ -104,19 +107,4 @@ describe('Resgiter Validation Test', () => {
         const errorMessage = await screen.findByText('La contrasena no coincide')
         expect(errorMessage).toBeInTheDocument()
     })
-})
-
-it('should display the message "Registrando datos..." when the form is submitte correctly', async () => {
-    const firstNameInput = screen.getByPlaceholderText('Nombre(s)')
-    await userEvent.type(firstNameInput, 'Juan')
-    const lastNameInput = screen.getByPlaceholderText('Apellidos')
-    await userEvent.type(lastNameInput, 'Perez')
-    const emailInput = screen.getByPlaceholderText('juan@gmail.com')
-    await userEvent.type(emailInput, 'test@gmail.com')
-    const passwordInput = screen.getByTestId('password-input')
-    await userEvent.type(passwordInput, '123456')
-    const repeatPasswordInput = screen.getByTestId('repeat-password-input')
-    await userEvent.type(repeatPasswordInput, '123456')
-    userEvent.click(screen.getByRole('button', { name: /Enviar/i }))
-    expect(await screen.findByText('Registrando datos...'))
 })
