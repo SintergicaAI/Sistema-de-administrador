@@ -78,6 +78,7 @@ export const CheckBoxesMiembros = ({filterValue}:{filterValue:string}) =>{
                 listUsersFromCompany.length > 0 ?
                     listUsersFromCompany.map((member) => (
                         <CheckboxContainer
+                            key={member.email}
                             labelComponent={<AvatarWithName fullName={`${member.firstName} ${member.lastName}`}/>}
                             objectValue={{value: member.email, name:""}}
                             checkedValue={checkedValues}

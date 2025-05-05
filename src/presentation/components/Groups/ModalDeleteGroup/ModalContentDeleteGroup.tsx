@@ -4,6 +4,7 @@ import {Trash2, X} from "lucide-react";
 import {GroupApi} from "../../../../infrastructure/api/GroupApi.ts";
 import {DeleteGroup} from "../../../../application/use-cases/DeleteGroup.ts";
 import {useParams} from "react-router";
+import {useGroupContext} from "../../../context/Group/useGroupContext.ts";
 
 type Props = {
     setIsModalOpen:Dispatch<SetStateAction<any>>;
@@ -15,10 +16,12 @@ const groupApi = new GroupApi();
 const deleteGroup = new DeleteGroup(groupApi);
 export const ModalDeleteGroupButton = ({setIsModalOpen}:Props)=>{
 
-    const {nameGroup} = useParams();
+    const {groupId} = useParams();
+    const {actualGroupName} = useGroupContext();
 
     const handleDeleteGroup = () => {
-        deleteGroup.execute("Hola").then(()=>{
+        const id = groupId ?? "";
+        deleteGroup.execute(id).then(()=>{
             setIsModalOpen(false);
         }).catch((err)=>{
             console.log(err)
@@ -29,7 +32,7 @@ export const ModalDeleteGroupButton = ({setIsModalOpen}:Props)=>{
         <Row justify={'center'} align={'middle'} style={{minHeight:'180px'}}>
             <Col span={16}>
                 <Flex gap={8} vertical align={'center'} justify={'center'} style={{marginBottom:space}}>
-                    <p style={{fontWeight:600}}>{nameGroup}</p>
+                    <p style={{fontWeight:600}}>{actualGroupName}</p>
                     <p
                         style={{color:'var(--c_slate_400)', textAlign:'center'}}
                     >Esta acción no se puede deshacer</p>

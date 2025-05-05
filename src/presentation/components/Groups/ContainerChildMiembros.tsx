@@ -1,44 +1,58 @@
 import {useGroupContext} from "../../context/Group/useGroupContext.ts";
-import {Flex} from "antd";
+import {Flex, Spin} from "antd";
 import {AvatarWithName} from "../common/AvatarWithName.tsx";
-import {GetInformationOfGroups} from "../../../application/use-cases/GetInformationOfGroups.ts";
 import {GroupApi} from "../../../infrastructure/api/GroupApi.ts";
-import {useParams} from "react-router";
-import {useEffect} from "react";
 import {getRole} from "../../utilities/getRole.ts";
+import {useEffect, useState} from "react";
+import {GetGroupFromId} from "../../../application/use-cases/GetGroupFromId.ts";
+import {useParams} from "react-router";
 
 const groupApi = new GroupApi();
-const getInformationOfGroups = new GetInformationOfGroups(groupApi);
+const getGroupFromId = new GetGroupFromId(groupApi);
 export const ContainerChildMiembros = () =>{
 
     const {membersGroup,setMembersGroup} = useGroupContext();
-    const {nameGroup} = useParams();
+    const {groupId} = useParams();
 
-    const getGroups = ()=>{
-        getInformationOfGroups.execute()
-            .then((res) =>{
-                const groupDTO =
-                    res.find(group => group.name.toLowerCase() === nameGroup?.toLowerCase()) ;
-                if(typeof groupDTO == "undefined") return;
+    const [loading,setLoading] = useState(true);
 
-                setMembersGroup(groupDTO.users.map(user => {
-                    return {
-                        email: user.email,
-                        firstName: user.name,
-                        lastName: user.lastName,
-                        role:user.rol.name
-                    }
-                }))
-            })
-            .catch(() => {
-                setMembersGroup([])
-            })
+    const getMembersOfGroup = ()=> {
+        const id = groupId ?? "";
+        console.log(`Id del grupo ${id}`);
+        getGroupFromId.execute(id)
+            .then((group) => {
+
+            if ("error" in group) {
+                setMembersGroup([]);
+                return;
+            }
+                console.log(group)
+                setLoading(false);
+            setMembersGroup(group.userDTOS.map(user => {
+                return {
+                    email: user.email,
+                    firstName: user.name,
+                    lastName: user.lastName,
+                    role: user.rol?.name,
+                    filterValue: ''
+                }
+            }));
+        }).catch(() => {
+            console.log("Hubo un error")
+            setMembersGroup([]);
+            setLoading(false);
+        })
     }
 
     useEffect(() => {
-        getGroups();
+        getMembersOfGroup();
     }, []);
 
+    if(loading){
+        return (<Flex align="center" justify="center">
+                <Spin spinning={loading}></Spin>
+            </Flex>)
+    }
 
     return (
         <>
