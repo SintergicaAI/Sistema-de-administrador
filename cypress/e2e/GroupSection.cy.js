@@ -49,7 +49,7 @@ describe('Group Section Test', () => {
         cy.get('section').should('be.visible')
     })
 
-    describe('Search User', () => {
+    describe('Search Group', () => {
         it('the user should see the groups they created with the name they searched for', () => {
             cy.contains('li', 'Groups').click()
             cy.url().should('include', '/groups')
@@ -75,4 +75,6 @@ describe('Group Section Test', () => {
             cy.contains('Aun no tienes grupos creados')
         })
     })
+
+
 })
