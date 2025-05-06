@@ -5,6 +5,7 @@ import {AlertMessages} from "../../common";
 import { Send } from 'lucide-react';
 import {AddNewUserToCompany} from "../../../../application/use-cases/AddNewUserToCompany.ts";
 import {InvitationApi} from "../../../../infrastructure/api/InvitationApi.ts";
+import {AlertConfigurationType} from "../../common/CommonTypes.ts";
 
 type FieldType = {
     email: string,
@@ -15,6 +16,8 @@ type Props = {
     setInvitationSend:Dispatch<SetStateAction<any>>;
 }
 
+
+
 const invitationApi = new InvitationApi();
 //TODO: verificar tiempo de carga de addNewUserToCompany
 const addNewUser = new AddNewUserToCompany(invitationApi);
@@ -23,7 +26,7 @@ export const ModalContentInviteUser = ({setIsModalOpen,setInvitationSend}:Props)
     const [form] = Form.useForm();
     const [messageApi]= message.useMessage()
     const [showMessage, setShowMessage] = useState(false);
-    const [alertConfiguration,setAlertConfiguarion] = useState({})
+    const [alertConfiguration,setAlertConfiguarion] = useState<AlertConfigurationType|null>(null)
 
     const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
         console.log(values);
@@ -109,7 +112,9 @@ export const ModalContentInviteUser = ({setIsModalOpen,setInvitationSend}:Props)
 
         {/*TODO:Componente que albergue varios tipos de mensaje*/}
         {
-            showMessage && (<AlertMessages {...alertConfiguration} onClose={()=>{setShowMessage(false)}}/>)
+            showMessage && (<AlertMessages
+                    {...alertConfiguration}
+                handleClose={() =>setShowMessage(false)}/>)
         }
 
 

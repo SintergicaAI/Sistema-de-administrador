@@ -1,8 +1,8 @@
-import {CircleCheck, Trash2} from "lucide-react";
+import {Trash2} from "lucide-react";
 import {CSSProperties, useState} from "react";
-import {ModalGeneral} from "../../common";
+import {AlertMessages, ModalGeneral} from "../../common";
 import {ModalDeleteGroupButton} from "./ModalContentDeleteGroup.tsx";
-import {Alert, ConfigProvider} from "antd";
+import {AlertConfigurationType} from "../../common/CommonTypes.ts";
 
 const iconStyle:CSSProperties = {
     width: 20,
@@ -14,7 +14,11 @@ const iconStyle:CSSProperties = {
 export const DeleteGroupButton = ()=>{
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [showAlert,setShowAlert] = useState(false);
-
+    const [alertConfiguration, setAlertConfiguration] = useState<AlertConfigurationType>({
+        message:'Operación realizada con éxito',
+        type:"success",
+        description:""
+    });
 
     const showModal = () => {
         setIsModalOpen(true);
@@ -23,46 +27,29 @@ export const DeleteGroupButton = ()=>{
 
     return (
             <>
-                <ConfigProvider theme={{"components": {
-                        "Alert": {
-                            "colorText": "#16A34A",
-                            "colorSuccessBg":"#DCFCE7",
-                            "colorSuccessBorder":"#16A34A"
-                        }
-                    }}}>
-                    {showAlert ? (<Alert
-                        message="Operacion efectuada correctamente"
-                        type="success" showIcon
-                        icon={<CircleCheck/>}
-                        closable
-                        style={{
-                            position: 'absolute',
-                            top: 30,
-                            left: '50%',
-                            transform: 'translate(-50%, -50%)',
-                        }}
-                        onClose={() => {
-                            setTimeout( ()=>{
-                                setShowAlert(false);
-                            },300)
-
-                        }
-                        }
-                    />):''}
+                {showAlert ? (<AlertMessages
+                    {...alertConfiguration}
+                    handleClose={()=>{setShowAlert(false);}}
+                />):''}
 
                     <Trash2
-                    onClick={showModal}
+                        onClick={showModal}
                         color='var(--c_danger_400)'
-                        style={iconStyle}/>
+                        style={iconStyle}
+                    />
+
                     <ModalGeneral
                         Title={`¿Eliminar grupo?`}
-                        Content={<ModalDeleteGroupButton
+                        Content={
+                        <ModalDeleteGroupButton
+                            setAlertConfiguration={setAlertConfiguration}
                             setShowAlert={setShowAlert}
-                            setIsModalOpen={setIsModalOpen}/>}
+                            setIsModalOpen={setIsModalOpen}
+                        />}
+
                         isModalOpen={isModalOpen}
                         setIsModalOpen={setIsModalOpen}
                     />
-                </ConfigProvider>
             </>
     )
 }

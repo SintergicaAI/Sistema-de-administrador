@@ -10,13 +10,17 @@ import {useGroupContext} from "../../../context/Group/useGroupContext.ts";
 type Props = {
     setIsModalOpen:Dispatch<SetStateAction<any>>;
     setShowAlert:Dispatch<SetStateAction<any>>;
+    setAlertConfiguration:Dispatch<SetStateAction<any>>
 }
 
 const space = 16;
 
 const groupApi = new GroupApi();
 const deleteGroup = new DeleteGroup(groupApi);
-export const ModalDeleteGroupButton = ({setIsModalOpen,setShowAlert}:Props)=>{
+export const ModalDeleteGroupButton = ({
+                                           setIsModalOpen,
+                                           setAlertConfiguration,
+                                           setShowAlert}:Props)=>{
 
     const {groupId} = useParams();
     const {actualGroupName} = useGroupContext();
@@ -30,20 +34,22 @@ export const ModalDeleteGroupButton = ({setIsModalOpen,setShowAlert}:Props)=>{
             setIsModalOpen(false);
         }).catch((err)=>{
             console.log(err)
+            setAlertConfiguration({type:"error",message:"Error en la petición, inténtelo después"});
             setLoading(false);
         }).finally(()=>{
             setShowAlert(true);
         })
     }
 
-    const simulatedDelete = ()=>{
+   /* const simulatedDelete = ()=>{
             setLoading(true);
         setTimeout(()=>{
             setLoading(false);
             setIsModalOpen(false);
+            setAlertConfiguration({type:"error",message:"Error en la petición, inténtelo después"});
             setShowAlert(true);
         },1000)
-    }
+    }*/
 
     return (
         <Row justify={'center'} align={'middle'} style={{minHeight:'180px'}}>
@@ -67,7 +73,7 @@ export const ModalDeleteGroupButton = ({setIsModalOpen,setShowAlert}:Props)=>{
                         icon={<X/>}
                         iconPosition={'start'}
                         variant='outlined'
-                        onClick={simulatedDelete}
+                        onClick={handleDeleteGroup}
                     >Si,eliminar usuario</Button>
                 </Flex>
             </Col>
