@@ -52,6 +52,7 @@ export const CheckBoxesMiembros = ({filterValue}:{filterValue:string}) =>{
     }
 
     useEffect(() => {
+        console.log("Valor de inmutable data:",inmutableData.length)
         getUsers()
             .catch(()=>{
                 inmutableData = [];
