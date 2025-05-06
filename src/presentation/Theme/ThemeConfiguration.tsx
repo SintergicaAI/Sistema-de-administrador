@@ -46,18 +46,19 @@ export const ThemeConfiguration = ({children}:Props) => {
                     collapsedIconSize:24,
                     itemPaddingInline:1,
                     itemMarginInline:10,
-                    /*itemMarginInline:9,
-                    iconMarginInlineEnd:0,*/
                 },
                 "Divider": {
                     "margin": 0
                 },
                 Table: {
-                    headerBg:'rgb(from var(--c_slate_100) r g b / 0.1)',
-                    colorBgContainer:'rgb(from var(--c_slate_100) r g b / 0.1)',
+                    colorBgContainer:'var(--c_slate_50)',
+                    headerBg:'var(--c_slate_100)',
                     headerColor:'var(--c_slate_500)',
                     fontWeightStrong:300,
                     rowHoverBg:'var(--c_slate_200)',
+                    "cellPaddingBlock": 12,
+                    "cellPaddingInline": 12,
+                    borderColor: "var(--c_slate_200)",
                 },
                 Avatar:{
                     colorTextLightSolid:'var(--c_brand-500)',

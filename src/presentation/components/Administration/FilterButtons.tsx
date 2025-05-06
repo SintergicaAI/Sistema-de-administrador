@@ -1,14 +1,14 @@
 import {Flex, Spin} from 'antd';
 import {GetCompanyGroups} from "../../../application/use-cases/GetCompanyGroups.ts";
 import {Dispatch, useEffect, useRef, useState} from "react";
-import {CompanyApi} from "../../../infrastructure/api/CompanyApi.ts";
 import {upperCaseOneWord} from "../../utilities";
 import {useAdministration, valueAdministrationContext} from "../../context/Administration";
 import {getGroupsNames} from "../../utilities";
+import {GroupApi} from "../../../infrastructure/api/GroupApi.ts";
 
 
-const companyAPI = new CompanyApi();
-const getGroupCompany = new GetCompanyGroups(companyAPI);
+const groupApi = new GroupApi();
+const getGroupCompany = new GetCompanyGroups(groupApi);
 
 type Props = {
     name: string;
@@ -62,7 +62,7 @@ export const FilterButtons = () => {
         getGroupsFromCompany()
     }, []);
 
-    return (<>
+    return (<Flex gap={8} vertical>
             <div>
                 <p>Filtrar por grupos</p>
             </div>
@@ -77,6 +77,6 @@ export const FilterButtons = () => {
                 )): <Spin size='small'></Spin>
                 }
             </Flex>
-            </>
+            </Flex>
     )
 }
