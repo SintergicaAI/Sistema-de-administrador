@@ -7,16 +7,22 @@ import {Avatar} from "../../common";
 import { Trash2 } from 'lucide-react';
 import { X } from 'lucide-react';
 import {CompanyApi} from "../../../../infrastructure/api/CompanyApi.ts";
+import {AlertConfigurationType} from "../../common/CommonTypes.ts";
 
 const companyApi = new CompanyApi();
 const deleteUser = new DeleteUser(companyApi);
 
 type Props = {
     setIsModalOpen:Dispatch<SetStateAction<any>>;
+    setAlertConfiguration:Dispatch<SetStateAction<AlertConfigurationType>>
+    setShowAlert:Dispatch<SetStateAction<any>>;
 }
 
 
-export const ModalContentDeleteUser = ({setIsModalOpen}:Props) =>{
+export const ModalContentDeleteUser = ({
+                                           setIsModalOpen,
+                                           setShowAlert,
+                                           setAlertConfiguration}:Props) =>{
     const {selectedRow,
         dataTable,
         changeDataTabla,
@@ -39,19 +45,28 @@ export const ModalContentDeleteUser = ({setIsModalOpen}:Props) =>{
                 changeHasSelected(false);
                 setLoading(false);
                 setIsModalOpen(false);
+                setShowAlert(true);
             });
         }catch(e){
-            console.log(e);
+            setLoading(false);
+            setIsModalOpen(false);
+            setShowAlert(true);
+            setAlertConfiguration({
+                message:'Invitacion no enviada',
+                description:"",
+                type:'error'
+            })
+            console.error(e);
         }
 
     }
     return (
         <Row justify={'center'} align={'middle'} style={{minHeight:'180px'}}>
             <Col span={16}>
-                <div >
+                <Flex vertical gap={16}>
                     <Spin spinning={loading} fullscreen/>
                     <Flex align={'center'} gap={5} justify={'center'}>
-                        <Avatar name={`${fullName}`}/>
+                        <Avatar name={`${fullName}`} type="active"/>
                         <p style={{fontWeight:'700',fontSize:'var(--subtitle-size:16px)'}}>{`${fullName}`}</p>
                     </Flex>
                     <p
@@ -71,7 +86,7 @@ export const ModalContentDeleteUser = ({setIsModalOpen}:Props) =>{
                             onClick={handleDelete}
                         >Si,eliminar usuario</Button>
                     </Flex>
-                </div>
+                </Flex>
             </Col>
         </Row>
     )
