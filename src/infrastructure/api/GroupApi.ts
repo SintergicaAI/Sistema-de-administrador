@@ -3,9 +3,16 @@ import {ErrorGroup, GetGroupDTO, GroupBasicInfo} from "../../domain/types/Compan
 import {Common} from "./Common.ts";
 
 export class GroupApi extends Common implements GroupRepository{
+    get groups(): GetGroupDTO[] | null {
+        return this._groups;
+    }
+
+    set groups(value: GetGroupDTO[] | null) {
+        this._groups = value;
+    }
 
 
-    private groups:GetGroupDTO[]|null = null;
+    private _groups:GetGroupDTO[]|null = null;
 
     async getGroups(): Promise<GetGroupDTO[]> {
         const token = this.authApi.getToken();
@@ -13,7 +20,8 @@ export class GroupApi extends Common implements GroupRepository{
         if(!token){
             throw Error(`Token not found`);
         }
-        if(this.groups == null){
+        if(this._groups == null){
+            console.log("El grupo es nulo, se ejeucto");
             try{
                 const response = await fetch(`${this.baseUrl}/company/groups`, {
                     method: "GET",
@@ -28,7 +36,7 @@ export class GroupApi extends Common implements GroupRepository{
                     await this.getGroups();
                 }
                 const data:GetGroupDTO[] = await response.json();
-                this.groups = data;
+                this._groups = data;
                 return data;
             }
             catch(e){
@@ -37,7 +45,7 @@ export class GroupApi extends Common implements GroupRepository{
         }
         else{
 
-            return Promise.resolve( this.groups ) ;
+            return Promise.resolve( this._groups ) ;
         }
     }
 

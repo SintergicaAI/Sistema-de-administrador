@@ -1,12 +1,12 @@
 import {useState,useEffect} from "react";
 import {DataType} from "../presentation/components/Administration/types/TableAdministrationTypes.js";
 import {RowSelectedType, useAdministration} from "../presentation/context/Administration";
-import {UserSearchParams} from "../domain/repositories/CompanyRepository.ts";
 import {filterByGroups, filterByQuery } from "./helpers";
 import {formatData} from "../presentation/utilities";
 import {CompanyApi} from "../infrastructure/api/CompanyApi.ts";
 import {GetAllUserCompanyData} from "../application/use-cases/GetAllUserCompanyData.ts";
 import {TableProps} from "antd";
+import {UserSearchParams} from "../domain/types/CompanyTypes.ts";
 
 const DEFAULT_PAGE_SIZE = 5;
 const operationTable = new CompanyApi();

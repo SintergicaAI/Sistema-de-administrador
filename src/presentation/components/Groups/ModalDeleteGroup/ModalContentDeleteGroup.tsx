@@ -3,7 +3,7 @@ import {Button, Col, Flex, Row, Spin} from "antd";
 import {Trash2, X} from "lucide-react";
 import {GroupApi} from "../../../../infrastructure/api/GroupApi.ts";
 import {DeleteGroup} from "../../../../application/use-cases/DeleteGroup.ts";
-import {useParams} from "react-router";
+import {useNavigate, useParams} from "react-router";
 import {useGroupContext} from "../../../context/Group/useGroupContext.ts";
 
 
@@ -23,31 +23,40 @@ export const ModalDeleteGroupButton = ({
                                            setShowAlert}:Props)=>{
 
     const {groupId} = useParams();
-    const {actualGroupName} = useGroupContext();
+    const navigate = useNavigate();
+    const {actualGroupName,setTotalGroups, totalGroups, setHasSelected} = useGroupContext();
     const [loading,setLoading] = useState(false);
 
     const handleDeleteGroup = () => {
         const id = groupId ?? "";
         setLoading(true);
         deleteGroup.execute(id).then(()=>{
+            setTotalGroups(totalGroups - 1 );
             setLoading(false);
             setIsModalOpen(false);
+            setTimeout(()=>{
+                navigate(-1);
+            },1000)
         }).catch((err)=>{
             console.log(err)
             setAlertConfiguration({type:"error",message:"Error en la petición, inténtelo después"});
             setLoading(false);
         }).finally(()=>{
             setShowAlert(true);
+            setHasSelected(false);
         })
     }
 
-   /* const simulatedDelete = ()=>{
+    /*const simulatedDelete = ()=>{
             setLoading(true);
-        setTimeout(()=>{
-            setLoading(false);
-            setIsModalOpen(false);
-            setAlertConfiguration({type:"error",message:"Error en la petición, inténtelo después"});
-            setShowAlert(true);
+            setTimeout(()=>{
+                setLoading(false);
+                setIsModalOpen(false);
+                setShowAlert(true);
+                setHasSelected(false);
+                setTotalGroups(totalGroups - 1 );
+                groupApi.groups = null;
+                navigate(-1);
         },1000)
     }*/
 
@@ -74,7 +83,7 @@ export const ModalDeleteGroupButton = ({
                         iconPosition={'start'}
                         variant='outlined'
                         onClick={handleDeleteGroup}
-                    >Si,eliminar usuario</Button>
+                    >Si,eliminar grupo</Button>
                 </Flex>
             </Col>
         </Row>

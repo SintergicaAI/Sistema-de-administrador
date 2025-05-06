@@ -18,7 +18,6 @@ export const ContainerChildMiembros = () =>{
 
     const getMembersOfGroup = ()=> {
         const id = groupId ?? "";
-        console.log(`Id del grupo ${id}`);
         getGroupFromId.execute(id)
             .then((group) => {
 
@@ -26,7 +25,6 @@ export const ContainerChildMiembros = () =>{
                 setMembersGroup([]);
                 return;
             }
-                console.log(group)
                 setLoading(false);
             setMembersGroup(group.userDTOS.map(user => {
                 return {
@@ -37,8 +35,8 @@ export const ContainerChildMiembros = () =>{
                     filterValue: ''
                 }
             }));
-        }).catch(() => {
-            console.log("Hubo un error")
+        }).catch((error) => {
+            console.error(error);
             setMembersGroup([]);
             setLoading(false);
         })

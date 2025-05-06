@@ -22,7 +22,6 @@ export const AlertMessages = (
 
     if(typeof icon == "undefined"){
         icon = type === "success" ? <CircleCheck style={{}} />:<CircleX/>
-        console.log("icono asignado");
     }
 
     return (

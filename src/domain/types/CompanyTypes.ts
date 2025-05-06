@@ -40,7 +40,7 @@ export interface GetGroupDTO{
     "userCreator": UserFromGroup,
     "creationDate": string,
     "editDate":string,
-    "userDTOS": UserFromGroup[]
+    "users": UserFromGroup[]
 }
 
 export interface InvitateUserDTO  {
