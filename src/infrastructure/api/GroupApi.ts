@@ -73,7 +73,7 @@ export class GroupApi extends Common implements GroupRepository{
             throw Error(`Token not found`);
         }
             try{
-                const response = await fetch(`${this.baseUrl}/groups/${id}`, {
+                const response = await fetch(`${this.baseUrl}/group/${id}`, {
                     method: "GET",
                     headers: {
                         Authorization: `Bearer ${token}`,

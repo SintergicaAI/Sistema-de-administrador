@@ -1,35 +1,56 @@
-import {Dispatch, SetStateAction} from "react";
-import {Button, Col, Flex, Row} from "antd";
+import {Dispatch, SetStateAction, useState} from "react";
+import {Button, Col, Flex, Row, Spin} from "antd";
 import {Trash2, X} from "lucide-react";
 import {GroupApi} from "../../../../infrastructure/api/GroupApi.ts";
 import {DeleteGroup} from "../../../../application/use-cases/DeleteGroup.ts";
 import {useParams} from "react-router";
+import {useGroupContext} from "../../../context/Group/useGroupContext.ts";
+
 
 type Props = {
     setIsModalOpen:Dispatch<SetStateAction<any>>;
+    setShowAlert:Dispatch<SetStateAction<any>>;
 }
 
 const space = 16;
 
 const groupApi = new GroupApi();
 const deleteGroup = new DeleteGroup(groupApi);
-export const ModalDeleteGroupButton = ({setIsModalOpen}:Props)=>{
+export const ModalDeleteGroupButton = ({setIsModalOpen,setShowAlert}:Props)=>{
 
-    const {nameGroup} = useParams();
+    const {groupId} = useParams();
+    const {actualGroupName} = useGroupContext();
+    const [loading,setLoading] = useState(false);
 
     const handleDeleteGroup = () => {
-        deleteGroup.execute("Hola").then(()=>{
+        const id = groupId ?? "";
+        setLoading(true);
+        deleteGroup.execute(id).then(()=>{
+            setLoading(false);
             setIsModalOpen(false);
         }).catch((err)=>{
             console.log(err)
+            setLoading(false);
+        }).finally(()=>{
+            setShowAlert(true);
         })
+    }
+
+    const simulatedDelete = ()=>{
+            setLoading(true);
+        setTimeout(()=>{
+            setLoading(false);
+            setIsModalOpen(false);
+            setShowAlert(true);
+        },1000)
     }
 
     return (
         <Row justify={'center'} align={'middle'} style={{minHeight:'180px'}}>
             <Col span={16}>
+                <Spin spinning={loading} fullscreen/>
                 <Flex gap={8} vertical align={'center'} justify={'center'} style={{marginBottom:space}}>
-                    <p style={{fontWeight:600}}>{nameGroup}</p>
+                    <p style={{fontWeight:600}}>{actualGroupName}</p>
                     <p
                         style={{color:'var(--c_slate_400)', textAlign:'center'}}
                     >Esta acción no se puede deshacer</p>
@@ -46,7 +67,7 @@ export const ModalDeleteGroupButton = ({setIsModalOpen}:Props)=>{
                         icon={<X/>}
                         iconPosition={'start'}
                         variant='outlined'
-                        onClick={handleDeleteGroup}
+                        onClick={simulatedDelete}
                     >Si,eliminar usuario</Button>
                 </Flex>
             </Col>
