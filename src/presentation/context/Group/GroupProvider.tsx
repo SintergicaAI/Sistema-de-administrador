@@ -1,6 +1,7 @@
 import {AvatarUserInfo, Model, SideContentType, Tags} from "../../components/Groups/GroupsTypes";
 import {GroupContext} from "./GroupContext"
 import {ReactNode, useState} from "react";
+import {AlertConfigurationType} from "../../components/common/CommonTypes.ts";
 
 export const GroupContextProvider = ({children}:{children:ReactNode}) =>{
     const [totalGroups, setTotalGroups] = useState(0);
@@ -12,6 +13,8 @@ export const GroupContextProvider = ({children}:{children:ReactNode}) =>{
     const [asistentesSelected,setAsistentesSelected] = useState<Model[]>([]);
     const [membersGroup,setMembersGroup] = useState<AvatarUserInfo[]>([]);
     const [actualGroupName, setActualGroupName] = useState<string>("");
+    const [AlertConfiguration,setAlertConfiguration] = useState<AlertConfigurationType|{}>({});
+    const [showAlert,setShowAlert] = useState(false);
 
     return (<GroupContext.Provider value={
         {
@@ -32,7 +35,11 @@ export const GroupContextProvider = ({children}:{children:ReactNode}) =>{
             membersGroup,
             setMembersGroup,
             actualGroupName,
-            setActualGroupName
+            setActualGroupName,
+            setAlertConfiguration,
+            AlertConfiguration,
+            showAlert,
+            setShowAlert
         }
     }>
         {children}
