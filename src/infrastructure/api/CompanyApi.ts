@@ -5,8 +5,20 @@ import {UserDeleted, UserList, UserSearchParams} from "../../domain/types/Compan
 import {getRole} from "../../presentation/utilities/getRole.ts";
 import {Common} from "./Common.ts";
 
-export class CompanyApi extends Common implements CompanyRepository {
 
+export class CompanyApi extends Common implements CompanyRepository {
+    get ListUserCache(): UserList {
+        return this._ListUserCache;
+    }
+
+    set ListUserCache(value: UserList) {
+        this._ListUserCache = value;
+    }
+
+    private _ListUserCache:UserList = {
+        users:[],
+        total:0,
+    }
 
     async deleteUser(email: string): Promise<UserDeleted> {
         const response = await fetch(`${this.baseUrl}/company/users/${email}`,{
@@ -42,33 +54,38 @@ export class CompanyApi extends Common implements CompanyRepository {
             if((queryParams.get("groups") as string).length === 0) queryParams.delete("groups");
         }
 
-        let response = new Response();
-        try{
-             response = await fetch(
-                `${this.baseUrl}/company/users?${queryParams}`,
-                {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json',
+        if(this._ListUserCache.total == 0){
+            let response = new Response();
+            try{
+                response = await fetch(
+                    `${this.baseUrl}/company/users?${queryParams}`,
+                    {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json',
+                        }
                     }
-                }
-            );
-        }catch(e){
-            await this.refreshToke();
-            await this.findUsersInCompany(searchParams);
-        }
-        const {data,totalElements}:PaginableResponse = await response.json();
-        return {users:data.map((userData) => new User(
-                "",
-                userData.email,
-                getRole( userData.role.name),
-                userData.name,
-                userData.lastName,
-                undefined,
-                userData.groups,
-                undefined
-            )), total:totalElements}
+                );
+            }catch(e){
+                await this.refreshToke();
+                await this.findUsersInCompany(searchParams);
+            }
+                const {data,totalElements}:PaginableResponse = await response.json();
+                 this._ListUserCache=  {users:data.map((userData) => new User(
+                        "",
+                        userData.email,
+                        getRole( userData.role.name),
+                        userData.name,
+                        userData.lastName,
+                        undefined,
+                        userData.groups,
+                        undefined
+                    )), total:totalElements}
+            }
+        return this._ListUserCache;
+
+
     }
 
     async addUserToGroupCompany(email: string, group: string[]): Promise<boolean> {

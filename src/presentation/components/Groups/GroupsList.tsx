@@ -14,10 +14,7 @@ const groupApi = new GroupApi();
 const getInformationFromGroups = new GetInformationOfGroups(groupApi);
 let inmutableData:CardData[] | [] = [];
 
-const getData = async ()=>{
-    return await getInformationFromGroups.execute();
-}
-const cleanData = (data:GetGroupDTO[])=>{
+const cleanData = (data:GetGroupDTO[]):CardData[]=>{
     return data.map((item:GetGroupDTO) => {
         return {
             groupId:item.group_id,
@@ -25,7 +22,7 @@ const cleanData = (data:GetGroupDTO[])=>{
             userCreatorName: `${ item.userCreator.name} ${item.userCreator.lastName}`,
             members: item.users.length,
             size:32.2,
-            filterValue:item.name
+            filterValue:item.name.toLowerCase(),
         }
     })
 }
@@ -33,25 +30,40 @@ const cleanData = (data:GetGroupDTO[])=>{
 
 export const GroupsList = ()=>{
 
-    const {setTotalGroups,filterValue} = useGroupContext();
+    const {setTotalGroups,
+        filterValue,
+        totalGroups} = useGroupContext();
     const [groups,setGroups] = useState<CardData[]>([]);
     const [loading,setLoading] = useState(true);
 
-    useEffect(()=>{
-        getData().then((res)=>{
+
+
+    const getData =  ()=>{
+        getInformationFromGroups.execute().then((res)=>{
             const formattedData = cleanData(res);
             inmutableData=formattedData;
             setGroups(formattedData);
             setTotalGroups(formattedData.length);
-        }).catch(()=>{
+        }).catch((error)=>{
+            console.error(error.message)
             setGroups([])
         }).finally(()=>{
             setLoading(false);
-        })
+        });
+    }
+    //todo: Add an useEffect when there is a change in groups
+
+    useEffect(()=>{
+        getData();
     },[])
 
     useEffect(() => {
-        const filter = filteringData<CardData>(filterValue,groups,inmutableData);
+        groupApi.groups = null;
+        getData();
+    }, [totalGroups]);
+
+    useEffect(() => {
+        const filter =  filteringData<CardData>(filterValue,groups,inmutableData);
         setGroups(filter);
     }, [filterValue]);
 

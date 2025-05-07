@@ -32,7 +32,7 @@ export const RadioGroup = ({radioObjet}:Props) =>{
 
     return (
         <div
-            style={{display: "grid", gridTemplateColumns:"repeat(2,1fr)"}}
+            style={{display: "grid", gridTemplateColumns:"repeat(2,1fr)", gap:4}}
         >
             {radioButtons.map((option,index) =>(
                 <RadioButton value={`${option}`}

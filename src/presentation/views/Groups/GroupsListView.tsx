@@ -11,7 +11,7 @@ export const GroupsListView = () => {
 
     const {totalGroups,setActualGroupName} = useGroupContext()
     const navigate = useNavigate();
-    //todo: Add an useEffect when there is a change in groups
+
 
     return (<Layout className='container-content' style={{display:'flex', flexDirection:'column'}}>
         <Header
@@ -19,7 +19,6 @@ export const GroupsListView = () => {
                 alignItems: 'center',
                 justifyContent: 'space-between'}}
         >
-            {/*TODO:Agregar funcionalidad*/}
             <Button type="primary"
                     onClick={()=>{
                         navigate('nuevo-grupo')

@@ -120,7 +120,7 @@ export const SiderContent = () =>{
             <Flex vertical gap={8} style={{marginBottom:16}}>
 
                 <p className="label">Rol</p>
-               <RadioGroupRoles/>
+                    <RadioGroupRoles/>
             </Flex>
 
             <Flex vertical gap={8}>

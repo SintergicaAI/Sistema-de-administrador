@@ -1,10 +1,10 @@
-import {Form, FormProps, Input, message, ConfigProvider, Select, Flex} from "antd";
+import {Form, FormProps, Input, message, ConfigProvider, Select, Flex, Spin} from "antd";
 import {SubmitButton} from "../../common";
 import {Dispatch, SetStateAction, useState} from "react";
-import {AlertMessages} from "../../common";
 import { Send } from 'lucide-react';
 import {AddNewUserToCompany} from "../../../../application/use-cases/AddNewUserToCompany.ts";
 import {InvitationApi} from "../../../../infrastructure/api/InvitationApi.ts";
+import {AlertConfigurationType} from "../../common/CommonTypes.ts";
 
 type FieldType = {
     email: string,
@@ -13,35 +13,41 @@ type FieldType = {
 type Props = {
     setIsModalOpen:Dispatch<SetStateAction<any>>;
     setInvitationSend:Dispatch<SetStateAction<any>>;
+    setAlertConfiguration:Dispatch<AlertConfigurationType>;
 }
+
+
 
 const invitationApi = new InvitationApi();
 //TODO: verificar tiempo de carga de addNewUserToCompany
 const addNewUser = new AddNewUserToCompany(invitationApi);
 
-export const ModalContentInviteUser = ({setIsModalOpen,setInvitationSend}:Props)=>{
+export const ModalContentInviteUser = ({
+                                           setIsModalOpen,
+                                           setAlertConfiguration,
+                                           setInvitationSend}:Props)=>{
     const [form] = Form.useForm();
     const [messageApi]= message.useMessage()
-    const [showMessage, setShowMessage] = useState(false);
-    const [alertConfiguration,setAlertConfiguarion] = useState({})
+    const [loading,setLoading] = useState(false);
 
     const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
         console.log(values);
+        setLoading(true);
         addNewUser.execute(values.email).
        then( () => {
             setIsModalOpen(false);
             setInvitationSend(true);
        })
            .catch((error)=>{
-               setShowMessage(true);
-               setAlertConfiguarion({
-                   ...alertConfiguration,
+               setAlertConfiguration({
                    message:'Invitacion no enviada',
                    description:error.message,
                    type:'error'
                })
                console.log(error);
-           })
+           }).finally(()=>{
+               setLoading(false);
+        })
     };
 
     const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = () => {
@@ -52,6 +58,7 @@ export const ModalContentInviteUser = ({setIsModalOpen,setInvitationSend}:Props)
     };
 
     return (<>
+        <Spin spinning={loading} fullscreen/>
         <ConfigProvider theme={{
             components:{
                 Form:{
@@ -106,12 +113,5 @@ export const ModalContentInviteUser = ({setIsModalOpen,setInvitationSend}:Props)
                 </Flex>
             </Form>
         </ConfigProvider>
-
-        {/*TODO:Componente que albergue varios tipos de mensaje*/}
-        {
-            showMessage && (<AlertMessages {...alertConfiguration} onClose={()=>{setShowMessage(false)}}/>)
-        }
-
-
     </>)
 }
