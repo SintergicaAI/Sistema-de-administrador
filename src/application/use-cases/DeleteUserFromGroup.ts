@@ -1,10 +1,11 @@
-import {CompanyRepository} from "../../domain/repositories/CompanyRepository.ts";
+import {ErrorGroup, GroupBasicInfo} from "../../domain/types/CompanyTypes.ts";
+import {GroupRepository} from "../../domain/repositories/GroupRepository.ts";
 
 export class DeleteUserFromGroup {
-    constructor(private companyRepository: CompanyRepository) {
+    constructor(private groupRepository:GroupRepository) {
     }
 
-    async execute(group:string,email:string):Promise<boolean>{
-        return this.companyRepository.deleterUserFromCompany(group,email);
+    execute(groupId:string, email:string):Promise<GroupBasicInfo|ErrorGroup> {
+        return this.groupRepository.deleteUserFromGroup(groupId, email)
     }
 }

@@ -11,15 +11,18 @@ import {filteringData} from "../../utilities/filteringData.ts";
 import {GroupApi} from "../../../infrastructure/api/GroupApi.ts";
 import {AddUserToGroup} from "../../../application/use-cases/AddUserToGroup.ts";
 import {useParams} from "react-router";
+import {DeleteUserFromGroup} from "../../../application/use-cases/DeleteUserFromGroup.ts";
 
 
 const companyApi = new CompanyApi();
 const groupApi = new GroupApi();
 const geAllUserCompany = new GetAllUserCompanyData(companyApi);
-const addUserToGroup = new AddUserToGroup(groupApi);
+const addUserApi = new AddUserToGroup(groupApi);
+const deleteUserApi = new DeleteUserFromGroup(groupApi);
 
 let inmutableData:AvatarUserInfo[] = [];
 
+//TODO: create a custom hook
 export const CheckBoxesMiembros = ({filterValue}:{filterValue:string}) =>{
 
     const {setMembersGroup,membersGroup, setAlertConfiguration, setShowAlert} = useGroupContext();
@@ -33,29 +36,67 @@ export const CheckBoxesMiembros = ({filterValue}:{filterValue:string}) =>{
         const emailFromUser = target.value;
         const id = groupId ?? "";
         if(target.checked){
-            setMembersGroup([...membersGroup,
-                (inmutableData.find(item => item.email === target.value) as AvatarUserInfo)]);
-            setCheckedValues([...checkedValues,target.value]);
-
+            checkedUser(emailFromUser);
             setLoading(true);
-            addUsers(id,emailFromUser).then(()=>{
-              setAlertConfiguration({type:'success',message:"Usuario agregado"})
-            }).catch(()=>{
-                console.log("No se pudo agregar el usuario");
-                uncheckUser(emailFromUser);
-            }).finally(()=>{
-                setLoading(false);
-                setShowAlert(true);
-            });
+            addUserToGroup(id,emailFromUser);
 
         }else{
             uncheckUser(emailFromUser);
+            setLoading(true);
+            deleteUserFromGroup(id,emailFromUser);
         }
     }
 
     const uncheckUser = (uncheckedValue:string)=>{
         setMembersGroup([...membersGroup.filter(member => member.email !== uncheckedValue)]);
         setCheckedValues([...checkedValues.filter(value => value !== uncheckedValue)]);
+    }
+
+    const checkedUser = (checkedUser:string)=>{
+        setMembersGroup([...membersGroup,
+            (inmutableData.find(item => item.email === checkedUser) as AvatarUserInfo)]);
+        setCheckedValues([...checkedValues,checkedUser]);
+    }
+
+    const addUserToGroup = (id:string, emailFromUser:string):void => {
+        addUsers(id,emailFromUser).then(()=>{
+            setAlertConfiguration({type:'success',message:"Usuario agregado"})
+        }).catch(()=>{
+            uncheckUser(emailFromUser);
+        }).finally(()=>{
+            setLoading(false);
+            setShowAlert(true);
+        });
+    }
+
+
+    const addUsers =  async (groupId:string,email:string)=>{
+        const res =  await addUserApi.execute(groupId,email);
+        if("error" in res){
+            setAlertConfiguration({type:'error',message:res.error})
+            throw new Error(res.error);
+        }
+        return res;
+    }
+
+    const deleteUser = async (id:string, email:string)=>{
+        const res = await deleteUserApi.execute(id,email);
+        if("error" in res){
+            setAlertConfiguration({type:'error',message:res.error})
+            throw new Error(res.error);
+        }
+        return res;
+    }
+
+    const deleteUserFromGroup = (id:string, email:string)=>{
+        deleteUser(id,email).then(()=>{
+            setAlertConfiguration({type:'success',message:"Usuario elimando"})
+        }).catch(()=>{
+            checkedUser(email);
+        }).finally(()=>{
+            setLoading(false);
+            setShowAlert(true);
+        });
     }
 
     const getUsers = async ()=>{
@@ -75,14 +116,7 @@ export const CheckBoxesMiembros = ({filterValue}:{filterValue:string}) =>{
         })
     }
 
-    const addUsers =  async (groupId:string,email:string)=>{
-       const res =  await addUserToGroup.execute(groupId,email);
-       if("error" in res){
-           setAlertConfiguration({type:'error',message:res.error})
-          throw new Error(res.error);
-       }
-        return res;
-    }
+
 
     useEffect(() => {
         getUsers()
