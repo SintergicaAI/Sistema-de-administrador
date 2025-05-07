@@ -15,13 +15,7 @@ export class GroupApi extends Common implements GroupRepository{
     private _groups:GetGroupDTO[]|null = null;
 
     async getGroups(): Promise<GetGroupDTO[]> {
-        const token = this.authApi.getToken();
-
-        if(!token){
-            throw Error(`Token not found`);
-        }
-        if(this._groups == null){
-            console.log("El grupo es nulo, se ejeucto");
+        const token = this.verifiedAuthorizationToken();
             try{
                 const response = await fetch(`${this.baseUrl}/company/groups`, {
                     method: "GET",
@@ -43,18 +37,11 @@ export class GroupApi extends Common implements GroupRepository{
                return Promise.reject(e);
             }
         }
-        else{
 
-            return Promise.resolve( this._groups ) ;
-        }
-    }
 
     async deleteGroup(groupId: string): Promise<GroupBasicInfo|ErrorGroup> {
-        const token = this.authApi.getToken();
+        const token = this.verifiedAuthorizationToken();
 
-        if(!token){
-            throw Error(`Token not found`);
-        }
         try{
             const response = await fetch(`${this.baseUrl}/group/${groupId}`, {
                 method: "DELETE",
@@ -75,12 +62,9 @@ export class GroupApi extends Common implements GroupRepository{
     }
 
     async getGroupFromId(id: string): Promise<GetGroupDTO| ErrorGroup> {
-        const token = this.authApi.getToken();
+        const token = this.verifiedAuthorizationToken();
 
-        if(!token){
-            throw Error(`Token not found`);
-        }
-            try{
+        try{
                 const response = await fetch(`${this.baseUrl}/group/${id}`, {
                     method: "GET",
                     headers: {
@@ -100,5 +84,53 @@ export class GroupApi extends Common implements GroupRepository{
                 return Promise.reject(e);
             }
 
+    }
+
+    async addUserToGroup(groupId: string, email:string): Promise<GroupBasicInfo | ErrorGroup> {
+        const token = this.verifiedAuthorizationToken();
+        try{
+            const response = await fetch(`${this.baseUrl}/company/groups/${groupId}/member/${email}`, {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    ContentType: "application/json"
+                }
+            });
+
+            if(!response.ok){
+                await this.refreshToke();
+                const data:ErrorGroup = await response.json();
+                return data;
+            }
+            const data:GroupBasicInfo = await response.json();
+            return data;
+        }catch(e){
+            return Promise.reject(e);
+        }
+
+    }
+
+    async deleteUserFromGroup(groupId: string, email: string): Promise<GroupBasicInfo | ErrorGroup> {
+        const token = this.verifiedAuthorizationToken();
+
+        try{
+            const response = await fetch(`${this.baseUrl}/company/groups/${groupId}/member/${email}`, {
+                method: "DELETE",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    ContentType: "application/json"
+                }
+            });
+
+            if(!response.ok){
+                await this.refreshToke();
+                const data:ErrorGroup = await response.json();
+                return data;
+            }
+            const data:GroupBasicInfo = await response.json();
+            return data;
+        }catch(e){
+            return Promise.reject(e);
+        }
     }
 }

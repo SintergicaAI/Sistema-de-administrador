@@ -3,6 +3,6 @@ export interface FilteredValue {
 }
 export type AlertConfigurationType = {
     message: string,
-    description: string,
     type: "success" | "info" | "warning"|"error"| undefined,
+    description?: string,
 }

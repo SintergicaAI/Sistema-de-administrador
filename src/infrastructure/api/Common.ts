@@ -10,4 +10,13 @@ export class Common {
     protected async refreshToke() {
         return this.authApi.getNewToken(this.authApi.getRefreshToken() as string)
     }
+
+    protected verifiedAuthorizationToken(){
+        const token = this.authApi.getToken();
+
+        if(!token){
+            throw Error(`Token not found`);
+        }
+        return token;
+    }
 }

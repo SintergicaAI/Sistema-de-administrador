@@ -8,7 +8,7 @@ import { Download } from 'lucide-react';
 import {useAdministration} from "../../context/Administration";
 import {GroupBasicInfo} from "../../../domain/types/CompanyTypes.ts";
 import {CompanyApi} from "../../../infrastructure/api/CompanyApi.ts";
-import {AddUserToGroupCompany} from "../../../application/use-cases/AddUserToGroupCompany.ts";
+import {AddGroupsToUser} from "../../../application/use-cases/AddGroupsToUser.ts";
 import {ChangeUserRoleFromCompany} from "../../../application/use-cases/ChangeUserRoleFromCompany.ts";
 
 type SelectedProps = {
@@ -19,7 +19,7 @@ type SelectedProps = {
 }
 
 const companyAPI = new CompanyApi();
-const  addUserToGroupCompany = new AddUserToGroupCompany(companyAPI);
+const  addUserToGroupCompany = new AddGroupsToUser(companyAPI);
 const changeUserRoleFromCompany = new ChangeUserRoleFromCompany(companyAPI);
 
 //Variables to detected changes in role and groups

@@ -31,8 +31,7 @@ const cleanData = (data:GetGroupDTO[]):CardData[]=>{
 export const GroupsList = ()=>{
 
     const {setTotalGroups,
-        filterValue,
-        totalGroups} = useGroupContext();
+        filterValue,} = useGroupContext();
     const [groups,setGroups] = useState<CardData[]>([]);
     const [loading,setLoading] = useState(true);
 
@@ -45,7 +44,7 @@ export const GroupsList = ()=>{
             setGroups(formattedData);
             setTotalGroups(formattedData.length);
         }).catch((error)=>{
-            console.error(error.message)
+            console.log(error)
             setGroups([])
         }).finally(()=>{
             setLoading(false);
@@ -56,11 +55,6 @@ export const GroupsList = ()=>{
     useEffect(()=>{
         getData();
     },[])
-
-    useEffect(() => {
-        groupApi.groups = null;
-        getData();
-    }, [totalGroups]);
 
     useEffect(() => {
         const filter =  filteringData<CardData>(filterValue,groups,inmutableData);

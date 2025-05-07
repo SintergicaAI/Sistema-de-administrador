@@ -1,5 +1,5 @@
 # @no-cookie-jar
-### GET request to example server
+### get credentials
 POST {{TURING_API_URL}}/users/login
 Content-Type: application/json
 
@@ -113,12 +113,23 @@ Content-Type: application/json
     "token": "3d6401fd-1acb-4345-92a6-ee77a2773f14",
     "password": "123456"
 }
-###
+### get information from groups of a company
 GET {{TURING_API_URL}}/company/groups
 Accept: application/json
 Authorization: Bearer {{auth_token}}
 
-###
+### add new user to group
+POST {{TURING_API_URL}}/company/groups/grupo-vacio/member/Ethan@gmail.com
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+### delete user from group
+DELETE {{TURING_API_URL}}/company/groups/grupo-vacio/member/Ethan@gmail.com
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+
+### get groups
 GET {{TURING_API_URL}}/group
 Accept: application/json
 Authorization: Bearer {{auth_token}}
@@ -127,3 +138,16 @@ Authorization: Bearer {{auth_token}}
 GET {{TURING_API_URL}}/group/Almacenes-InformaticosyVendedores
 Accept: application/json
 Authorization: Bearer {{auth_token}}
+
+### POST NEW GROUP
+POST {{TURING_API_URL}}/group
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+  "groupKey": "grupo-vacio",
+  "name": "Vacio",
+  "users": [
+
+  ]
+}

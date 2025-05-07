@@ -6,6 +6,7 @@ import { Undo2} from 'lucide-react';
 import {CSSProperties} from "react";
 import {DeleteGroupButton} from "./ModalDeleteGroup/DeleteGroupButton.tsx";
 import {useGroupContext} from "../../context/Group/useGroupContext.ts";
+import {AlertMessages} from "../common";
 
 const iconStyle:CSSProperties = {
     width: 20,
@@ -17,7 +18,7 @@ const iconStyle:CSSProperties = {
 export const HeaderGroupContent = () => {
 
     let {groupId} = useParams();
-    const {actualGroupName} = useGroupContext();
+    const {actualGroupName,AlertConfiguration, showAlert,setShowAlert} = useGroupContext();
     const navigate= useNavigate();
 
     return (
@@ -35,10 +36,15 @@ export const HeaderGroupContent = () => {
                         color:`${ groupId ? '#94A3B8':'initial' }`,
                         marginBlock:0}}
                 >Grupos</Title>
+
                 {
                     groupId && (
                             <p className="groups__tag">{upperCaseOneWord(actualGroupName)}</p>
                     )
+                }
+                {
+                    showAlert &&
+                    <AlertMessages {...AlertConfiguration} handleClose={()=>setShowAlert(false)}/>
                 }
             </Flex>
             {
