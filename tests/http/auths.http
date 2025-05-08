@@ -69,7 +69,7 @@ Authorization: Bearer {{auth_token}}
 {"group_ids":["Prueba"]}
 
 ###
-PATCH {{TURING_API_URL}}/users/mercedes@gmail.com/rol
+PATCH {{TURING_API_URL}}/users/JamesBond@gmail.com/rol
 Content-Type: application/json
 Authorization: Bearer {{auth_token}}
 
@@ -123,6 +123,18 @@ POST {{TURING_API_URL}}/company/groups/grupo-vacio/member/Ethan@gmail.com
 Content-Type: application/json
 Authorization: Bearer {{auth_token}}
 
+### add more users to group
+PATCH {{TURING_API_URL}}/company/groups/grupo-vacio/members
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+  "emailsMembers": [
+    "Ava@gmail.com","Michael@gmail.com"
+  ]
+}
+
+
 ### delete user from group
 DELETE {{TURING_API_URL}}/company/groups/grupo-vacio/member/Ethan@gmail.com
 Content-Type: application/json
@@ -135,7 +147,7 @@ Accept: application/json
 Authorization: Bearer {{auth_token}}
 
 ###
-GET {{TURING_API_URL}}/group/Almacenes-InformaticosyVendedores
+GET {{TURING_API_URL}}/group/grupo-vacio
 Accept: application/json
 Authorization: Bearer {{auth_token}}
 

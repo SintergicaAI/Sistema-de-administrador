@@ -4,12 +4,15 @@ import {AvatarWithName} from "../common/AvatarWithName.tsx";
 import { Spin } from 'antd';
 import {useCheckBoxesMiembros} from "../../../hooks";
 
+
+//Todo: change where we request the group members values.
 export const CheckBoxesMiembros = ({filterValue}:{filterValue:string}) =>{
 
     const {handleCheckBoxGroup,
         listUsersFromCompany,
         checkedValues,
         loading}= useCheckBoxesMiembros(filterValue);
+
     if(loading){
         return (<>
             <Spin spinning={loading}></Spin>

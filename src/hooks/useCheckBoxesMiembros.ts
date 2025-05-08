@@ -24,20 +24,22 @@ export const useCheckBoxesMiembros = (filterValue:string) => {
     const [loading, setLoading] = useState(true);
     const [listUsersFromCompany, setListUsersFromCompany] = useState<AvatarUserInfo[]>([]);
 
+
     const handleCheckBoxGroup = (value:ChangeEvent<HTMLInputElement>) =>{
         const {target} = value;
         const emailFromUser = target.value;
         const id = groupId ?? "";
+        //setLoading(true);
         if(target.checked){
             checkedUser(emailFromUser);
-            setLoading(true);
-            addUserToGroup(id,emailFromUser);
+            //addUserToGroup(id,emailFromUser);
 
         }else{
             uncheckUser(emailFromUser);
-            setLoading(true);
-            deleteUserFromGroup(id,emailFromUser);
+            //deleteUserFromGroup(id,emailFromUser);
         }
+        //setLoading(false);
+        //setShowAlert(true);
     }
 
     const uncheckUser = (uncheckedValue:string)=>{
@@ -46,8 +48,7 @@ export const useCheckBoxesMiembros = (filterValue:string) => {
     }
 
     const checkedUser = (checkedUser:string)=>{
-        setMembersGroup([...membersGroup,
-            (inmutableData.find(item => item.email === checkedUser) as AvatarUserInfo)]);
+        setMembersGroup([...membersGroup,(inmutableData.find(item => item.email === checkedUser) as AvatarUserInfo)]);
         setCheckedValues([...checkedValues,checkedUser]);
     }
 

@@ -78,6 +78,7 @@ export class GroupApi extends Common implements GroupRepository{
                     await this.getGroups();
                 }
                 const data:GetGroupDTO = await response.json();
+                console.log(data);
                 return data;
             }
             catch(e){
@@ -129,6 +130,28 @@ export class GroupApi extends Common implements GroupRepository{
             }
             const data:GroupBasicInfo = await response.json();
             return data;
+        }catch(e){
+            return Promise.reject(e);
+        }
+    }
+
+   async  addMultipleUserToGroup(groupId: string, emails: string[]): Promise<boolean> {
+        const token = this.verifiedAuthorizationToken();
+        try{
+            const response = await fetch(`${this.baseUrl}/company/groups/${groupId}/members`, {
+                method: "PATCH",
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body:JSON.stringify({emailsMembers: emails})
+            });
+            console.log(await response.json());
+            if(!response.ok){
+                await this.refreshToke();
+                return Promise.reject(false);
+            }
+            return Promise.resolve(true);
         }catch(e){
             return Promise.reject(e);
         }

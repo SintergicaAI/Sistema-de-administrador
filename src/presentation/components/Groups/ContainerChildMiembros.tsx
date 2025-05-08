@@ -12,6 +12,7 @@ const getGroupFromId = new GetGroupFromId(groupApi);
 export const ContainerChildMiembros = () =>{
 
     const {membersGroup,setMembersGroup} = useGroupContext();
+
     const {groupId} = useParams();
 
     const [loading,setLoading] = useState(true);
