@@ -1,7 +1,7 @@
 import {FilteredValue} from "../components/common/CommonTypes.ts";
 
 export function filteringData<Type extends FilteredValue>(filteringValue:string,
-                                    collection:Type[] | null,
+                                    collection:Type[],
                                     inmutableData:Type[]){
     if(filteringValue.length != 0){
 
