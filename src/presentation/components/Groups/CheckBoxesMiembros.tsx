@@ -9,7 +9,7 @@ import {useCheckBoxesMiembros} from "../../../hooks";
 export const CheckBoxesMiembros = ({filterValue}:{filterValue:string}) =>{
 
     const {handleCheckBoxGroup,
-        listUsersFromCompany,
+        filteredData,
         checkedValues,
         loading}= useCheckBoxesMiembros(filterValue);
 
@@ -22,8 +22,8 @@ export const CheckBoxesMiembros = ({filterValue}:{filterValue:string}) =>{
     return (
         <Flex vertical gap={8}>
             {
-                listUsersFromCompany.length > 0 ?
-                    listUsersFromCompany.map((member) => (
+                filteredData.length > 0 ?
+                    filteredData.map((member) => (
                         <CheckboxContainer
                             key={member.email}
                             labelComponent={<AvatarWithName fullName={`${member.firstName} ${member.lastName}`}/>}

@@ -1,13 +1,13 @@
 import {useGroupContext} from "../presentation/context/Group/useGroupContext.ts";
 import {useParams} from "react-router";
-import {ChangeEvent, useEffect, useState} from "react";
+import {ChangeEvent, useEffect, useMemo, useState} from "react";
 import {AvatarUserInfo} from "../presentation/components/Groups/GroupsTypes.ts";
 import {CompanyApi} from "../infrastructure/api/CompanyApi.ts";
 import {GroupApi} from "../infrastructure/api/GroupApi.ts";
 import {GetAllUserCompanyData} from "../application/use-cases/GetAllUserCompanyData.ts";
 import {AddUserToGroup} from "../application/use-cases/AddUserToGroup.ts";
 import {DeleteUserFromGroup} from "../application/use-cases/DeleteUserFromGroup.ts";
-import {filteringData} from "../presentation/utilities/filteringData.ts";
+import {filterData} from "../presentation/utilities/filteringData.ts";
 
 const companyApi = new CompanyApi();
 const groupApi = new GroupApi();
@@ -24,6 +24,9 @@ export const useCheckBoxesMiembros = (filterValue:string) => {
     const [loading, setLoading] = useState(true);
     const [listUsersFromCompany, setListUsersFromCompany] = useState<AvatarUserInfo[]>([]);
 
+    const filteredData = useMemo(()=>{
+        return filterData<AvatarUserInfo>(filterValue,listUsersFromCompany);
+    },[filterValue,listUsersFromCompany]);
 
     const handleCheckBoxGroup = (value:ChangeEvent<HTMLInputElement>) =>{
         const {target} = value;
@@ -118,14 +121,9 @@ export const useCheckBoxesMiembros = (filterValue:string) => {
             })
     }, []);
 
-    useEffect(() => {
-        const filter = filteringData<AvatarUserInfo>(filterValue,listUsersFromCompany,inmutableData);
-        setListUsersFromCompany(filter);
-    }, [filterValue]);
-
     return {
         handleCheckBoxGroup,
-        listUsersFromCompany,
+        filteredData,
         loading,
         checkedValues,
     }

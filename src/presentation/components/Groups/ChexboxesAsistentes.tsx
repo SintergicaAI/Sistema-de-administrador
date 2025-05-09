@@ -1,9 +1,9 @@
 import {CheckboxContainer} from "../common";
-import {ChangeEvent, useEffect, useState} from "react";
+import {ChangeEvent, useMemo, useState} from "react";
 import {BoxModel} from "./BoxModel.tsx";
 import {Model} from "./GroupsTypes.ts";
 import {useGroupContext} from "../../context/Group/useGroupContext.ts";
-import {filteringData} from "../../utilities/filteringData.ts";
+import {filterData} from "../../utilities/filteringData.ts";
 
 const models:Model[] = [{
     id:"1",
@@ -37,6 +37,11 @@ export const ChexboxesAsistentes = ({filterValue}:{filterValue:string})=>{
 
     const [modelsChecked,setModelsChecked] = useState([...asistentesSelected.map(item => item.value)])
     const [listAsistentes, setListAsistentes] = useState<Model[]>([...models])
+
+    const filteredData = useMemo(()=>{
+        return filterData<Model>(filterValue,listAsistentes);
+    },[filterValue,listAsistentes]);
+
     const handleCheckBoxGroup = (value:ChangeEvent<HTMLInputElement>) =>{
         const {target} = value;
         if(target.checked){
@@ -55,15 +60,10 @@ export const ChexboxesAsistentes = ({filterValue}:{filterValue:string})=>{
         }
     }
 
-    useEffect(() => {
-        const filter = filteringData<Model>(filterValue,listAsistentes,models);
-        setListAsistentes(filter);
-    }, [filterValue]);
-
     return (
         <>
-            { listAsistentes.length > 0 ?
-                listAsistentes.map((model, index)=>(
+            { filteredData.length > 0 ?
+                filteredData.map((model, index)=>(
                 <CheckboxContainer
                     key={index}
                     checkedValue={modelsChecked}
