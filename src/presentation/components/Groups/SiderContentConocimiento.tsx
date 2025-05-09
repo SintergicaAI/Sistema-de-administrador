@@ -12,7 +12,7 @@ export const SiderContentConocimiento = ()=>{
             <p className='sider-paragraph'>Conocimiento</p>
 
             < Flex vertical gap={16}>
-                <InputSearch placeholder={"buscar"} searchMethod={setFilterValue}/>
+                <InputSearch queryValue={filterValue} placeholder={"buscar"} queryMethod={setFilterValue}/>
                 <CheckBoxesConocimiento filterValue={filterValue}/>
             </Flex>
         </div>

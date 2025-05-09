@@ -1,29 +1,36 @@
 import { Search } from 'lucide-react';
 import {Input} from 'antd';
-import {CSSProperties, useState} from "react";
-
+import {CSSProperties, useRef} from "react";
 type Props = {
     placeholder:string,
+    queryValue:string;
+    queryMethod:(value:any)=>void,
     styles?:CSSProperties,
-    searchMethod:(value:any)=>void,
 }
 
-export const InputSearch = ({placeholder,styles,searchMethod}:Props) =>{
+export const InputSearch = ({
+                                placeholder,
+                                styles,
+                                queryValue,
+                                queryMethod}:Props) =>{
 
-    const [inputValue, setInputValue] = useState("");
+    const handleChange  = (event:React.ChangeEvent<HTMLInputElement>)=>{
+        queryMethod(event.target.value)
+    }
+    const inputRef = useRef(null);
+
     return (
         <Input placeholder={placeholder}
-               value={inputValue}
+               value={queryValue}
+               ref={inputRef}
                suffix={<Search width={20}
                                height={20}
                                strokeWidth={1}
-                               onClick={()=>{ searchMethod(inputValue);}}
-               />}
+                               style={{cursor:"pointer"}}
+                               onClick={ ()=>{ // @ts-ignore
+                                   queryMethod(inputRef.current?.value)}}/>}
                style={styles}
-               onChange={(e) =>{
-                   setInputValue(e.target.value);
-                   searchMethod(e.target.value)}
-        }
+               onChange={handleChange}
         />
 
     )

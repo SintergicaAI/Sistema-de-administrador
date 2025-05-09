@@ -1,6 +1,6 @@
 import {GetInformationOfGroups} from "../../../application/use-cases/GetInformationOfGroups.ts";
 import {GroupApi} from "../../../infrastructure/api/GroupApi.ts";
-import {useEffect, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import {GetGroupDTO} from "../../../domain/types/CompanyTypes.ts";
 import {CardData} from "./GroupsTypes.ts";
 import {GroupCard} from "./GroupCard.tsx";
@@ -8,11 +8,10 @@ import {NotFoundGroups} from "./NotFoundGroups.tsx";
 import {useGroupContext} from "../../context/Group/useGroupContext.ts";
 import {Spin} from "antd";
 import { LoadingOutlined } from '@ant-design/icons';
-import {filteringData} from "../../utilities/filteringData.ts";
+import {filterData} from "../../utilities/filteringData.ts";
 
 const groupApi = new GroupApi();
 const getInformationFromGroups = new GetInformationOfGroups(groupApi);
-let inmutableData:CardData[] | [] = [];
 
 const cleanData = (data:GetGroupDTO[]):CardData[]=>{
     return data.map((item:GetGroupDTO) => {
@@ -28,19 +27,21 @@ const cleanData = (data:GetGroupDTO[]):CardData[]=>{
 }
 
 
-export const GroupsList = ()=>{
+export const GroupsList = ({filterValue}:{filterValue:string})=>{
 
-    const {setTotalGroups,
-        filterValue,} = useGroupContext();
+    const {setTotalGroups} = useGroupContext();
     const [groups,setGroups] = useState<CardData[]>([]);
     const [loading,setLoading] = useState(true);
 
+    const filteredData = useMemo(()=>{
+        return filterData<CardData>(filterValue,groups);
+    },[filterValue,groups]);
 
 
     const getData =  ()=>{
         getInformationFromGroups.execute().then((res)=>{
             const formattedData = cleanData(res);
-            inmutableData=formattedData;
+            console.log(formattedData);
             setGroups(formattedData);
             setTotalGroups(formattedData.length);
         }).catch((error)=>{
@@ -50,16 +51,9 @@ export const GroupsList = ()=>{
             setLoading(false);
         });
     }
-    //todo: Add an useEffect when there is a change in groups
-
     useEffect(()=>{
         getData();
     },[])
-
-    useEffect(() => {
-        const filter =  filteringData<CardData>(filterValue,groups,inmutableData);
-        setGroups(filter);
-    }, [filterValue]);
 
     if(loading){
         return (
@@ -72,11 +66,11 @@ export const GroupsList = ()=>{
     return (<>
 
         {
-        (groups.length > 1) ?
+        (filteredData.length > 1) ?
             (
             <section style={{display:'grid', gridTemplateColumns:'repeat(2,1fr)', gap:'8px'}}>
             {
-                groups.map((item, index)=>(
+                filteredData.map((item, index)=>(
                         <GroupCard key={index} {...item}/>
                     ))
             }

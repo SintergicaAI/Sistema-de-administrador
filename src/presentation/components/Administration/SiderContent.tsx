@@ -128,7 +128,8 @@ export const SiderContent = () =>{
             <InputSearch
                 placeholder={"Buscar"}
                 styles={{marginBottom:8}}
-                searchMethod={setFilterValue}/>
+                queryValue={filterValue}
+                queryMethod={setFilterValue}/>
             </Flex>
 
             <CheckBoxGroups filterValue={filterValue}/>

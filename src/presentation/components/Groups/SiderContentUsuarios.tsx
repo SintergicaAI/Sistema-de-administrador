@@ -50,7 +50,7 @@ export const SiderContentUsuarios = () => {
             <p className='sider-paragraph'>Usuarios</p>
 
             <Flex gap={16} vertical>
-                <InputSearch placeholder='buscar' searchMethod={setFilterValue}></InputSearch>
+                <InputSearch placeholder='buscar' queryValue={filterValue} queryMethod={setFilterValue}></InputSearch>
                 <CheckBoxesMiembros filterValue={filterValue}/>
                 <Button type='primary'
                         icon={<Download/>}

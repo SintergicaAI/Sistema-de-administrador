@@ -2,13 +2,14 @@ import {useAdministration, valueAdministrationContext} from "../../context/Admin
 import {InputSearch} from "../common";
 
 export const InputSearchUsers = () => {
-    const {changeSearchText,
+    const {changeSearchText, searchText
     }:valueAdministrationContext = useAdministration();
 
     return (
         <>
             <InputSearch
-                searchMethod={changeSearchText}
+                queryValue={searchText}
+                queryMethod={changeSearchText}
                 placeholder={"Buscar miembros"}
                 styles={{width:'200px'}} />
             </>
