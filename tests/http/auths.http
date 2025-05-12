@@ -151,15 +151,12 @@ GET {{TURING_API_URL}}/group/grupo-vacio
 Accept: application/json
 Authorization: Bearer {{auth_token}}
 
-### POST NEW GROUP
+### CREATE NEW GROUP
 POST {{TURING_API_URL}}/group
 Content-Type: application/json
 Authorization: Bearer {{auth_token}}
 
 {
   "groupKey": "grupo-vacio",
-  "name": "Vacio",
-  "users": [
-
-  ]
+  "name": "no vacio"
 }

@@ -1,7 +1,7 @@
 import {AuthApi} from "./AuthApi.ts";
 
 export class Common {
-    protected readonly baseUrl: string = import.meta.env.VITE_LOCAL_TEST;
+    protected readonly baseUrl:string = import.meta.env.VITE_LOCAL_TEST ?? "http://localhost";
     protected authApi: AuthApi;
 
     constructor() {
