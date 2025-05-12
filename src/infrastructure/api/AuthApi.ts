@@ -44,7 +44,6 @@ export class AuthApi implements AuthRepository {
     }
 
 
-    //Que le debe responder el servidor aqui?
     async logOut(): Promise<boolean> {
         const response = await fetch(`${this.baseUrl}/users/logout`,{
             method:'POST',
@@ -69,13 +68,17 @@ export class AuthApi implements AuthRepository {
         localStorage.setItem('user', JSON.stringify(token));
     }
 
-    async register(firstname: string, lastname: string, email: string, password: string): Promise<UserToken> {
-        const response = await fetch(`${this.baseUrl}/users/register`, {
+    async register(firstname: string, lastname: string, email: string, password: string, sigInToken?:string ): Promise<UserToken> {
+
+        const url = sigInToken ?
+            `${this.baseUrl}/users/register?signInToken=${sigInToken}`: `${this.baseUrl}/users/register`;
+
+        const response = await fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({name:firstname, lastName:lastname,email,password,rol:null,company:null}),
+            body: JSON.stringify({name:firstname, lastName:lastname,email:email,password:password}),
         });
 
         if (!response.ok) {

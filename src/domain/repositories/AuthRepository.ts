@@ -11,7 +11,7 @@ export interface AuthRepository {
     logOut(): Promise<boolean>;
     saveToken(token: UserToken): void;
     getToken(): string | null;
-    register(firstname:string, lastname:string, email:string , password:string ): Promise<UserToken>;
+    register(firstname:string, lastname:string, email:string , password:string, sigInToken?:string ): Promise<UserToken>;
     verifySigInToken(email:string, token:string): Promise<boolean>;
     forgotPassword(email:string):Promise<boolean>;
     changePassword(password:string, token:string):Promise<boolean>;

@@ -31,8 +31,9 @@ Authorization: Bearer {{refresh_token}}
 GET {{TURING_API_URL}}/auths/admin/details
 
 # @no-cookie-jar
+
 ###
-GET {{TURING_API_URL}}/auths/
+POST {{TURING_API_URL}}/auths/
 Accept: application/json
 Authorization: Bearer {{auth_token}}
 

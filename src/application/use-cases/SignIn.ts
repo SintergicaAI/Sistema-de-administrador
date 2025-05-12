@@ -4,8 +4,8 @@ import {AuthRepository, UserToken} from "../../domain/repositories/AuthRepositor
 export class SignIn {
     constructor(private authRepository: AuthRepository) {
     }
-     async execute(firstname:string, lastname:string, email:string , password:string):Promise<UserToken>{
-        const user =  await this.authRepository.register(firstname,lastname,email,password);
+     async execute(firstname:string, lastname:string, email:string , password:string, sigInToken?:string):Promise<UserToken>{
+        const user =  await this.authRepository.register(firstname,lastname,email,password,sigInToken);
          if(user) {
              this.authRepository.saveToken(user);
          }

@@ -20,6 +20,7 @@ export const UsersRoute = ()=>{
      const checkAuthStatus = ()=>{
         /*const token = params.get("signInToken") ?? "";
          verifyToken.execute("gonzalo.anuar13@outlook.com",token).then( ()=>{
+                console.log("sigInToken", token);
                 setIsValidToken(true)
             }
         ).catch((error)=>{

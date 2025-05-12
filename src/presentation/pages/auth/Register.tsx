@@ -53,7 +53,9 @@ export const Register = () =>{
             type:'loading',
             content:'Enviando datos...',
         })
-        signIn.execute(values.firstName,values.lastName,values.email,values.password).then(() =>{
+        const sigInToken = searchParams.get("signInToken") ?? undefined;
+
+        signIn.execute(values.firstName,values.lastName,values.email,values.password, sigInToken).then(() =>{
             messageApi.destroy();
 
             messageApi.open({
@@ -110,7 +112,7 @@ export const Register = () =>{
                 <div className='equal-space'>
 
                     <p className='text-decoration' style={{
-                        marginBlock:0,}}>Ingresa los datos para terminar tu registro</p>
+                        marginBlock:0,}}>Ingresa los datos para {searchParams.get('signInToken') ? "terminar": "completar"} tu registro</p>
 
                     <Flex gap={gapBetweenInput} style={{width:'100%'}} className='register__label-wrapper'>
                         <Form.Item<FieldType>
