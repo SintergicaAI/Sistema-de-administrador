@@ -3,7 +3,7 @@ import {SideBarGeneral} from "../common/SideBarGeneral.tsx";
 import {Typography} from "antd";
 import {useEffect, useState} from "react";
 import {SiderContentConocimiento} from "./SiderContentConocimiento.tsx";
-import {SiderContentUsuarios} from "./SiderContentUsuarios.tsx";
+import {SiderContentMiembros} from "./SiderContentMiembros.tsx";
 import {SiderContentAsistentes} from "./SiderContentAsistentes.tsx";
 
 const {Title} = Typography;
@@ -25,7 +25,7 @@ export const SiderGroup = ()=>{
                 setSideContentRender(<SiderContentConocimiento/>);
                 break;
             case 'usuarios':
-                setSideContentRender(<SiderContentUsuarios/>);
+                setSideContentRender(<SiderContentMiembros/>);
                 break;
             case 'asistentes':
                 setSideContentRender(<SiderContentAsistentes/>);

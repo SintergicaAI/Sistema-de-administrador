@@ -17,7 +17,7 @@ const groupApi = new GroupApi();
 const addMultipleUsersToGroup = new AddMultipleUsersToGroup(groupApi);
 
 //Todo: implement a customHook to general functions on SiderContent
-export const SiderContentUsuarios = () => {
+export const SiderContentMiembros = () => {
     const [filterValue,setFilterValue] = useState("");
     const [notDisabled, setNotDisabled] = useState(false);
     const {membersGroup,setAlertConfiguration, setShowAlert} = useGroupContext();

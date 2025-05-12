@@ -41,7 +41,6 @@ export const GroupsList = ({filterValue}:{filterValue:string})=>{
     const getData =  ()=>{
         getInformationFromGroups.execute().then((res)=>{
             const formattedData = cleanData(res);
-            console.log(formattedData);
             setGroups(formattedData);
             setTotalGroups(formattedData.length);
         }).catch((error)=>{

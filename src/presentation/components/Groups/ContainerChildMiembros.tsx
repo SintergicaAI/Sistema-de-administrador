@@ -27,7 +27,7 @@ export const ContainerChildMiembros = () =>{
                 return;
             }
                 setLoading(false);
-            setMembersGroup(group.userDTOS.map(user => {
+                setMembersGroup(group.userDTOS.map(user => {
                 return {
                     email: user.email,
                     firstName: user.name,
