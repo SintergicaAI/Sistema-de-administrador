@@ -97,7 +97,7 @@ export class AuthApi implements AuthRepository {
             }
         })
         if (!response.ok){
-            return Promise.reject(response);
+            return Promise.reject(response.json());
         }
         const {token,refreshToken}: LoginApiResponse = await response.json();
         //Guardar el nuevo token

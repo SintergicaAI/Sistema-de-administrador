@@ -5,13 +5,13 @@ import {Common} from "./Common.ts";
 export class InvitationApi extends Common implements InvitationRepository {
 
 
-    async sendInvitationEmail(email: string): Promise<boolean> {
+    async sendInvitationEmail(email: string, body?:string): Promise<boolean> {
         const token = this.authApi.getToken();
 
         try{
             const response = await  fetch(`${this.baseUrl}/invitation/send`,{
                 method: "POST",
-                body: JSON.stringify({recipients: email,body:'',subject:""}),
+                body: JSON.stringify({recipients: email,body:body,subject:""}),
                 headers: {
                     "Content-Type": "application/json",
                     'Authorization': `Bearer ${token}`

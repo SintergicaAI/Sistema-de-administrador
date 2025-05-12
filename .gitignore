@@ -30,4 +30,3 @@ dist-ssr
 .env.production
 *.env.json
 *.http
-Dockerfile

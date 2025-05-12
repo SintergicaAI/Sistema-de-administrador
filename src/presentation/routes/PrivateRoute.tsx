@@ -24,7 +24,14 @@ export const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
 
     //For every refresh, we get new refreshToken
     checkAuth().then(async () =>{
-      await getNewToken.execute(authApi.getRefreshToken());
+      try{
+        await getNewToken.execute(authApi.getRefreshToken());
+      }
+      //If the token is invalid, we delete it.
+      catch(err){
+        authApi.deleteToken();
+        setIsAuthenticated(false);
+      }
     });
   }, []);
 

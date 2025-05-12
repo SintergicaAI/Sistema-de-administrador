@@ -8,7 +8,7 @@ import {AlertConfigurationType} from "../../common/CommonTypes.ts";
 
 type FieldType = {
     email: string,
-    TextArea:string,
+    TextArea?:string,
 };
 type Props = {
     setIsModalOpen:Dispatch<SetStateAction<any>>;
@@ -33,7 +33,7 @@ export const ModalContentInviteUser = ({
     const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
         console.log(values);
         setLoading(true);
-        addNewUser.execute(values.email).
+        addNewUser.execute(values.email,values.TextArea).
        then( () => {
             setIsModalOpen(false);
             setInvitationSend(true);
