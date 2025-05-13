@@ -46,7 +46,7 @@ export const GroupsList = ({filterValue}:{filterValue:string})=>{
 
     useEffect(() => {
         setTotalGroups(groups.length);
-    }, [groups]);
+    }, [data]);
 
     const filteredData = useMemo(()=>{
         return filterData<CardData>(filterValue,groups);

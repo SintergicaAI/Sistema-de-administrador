@@ -5,18 +5,22 @@ import { Spin } from 'antd';
 import {useCheckBoxesMiembros} from "../../../hooks";
 
 
-//Todo: change where we request the group members values.
 export const CheckBoxesMiembros = ({filterValue}:{filterValue:string}) =>{
 
     const {handleCheckBoxGroup,
         filteredData,
         checkedValues,
-        loading}= useCheckBoxesMiembros(filterValue);
+        isError,
+        isPending}= useCheckBoxesMiembros(filterValue);
 
-    if(loading){
+    if(isPending){
         return (<>
-            <Spin spinning={loading}></Spin>
+            <Spin spinning={isPending}></Spin>
             </>)
+    }
+
+    if(isError){
+        return (<p>Usuarios no existentes</p>)
     }
 
     return (

@@ -1,37 +1,53 @@
 import {useGroupContext} from "../presentation/context/Group/useGroupContext.ts";
-import {useParams} from "react-router";
-import {ChangeEvent, useEffect, useMemo, useState} from "react";
+import {ChangeEvent, useMemo, useState} from "react";
 import {AvatarUserInfo} from "../presentation/components/Groups/GroupsTypes.ts";
 import {CompanyApi} from "../infrastructure/api/CompanyApi.ts";
-import {GroupApi} from "../infrastructure/api/GroupApi.ts";
 import {GetAllUserCompanyData} from "../application/use-cases/GetAllUserCompanyData.ts";
-import {AddUserToGroup} from "../application/use-cases/AddUserToGroup.ts";
-import {DeleteUserFromGroup} from "../application/use-cases/DeleteUserFromGroup.ts";
 import {filterData} from "../presentation/utilities/filteringData.ts";
+import {useQuery} from "@tanstack/react-query";
 
 const companyApi = new CompanyApi();
-const groupApi = new GroupApi();
 const geAllUserCompany = new GetAllUserCompanyData(companyApi);
-const addUserApi = new AddUserToGroup(groupApi);
-const deleteUserApi = new DeleteUserFromGroup(groupApi);
+/*const addUserApi = new AddUserToGroup(groupApi);
+const deleteUserApi = new DeleteUserFromGroup(groupApi);*/
 
 let inmutableData:AvatarUserInfo[] = [];
 
 export const useCheckBoxesMiembros = (filterValue:string) => {
-    const {setMembersGroup,membersGroup, setAlertConfiguration, setShowAlert} = useGroupContext();
-    const {groupId} = useParams();
+    //const {groupId} = useParams();
+    //const [listUsersFromCompany, setListUsersFromCompany] = useState<AvatarUserInfo[]>([]);
+    const {setMembersGroup,membersGroup } = useGroupContext();
     const [checkedValues, setCheckedValues] = useState<string[]>(membersGroup.map(member => member.email));
-    const [loading, setLoading] = useState(true);
-    const [listUsersFromCompany, setListUsersFromCompany] = useState<AvatarUserInfo[]>([]);
+
+    const {data,isPending,isError} = useQuery({
+        queryKey:["getAllUsers"],
+        queryFn: () => geAllUserCompany.execute({})
+    })
+
+    const listUsers:AvatarUserInfo[] = useMemo(()=>{
+        const users = data?.users ?? [];
+        return users?.map(user => {
+            return {
+                email: user.email,
+                firstName: user.firstName as string,
+                lastName: user.lastName as string,
+                role:user.role,
+                filterValue: `${user.firstName} ${user.lastName}`
+            }
+        })
+    },[data])
+
+    inmutableData = listUsers;
+
 
     const filteredData = useMemo(()=>{
-        return filterData<AvatarUserInfo>(filterValue,listUsersFromCompany);
-    },[filterValue,listUsersFromCompany]);
+        return filterData<AvatarUserInfo>(filterValue,listUsers);
+    },[filterValue,listUsers]);
 
     const handleCheckBoxGroup = (value:ChangeEvent<HTMLInputElement>) =>{
         const {target} = value;
         const emailFromUser = target.value;
-        const id = groupId ?? "";
+        //const id = groupId ?? "";
         //setLoading(true);
         if(target.checked){
             checkedUser(emailFromUser);
@@ -55,7 +71,7 @@ export const useCheckBoxesMiembros = (filterValue:string) => {
         setCheckedValues([...checkedValues,checkedUser]);
     }
 
-    const addUserToGroup = (id:string, emailFromUser:string):void => {
+    /*const addUserToGroup = (id:string, emailFromUser:string):void => {
         addUsers(id,emailFromUser).then(()=>{
             setAlertConfiguration({type:'success',message:"Usuario agregado"})
         }).catch(()=>{
@@ -74,9 +90,9 @@ export const useCheckBoxesMiembros = (filterValue:string) => {
             setLoading(false);
             setShowAlert(true);
         });
-    }
+    }*/
 
-    const addUsers =  async (groupId:string,email:string)=>{
+    /*const addUsers =  async (groupId:string,email:string)=>{
         const res =  await addUserApi.execute(groupId,email);
         if("error" in res){
             setAlertConfiguration({type:'error',message:res.error})
@@ -92,9 +108,9 @@ export const useCheckBoxesMiembros = (filterValue:string) => {
             throw new Error(res.error);
         }
         return res;
-    }
+    }*/
 
-    const getUsers = async ()=>{
+    /*const getUsers = async ()=>{
         await geAllUserCompany.execute({})
             .then((res) =>{
                 const {users} = res;
@@ -109,9 +125,9 @@ export const useCheckBoxesMiembros = (filterValue:string) => {
                 })
                 setListUsersFromCompany(inmutableData);
             })
-    }
+    }*/
 
-    useEffect(() => {
+    /*useEffect(() => {
         getUsers()
             .catch(()=>{
                 inmutableData = [];
@@ -119,12 +135,13 @@ export const useCheckBoxesMiembros = (filterValue:string) => {
             .finally(()=>{
                 setLoading(false);
             })
-    }, []);
+    }, []);*/
 
     return {
         handleCheckBoxGroup,
         filteredData,
-        loading,
+        isPending,
+        isError,
         checkedValues,
     }
 }
