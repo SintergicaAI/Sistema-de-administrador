@@ -1,10 +1,11 @@
-import {Dispatch, SetStateAction, useState} from "react";
+import {Dispatch, SetStateAction} from "react";
 import {Button, Col, Flex, Row, Spin} from "antd";
 import {Trash2, X} from "lucide-react";
 import {GroupApi} from "../../../../infrastructure/api/GroupApi.ts";
 import {DeleteGroup} from "../../../../application/use-cases/DeleteGroup.ts";
 import {useNavigate, useParams} from "react-router";
 import {useGroupContext} from "../../../context/Group/useGroupContext.ts";
+import {useMutation} from "@tanstack/react-query";
 
 
 type Props = {
@@ -25,45 +26,31 @@ export const ModalDeleteGroupButton = ({
     const {groupId} = useParams();
     const navigate = useNavigate();
     const {actualGroupName,setTotalGroups, totalGroups, setHasSelected} = useGroupContext();
-    const [loading,setLoading] = useState(false);
 
-    const handleDeleteGroup = () => {
-        const id = groupId ?? "";
-        setLoading(true);
-        deleteGroup.execute(id).then(()=>{
-            setTotalGroups(totalGroups - 1 );
-            setLoading(false);
+    const mutation= useMutation({
+        mutationFn:(groupId:string) => deleteGroup.execute(groupId),
+        onSuccess:()=>{
+            setTotalGroups(totalGroups - 1);
             setIsModalOpen(false);
-            setTimeout(()=>{
-                navigate(-1);
-            },1000)
-        }).catch((err)=>{
-            console.log(err)
+            navigate(-1);
+        },
+        onError:()=>{
             setAlertConfiguration({type:"error",message:"Error en la petición, inténtelo después"});
-            setLoading(false);
-        }).finally(()=>{
+        },
+        onSettled:()=>{
             setShowAlert(true);
             setHasSelected(false);
-        })
+        }
+    })
+
+    const handleDeleteGroup = ()=>{
+        const id = groupId ?? "";
+        mutation.mutate(id)
     }
-
-    /*const simulatedDelete = ()=>{
-            setLoading(true);
-            setTimeout(()=>{
-                setLoading(false);
-                setIsModalOpen(false);
-                setShowAlert(true);
-                setHasSelected(false);
-                setTotalGroups(totalGroups - 1 );
-                groupApi.groups = null;
-                navigate(-1);
-        },1000)
-    }*/
-
     return (
         <Row justify={'center'} align={'middle'} style={{minHeight:'180px'}}>
             <Col span={16}>
-                <Spin spinning={loading} fullscreen/>
+                <Spin spinning={mutation.isPending} fullscreen/>
                 <Flex gap={8} vertical align={'center'} justify={'center'} style={{marginBottom:space}}>
                     <p style={{fontWeight:600}}>{actualGroupName}</p>
                     <p

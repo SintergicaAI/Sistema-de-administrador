@@ -13,6 +13,7 @@ const deleteUserApi = new DeleteUserFromGroup(groupApi);*/
 
 let inmutableData:AvatarUserInfo[] = [];
 
+//todo:refactoring and eliminate comments;
 export const useCheckBoxesMiembros = (filterValue:string) => {
     //const {groupId} = useParams();
     //const [listUsersFromCompany, setListUsersFromCompany] = useState<AvatarUserInfo[]>([]);
