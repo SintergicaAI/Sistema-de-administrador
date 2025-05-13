@@ -27,7 +27,7 @@ export class GroupApi extends Common implements GroupRepository{
 
                 if(!response.ok){
                     await this.refreshToke();
-                    await this.getGroups();
+                    return response.json();
                 }
                 const data:GetGroupDTO[] = await response.json();
                 this._groups = data;

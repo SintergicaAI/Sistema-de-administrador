@@ -43,8 +43,7 @@ export const GroupsList = ({filterValue}:{filterValue:string})=>{
             const formattedData = cleanData(res);
             setGroups(formattedData);
             setTotalGroups(formattedData.length);
-        }).catch((error)=>{
-            console.log(error)
+        }).catch(()=>{
             setGroups([])
         }).finally(()=>{
             setLoading(false);
