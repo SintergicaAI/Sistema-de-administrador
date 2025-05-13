@@ -39,6 +39,6 @@ export const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
     return <LoadingSpinner />;
   }
 
-  return isAuthenticated ? children : <Navigate to="auth" />;
+  return isAuthenticated ? children : <Navigate to="/auth" />;
 
 };

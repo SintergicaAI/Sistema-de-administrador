@@ -8,6 +8,7 @@ import {AvatarUserInfo} from "./GroupsTypes.ts";
 import {useParams} from "react-router";
 import {GroupApi} from "../../../infrastructure/api/GroupApi.ts";
 import {AddMultipleUsersToGroup} from "../../../application/use-cases/AddMultipleUsersToGroup.ts";
+import {useMutation} from "@tanstack/react-query";
 
 
 const getUsersEmails = (listUsers:AvatarUserInfo[]) =>{
@@ -15,6 +16,10 @@ const getUsersEmails = (listUsers:AvatarUserInfo[]) =>{
 }
 const groupApi = new GroupApi();
 const addMultipleUsersToGroup = new AddMultipleUsersToGroup(groupApi);
+ type Data = {
+    emails: string[];
+    id:string;
+ }
 
 //Todo: implement a customHook to general functions on SiderContent
 export const SiderContentMiembros = () => {
@@ -22,31 +27,40 @@ export const SiderContentMiembros = () => {
     const [notDisabled, setNotDisabled] = useState(false);
     const {membersGroup,setAlertConfiguration, setShowAlert} = useGroupContext();
     const [prevItems, setPrevItems] = useState(membersGroup);
-    const [loading, setLoading] = useState(false);
 
     const {groupId} = useParams();
+
+    const mutation = useMutation({
+        mutationKey:["modify Users",groupId],
+        mutationFn: async(data:Data)=> {
+            const {emails,id} = data;
+           return await addMultipleUsersToGroup.execute(id,emails);
+        },
+        onSuccess:()=>{
+            setAlertConfiguration({type:'success',message:"Acción guardada"})
+        },
+        onError:()=>{
+            setAlertConfiguration({type:'error',message:"Acción no guardada, inténtelo más tarde"})
+        },
+        onSettled:()=>{
+            setShowAlert(true);
+        }
+    })
 
     if(membersGroup !== prevItems) {
         setPrevItems(membersGroup);
         setNotDisabled(true);
     }
 
-    const onClick = async () => {
-        setLoading(true);
-        let  id = groupId ?? ""
-        try{
-            await addMultipleUsersToGroup.execute(id,getUsersEmails(membersGroup));
-            setAlertConfiguration({type:'success',message:"Acción guardada"})
-        }catch (error){
-            setAlertConfiguration({type:'error',message:"Acción no guardada, inténtelo más tarde"})
-        }finally {
-            setLoading(false);
-            setShowAlert(true);
-        }
+    const onClick = ()=>{
+        const id = groupId ?? "";
+        const emails = getUsersEmails(membersGroup);
+        mutation.mutate({id,emails})
     }
+
     return (
         <div className='sider-content'>
-            <Spin fullscreen spinning={loading}></Spin>
+            <Spin fullscreen spinning={mutation.isPending}></Spin>
             <p className='sider-paragraph'>Usuarios</p>
 
             <Flex gap={16} vertical>
