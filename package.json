@@ -13,6 +13,8 @@
     "cy:open": "cypress open"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.76.0",
+    "@tanstack/react-query-devtools": "^5.76.0",
     "antd": "^5.23.2",
     "json-server": "^1.0.0-beta.3",
     "lucide-react": "^0.475.0",
