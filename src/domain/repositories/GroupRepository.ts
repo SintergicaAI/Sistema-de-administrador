@@ -8,4 +8,5 @@ export interface GroupRepository {
     addUserToGroup(groupId:string, email:string):Promise<GroupBasicInfo|ErrorGroup>;
     deleteUserFromGroup(groupId:string, email:string):Promise<GroupBasicInfo|ErrorGroup>;
     addMultipleUserToGroup(groupId:string, emails:string[]):Promise<boolean>;
+    changeGroupName(groupId:string,groupName:string):Promise<boolean>;
 }

@@ -2,13 +2,13 @@ import {Input, Spin} from "antd";
 import {useGroupContext} from "../../context/Group/useGroupContext.ts";
 import {ChangeEvent, useRef, useState} from "react";
 import {GroupApi} from "../../../infrastructure/api/GroupApi.ts";
-import {AddNewGroupToCompany} from "../../../application/use-cases/AddNewGroupToCompany.ts";
 import { useMutation } from "@tanstack/react-query";
 import {useParams} from "react-router";
+import {ChangeGroupName} from "../../../application/use-cases/ChangeGroupName.ts";
 
 
 const groupApi = new GroupApi();
-const changeNameToGroup = new AddNewGroupToCompany(groupApi);
+const changeNameToGroup = new ChangeGroupName(groupApi);
 
 type Data = {
     groupKey: string;
@@ -24,7 +24,7 @@ export const InputChangeNameGroup = ()=>{
     const mutation = useMutation({
         mutationKey:["change name",actualGroupName],
         mutationFn: async (data:Data) => {
-            return await changeNameToGroup.execute(data);
+            return await changeNameToGroup.execute(data.groupKey,data.name);
         },
         onSuccess: ()=>{
             setShowAlert(true);

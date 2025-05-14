@@ -1,9 +1,9 @@
 import {GroupRepository} from "../../domain/repositories/GroupRepository.ts";
 import {ErrorGroup, GetGroupDTO, GroupBasicInfo, GroupCreated} from "../../domain/types/CompanyTypes.ts";
 import {Common} from "./Common.ts";
+
+
 export class GroupApi extends Common implements GroupRepository{
-
-
     async getGroups(): Promise<GetGroupDTO[]> {
         const token = this.verifiedAuthorizationToken();
             try{
@@ -17,7 +17,7 @@ export class GroupApi extends Common implements GroupRepository{
 
                 if(!response.ok){
                     await this.refreshToke();
-                    return response.json();
+                    return Promise.reject(await response.json());
                 }
                 const data:GetGroupDTO[] = await response.json();
                 return data;
@@ -64,6 +64,7 @@ export class GroupApi extends Common implements GroupRepository{
 
                 if(!response.ok){
                     await this.refreshToke();
+                    return Promise.reject(await response.json());
                 }
                 const data:GetGroupDTO = await response.json();
                 return data;
@@ -162,5 +163,9 @@ export class GroupApi extends Common implements GroupRepository{
         }catch(e){
             return Promise.reject(e);
         }
+    }
+
+    changeGroupName(groupName: string): Promise<boolean> {
+        return Promise.resolve(true);
     }
 }
