@@ -1,8 +1,9 @@
-import {ErrorGroup, GetGroupDTO, GroupBasicInfo} from "../types/CompanyTypes.ts";
+import {ErrorGroup, GetGroupDTO, GroupBasicInfo, GroupCreated} from "../types/CompanyTypes.ts";
 
 export interface GroupRepository {
     getGroups():Promise<GetGroupDTO[]>;
     getGroupFromId(id: string):Promise<GetGroupDTO|ErrorGroup>;
+    createGroup(group:GroupCreated):Promise<boolean>;
     deleteGroup(groupId:string):Promise<GroupBasicInfo|ErrorGroup>;
     addUserToGroup(groupId:string, email:string):Promise<GroupBasicInfo|ErrorGroup>;
     deleteUserFromGroup(groupId:string, email:string):Promise<GroupBasicInfo|ErrorGroup>;

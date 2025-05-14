@@ -8,6 +8,16 @@ export interface GroupBasicInfo {
     group_id:string;
     name:string;
 }
+
+export interface GroupCreated {
+    "groupKey":string,
+    "name": string,
+    "users"?: string[],
+    "dateCreation"?: string,
+    "dateEdit"?: string,
+    "createdBy"?: string
+}
+
 export type RoleType = {
     id:string;
     name: string;

@@ -1,18 +1,8 @@
 import {GroupRepository} from "../../domain/repositories/GroupRepository.ts";
-import {ErrorGroup, GetGroupDTO, GroupBasicInfo} from "../../domain/types/CompanyTypes.ts";
+import {ErrorGroup, GetGroupDTO, GroupBasicInfo, GroupCreated} from "../../domain/types/CompanyTypes.ts";
 import {Common} from "./Common.ts";
-
 export class GroupApi extends Common implements GroupRepository{
-    get groups(): GetGroupDTO[] | null {
-        return this._groups;
-    }
 
-    set groups(value: GetGroupDTO[] | null) {
-        this._groups = value;
-    }
-
-
-    private _groups:GetGroupDTO[]|null = null;
 
     async getGroups(): Promise<GetGroupDTO[]> {
         const token = this.verifiedAuthorizationToken();
@@ -30,7 +20,6 @@ export class GroupApi extends Common implements GroupRepository{
                     return response.json();
                 }
                 const data:GetGroupDTO[] = await response.json();
-                this._groups = data;
                 return data;
             }
             catch(e){
@@ -52,7 +41,7 @@ export class GroupApi extends Common implements GroupRepository{
             });
             if(!response.ok){
                 await this.refreshToke();
-                await this.deleteGroup(groupId);
+                return Promise.reject(await response.json())
             }
             const data:GroupBasicInfo = await response.json();
             return Promise.resolve(data);
@@ -75,7 +64,6 @@ export class GroupApi extends Common implements GroupRepository{
 
                 if(!response.ok){
                     await this.refreshToke();
-                    await this.getGroups();
                 }
                 const data:GetGroupDTO = await response.json();
                 return data;
@@ -145,7 +133,27 @@ export class GroupApi extends Common implements GroupRepository{
                 },
                 body:JSON.stringify({emailsMembers: emails})
             });
-            console.log(await response.json());
+            if(!response.ok){
+                await this.refreshToke();
+                return Promise.reject(false);
+            }
+            return Promise.resolve(true);
+        }catch(e){
+            return Promise.reject(e);
+        }
+    }
+
+    async createGroup(group: GroupCreated): Promise<boolean> {
+        const token = this.verifiedAuthorizationToken();
+        try{
+            const response = await fetch(`${this.baseUrl}/group`, {
+                method: "POST",
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body:JSON.stringify({name:group.name,groupKey:group.groupKey})
+            });
             if(!response.ok){
                 await this.refreshToke();
                 return Promise.reject(false);

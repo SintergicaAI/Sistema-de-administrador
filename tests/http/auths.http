@@ -158,6 +158,6 @@ Content-Type: application/json
 Authorization: Bearer {{auth_token}}
 
 {
-  "groupKey": "grupo-vacio",
-  "name": "no vacio"
+  "groupKey": "grupo-nuevo",
+  "name": "NUEVO GRUPO"
 }
