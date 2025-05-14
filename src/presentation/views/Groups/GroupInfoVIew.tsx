@@ -1,6 +1,6 @@
-import {Input, Layout} from "antd";
+import {Layout} from "antd";
 import {ElementContainer} from "../../components/Groups/ElementContainer.tsx";
-import {ChangeEvent, CSSProperties, useState} from "react";
+import {CSSProperties} from "react";
 import {LibraryBig, Users} from 'lucide-react';
 import './styles/GroupInfoView.css';
 import {SiderGroup} from "../../components/Groups/SiderGroup.tsx";
@@ -8,6 +8,7 @@ import {useGroupContext} from "../../context/Group/useGroupContext.ts";
 import {ContainerChildConocimiento} from "../../components/Groups/ContainerChildConocimiento.tsx";
 import {ContainerChildAsistentes} from "../../components/Groups/ContainerChildAsistentes.tsx";
 import {ContainerChildMiembros} from "../../components/Groups/ContainerChildMiembros.tsx";
+import {InputChangeNameGroup} from "../../components/Groups/InputChangeNameGroup.tsx";
 
 const {Content} = Layout;
 
@@ -17,29 +18,13 @@ const styleIcon:CSSProperties = {
 }
 
 export const GroupInfoVIew = ()=>{
-    const {hasSelected, actualGroupName, setActualGroupName} = useGroupContext();
-    const [inputValue,setInputValue] = useState(actualGroupName);
-
-    const handleChange = (value:ChangeEvent<HTMLInputElement>)=>{
-
-        const {target} = value;
-        const newValue = target.value.length > 0 ? target.value : ' ';
-
-        setInputValue(newValue);
-        setActualGroupName(newValue);
-    }
+    const {hasSelected} = useGroupContext();
 
     return (<Layout style={{display:"flex"}}>
         <Content className='container-content' style={{display:'flex', flexDirection:'column', gap:24}}>
             <section className="section">
                 <p className='section__label'>Nombre</p>
-                <Input
-                    value={inputValue}
-                    placeholder="Ingresa nombre del grupo"
-                    defaultValue={actualGroupName}
-                    onChange={(e)=> handleChange(e)}
-                    style={{fontSize:20,fontWeight:700 ,paddingInline:0}}
-                    variant="borderless" />
+                <InputChangeNameGroup/>
             </section>
             <section className='section'>
                 <ElementContainer

@@ -27,7 +27,7 @@ export const GroupsListView = () => {
         mutationFn: (data:GroupCreated) => addNewGroup.execute(data),
         onSuccess:( data,variables,context )=>{
             navigate(variables.groupKey);
-            setActualGroupName("Nuevo grupo");
+            setActualGroupName(variables.name);
         },
         onError:()=>{
             setShowAlert(true);
