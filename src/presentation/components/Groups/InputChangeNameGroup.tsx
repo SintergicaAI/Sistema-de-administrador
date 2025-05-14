@@ -5,15 +5,13 @@ import {GroupApi} from "../../../infrastructure/api/GroupApi.ts";
 import { useMutation } from "@tanstack/react-query";
 import {useParams} from "react-router";
 import {ChangeGroupName} from "../../../application/use-cases/ChangeGroupName.ts";
+import {GroupBasicInfo} from "../../../domain/types/CompanyTypes.ts";
 
 
 const groupApi = new GroupApi();
 const changeNameToGroup = new ChangeGroupName(groupApi);
 
-type Data = {
-    groupKey: string;
-    name: string;
-}
+
 
 export const InputChangeNameGroup = ()=>{
     const {actualGroupName, setActualGroupName, setAlertConfiguration, setShowAlert} = useGroupContext();
@@ -23,8 +21,8 @@ export const InputChangeNameGroup = ()=>{
 
     const mutation = useMutation({
         mutationKey:["change name",actualGroupName],
-        mutationFn: async (data:Data) => {
-            return await changeNameToGroup.execute(data.groupKey,data.name);
+        mutationFn: async (data:GroupBasicInfo) => {
+            return await changeNameToGroup.execute(data);
         },
         onSuccess: ()=>{
             setShowAlert(true);
@@ -47,8 +45,8 @@ export const InputChangeNameGroup = ()=>{
 
     const handleChangeName = ()=>{
         const id = groupId ?? "";
-        const data:Data = {
-            groupKey:id,
+        const data:GroupBasicInfo = {
+            group_id:id,
             name:inputValue,
         }
         mutation.mutate(data);

@@ -1,6 +1,5 @@
 import {Flex, Typography} from "antd";
 import {useNavigate, useParams} from "react-router";
-import {upperCaseOneWord} from "../../utilities";
 const {Title} = Typography;
 import { Undo2} from 'lucide-react';
 import {CSSProperties} from "react";
@@ -39,7 +38,7 @@ export const HeaderGroupContent = () => {
 
                 {
                     groupId && (
-                            <p className="groups__tag">{upperCaseOneWord(actualGroupName)}</p>
+                            <p className="groups__tag">{actualGroupName}</p>
                     )
                 }
                 {

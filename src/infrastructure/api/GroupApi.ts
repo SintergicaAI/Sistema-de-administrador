@@ -165,7 +165,24 @@ export class GroupApi extends Common implements GroupRepository{
         }
     }
 
-    changeGroupName(groupName: string): Promise<boolean> {
-        return Promise.resolve(true);
+    async changeGroupName(group: GroupBasicInfo): Promise<boolean> {
+        const token = this.verifiedAuthorizationToken();
+        try{
+            const response = await fetch(`${this.baseUrl}/group/${group.group_id}`, {
+                method: "PATCH",
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body:JSON.stringify({name:group.name})
+            });
+            if(!response.ok){
+                await this.refreshToke();
+                return Promise.reject(false);
+            }
+            return Promise.resolve(true);
+        }catch(e){
+            return Promise.reject(e);
+        }
     }
 }
