@@ -44,8 +44,7 @@ export const ThemeConfiguration = ({children}:Props) => {
                     itemHoverColor:'var(--c_brand_500)',
                     itemHoverBg:'',
                     collapsedIconSize:24,
-                    itemPaddingInline:1,
-                    itemMarginInline:10,
+                    itemMarginInline:5,
                 },
                 "Divider": {
                     "margin": 0
