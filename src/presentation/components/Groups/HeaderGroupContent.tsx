@@ -6,6 +6,7 @@ import {CSSProperties} from "react";
 import {DeleteGroupButton} from "./ModalDeleteGroup/DeleteGroupButton.tsx";
 import {useGroupContext} from "../../context/Group/useGroupContext.ts";
 import {AlertMessages} from "../common";
+import {IconHelper} from "../common/IconHelper.tsx";
 
 const iconStyle:CSSProperties = {
     width: 20,
@@ -23,7 +24,7 @@ export const HeaderGroupContent = () => {
     return (
         <Flex style={{height:'100%'}} justify={'space-between'} align={'center'}>
 
-            <Flex style={{lineHeight:1}} align={'center'} gap={16}>
+            <Flex style={{lineHeight:1}} align={'center'} gap={12}>
                 {groupId &&
                     <Undo2
                         onClick={()=>{navigate(-1)}}
@@ -37,9 +38,9 @@ export const HeaderGroupContent = () => {
                 >Grupos</Title>
 
                 {
-                    groupId && (
+                    groupId ? (
                             <p className="groups__tag">{actualGroupName}</p>
-                    )
+                    ):(<IconHelper message={"Aquí puedes gestionar los grupos de tu empresa"}/>)
                 }
                 {
                     showAlert &&
