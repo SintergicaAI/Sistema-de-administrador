@@ -3,7 +3,8 @@ import {AuthApi} from "./AuthApi.ts";
 import { User } from "../../domain/entities/User";
 import {PaginableResponse} from "./types/PaginableResponse.ts";
 import {UserRole} from "../../domain/enums/UserRole.ts";
-import {GroupType, InvitateUserDTO, RoleType, UserDeleted} from "../../domain/types/CompanyTypes.ts";
+import {GroupType, InvitateUserDTO, RoleType, UserDeleted, CompanyType} from "../../domain/types/CompanyTypes.ts";
+
 
 export class CompanyApi implements CompanyRepository {
     private readonly baseUrl = `http://localhost`;
@@ -205,6 +206,110 @@ export class CompanyApi implements CompanyRepository {
         }catch (e) {
             console.log(e)
             return Promise.resolve(false);
+        }
+    }
+
+    async getAllCompanies(): Promise<CompanyType[]> {
+        const token = this.authApi.getToken();
+        if (!token) {
+            throw new Error('No autorizado');
+        }
+
+        try {
+            console.log('Token actual:', token); // Debug del token
+            const response = await fetch(`${this.baseUrl}/company`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                }
+            });
+
+            console.log('Status:', response.status); // Debug del status
+
+            if (response.status === 403) {
+                console.log('Token expirado, intentando refresh...'); // Debug del refresh
+                await this.refreshToke();
+                return this.getAllCompanies();
+            }
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error('Error response:', errorText); // Debug de la respuesta de error
+                throw new Error(`Error al obtener las empresas: ${errorText}`);
+            }
+
+            const data = await response.json();
+            console.log('Datos recibidos:', data); // Debug de los datos
+            return data;
+        } catch (e) {
+            console.error('Error detallado:', e); // Debug del error
+            throw e;
+        }
+    }
+
+
+    async addNewCompany(company: CompanyType): Promise<CompanyType> {
+        const token = this.authApi.getToken();
+        if (!token) {
+            throw new Error('No autorizado');
+        }
+
+        try {
+            const response = await fetch(`${this.baseUrl}/company`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(company)
+            });
+
+            if (response.status === 403) {
+                await this.refreshToke();
+                return this.addNewCompany(company);
+            }
+
+            if (!response.ok) {
+                throw new Error('Error al crear la empresa');
+            }
+
+            return await response.json();
+        } catch (e) {
+            console.error('Error al crear la empresa:', e);
+            throw e;
+        }
+    }
+
+    async deleteCompany(companyId: string): Promise<boolean> {
+        const token = this.authApi.getToken();
+        if (!token) {
+            throw new Error('No autorizado');
+        }
+
+        try {
+            const response = await fetch(`${this.baseUrl}/company/delete`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ companyId }) // Enviamos el ID como parte del body
+            });
+
+            if (response.status === 403) {
+                await this.refreshToke();
+                return this.deleteCompany(companyId);
+            }
+
+            if (!response.ok) {
+                throw new Error('Error al eliminar la empresa');
+            }
+
+            return true; // Si llegamos aquí, la eliminación fue exitosa
+        } catch (e) {
+            console.error('Error al eliminar la empresa:', e);
+            return false;
         }
     }
 

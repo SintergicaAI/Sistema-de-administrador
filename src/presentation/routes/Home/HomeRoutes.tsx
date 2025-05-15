@@ -4,6 +4,7 @@ import UserProfile from "../../pages/UserProfile.tsx";
 import {Administration} from "../../pages/home/Administration.tsx";
 import {WorkspaceRoutes} from "./workspace/WorkspaceRoutes.tsx";
 import {GroupsRoutes} from "./groups/GroupsRoutes.tsx";
+import {CompanyRoutes} from "./company/CompanyRoutes.tsx";
 
 
 export const HomeRoutes = () =>{
@@ -14,6 +15,7 @@ export const HomeRoutes = () =>{
                 <Route path="administration" element={<Administration texto="Usuarios"/>} />
                 <Route path="workspace" element={<WorkspaceRoutes/>}/>
                 <Route path="groups/*" element={<GroupsRoutes/>}/>
+                <Route path="company/*" element={<CompanyRoutes/>}/>
                 <Route path={'/'} element={<p>Pagina no encontrada</p>} />
             </Route>
         </Routes>

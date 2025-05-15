@@ -1,0 +1,44 @@
+.company-card__rfc,
+.company-card__name,
+.company-card__address {
+    margin-block: 0;
+    color: var(--c_slate_400);
+    font-weight: 300;
+}
+
+.f-size-16 {
+    font-size: 14px;
+}
+
+.company-card {
+    background-color: var(--c_slate_50);
+    padding: var(--base-space) var(--lg-space);
+    border-radius: var(--base-space);
+    border: 1px solid var(--c_slate_200);
+    display: flex;
+    justify-content: space-between;
+    transition: all ease 0.3s;
+
+    &:hover {
+        cursor: pointer;
+        background-color: var(--c_slate_100);
+        border-color: var(--c_brand-500);
+    }
+}
+
+.company-card__header {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.company-card__info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.company__name {
+    color: var(--c_brand-500);
+    font-weight: 500;
+}

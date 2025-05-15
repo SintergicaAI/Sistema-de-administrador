@@ -36,3 +36,10 @@ export interface InvitateUserDTO  {
     group:null,
     active:boolean,
 }
+
+export interface CompanyType {
+    id?: string;
+    name: string;
+    rfc: string;
+    address: string;
+}
