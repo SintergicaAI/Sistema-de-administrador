@@ -24,7 +24,6 @@ const cleanData = (data:GetGroupDTO[]| undefined):CardData[]=>{
             nameGroup: item.name,
             userCreatorName: `${ item.userCreator.name} ${item.userCreator.lastName}`,
             members: item.users.length,
-            size:32.2,
             filterValue:item.name.toLowerCase(),
         }
     })

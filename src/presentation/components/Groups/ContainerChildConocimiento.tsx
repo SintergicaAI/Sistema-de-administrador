@@ -9,7 +9,7 @@ export const ContainerChildConocimiento = ()=>{
 
     //Get Tags Knowledge from de groupAPI
     useEffect(() => {
-        setConocimientoTagsSelected([{color:'blue',text:'Ventas',value:'ventas', filterValue:""}])
+        setConocimientoTagsSelected([{color:'blue',text:'Ventas',value:'ventas', filterValue:"",fileSize:12}])
     }, []);
 
     return (<div className="container-child-conocimiento">

@@ -1,4 +1,4 @@
-import {Layout} from "antd";
+import {Flex, Layout} from "antd";
 import {ElementContainer} from "../../components/Groups/ElementContainer.tsx";
 import {CSSProperties} from "react";
 import {LibraryBig, Users} from 'lucide-react';
@@ -9,6 +9,7 @@ import {ContainerChildConocimiento} from "../../components/Groups/ContainerChild
 import {ContainerChildAsistentes} from "../../components/Groups/ContainerChildAsistentes.tsx";
 import {ContainerChildMiembros} from "../../components/Groups/ContainerChildMiembros.tsx";
 import {InputChangeNameGroup} from "../../components/Groups/InputChangeNameGroup.tsx";
+import {IconHelper} from "../../components/common/IconHelper.tsx";
 
 const {Content} = Layout;
 
@@ -23,8 +24,13 @@ export const GroupInfoVIew = ()=>{
     return (<Layout style={{display:"flex"}}>
         <Content className='container-content' style={{display:'flex', flexDirection:'column', gap:24}}>
             <section className="section">
-                <p className='section__label'>Nombre</p>
-                <InputChangeNameGroup/>
+                <Flex gap={5} align={'center'}>
+                    <p className='section__label'>Nombre</p>
+                    <IconHelper style={{
+                        color:"var(--c_slate_400)"
+                    }} message={"Para guardar cambios, presiona Enter"}/>
+                </Flex>
+                        <InputChangeNameGroup/>
             </section>
             <section className='section'>
                 <ElementContainer

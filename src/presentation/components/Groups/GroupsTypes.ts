@@ -5,7 +5,7 @@ export interface CardData extends FilteredValue{
     nameGroup: string,
     userCreatorName: string,
     members: number,
-    size:number
+    size?:number
 }
 export type SideContentType = 'conocimiento' | 'asistentes' | 'usuarios' | '';
 
