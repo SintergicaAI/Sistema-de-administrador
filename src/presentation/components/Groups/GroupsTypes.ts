@@ -19,6 +19,7 @@ export interface Tags extends FilteredValue {
     text:string,
     value:string,
     color:string,
+    fileSize:number,
 }
 export interface Model extends FilteredValue {
     id:string,

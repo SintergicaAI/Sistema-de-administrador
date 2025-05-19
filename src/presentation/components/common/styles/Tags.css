@@ -29,4 +29,24 @@
         --back-color: #DCFCE7;
         --color-text: #16A34A;
     }
+    &[data-color="orange"]{
+        --back-color: #FFEDD5;
+        --color-text: #D97706;
+    }
+    &[data-color="yellow"]{
+        --back-color: #FEF08A;
+        --color-text: #CA8A04;
+    }
+    &[data-color="sky"]{
+        --back-color: #BAE6FD;
+        --color-text: #0284C7;
+    }
+    &[data-color="purple"]{
+        --back-color: #E9D5FF;
+        --color-text: #9333EA;
+    }
+    &[data-color="pink"]{
+        --back-color: #FBCFE8;
+        --color-text: #DF4288;
+    }
 }
