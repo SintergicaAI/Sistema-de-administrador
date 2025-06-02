@@ -23,6 +23,11 @@
     .login-text__wrapper{
         margin-top: 80px;
     }
+    .login-buttons__wrapper{
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
 }
 .register-form{
     max-width: 500px;

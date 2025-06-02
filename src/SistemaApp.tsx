@@ -14,7 +14,7 @@ export const SistemaApp = ()=>{
     return (
             <QueryClientProvider client={queryClient}>
                 <AppRoutes/>
-                <ReactQueryDevtools initialIsOpen={false} />
+                {/*<ReactQueryDevtools initialIsOpen={false} />*/}
             </QueryClientProvider>
     )
 }

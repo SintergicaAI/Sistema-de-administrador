@@ -102,7 +102,7 @@ function Login() {
                         <Form.Item<FieldType>
                             label="Contraseña"
                             name="password"
-                            rules={[{ required: true, message: 'Favor de ingresar una contraseña valida', min:6}]}
+                            rules={[{ required: true, message: 'Favor de ingresar una contraseña valida', min:3}]}
                         >
                             <Input.Password  value={password} onChange={onInputChange} placeholder="******"/>
                         </Form.Item>

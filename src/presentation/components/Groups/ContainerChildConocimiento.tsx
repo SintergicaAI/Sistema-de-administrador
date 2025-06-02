@@ -14,7 +14,7 @@ export const ContainerChildConocimiento = ()=>{
 
     return (<div className="container-child-conocimiento">
         {
-            conocimientoTagsSelected.length == 0 ? <p>Sin bases de conocimiento asociadas, da click en <span className='highlight-text'>Añadir  bases de conocimiento</span> , vincularlas</p>
+            conocimientoTagsSelected.length == 0 ? <p style={{textAlign:"center"}}>Sin bases de conocimiento asociadas, da click en <span className='highlight-text'>Añadir  bases de conocimiento</span> , vincularlas</p>
                 : conocimientoTagsSelected.map((tag)=>(<Tag key={tag.text} color={tag.color} text={tag.text}/>))
         }
         </div>);
